@@ -1048,16 +1048,20 @@
     const discordId = user.uid.startsWith('discord:') ? user.uid.slice('discord:'.length) : user.uid;
 
     let profile = null;
+    let debugInfo = 'nessun errore';
     try{
       const snap = await getDoc(doc(db, 'Auth-Sito', discordId));
+      debugInfo = snap.exists() ? 'documento trovato ma vuoto?' : 'documento non trovato';
       if(snap.exists()) profile = snap.data();
     }catch(err){
+      debugInfo = 'errore: ' + (err && err.message ? err.message : String(err));
       console.error(err);
     }
 
     if(!profile){
       await signOut(auth);
-      window.location.href = '/login?denied=1';
+      const qs = new URLSearchParams({ denied: '1', v: 'v9', uid: user.uid, discordId, info: debugInfo });
+      window.location.href = '/login?' + qs.toString();
       return;
     }
 
