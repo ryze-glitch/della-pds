@@ -1052,8 +1052,12 @@
     }
 
     if(!profile){
+      // Debug temporaneo: mostra lo uid Firebase ricevuto, per verificare
+      // se coincide con l'ID del documento atteso su Auth-Sito. Da
+      // rimuovere una volta confermato il funzionamento.
+      const uid = user.uid;
       await signOut(auth);
-      window.location.href = '/login?denied=1';
+      window.location.href = '/login?denied=1&uid=' + encodeURIComponent(uid);
       return;
     }
 
