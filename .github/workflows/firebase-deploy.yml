@@ -13,6 +13,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Deploy to Firebase Hosting
-        run: npx firebase-tools deploy --only hosting --token "$FIREBASE_TOKEN" --project polizia-iprp --non-interactive
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          channelId: live
+          projectId: polizia-iprp
