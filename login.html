@@ -938,10 +938,8 @@
   function showLoggedOut(){
     loginChoice.classList.remove('hidden');
     userCard.classList.remove('active');
-    const params = new URLSearchParams(window.location.search);
-    if(params.get('denied') === '1'){
-      const debugBits = ['v=' + (params.get('v') || '?'), 'uid=' + (params.get('uid') || '?'), 'discordId=' + (params.get('discordId') || '?'), 'info=' + (params.get('info') || '?')];
-      setStatus('Il tuo account Discord non risulta registrato tra gli agenti. Contatta un amministratore per essere abilitato. [' + debugBits.join(' | ') + ']', 'error');
+    if(new URLSearchParams(window.location.search).get('denied') === '1'){
+      setStatus('Il tuo account Discord non risulta registrato tra gli agenti. Contatta un amministratore per essere abilitato.', 'error');
     } else {
       setStatus('');
     }

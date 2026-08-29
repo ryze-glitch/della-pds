@@ -10,7 +10,7 @@ service cloud.firestore {
     // Un agente può leggere solo il proprio documento, per sapere
     // nome/cognome/grado; nessuna scrittura da client: i dati si
     // gestiscono a mano dalla console Firebase.
-    match /Auth-Sito/{discordId} {
+    match /auth-sito/{discordId} {
       allow read: if request.auth != null && request.auth.uid == 'discord:' + discordId;
       allow write: if false;
     }
