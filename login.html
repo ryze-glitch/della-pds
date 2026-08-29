@@ -938,7 +938,11 @@
   function showLoggedOut(){
     loginChoice.classList.remove('hidden');
     userCard.classList.remove('active');
-    setStatus('');
+    if(new URLSearchParams(window.location.search).get('denied') === '1'){
+      setStatus('Il tuo account Discord non risulta registrato tra gli agenti. Contatta un amministratore per essere abilitato.', 'error');
+    } else {
+      setStatus('');
+    }
   }
 
   onAuthStateChanged(auth, (user) => {

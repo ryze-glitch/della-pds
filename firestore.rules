@@ -1,0 +1,21 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Anagrafica degli agenti autorizzati ad accedere all'Area Personale.
+    // Ogni documento è identificato dall'ID Discord dell'agente, che
+    // coincide con lo uid Firebase assegnato dal Cloudflare Worker di
+    // login (vedi login.html). Un agente può leggere solo il proprio
+    // documento, per sapere nome/cognome/grado; nessuna scrittura da
+    // client: i dati si gestiscono a mano dalla console Firebase.
+    match /Auth-Sito/{discordId} {
+      allow read: if request.auth != null && request.auth.uid == discordId;
+      allow write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
