@@ -408,6 +408,10 @@
     display:flex;align-items:center;gap:24px;
     flex-wrap:wrap;
   }
+  .dash-hero-inner.loading .dash-avatar,
+  .dash-hero-inner.loading .dash-hero-text{
+    opacity:.4;
+  }
   .dash-avatar{
     width:72px;height:72px;border-radius:50%;
     border:1px solid rgba(247,243,236,0.25);
@@ -640,12 +644,12 @@
 
   <!-- HERO / PROFILO -->
   <section class="dash-hero">
-    <div class="dash-hero-inner">
+    <div class="dash-hero-inner loading" id="dashHeroInner">
       <div class="dash-avatar" id="dashAvatar"></div>
       <div class="dash-hero-text">
         <span class="eyebrow">Area Personale</span>
-        <h1 id="dashName">Agente</h1>
-        <span class="rank-tag" id="dashRank">Agente Scelto</span>
+        <h1 id="dashName">Caricamento...</h1>
+        <span class="rank-tag" id="dashRank"></span>
       </div>
       <a href="#" class="dash-logout" id="dashLogout">Esci dall'account</a>
     </div>
@@ -1028,6 +1032,7 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
+  const dashHeroInner = document.getElementById('dashHeroInner');
   const dashAvatar = document.getElementById('dashAvatar');
   const dashName = document.getElementById('dashName');
   const dashRank = document.getElementById('dashRank');
@@ -1066,6 +1071,7 @@
     dashName.textContent = (nome + ' ' + cognome).trim() || 'Agente';
     dashRank.textContent = profile.grado || 'Agente';
     dashAvatar.textContent = ((nome[0] || '') + (cognome[0] || '')).toUpperCase() || '?';
+    dashHeroInner.classList.remove('loading');
   });
 
   dashLogout.addEventListener('click', async (e) => {

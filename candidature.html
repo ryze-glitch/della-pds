@@ -556,6 +556,7 @@
     white-space:nowrap;
   }
   .cand-badge.no{border-color:rgba(201,120,75,0.5);color:#c97a4b;}
+  .cand-badge.score{border-color:rgba(201,162,75,0.5);color:var(--gold);font-weight:500;}
   .cand-toggle{
     color:var(--gold);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;
     flex-shrink:0;
@@ -1045,9 +1046,9 @@
      CANDIDATURE — lettura delle risposte dal modulo Google (Google
      Sheets). Il foglio deve essere condiviso come "chiunque abbia il
      link - Visualizzatore" perché questa lettura avvenga senza login
-     Google: https://docs.google.com/spreadsheets/d/1Xwi0NI1olpJnLBrHS7Ok0CGukY-dNxpgaVctXlx_DIg/edit
+     Google: https://docs.google.com/spreadsheets/d/14IdIkwl3AVXBkC_dx4fRU06H34ba3TA4SEMktNO15Lc/edit
      ==================================================================== */
-  const SHEET_ID = '1Xwi0NI1olpJnLBrHS7Ok0CGukY-dNxpgaVctXlx_DIg';
+  const SHEET_ID = '14IdIkwl3AVXBkC_dx4fRU06H34ba3TA4SEMktNO15Lc';
   const CSV_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:csv';
 
   const candStatus = document.getElementById('candStatus');
@@ -1120,15 +1121,17 @@
 
       const head = document.createElement('div');
       head.className = 'cand-head';
+      const etaPulita = (c.eta || '').replace(/\s*anni?\s*$/i, '');
       head.innerHTML =
         '<span class="cand-name">' + escapeHtml(c.nome || 'Sconosciuto') + '</span>' +
         '<span class="cand-meta">' +
           '<span>' + escapeHtml(c.dataInvio) + '</span>' +
-          '<span>' + escapeHtml(c.eta) + ' anni</span>' +
+          (etaPulita ? '<span>' + escapeHtml(etaPulita) + ' anni</span>' : '') +
           '<span>' + escapeHtml(c.titolo) + '</span>' +
           '<span>ID: ' + escapeHtml(c.discordId) + '</span>' +
         '</span>' +
         '<span class="cand-badges">' +
+          (c.punteggio ? '<span class="cand-badge score">' + escapeHtml(c.punteggio) + '</span>' : '') +
           '<span class="cand-badge' + (isAffermativo(c.fedina) ? '' : ' no') + '">Fedina ' + escapeHtml(c.fedina) + '</span>' +
           '<span class="cand-badge' + (isAffermativo(c.certificato) ? '' : ' no') + '">Cert. ' + escapeHtml(c.certificato) + '</span>' +
           '<span class="cand-badge' + (isAffermativo(c.patente) ? '' : ' no') + '">Pat. B ' + escapeHtml(c.patente) + '</span>' +
@@ -1169,10 +1172,11 @@
       const colEta = findCol(headers, 'età ooc');
       const colMotivazione = findCol(headers, 'deciso di entrare');
       const colBackground = findCol(headers, 'raccontaci di te');
+      const colPunteggio = findCol(headers, 'punteggio');
 
       const used = new Set([
         colTimestamp, colEmail, colNome, colNascita, colTitolo, colFedina,
-        colCertificato, colPatente, colDiscord, colEta, colMotivazione, colBackground
+        colCertificato, colPatente, colDiscord, colEta, colMotivazione, colBackground, colPunteggio
       ].filter(i => i >= 0));
 
       allCandidates = rows.slice(1).map(r => {
@@ -1193,6 +1197,7 @@
           patente: colPatente >= 0 ? r[colPatente] : '',
           discordId: colDiscord >= 0 ? r[colDiscord] : '',
           eta: colEta >= 0 ? r[colEta] : '',
+          punteggio: colPunteggio >= 0 ? r[colPunteggio] : '',
           extra
         };
       }).sort((a, b) => b.ts - a.ts);
