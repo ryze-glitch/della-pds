@@ -32,8 +32,12 @@
   }
 
   #smooth-wrapper{
+    position:relative;
+    width:100%;
+  }
+  #smooth-wrapper.is-smooth{
     position:fixed;
-    top:0;left:0;width:100%;
+    top:0;left:0;
     will-change:transform;
   }
 
@@ -890,6 +894,7 @@
   }
 
   if(smoothEnabled){
+    wrapper.classList.add('is-smooth');
     setSpacerHeight();
     window.addEventListener('scroll', onScroll, {passive:true});
     window.addEventListener('resize', setSpacerHeight);
