@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk 'NR==529{print \"529:\"$0} NR==530{print \"530:[\"$0\"]\"} NR==531{print \"531:\"$0}' index.html)",
+      "Bash(awk 'NR==578{print \"578:\"$0} NR==579{print \"579:\"$0} NR==580{print \"580:\"substr\\($0,1,50\\)} NR==581{print \"581 length:\"length\\($0\\)} NR==582{print \"582:\"$0} NR==583{print \"583:[\"$0\"]\"} NR==584{print \"584:\"$0}' dashboard.html)",
+      "Bash(awk 'NR==585{print \"585:\"$0}' dashboard.html)",
+      "Bash(cp dashboard.html dashboard.html.bak)",
+      "Bash(sed -i '580,584d' dashboard.html)",
+      "Bash(awk 'NR==578{print \"578:\"$0} NR==579{print \"579:\"$0} NR==580{print \"580:\"$0}' dashboard.html)",
+      "Bash(awk 'NR==552{print \"552:\"$0} NR==553{print \"553:[\"$0\"]\"} NR==554{print \"554:\"substr\\($0,1,50\\)} NR==555 {print \"555 len:\"length\\($0\\)} NR==556{print \"556:\"$0} NR==557{print \"557:[\"$0\"]\"} NR==558{print \"558:\"$0}' login.html)",
+      "Bash(awk 'NR==559{print \"559:\"$0}' login.html)",
+      "Bash(cp login.html login.html.bak)",
+      "Bash(sed -i '554,558d' login.html)",
+      "Bash(awk 'NR==552{print \"552:\"$0} NR==553{print \"553:\"$0} NR==554{print \"554:\"$0}' login.html)",
+      "Bash(awk 'NR==562{print \"562:\"$0} NR==563{print \"563:[\"$0\"]\"} NR==564{print \"564:\"substr\\($0,1,50\\)} NR==565{print \"565 len:\"length\\($0\\)} NR==566{print \"566:\"$0} NR==567{print \"567:[\"$0\"]\"} NR==568{print \"568:\"$0}' notizie.html)",
+      "Bash(awk 'NR==569{print \"569:\"$0}' notizie.html)",
+      "Bash(cp notizie.html notizie.html.bak)",
+      "Bash(sed -i '564,568d' notizie.html)",
+      "Bash(awk 'NR==562{print \"562:\"$0} NR==563{print \"563:\"$0} NR==564{print \"564:\"$0}' notizie.html)",
+      "Bash(awk 'NR==597{print \"597:\"$0} NR==598{print \"598:[\"$0\"]\"} NR==599{print \"599:\"substr\\($0,1,50\\)} NR==600{print \"600 len:\"length\\($0\\)} NR==601{print \"601:\"$0} NR==602{print \"602:[\"$0\"]\"} NR==603{print \"603:\"$0}' questura.html)",
+      "Bash(awk 'NR==604{print \"604:\"$0}' questura.html)",
+      "Bash(cp questura.html questura.html.bak)",
+      "Bash(sed -i '599,603d' questura.html)",
+      "Bash(awk 'NR==597{print \"597:\"$0} NR==598{print \"598:\"$0} NR==599{print \"599:\"$0}' questura.html)"
+    ]
+  }
+}
