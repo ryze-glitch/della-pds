@@ -1042,22 +1042,22 @@
 
     // L'accesso all'Area Personale è consentito solo agli agenti
     // presenti nella raccolta Firestore "Auth-Sito" (documento con ID
-    // uguale allo uid Firebase, che coincide con l'ID Discord).
+    // uguale all'ID Discord). Il Worker di login assegna come uid
+    // Firebase "discord:<ID>", quindi il prefisso va tolto prima
+    // di cercare il documento.
+    const discordId = user.uid.startsWith('discord:') ? user.uid.slice('discord:'.length) : user.uid;
+
     let profile = null;
     try{
-      const snap = await getDoc(doc(db, 'Auth-Sito', user.uid));
+      const snap = await getDoc(doc(db, 'Auth-Sito', discordId));
       if(snap.exists()) profile = snap.data();
     }catch(err){
       console.error(err);
     }
 
     if(!profile){
-      // Debug temporaneo: mostra lo uid Firebase ricevuto, per verificare
-      // se coincide con l'ID del documento atteso su Auth-Sito. Da
-      // rimuovere una volta confermato il funzionamento.
-      const uid = user.uid;
       await signOut(auth);
-      window.location.href = '/login?denied=1&uid=' + encodeURIComponent(uid);
+      window.location.href = '/login?denied=1';
       return;
     }
 
