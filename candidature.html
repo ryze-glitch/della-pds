@@ -557,6 +557,25 @@
   }
   .cand-badge.no{border-color:rgba(201,120,75,0.5);color:#c97a4b;}
   .cand-badge.score{border-color:rgba(201,162,75,0.5);color:var(--gold);font-weight:500;}
+  .cand-badge.review.pending{border-color:rgba(138,131,119,0.5);color:var(--stone);}
+  .cand-badge.review.approved{border-color:rgba(154,166,140,0.6);color:var(--sage);}
+  .cand-badge.review.rejected{border-color:rgba(201,120,75,0.6);color:#c97a4b;}
+
+  .cand-review{
+    display:flex;align-items:center;flex-wrap:wrap;gap:14px;
+    padding-top:18px;margin-top:4px;border-top:1px solid rgba(247,243,236,0.1);
+  }
+  .cand-btn{
+    font-size:11px;letter-spacing:0.08em;text-transform:uppercase;
+    padding:8px 16px;background:none;cursor:pointer;
+    font-family:'Inter',sans-serif;
+    border:1px solid rgba(247,243,236,0.3);color:var(--ivory-dim);
+    transition:background .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .cand-btn:hover{border-color:var(--ivory);color:var(--ivory);}
+  .cand-btn.approve.active{border-color:var(--sage);color:var(--sage);background:rgba(154,166,140,0.12);}
+  .cand-btn.reject.active{border-color:#c97a4b;color:#c97a4b;background:rgba(201,120,75,0.12);}
+  .cand-review-info{color:var(--stone);font-size:12px;}
   .cand-toggle{
     color:var(--gold);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;
     flex-shrink:0;
@@ -982,7 +1001,10 @@
   import {
     getFirestore,
     doc,
-    getDoc
+    getDoc,
+    setDoc,
+    collection,
+    getDocs
   } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -1000,6 +1022,10 @@
   const db = getFirestore(app);
 
   const dashLogout = document.getElementById('dashLogout');
+
+  // Popolato dopo il login con i dati dell'agente che sta revisionando
+  // le candidature, per registrare chi approva/rifiuta ogni domanda.
+  let currentAgent = null;
 
   onAuthStateChanged(auth, async (user) => {
     if(!user){
@@ -1028,6 +1054,13 @@
       window.location.href = '/login?denied=1';
       return;
     }
+
+    currentAgent = {
+      discordId,
+      nome: profile.nome || '',
+      cognome: profile.cognome || '',
+      grado: profile.grado || ''
+    };
 
     loadCandidature();
   });
@@ -1109,6 +1142,53 @@
       '</div><div class="cand-field-value">' + escapeHtml(value || '—') + '</div></div>';
   }
 
+  function reviewBadgeHtml(review){
+    if(review && review.stato === 'approvato') return '<span class="cand-badge review approved">Approvato</span>';
+    if(review && review.stato === 'rifiutato') return '<span class="cand-badge review rejected">Rifiutato</span>';
+    return '<span class="cand-badge review pending">In attesa</span>';
+  }
+
+  function reviewInfoHtml(review){
+    if(!review) return '<div class="cand-review-info">Nessuna decisione registrata.</div>';
+    const chi = ((review.decisoDa && (review.decisoDa.nome + ' ' + review.decisoDa.cognome).trim()) || 'agente sconosciuto');
+    const grado = (review.decisoDa && review.decisoDa.grado) ? ' (' + review.decisoDa.grado + ')' : '';
+    let quando = '';
+    try{ quando = review.decisoIl ? new Date(review.decisoIl).toLocaleString('it-IT') : ''; }catch(e){}
+    const verbo = review.stato === 'approvato' ? 'Approvata' : 'Rifiutata';
+    return '<div class="cand-review-info">' + verbo + ' da ' + escapeHtml(chi) + escapeHtml(grado) + (quando ? ' il ' + escapeHtml(quando) : '') + '</div>';
+  }
+
+  async function handleDecision(c, stato, headEl, updateReviewBox){
+    if(!currentAgent) return;
+    const review = {
+      stato,
+      decisoDa: {
+        discordId: currentAgent.discordId,
+        nome: currentAgent.nome,
+        cognome: currentAgent.cognome,
+        grado: currentAgent.grado
+      },
+      decisoIl: new Date().toISOString()
+    };
+    try{
+      await setDoc(doc(db, 'candidature-review', c.decisionId), {
+        stato: review.stato,
+        decisoDa: review.decisoDa,
+        decisoIl: review.decisoIl,
+        candidatoNome: c.nome,
+        candidatoDiscordId: c.discordId,
+        candidatoDataInvio: c.dataInvio
+      });
+      c.review = review;
+      const oldBadge = headEl.querySelector('.cand-badge.review');
+      if(oldBadge) oldBadge.outerHTML = reviewBadgeHtml(review);
+      updateReviewBox();
+    }catch(err){
+      console.error(err);
+      alert('Errore nel salvataggio della decisione. Riprova.');
+    }
+  }
+
   function renderCandidates(list){
     candList.innerHTML = '';
     if(!list.length){
@@ -1131,6 +1211,7 @@
           '<span>ID: ' + escapeHtml(c.discordId) + '</span>' +
         '</span>' +
         '<span class="cand-badges">' +
+          reviewBadgeHtml(c.review) +
           (c.punteggio ? '<span class="cand-badge score">' + escapeHtml(c.punteggio) + '</span>' : '') +
           '<span class="cand-badge' + (isAffermativo(c.fedina) ? '' : ' no') + '">Fedina ' + escapeHtml(c.fedina) + '</span>' +
           '<span class="cand-badge' + (isAffermativo(c.certificato) ? '' : ' no') + '">Cert. ' + escapeHtml(c.certificato) + '</span>' +
@@ -1144,11 +1225,44 @@
       c.extra.forEach(([label, value]) => { bodyHtml += fieldHtml(label, value); });
       body.innerHTML = bodyHtml;
 
+      const reviewBox = document.createElement('div');
+      reviewBox.className = 'cand-review';
+      function updateReviewBox(){
+        reviewBox.innerHTML =
+          '<button type="button" class="cand-btn approve' + (c.review && c.review.stato === 'approvato' ? ' active' : '') + '">Approva</button>' +
+          '<button type="button" class="cand-btn reject' + (c.review && c.review.stato === 'rifiutato' ? ' active' : '') + '">Rifiuta</button>' +
+          reviewInfoHtml(c.review);
+        reviewBox.querySelector('.approve').addEventListener('click', (e) => {
+          e.stopPropagation();
+          handleDecision(c, 'approvato', head, updateReviewBox);
+        });
+        reviewBox.querySelector('.reject').addEventListener('click', (e) => {
+          e.stopPropagation();
+          handleDecision(c, 'rifiutato', head, updateReviewBox);
+        });
+      }
+      updateReviewBox();
+      body.appendChild(reviewBox);
+
       head.addEventListener('click', () => item.classList.toggle('open'));
       item.appendChild(head);
       item.appendChild(body);
       candList.appendChild(item);
     });
+  }
+
+  async function loadReviews(){
+    try{
+      const snap = await getDocs(collection(db, 'candidature-review'));
+      const byId = {};
+      snap.forEach(d => { byId[d.id] = d.data(); });
+      allCandidates.forEach(c => {
+        const r = byId[c.decisionId];
+        if(r) c.review = { stato: r.stato, decisoDa: r.decisoDa, decisoIl: r.decisoIl };
+      });
+    }catch(err){
+      console.error(err);
+    }
   }
 
   async function loadCandidature(){
@@ -1173,10 +1287,12 @@
       const colMotivazione = findCol(headers, 'deciso di entrare');
       const colBackground = findCol(headers, 'raccontaci di te');
       const colPunteggio = findCol(headers, 'punteggio');
+      const colConsenso = findCol(headers, 'presa visione');
 
       const used = new Set([
         colTimestamp, colEmail, colNome, colNascita, colTitolo, colFedina,
-        colCertificato, colPatente, colDiscord, colEta, colMotivazione, colBackground, colPunteggio
+        colCertificato, colPatente, colDiscord, colEta, colMotivazione, colBackground,
+        colPunteggio, colConsenso
       ].filter(i => i >= 0));
 
       allCandidates = rows.slice(1).map(r => {
@@ -1185,9 +1301,12 @@
         if(colBackground >= 0) extra.push([headers[colBackground], r[colBackground]]);
         headers.forEach((h, i) => { if(!used.has(i)) extra.push([h, r[i]]); });
 
+        const discordId = colDiscord >= 0 ? r[colDiscord] : '';
+        const dataInvio = r[colTimestamp] || '';
+
         return {
-          dataInvio: r[colTimestamp] || '',
-          ts: parseItDate(r[colTimestamp]),
+          dataInvio,
+          ts: parseItDate(dataInvio),
           email: colEmail >= 0 ? r[colEmail] : '',
           nome: colNome >= 0 ? r[colNome] : '',
           dataNascita: colNascita >= 0 ? r[colNascita] : '',
@@ -1195,12 +1314,16 @@
           fedina: colFedina >= 0 ? r[colFedina] : '',
           certificato: colCertificato >= 0 ? r[colCertificato] : '',
           patente: colPatente >= 0 ? r[colPatente] : '',
-          discordId: colDiscord >= 0 ? r[colDiscord] : '',
+          discordId,
           eta: colEta >= 0 ? r[colEta] : '',
           punteggio: colPunteggio >= 0 ? r[colPunteggio] : '',
+          decisionId: (discordId + '_' + dataInvio).replace(/[^a-zA-Z0-9]/g, '_'),
+          review: null,
           extra
         };
       }).sort((a, b) => b.ts - a.ts);
+
+      await loadReviews();
 
       candCount.textContent = allCandidates.length + (allCandidates.length === 1 ? ' candidatura' : ' candidature');
       candStatus.style.display = 'none';
