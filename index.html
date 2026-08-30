@@ -926,7 +926,12 @@
           if(!target) return;
           e.preventDefault();
           const targetY = target.getBoundingClientRect().top + window.scrollY;
-          window.scrollTo({ top: targetY, behavior: 'smooth' });
+          // Se lo scroll fluido personalizzato è attivo, il salto nativo
+          // deve essere istantaneo: altrimenti lo scroll nativo del browser e
+          // il nostro ciclo raf() animano entrambi lo scroll insieme, e il
+          // contenuto continua a scivolare per secondi dopo che la barra di
+          // scorrimento nativa ha già raggiunto la destinazione.
+          window.scrollTo({ top: targetY, behavior: smoothEnabled ? 'auto' : 'smooth' });
           history.replaceState(null, '', '#' + id);
         });
       }
