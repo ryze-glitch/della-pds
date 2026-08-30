@@ -3,16 +3,35 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Il Cloudflare Worker di login (vedi login.html) assegna come uid
+    // Firebase "discord:<ID>", quindi va tolto il prefisso per ottenere
+    // il vero ID Discord usato altrove come chiave dei documenti.
+    function discordIdOf(uid) {
+      return uid.split(':')[1];
+    }
+
+    // Un agente è chi ha un documento in auth-sito con quello stesso ID.
+    function isAgent() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/auth-sito/$(discordIdOf(request.auth.uid)));
+    }
+
     // Anagrafica degli agenti autorizzati ad accedere all'Area Personale.
-    // Ogni documento è identificato dall'ID Discord dell'agente. Il
-    // Cloudflare Worker di login (vedi login.html) assegna come uid
-    // Firebase "discord:<ID>", quindi il confronto aggiunge il prefisso.
-    // Un agente può leggere solo il proprio documento, per sapere
+    // Ogni documento è identificato dall'ID Discord dell'agente. Un
+    // agente può leggere solo il proprio documento, per sapere
     // nome/cognome/grado; nessuna scrittura da client: i dati si
     // gestiscono a mano dalla console Firebase.
     match /auth-sito/{discordId} {
       allow read: if request.auth != null && request.auth.uid == 'discord:' + discordId;
       allow write: if false;
+    }
+
+    // Decisioni (approvato/rifiutato) sulle candidature al concorso,
+    // prese dagli agenti nella pagina Gestione Candidature. Leggibili e
+    // scrivibili da qualunque agente registrato: la squadra di
+    // selezione condivide le stesse valutazioni.
+    match /candidature-review/{decisionId} {
+      allow read, write: if isAgent();
     }
 
     match /{document=**} {
