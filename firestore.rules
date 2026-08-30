@@ -27,11 +27,19 @@ service cloud.firestore {
     }
 
     // Decisioni (approvato/rifiutato) sulle candidature al concorso,
-    // prese dagli agenti nella pagina Gestione Candidature. Leggibili e
-    // scrivibili da qualunque agente registrato: la squadra di
-    // selezione condivide le stesse valutazioni.
+    // prese dagli agenti nella pagina Gestione Candidature. Leggibili
+    // da qualunque agente registrato. La prima decisione la può
+    // prendere chiunque; una volta presa, solo lo stesso agente che
+    // l'ha presa può cambiarla, così nessun altro può sovrascrivere
+    // una valutazione già fatta.
     match /candidature-review/{decisionId} {
-      allow read, write: if isAgent();
+      allow read: if isAgent();
+      allow create: if isAgent() &&
+        request.resource.data.decisoDa.discordId == discordIdOf(request.auth.uid);
+      allow update: if isAgent() &&
+        resource.data.decisoDa.discordId == discordIdOf(request.auth.uid) &&
+        request.resource.data.decisoDa.discordId == discordIdOf(request.auth.uid);
+      allow delete: if false;
     }
 
     match /{document=**} {

@@ -543,8 +543,8 @@
     margin-left:-19px;
     transition:border-color .25s ease;
   }
-  .cand-item.review-approved{border-left-color:var(--sage);}
-  .cand-item.review-rejected{border-left-color:#c97a4b;}
+  .cand-item.review-approved{border-left-color:#7CC576;}
+  .cand-item.review-rejected{border-left-color:#e0574a;}
   .cand-head{
     display:flex;align-items:center;gap:18px;flex-wrap:wrap;
     padding:20px 0;cursor:pointer;
@@ -585,6 +585,9 @@
   .cand-btn.approve.active{border-color:var(--sage);color:var(--sage);background:rgba(154,166,140,0.12);}
   .cand-btn.reject.active{border-color:#c97a4b;color:#c97a4b;background:rgba(201,120,75,0.12);}
   .cand-review-info{color:var(--stone);font-size:12px;}
+  .cand-review-locked{color:var(--stone);font-size:11px;font-style:italic;flex-basis:100%;}
+  .cand-btn:disabled{opacity:.35;cursor:not-allowed;}
+  .cand-btn:disabled:hover{border-color:rgba(247,243,236,0.3);color:var(--ivory-dim);}
   .cand-toggle{
     color:var(--gold);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;
     flex-shrink:0;
@@ -1219,11 +1222,24 @@
     let quando = '';
     try{ quando = review.decisoIl ? new Date(review.decisoIl).toLocaleString('it-IT') : ''; }catch(e){}
     const verbo = review.stato === 'approvato' ? 'Approvata' : 'Rifiutata';
-    return '<div class="cand-review-info">' + verbo + ' da ' + escapeHtml(chi) + escapeHtml(grado) + (quando ? ' il ' + escapeHtml(quando) : '') + '</div>';
+    let html = '<div class="cand-review-info">' + verbo + ' da ' + escapeHtml(chi) + escapeHtml(grado) + (quando ? ' il ' + escapeHtml(quando) : '') + '</div>';
+    if(!canModify(review)){
+      html += '<div class="cand-review-locked">Decisione bloccata: solo ' + escapeHtml(chi) + ' può modificarla.</div>';
+    }
+    return html;
+  }
+
+  // Chi ha deciso può ancora cambiare idea; nessun altro agente può
+  // sovrascrivere una decisione già presa (controllato anche lato
+  // Firestore, non solo qui, per sicurezza reale).
+  function canModify(review){
+    if(!review) return true;
+    return !!(currentAgent && review.decisoDa && review.decisoDa.discordId === currentAgent.discordId);
   }
 
   async function handleDecision(c, stato, itemEl, updateReviewBox){
     if(!currentAgent) return;
+    if(!canModify(c.review)) return;
     const review = {
       stato,
       decisoDa: {
@@ -1296,18 +1312,21 @@
       const reviewBox = document.createElement('div');
       reviewBox.className = 'cand-review';
       function updateReviewBox(){
+        const locked = !canModify(c.review);
         reviewBox.innerHTML =
-          '<button type="button" class="cand-btn approve' + (c.review && c.review.stato === 'approvato' ? ' active' : '') + '">Approva</button>' +
-          '<button type="button" class="cand-btn reject' + (c.review && c.review.stato === 'rifiutato' ? ' active' : '') + '">Rifiuta</button>' +
+          '<button type="button" class="cand-btn approve' + (c.review && c.review.stato === 'approvato' ? ' active' : '') + '"' + (locked ? ' disabled' : '') + '>Approva</button>' +
+          '<button type="button" class="cand-btn reject' + (c.review && c.review.stato === 'rifiutato' ? ' active' : '') + '"' + (locked ? ' disabled' : '') + '>Rifiuta</button>' +
           reviewInfoHtml(c.review);
-        reviewBox.querySelector('.approve').addEventListener('click', (e) => {
-          e.stopPropagation();
-          handleDecision(c, 'approvato', item, updateReviewBox);
-        });
-        reviewBox.querySelector('.reject').addEventListener('click', (e) => {
-          e.stopPropagation();
-          handleDecision(c, 'rifiutato', item, updateReviewBox);
-        });
+        if(!locked){
+          reviewBox.querySelector('.approve').addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleDecision(c, 'approvato', item, updateReviewBox);
+          });
+          reviewBox.querySelector('.reject').addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleDecision(c, 'rifiutato', item, updateReviewBox);
+          });
+        }
       }
       updateReviewBox();
       body.appendChild(reviewBox);
