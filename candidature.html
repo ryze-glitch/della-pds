@@ -549,6 +549,10 @@
     display:flex;align-items:center;gap:18px;flex-wrap:wrap;
     padding:20px 0;cursor:pointer;
   }
+  .cand-review-icon{
+    width:22px;height:22px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
   .cand-head .cand-name{
     font-family:'Fraunces',serif;font-size:17px;font-weight:400;
     min-width:220px;
@@ -1153,6 +1157,22 @@
     return 'cand-item';
   }
 
+  function reviewIconHtml(review){
+    if(review && review.stato === 'approvato'){
+      return '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-label="Approvato">' +
+        '<circle cx="12" cy="12" r="10" stroke="#7CC576" stroke-width="1.6"/>' +
+        '<path d="M7.5 12.5l3 3 6-6.5" stroke="#7CC576" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' +
+        '</svg>';
+    }
+    if(review && review.stato === 'rifiutato'){
+      return '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-label="Rifiutato">' +
+        '<circle cx="12" cy="12" r="10" stroke="#e0574a" stroke-width="1.6"/>' +
+        '<path d="M8.5 8.5l7 7M15.5 8.5l-7 7" stroke="#e0574a" stroke-width="1.8" stroke-linecap="round"/>' +
+        '</svg>';
+    }
+    return '';
+  }
+
   function reviewInfoHtml(review){
     if(!review) return '<div class="cand-review-info">Nessuna decisione registrata.</div>';
     const chi = ((review.decisoDa && (review.decisoDa.nome + ' ' + review.decisoDa.cognome).trim()) || 'agente sconosciuto');
@@ -1186,6 +1206,8 @@
       });
       c.review = review;
       itemEl.className = reviewItemClass(review) + (itemEl.classList.contains('open') ? ' open' : '');
+      const iconEl = itemEl.querySelector('.cand-review-icon');
+      if(iconEl) iconEl.innerHTML = reviewIconHtml(review);
       updateReviewBox();
     }catch(err){
       console.error(err);
@@ -1207,6 +1229,7 @@
       head.className = 'cand-head';
       const etaPulita = (c.eta || '').replace(/\s*anni?\s*$/i, '');
       head.innerHTML =
+        '<span class="cand-review-icon">' + reviewIconHtml(c.review) + '</span>' +
         '<span class="cand-name">' + escapeHtml(c.nome || 'Sconosciuto') + '</span>' +
         '<span class="cand-meta">' +
           '<span>' + escapeHtml(c.dataInvio) + '</span>' +
