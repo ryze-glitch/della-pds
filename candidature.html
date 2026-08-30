@@ -536,7 +536,15 @@
   .cand-status{padding:24px 0;color:var(--stone);font-size:13.5px;}
   .cand-status.error{color:#c97a4b;}
   .cand-list{border-top:1px solid rgba(247,243,236,0.12);}
-  .cand-item{border-bottom:1px solid rgba(247,243,236,0.12);}
+  .cand-item{
+    border-bottom:1px solid rgba(247,243,236,0.12);
+    border-left:3px solid transparent;
+    padding-left:16px;
+    margin-left:-19px;
+    transition:border-color .25s ease;
+  }
+  .cand-item.review-approved{border-left-color:var(--sage);}
+  .cand-item.review-rejected{border-left-color:#c97a4b;}
   .cand-head{
     display:flex;align-items:center;gap:18px;flex-wrap:wrap;
     padding:20px 0;cursor:pointer;
@@ -557,9 +565,6 @@
   }
   .cand-badge.no{border-color:rgba(201,120,75,0.5);color:#c97a4b;}
   .cand-badge.score{border-color:rgba(201,162,75,0.5);color:var(--gold);font-weight:500;}
-  .cand-badge.review.pending{border-color:rgba(138,131,119,0.5);color:var(--stone);}
-  .cand-badge.review.approved{border-color:rgba(154,166,140,0.6);color:var(--sage);}
-  .cand-badge.review.rejected{border-color:rgba(201,120,75,0.6);color:#c97a4b;}
 
   .cand-review{
     display:flex;align-items:center;flex-wrap:wrap;gap:14px;
@@ -1142,10 +1147,10 @@
       '</div><div class="cand-field-value">' + escapeHtml(value || '—') + '</div></div>';
   }
 
-  function reviewBadgeHtml(review){
-    if(review && review.stato === 'approvato') return '<span class="cand-badge review approved">Approvato</span>';
-    if(review && review.stato === 'rifiutato') return '<span class="cand-badge review rejected">Rifiutato</span>';
-    return '<span class="cand-badge review pending">In attesa</span>';
+  function reviewItemClass(review){
+    if(review && review.stato === 'approvato') return 'cand-item review-approved';
+    if(review && review.stato === 'rifiutato') return 'cand-item review-rejected';
+    return 'cand-item';
   }
 
   function reviewInfoHtml(review){
@@ -1158,7 +1163,7 @@
     return '<div class="cand-review-info">' + verbo + ' da ' + escapeHtml(chi) + escapeHtml(grado) + (quando ? ' il ' + escapeHtml(quando) : '') + '</div>';
   }
 
-  async function handleDecision(c, stato, headEl, updateReviewBox){
+  async function handleDecision(c, stato, itemEl, updateReviewBox){
     if(!currentAgent) return;
     const review = {
       stato,
@@ -1180,8 +1185,7 @@
         candidatoDataInvio: c.dataInvio
       });
       c.review = review;
-      const oldBadge = headEl.querySelector('.cand-badge.review');
-      if(oldBadge) oldBadge.outerHTML = reviewBadgeHtml(review);
+      itemEl.className = reviewItemClass(review) + (itemEl.classList.contains('open') ? ' open' : '');
       updateReviewBox();
     }catch(err){
       console.error(err);
@@ -1197,7 +1201,7 @@
     }
     list.forEach(c => {
       const item = document.createElement('div');
-      item.className = 'cand-item';
+      item.className = reviewItemClass(c.review);
 
       const head = document.createElement('div');
       head.className = 'cand-head';
@@ -1211,7 +1215,6 @@
           '<span>ID: ' + escapeHtml(c.discordId) + '</span>' +
         '</span>' +
         '<span class="cand-badges">' +
-          reviewBadgeHtml(c.review) +
           (c.punteggio ? '<span class="cand-badge score">' + escapeHtml(c.punteggio) + '</span>' : '') +
           '<span class="cand-badge' + (isAffermativo(c.fedina) ? '' : ' no') + '">Fedina ' + escapeHtml(c.fedina) + '</span>' +
           '<span class="cand-badge' + (isAffermativo(c.certificato) ? '' : ' no') + '">Cert. ' + escapeHtml(c.certificato) + '</span>' +
@@ -1234,11 +1237,11 @@
           reviewInfoHtml(c.review);
         reviewBox.querySelector('.approve').addEventListener('click', (e) => {
           e.stopPropagation();
-          handleDecision(c, 'approvato', head, updateReviewBox);
+          handleDecision(c, 'approvato', item, updateReviewBox);
         });
         reviewBox.querySelector('.reject').addEventListener('click', (e) => {
           e.stopPropagation();
-          handleDecision(c, 'rifiutato', head, updateReviewBox);
+          handleDecision(c, 'rifiutato', item, updateReviewBox);
         });
       }
       updateReviewBox();
