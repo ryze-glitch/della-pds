@@ -1102,7 +1102,7 @@
     idxCur.textContent = String(current+1).padStart(2,'0');
 
     const docHeight = wrapper.offsetHeight - window.innerHeight;
-    const progress = Math.min(100, Math.max(0,(refY/docHeight)*100));
+    const progress = docHeight > 0 ? Math.min(100, Math.max(0,(refY/docHeight)*100)) : 0;
     idxBar.style.width = progress+'%';
     requestAnimationFrame(updateIndex);
   }
