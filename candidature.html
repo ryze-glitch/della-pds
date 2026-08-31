@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
+<script>if(sessionStorage.getItem('pdsTransition')==='1'){document.documentElement.classList.add('incoming-transition');}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gestione Candidature — Polizia di Stato — Italian Paradise RP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -238,6 +239,17 @@
   }
   .page-transition.active .page-transition-crest{
     opacity:1;transform:scale(1);
+  }
+
+  /* Su una pagina appena raggiunta tramite navigateWithTransition(),
+     l'overlay deve partire già opaco (nessuna transizione, per non far
+     lampeggiare la pagina sotto), e poi sparire con una dissolvenza:
+     è l'animazione di arrivo, simmetrica a quella di uscita. */
+  html.incoming-transition .page-transition{
+    opacity:1;visibility:visible;transition:none;
+  }
+  html.incoming-transition .page-transition-crest{
+    opacity:1;transform:scale(1);transition:none;
   }
   .page-transition-crest img{width:100%;height:100%;object-fit:contain;}
 
@@ -921,7 +933,21 @@
   function navigateWithTransition(url){
     if(!transitionOverlay){ window.location.href = url; return; }
     transitionOverlay.classList.add('active');
+    try{ sessionStorage.setItem('pdsTransition', '1'); }catch(e){}
     setTimeout(()=>{ window.location.href = url; }, 650);
+  }
+
+  // Pagina appena raggiunta tramite navigateWithTransition(): l'overlay è
+  // già opaco (regola CSS su html.incoming-transition, per non far
+  // lampeggiare la pagina), qui lo si toglie con un ritardo minimo per
+  // farlo sparire con una dissolvenza invece che di colpo.
+  if(document.documentElement.classList.contains('incoming-transition')){
+    try{ sessionStorage.removeItem('pdsTransition'); }catch(e){}
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        setTimeout(()=>{ document.documentElement.classList.remove('incoming-transition'); }, 80);
+      });
+    });
   }
 
   /* ---------- in-page anchor + cross-page navigation ---------- */
