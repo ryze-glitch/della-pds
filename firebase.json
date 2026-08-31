@@ -15,11 +15,15 @@
     "rewrites": [
       { "source": "/home", "destination": "/index.html" },
       { "source": "/questura", "destination": "/questura.html" },
+      { "source": "/chi-siamo", "destination": "/questura.html" },
       { "source": "/notizie", "destination": "/notizie.html" },
       { "source": "/login", "destination": "/login.html" },
       { "source": "/dashboard", "destination": "/dashboard.html" },
       { "source": "/candidature", "destination": "/candidature.html" },
-      { "source": "/concorso", "destination": "/concorso.html" }
+      { "source": "/concorso", "destination": "/concorso.html" },
+      { "source": "/qualifiche", "destination": "/qualifiche.html" },
+      { "source": "/reparti", "destination": "/reparti.html" },
+      { "source": "/prenota", "destination": "/prenota.html" }
     ],
     "headers": [
       {

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <script>if(sessionStorage.getItem('pdsTransition')==='1'){document.documentElement.classList.add('incoming-transition');}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Area Personale — Polizia di Stato — Italian Paradise RP</title>
+<title>Qualifiche — Polizia di Stato — Italian Paradise RP</title>
 <link rel="icon" href="/favicon.ico?v=2">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,25 +85,6 @@
     border-color:var(--gold);
     background:rgba(201,162,75,0.08);
   }
-
-  /* ---------- journey index ---------- */
-  .journey-index{
-    position:fixed;left:32px;bottom:28px;z-index:500;
-    font-family:'Inter',sans-serif;font-size:12px;letter-spacing:0.05em;
-    color:var(--ivory-dim);
-    display:flex;align-items:center;gap:10px;
-    mix-blend-mode:difference;
-    opacity:1;
-    transition:opacity .4s ease;
-  }
-  .journey-index.hidden{opacity:0;pointer-events:none;}
-  .journey-index .bar{width:64px;height:1px;background:rgba(247,243,236,0.25);position:relative;}
-  .journey-index .bar span{
-    position:absolute;left:0;top:0;height:100%;background:var(--ivory);
-    width:0%;transition:width .2s linear;
-  }
-  .journey-index .cur{color:var(--ivory);}
-  @media (max-width:768px){ .journey-index{display:none;} }
 
   /* ---------- nav ---------- */
   header{
@@ -243,10 +224,6 @@
     opacity:1;transform:scale(1);
   }
 
-  /* Su una pagina appena raggiunta tramite navigateWithTransition(),
-     l'overlay deve partire già opaco (nessuna transizione, per non far
-     lampeggiare la pagina sotto), e poi sparire con una dissolvenza:
-     è l'animazione di arrivo, simmetrica a quella di uscita. */
   html.incoming-transition .page-transition{
     opacity:1;visibility:visible;transition:none;
   }
@@ -273,15 +250,12 @@
   }
   .hero-media .hero-slide:nth-child(1){ animation-delay:0s; }
   .hero-media .hero-slide:nth-child(1) img{ animation-delay:0s; }
-  .hero-media .hero-slide:nth-child(2){ animation-delay:6s; }
-  .hero-media .hero-slide:nth-child(2) img{ animation-delay:6s; }
 
   @keyframes heroCrossfade{
     0%{opacity:0;}
     6%{opacity:1;}
-    46%{opacity:1;}
-    54%{opacity:0;}
-    100%{opacity:0;}
+    94%{opacity:1;}
+    100%{opacity:1;}
   }
   @keyframes heroZoom{
     0%{transform:scale(1.1);}
@@ -299,6 +273,15 @@
     opacity:0;animation:riseIn 1.1s ease .5s forwards;
   }
   .hero-content h1 em{font-style:italic;color:var(--gold);}
+  .hero-content p{
+    max-width:560px;color:var(--ivory-dim);font-size:16px;line-height:1.8;margin-top:22px;
+    opacity:0;animation:riseIn 1.1s ease .7s forwards;
+  }
+
+  @media (max-width:900px){
+    .hero-content{padding:0 24px 72px;}
+  }
+
   .hero-scroll{
     position:absolute;bottom:36px;right:48px;z-index:2;
     display:flex;align-items:center;gap:12px;
@@ -315,7 +298,6 @@
   @keyframes riseIn{ from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
 
   @media (max-width:900px){
-    .hero-content{padding:0 24px 72px;}
     .hero-scroll{right:24px;}
   }
 
@@ -333,36 +315,6 @@
   }
   .word-reveal.in span{transform:translateY(0);}
 
-  .magnetic{
-    transition:transform .25s cubic-bezier(.2,.7,.2,1);
-    will-change:transform;
-  }
-
-  section{position:relative;}
-  .section-pad{padding:140px 48px;}
-  @media (max-width:900px){ .section-pad{padding:100px 24px;} }
-
-  .intro-block{max-width:680px;margin:0 auto;text-align:center;}
-  .intro-block .eyebrow{display:block;margin-bottom:20px;}
-  .intro-block h2{font-size:clamp(30px,4vw,50px);line-height:1.15;margin-bottom:26px;}
-  .intro-block p{color:var(--ivory-dim);font-size:16px;line-height:1.8;font-weight:300;}
-
-  /* ---------- split ---------- */
-  .split{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;}
-  .split.reverse{direction:rtl;}
-  .split.reverse > *{direction:ltr;}
-  .split-media{position:relative;overflow:hidden;height:100%;min-height:480px;}
-  .split-media .parallax-img{
-    position:absolute;top:-8%;left:0;width:100%;height:116%;
-    will-change:transform;
-  }
-  .split-media img{filter:grayscale(15%);transition:transform 1.4s cubic-bezier(.2,.7,.2,1);}
-  .split-media:hover img{transform:scale(1.06);}
-  .split-text{display:flex;flex-direction:column;justify-content:center;padding:80px;}
-  .split-text .eyebrow{margin-bottom:20px;}
-  .split-text h2{font-size:clamp(28px,3.4vw,44px);line-height:1.15;margin-bottom:24px;}
-  .split-text p{color:var(--ivory-dim);line-height:1.85;font-size:15.5px;margin-bottom:32px;max-width:440px;}
-
   .link-arrow{
     display:inline-flex;align-items:center;gap:12px;
     font-size:12px;letter-spacing:0.14em;text-transform:uppercase;
@@ -375,173 +327,130 @@
   .link-arrow:hover{border-color:var(--gold);gap:18px;}
   .link-arrow:hover svg{transform:translateX(4px);}
 
-  @media (max-width:900px){
-    .split{grid-template-columns:1fr;}
-    .split-media{min-height:340px;}
-    .split-text{padding:56px 24px;}
+  .magnetic{
+    transition:transform .25s cubic-bezier(.2,.7,.2,1);
+    will-change:transform;
   }
 
-  /* ---------- rail ---------- */
-  .rail-head{
-    display:flex;justify-content:space-between;align-items:flex-end;
-    padding:0 48px;margin-bottom:56px;flex-wrap:wrap;gap:24px;
-  }
-  .rail-head h2{font-size:clamp(28px,3.6vw,46px);max-width:520px;line-height:1.15;}
-  .rail-head p{color:var(--ivory-dim);max-width:340px;font-size:14.5px;line-height:1.8;}
+  section{position:relative;}
+  .section-pad{padding:140px 48px;}
+  @media (max-width:900px){ .section-pad{padding:100px 24px;} }
 
-  .rail{
-    display:flex;gap:24px;overflow-x:auto;padding:0 48px 24px;
-    scroll-snap-type:x mandatory;scrollbar-width:none;
+  /* ---------- intro split + apply box ---------- */
+  .ph-intro{
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:64px;
+    align-items:center;
+    padding:96px 0 0;
   }
-  .rail::-webkit-scrollbar{display:none;}
-  .rail-card{
-    position:relative;flex:0 0 auto;width:min(360px, 78vw);height:480px;
-    overflow:hidden;scroll-snap-align:start;
+  .ph-intro-media{
+    position:relative;overflow:hidden;
+    aspect-ratio:4/5;
   }
-  .rail-card img{filter:grayscale(15%);transition:transform 1s cubic-bezier(.2,.7,.2,1);}
-  .rail-card:hover img{transform:scale(1.08);}
-  .rail-card::after{
-    content:'';position:absolute;inset:0;
-    background:linear-gradient(180deg, rgba(14,13,12,0) 40%, rgba(14,13,12,0.9) 100%);
-  }
-  .rail-card-text{position:absolute;left:0;bottom:0;z-index:2;padding:28px;}
-  .rail-card-text .eyebrow{margin-bottom:10px;}
-  .rail-card-text h3{font-size:24px;font-weight:400;}
+  .ph-intro-media img{filter:grayscale(15%);}
+  .ph-intro-text .eyebrow{display:block;margin-bottom:20px;}
+  .ph-intro-text h2{font-size:clamp(30px,4vw,48px);line-height:1.15;margin-bottom:24px;}
+  .ph-intro-text p{color:var(--ivory-dim);font-size:15.5px;line-height:1.85;margin-bottom:36px;max-width:440px;}
 
-  @media (max-width:900px){
-    .rail-head{padding:0 24px;}
-    .rail{padding:0 24px 24px;}
-  }
-
-  /* ---------- login page ---------- */
-  .login-section{
-    min-height:calc(100vh - 0px);
-    display:flex;align-items:center;justify-content:center;
-    padding:160px 24px 100px;
-  }
-  .login-box{
-    width:100%;max-width:420px;
-    text-align:center;
-  }
-  .login-box .crest-lg{
-    width:52px;height:82px;
-    margin:0 auto 32px;
-  }
-  .login-box .crest-lg img{width:100%;height:100%;object-fit:contain;}
-  .login-box .eyebrow{display:block;margin-bottom:16px;}
-  .login-box h1{
-    font-size:clamp(28px,3.4vw,38px);
-    line-height:1.15;
-    margin-bottom:16px;
-  }
-  .login-box p.sub{
-    color:var(--ivory-dim);
-    font-size:14.5px;line-height:1.75;
-    margin-bottom:48px;
-    max-width:340px;
-    margin-left:auto;margin-right:auto;
-  }
-
-  .login-provider{
-    display:flex;align-items:center;justify-content:center;gap:14px;
-    width:100%;
-    padding:17px 24px;
-    border:1px solid rgba(247,243,236,0.28);
-    color:var(--ivory);
-    font-size:13px;letter-spacing:0.06em;
-    margin-bottom:16px;
-    transition:border-color .3s ease, background .3s ease;
-    background:transparent;
-    cursor:pointer;
-    font-family:'Inter',sans-serif;font-weight:400;
-  }
-  .login-provider:hover{border-color:var(--gold);background:rgba(201,162,75,0.08);}
-  .login-provider svg{flex-shrink:0;}
-
-  .login-divider{
-    display:flex;align-items:center;gap:16px;
-    margin:32px 0;
-    color:var(--stone);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
-  }
-  .login-divider::before, .login-divider::after{
-    content:'';flex:1;height:1px;background:rgba(247,243,236,0.14);
-  }
-
-  .login-status{
-    margin-top:32px;
-    font-size:13px;
-    color:var(--ivory-dim);
-    line-height:1.7;
-    min-height:20px;
-  }
-  .login-status.error{color:#E8654A;}
-  .login-status.success{color:var(--sage);}
-
-  .login-user-card{
-    display:none;
+  .ph-enquire-box{
     border:1px solid rgba(247,243,236,0.18);
     padding:32px;
-    text-align:left;
   }
-  .login-user-card.active{display:block;}
-  .login-user-card .avatar{
-    width:56px;height:56px;border-radius:50%;
-    object-fit:cover;margin-bottom:20px;
-    border:1px solid rgba(247,243,236,0.25);
-  }
-  .login-user-card .name{font-family:'Fraunces',serif;font-size:20px;margin-bottom:6px;}
-  .login-user-card .provider-tag{
-    font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);
-    margin-bottom:24px;display:block;
-  }
-  .login-user-card .btn-logout{
-    font-size:12px;letter-spacing:0.1em;text-transform:uppercase;
-    color:var(--ivory-dim);
-    border-bottom:1px solid rgba(247,243,236,0.3);
-    padding-bottom:4px;
-    transition:color .25s ease, border-color .25s ease;
-  }
-  .login-user-card .btn-logout:hover{color:var(--ivory);border-color:var(--gold);}
-
-  #loginChoice.hidden{display:none;}
-
-  /* ---------- quote ---------- */
-  .quote-section{
-    position:relative;min-height:70vh;
-    display:flex;align-items:center;justify-content:center;text-align:center;
-    padding:120px 24px;
-  }
-
-  .quote-media{position:absolute;inset:0;z-index:0;}
-  .quote-media img{filter:grayscale(20%);}
-  .quote-media::after{content:'';position:absolute;inset:0;background:rgba(14,13,12,0.6);}
-  .quote-content{position:relative;z-index:2;max-width:820px;}
-  .quote-content blockquote{
-    font-family:'Fraunces',serif;font-style:italic;font-weight:300;
-    font-size:clamp(26px,4vw,44px);line-height:1.35;margin-bottom:28px;
-  }
-  .quote-content cite{font-style:normal;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);}
-
-  /* ---------- offer band ---------- */
-  .offer-band{display:grid;grid-template-columns:1.1fr 1fr;background:var(--ivory);color:var(--ink);}
-  .offer-text{padding:100px 80px;display:flex;flex-direction:column;justify-content:center;}
-  .offer-text .eyebrow{color:var(--sage);margin-bottom:20px;}
-  .offer-text h2{font-size:clamp(28px,3.4vw,44px);line-height:1.15;margin-bottom:24px;color:var(--ink);}
-  .offer-text p{color:#4a463f;line-height:1.85;font-size:15.5px;margin-bottom:36px;max-width:460px;}
+  .ph-enquire-box .btn-dark{width:100%;justify-content:center;}
   .btn-dark{
     display:inline-flex;align-items:center;gap:12px;
-    background:var(--ink);color:var(--ivory);
-    padding:16px 30px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;
-    width:fit-content;transition:background .3s ease;
+    background:var(--ivory);color:var(--ink);
+    padding:18px 36px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;
+    width:fit-content;transition:background .3s ease, color .3s ease;
   }
-  .btn-dark:hover{background:var(--sage);}
-  .offer-media{position:relative;min-height:420px;overflow:hidden;}
+  .btn-dark:hover{background:var(--gold);}
+  .apply-note{
+    margin-top:18px;font-size:12.5px;color:var(--stone);letter-spacing:0.02em;text-align:center;
+  }
+
+  @media (max-width:900px){
+    .ph-intro{grid-template-columns:1fr;padding:64px 0 0;}
+  }
+
+  /* ---------- section heading ---------- */
+  .ph-section-head{max-width:640px;margin:0 auto 56px;text-align:center;}
+  .ph-section-head .eyebrow{display:block;margin-bottom:18px;}
+  .ph-section-head h2{font-size:clamp(28px,3.6vw,44px);line-height:1.15;}
+
+  /* ---------- steps ---------- */
+  .steps{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    border-top:1px solid rgba(247,243,236,0.12);
+    max-width:960px;margin:0 auto;
+  }
+  .step{padding:48px 32px;border-right:1px solid rgba(247,243,236,0.12);text-align:center;}
+  .step:last-child{border-right:none;}
+  .step .num{
+    font-family:'Fraunces',serif;font-style:italic;color:var(--gold);
+    font-size:14px;margin-bottom:20px;display:block;
+  }
+  .step h3{font-size:17px;margin-bottom:12px;font-weight:400;}
+  .step p{color:var(--ivory-dim);font-size:13.5px;line-height:1.75;}
+
+  @media (max-width:768px){
+    .steps{grid-template-columns:1fr;}
+    .step{border-right:none;border-bottom:1px solid rgba(247,243,236,0.12);}
+    .step:last-child{border-bottom:none;}
+  }
+
+  /* ---------- requisiti checklist ---------- */
+  .req-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);
+    gap:1px;background:rgba(247,243,236,0.12);
+    max-width:960px;margin:0 auto;
+    border:1px solid rgba(247,243,236,0.12);
+  }
+  .req-item{
+    background:var(--ink);padding:32px 36px;
+    display:flex;gap:18px;align-items:flex-start;
+  }
+  .req-item svg{flex-shrink:0;margin-top:3px;color:var(--gold);}
+  .req-item h4{font-size:15px;font-weight:500;font-family:'Inter',sans-serif;margin-bottom:6px;}
+  .req-item p{color:var(--ivory-dim);font-size:13.5px;line-height:1.7;}
+
+  @media (max-width:768px){
+    .req-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- closing CTA band ---------- */
+  .offer-band{display:grid;grid-template-columns:1fr 1.1fr;background:var(--ivory);color:var(--ink);}
+  .offer-media{position:relative;min-height:360px;overflow:hidden;}
   .offer-media img{filter:grayscale(15%);}
+  .offer-text{padding:80px;display:flex;flex-direction:column;justify-content:center;}
+  .offer-text .eyebrow{color:var(--sage);margin-bottom:20px;}
+  .offer-text h2{font-size:clamp(28px,3.4vw,42px);line-height:1.15;margin-bottom:22px;color:var(--ink);}
+  .offer-text p{color:#4a463f;line-height:1.85;font-size:15px;margin-bottom:32px;max-width:440px;}
+  .offer-text .btn-dark{background:var(--ink);color:var(--ivory);}
+  .offer-text .btn-dark:hover{background:var(--sage);}
 
   @media (max-width:900px){
     .offer-band{grid-template-columns:1fr;}
-    .offer-text{padding:64px 24px;}
-    .offer-media{min-height:320px;}
+    .offer-text{padding:56px 24px;}
+    .offer-media{min-height:280px;}
+  }
+
+
+  /* ---------- rank list ---------- */
+  .rank-list{max-width:760px;margin:0 auto;border-top:1px solid rgba(247,243,236,0.12);}
+  .rank-item{
+    display:flex;gap:32px;align-items:baseline;
+    padding:28px 0;border-bottom:1px solid rgba(247,243,236,0.12);
+  }
+  .rank-item .num{
+    font-family:'Fraunces',serif;font-style:italic;color:var(--gold);
+    font-size:14px;width:32px;flex-shrink:0;
+  }
+  .rank-item h3{font-size:18px;font-weight:400;margin-bottom:6px;}
+  .rank-item p{color:var(--ivory-dim);font-size:14px;line-height:1.75;max-width:520px;}
+
+  @media (max-width:600px){
+    .rank-item{flex-direction:column;gap:8px;}
   }
 
   /* ---------- footer ---------- */
@@ -576,12 +485,6 @@
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<div class="journey-index" id="journeyIndex">
-  <span class="cur" id="idxCur">01</span>
-  <div class="bar"><span id="idxBar"></span></div>
-  <span id="idxTotal">06</span>
-</div>
-
 <header>
   <a href="/home" class="logo">
     <span class="crest"><img src="/assets/crest.png" alt="Stemma Polizia di Stato"></span>
@@ -592,12 +495,12 @@
       <li><a href="/home" class="nav-link">Home</a></li>
       <li><a href="/notizie" class="nav-link">Notizie</a></li>
       <li><a href="/chi-siamo" class="nav-link">Chi Siamo</a></li>
-      <li><a href="/qualifiche" class="nav-link">Qualifiche</a></li>
+      <li><a href="/qualifiche" class="nav-link" aria-current="page" style="color:var(--gold);">Qualifiche</a></li>
       <li><a href="/prenota" class="nav-link">Prenota</a></li>
       <li><a href="/concorso" class="nav-link">Concorso</a></li>
     </ul>
   </nav>
-  <a href="/login" class="nav-cta magnetic" aria-current="page" style="color:var(--gold);border-color:var(--gold);">Area Personale</a>
+  <a href="/login" class="nav-cta magnetic">Area Personale</a>
   <button class="burger" id="burgerBtn" aria-label="Apri menu">
     <span></span><span></span><span></span>
   </button>
@@ -608,12 +511,12 @@
     <li><a href="/home" class="nav-link">Home</a></li>
     <li><a href="/notizie" class="nav-link">Notizie</a></li>
     <li><a href="/chi-siamo" class="nav-link">Chi Siamo</a></li>
-    <li><a href="/qualifiche" class="nav-link">Qualifiche</a></li>
+    <li><a href="/qualifiche" class="nav-link" aria-current="page" style="color:var(--gold);">Qualifiche</a></li>
     <li><a href="/prenota" class="nav-link">Prenota</a></li>
     <li><a href="/concorso" class="nav-link">Concorso</a></li>
   </ul>
   <div class="mobile-menu-foot">
-    <a href="/login" class="nav-link" aria-current="page" style="color:var(--gold);">Area Personale</a>
+    <a href="/login" class="nav-link">Area Personale</a>
   </div>
 </nav>
 
@@ -621,31 +524,112 @@
 
 <main id="top">
 
-  <section class="login-section">
-    <div class="login-box reveal in">
-      <div class="crest-lg">
-        <img src="/assets/crest.png" alt="Stemma Polizia di Stato">
-      </div>
-      <span class="eyebrow">Accesso Riservato</span>
-      <h1>Area Personale</h1>
-      <p class="sub">Accedi con il tuo account per consultare il tuo profilo, i turni assegnati e le comunicazioni di reparto.</p>
-
-      <div id="loginChoice">
-        <button class="login-provider magnetic" id="btnDiscord" type="button">
-          <svg width="18" height="18" viewBox="0 0 24 18" fill="none"><path fill="#5865F2" d="M20.3 1.8A19.5 19.5 0 0 0 15.6.3a.07.07 0 0 0-.08.04c-.2.36-.43.83-.59 1.2a18 18 0 0 0-5.4 0 12 12 0 0 0-.6-1.2.08.08 0 0 0-.08-.04A19.4 19.4 0 0 0 3.9 1.8a.07.07 0 0 0-.03.03C.9 6.3.1 10.6.5 14.9a.08.08 0 0 0 .03.06 19.6 19.6 0 0 0 5.9 3 .08.08 0 0 0 .08-.03c.46-.62.86-1.28 1.2-1.97a.08.08 0 0 0-.04-.1 12.9 12.9 0 0 1-1.85-.88.08.08 0 0 1 0-.13c.12-.1.25-.2.37-.29a.07.07 0 0 1 .08 0c3.9 1.77 8.1 1.77 11.94 0a.07.07 0 0 1 .08 0c.12.1.25.2.37.3a.08.08 0 0 1 0 .13c-.59.34-1.21.63-1.85.87a.08.08 0 0 0-.04.11c.35.68.76 1.34 1.2 1.96a.08.08 0 0 0 .08.03 19.5 19.5 0 0 0 5.93-3 .08.08 0 0 0 .03-.05c.5-4.97-.83-9.24-3.5-13.06a.06.06 0 0 0-.03-.03zM8.02 12.3c-1.18 0-2.15-1.08-2.15-2.4 0-1.33.95-2.41 2.15-2.41 1.21 0 2.17 1.09 2.15 2.4 0 1.33-.95 2.41-2.15 2.41zm7.97 0c-1.18 0-2.15-1.08-2.15-2.4 0-1.33.95-2.41 2.15-2.41 1.21 0 2.17 1.09 2.15 2.4 0 1.33-.94 2.41-2.15 2.41z"/></svg>
-          Continua con Discord
-        </button>
-
-        <div class="login-status" id="loginStatus"></div>
-      </div>
-
-      <div class="login-user-card" id="userCard">
-        <img class="avatar" id="userAvatar" src="" alt="">
-        <div class="name" id="userName"></div>
-        <span class="provider-tag" id="userProvider"></span>
-        <a href="#" class="btn-logout" id="btnLogout">Esci dall'account</a>
+  <!-- HERO -->
+  <section class="hero" style="min-height:70vh;">
+    <div class="hero-media">
+      <div class="hero-slide" style="opacity:1;animation:none;">
+        <img src="https://images.unsplash.com/photo-1590650046871-92c887180603?q=80&w=1400&auto=format&fit=crop" alt="Distintivo e uniforme della Polizia" style="animation:none;transform:scale(1);filter:grayscale(15%);">
       </div>
     </div>
+    <div class="hero-content">
+      <span class="eyebrow" style="animation:riseIn 1s ease .1s forwards;">Carriera nel Corpo</span>
+      <h1 style="animation:riseIn 1.1s ease .2s forwards;">Otto gradi, <em>una scalata</em></h1>
+      <p>Dalla prima divisa alla guida della Questura: ogni grado riconosce esperienza, impegno e capacità di comando.</p>
+    </div>
+    <div class="hero-scroll">
+      <span>Scorri</span>
+      <div class="line"></div>
+    </div>
+  </section>
+
+  <!-- RANKS -->
+  <section class="section-pad">
+    <div class="ph-section-head reveal">
+      <span class="eyebrow">Il percorso di carriera</span>
+      <h2 class="word-split">Gli otto gradi del Corpo</h2>
+    </div>
+    <div class="rank-list">
+      <div class="rank-item reveal">
+        <span class="num">01</span>
+        <div>
+          <h3>Agente</h3>
+          <p>Il primo grado dopo l'accademia. Pattugliamento, controlli di routine e primo contatto con la cittadinanza.</p>
+        </div>
+      </div>
+      <div class="rank-item reveal reveal-delay-1">
+        <span class="num">02</span>
+        <div>
+          <h3>Agente Scelto</h3>
+          <p>Maggiore autonomia operativa dopo i primi mesi di servizio sul campo.</p>
+        </div>
+      </div>
+      <div class="rank-item reveal">
+        <span class="num">03</span>
+        <div>
+          <h3>Assistente</h3>
+          <p>Coordina piccoli interventi e affianca le nuove reclute in servizio.</p>
+        </div>
+      </div>
+      <div class="rank-item reveal reveal-delay-1">
+        <span class="num">04</span>
+        <div>
+          <h3>Assistente Capo</h3>
+          <p>Responsabilità aggiuntive nella gestione delle pattuglie e dei turni.</p>
+        </div>
+      </div>
+      <div class="rank-item reveal">
+        <span class="num">05</span>
+        <div>
+          <h3>Sovrintendente</h3>
+          <p>Supervisiona un gruppo di agenti e riporta direttamente ai superiori di reparto.</p>
+        </div>
+      </div>
+      <div class="rank-item reveal reveal-delay-1">
+        <span class="num">06</span>
+        <div>
+          <h3>Ispettore</h3>
+          <p>Guida operazioni più complesse e coordina più reparti in interventi congiunti.</p>
+        </div>
+      </div>
+      <div class="rank-item reveal">
+        <span class="num">07</span>
+        <div>
+          <h3>Vice Commissario</h3>
+          <p>Gestisce un intero reparto e ne definisce le priorità operative.</p>
+        </div>
+      </div>
+      <div class="rank-item reveal reveal-delay-1">
+        <span class="num">08</span>
+        <div>
+          <h3>Questore</h3>
+          <p>Al vertice della Questura: definisce le strategie, rappresenta il Corpo e supervisiona ogni reparto.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section class="offer-band reveal">
+    <div class="offer-media">
+      <img src="/assets/hero-slide-2.jpg" alt="Volanti della Polizia schierate davanti alla Questura">
+    </div>
+    <div class="offer-text">
+      <span class="eyebrow">Vuoi iniziare la scalata?</span>
+      <h2 class="word-split">Ogni grado parte da qui</h2>
+      <p>La carriera comincia con la candidatura: supera il colloquio, completa l'accademia e indossa la prima divisa.</p>
+      <a href="/concorso" class="btn-dark magnetic">
+        Scopri come candidarti
+        <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M1 5H17M17 5L13 1M17 5L13 9" stroke="currentColor" stroke-width="1"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- BACK TO HOME -->
+  <section style="padding:64px 32px 120px;">
+    <a href="/home" class="link-arrow magnetic">
+      <svg width="18" height="10" viewBox="0 0 18 10" fill="none" style="transform:rotate(180deg);"><path d="M1 5H17M17 5L13 1M17 5L13 9" stroke="currentColor" stroke-width="1"/></svg>
+      Torna alla Home
+    </a>
   </section>
 
 </main>
@@ -665,7 +649,7 @@
         <li><a href="/home" class="nav-link">Home</a></li>
         <li><a href="/notizie" class="nav-link">Notizie</a></li>
         <li><a href="/chi-siamo" class="nav-link">Chi Siamo</a></li>
-        <li><a href="/qualifiche" class="nav-link">Qualifiche</a></li>
+        <li><a href="/qualifiche" class="nav-link" aria-current="page" style="color:var(--gold);">Qualifiche</a></li>
         <li><a href="/prenota" class="nav-link">Prenota</a></li>
         <li><a href="/concorso" class="nav-link">Concorso</a></li>
       </ul>
@@ -697,19 +681,6 @@
 <div id="scroll-spacer"></div>
 
 <script>
-  /* ---------- hide journey-index near footer ---------- */
-  (function(){
-    const idx = document.getElementById('journeyIndex');
-    const footer = document.querySelector('footer');
-    if(!idx || !footer) return;
-    const footerIO = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        idx.classList.toggle('hidden', entry.isIntersecting);
-      });
-    }, {threshold:0.05});
-    footerIO.observe(footer);
-  })();
-
   /* ---------- mobile burger menu ---------- */
   (function(){
     const burger = document.getElementById('burgerBtn');
@@ -786,20 +757,7 @@
       if(Math.abs(smooth.target - smooth.current) < 0.05){ smooth.current = smooth.target; }
       wrapper.style.transform = `translate3d(0, ${-smooth.current}px, 0)`;
     }
-    updateParallax();
     requestAnimationFrame(raf);
-  }
-
-  /* ---------- parallax on split images ---------- */
-  const parallaxEls = document.querySelectorAll('.parallax-img');
-  function updateParallax(){
-    parallaxEls.forEach(el=>{
-      const parent = el.parentElement;
-      const rect = parent.getBoundingClientRect();
-      const centerOffset = (rect.top + rect.height/2) - window.innerHeight/2;
-      const shift = centerOffset * -0.08;
-      el.style.transform = `translate3d(0, ${shift}px, 0)`;
-    });
   }
 
   if(smoothEnabled){
@@ -838,10 +796,6 @@
     setTimeout(()=>{ window.location.href = url; }, 650);
   }
 
-  // Pagina appena raggiunta tramite navigateWithTransition(): l'overlay è
-  // già opaco (regola CSS su html.incoming-transition, per non far
-  // lampeggiare la pagina), qui lo si toglie con un ritardo minimo per
-  // farlo sparire con una dissolvenza invece che di colpo.
   if(document.documentElement.classList.contains('incoming-transition')){
     try{ sessionStorage.removeItem('pdsTransition'); }catch(e){}
     requestAnimationFrame(()=>{
@@ -856,7 +810,7 @@
     document.querySelectorAll('a[href]').forEach(a=>{
       const href = a.getAttribute('href') || '';
 
-      // cross-page link (e.g. questura.html) → transition then navigate
+      // cross-page link (internal route) → transition then navigate
       if(href.startsWith('/')){
         a.addEventListener('click', (e)=>{
           if(e.metaKey || e.ctrlKey || e.shiftKey) return; // allow open-in-new-tab
@@ -874,11 +828,6 @@
           if(!target) return;
           e.preventDefault();
           const targetY = target.getBoundingClientRect().top + window.scrollY;
-          // Se lo scroll fluido personalizzato è attivo, il salto nativo
-          // deve essere istantaneo: altrimenti lo scroll nativo del browser e
-          // il nostro ciclo raf() animano entrambi lo scroll insieme, e il
-          // contenuto continua a scivolare per secondi dopo che la barra di
-          // scorrimento nativa ha già raggiunto la destinazione.
           window.scrollTo({ top: targetY, behavior: smoothEnabled ? 'auto' : 'smooth' });
           history.replaceState(null, '', '#' + id);
         });
@@ -899,7 +848,7 @@
     requestAnimationFrame(loop);
   }
   loop();
-  document.querySelectorAll('a, .rail-card, .split-media').forEach(el=>{
+  document.querySelectorAll('a').forEach(el=>{
     el.addEventListener('mouseenter', ()=>ring.classList.add('hover'));
     el.addEventListener('mouseleave', ()=>ring.classList.remove('hover'));
   });
@@ -911,164 +860,6 @@
     });
   }, {threshold:0.15});
   revealEls.forEach(el=>io.observe(el));
-
-  const sections = document.querySelectorAll('main > section');
-  const idxCur = document.getElementById('idxCur');
-  const idxTotal = document.getElementById('idxTotal');
-  const idxBar = document.getElementById('idxBar');
-  idxTotal.textContent = String(sections.length).padStart(2,'0');
-
-  function updateIndex(){
-    const refY = smoothEnabled ? smooth.current : window.scrollY;
-    const scrollY = refY + window.innerHeight/2;
-    let current = 0;
-    sections.forEach((sec, i)=>{
-      if(scrollY >= sec.offsetTop) current = i;
-    });
-    idxCur.textContent = String(current+1).padStart(2,'0');
-
-    const docHeight = wrapper.offsetHeight - window.innerHeight;
-    const progress = Math.min(100, Math.max(0,(refY/docHeight)*100));
-    idxBar.style.width = progress+'%';
-    requestAnimationFrame(updateIndex);
-  }
-  updateIndex();
-</script>
-
-<script type="module">
-  /* ====================================================================
-     FIREBASE AUTH — Area Personale
-     Prima di andare online, sostituisci firebaseConfig con la
-     configurazione del TUO progetto Firebase (Console → Project
-     Settings → General → Your apps → SDK setup and configuration).
-     ==================================================================== */
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-  import {
-    getAuth,
-    signInWithCustomToken,
-    onAuthStateChanged,
-    signOut
-  } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBrBkzLE_0MLQEXB9YBDW7G05n6aI_ykA0",
-    authDomain: "polizia-iprp.firebaseapp.com",
-    projectId: "polizia-iprp",
-    storageBucket: "polizia-iprp.firebasestorage.app",
-    messagingSenderId: "295622243589",
-    appId: "1:295622243589:web:abfd6d06dac2f95428f36c",
-    measurementId: "G-V4SZTQVN7J"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  const btnDiscord = document.getElementById('btnDiscord');
-  const btnLogout = document.getElementById('btnLogout');
-  const loginChoice = document.getElementById('loginChoice');
-  const userCard = document.getElementById('userCard');
-  const userAvatar = document.getElementById('userAvatar');
-  const userName = document.getElementById('userName');
-  const userProvider = document.getElementById('userProvider');
-  const statusEl = document.getElementById('loginStatus');
-
-  function setStatus(msg, type){
-    statusEl.textContent = msg || '';
-    statusEl.className = 'login-status' + (type ? ' ' + type : '');
-  }
-
-  function showLoggedIn(user, providerLabel){
-    loginChoice.classList.add('hidden');
-    userCard.classList.add('active');
-    userAvatar.src = user.photoURL || '/assets/crest.png';
-    userName.textContent = user.displayName || user.email || 'Agente';
-    userProvider.textContent = providerLabel;
-  }
-
-  function showLoggedOut(){
-    loginChoice.classList.remove('hidden');
-    userCard.classList.remove('active');
-    if(new URLSearchParams(window.location.search).get('denied') === '1'){
-      setStatus('Il tuo account Discord non risulta registrato tra gli agenti. Contatta un amministratore per essere abilitato.', 'error');
-    } else {
-      setStatus('');
-    }
-  }
-
-  onAuthStateChanged(auth, (user) => {
-    if(user){
-      window.location.href = '/dashboard';
-    } else {
-      showLoggedOut();
-    }
-  });
-
-  /* --------------------------------------------------------------------
-     DISCORD LOGIN
-     Firebase non supporta Discord come provider nativo. Il flusso è:
-     1) l'utente viene mandato all'endpoint OAuth di Discord
-     2) un Cloudflare Worker (cartella discord-oauth-worker/ — nessun
-        server esterno, nessuna Cloud Function, nessun piano Blaze)
-        riceve il codice, lo scambia con l'API di Discord, e genera
-        un Firebase Custom Token
-     3) questa pagina riceve il token e lo scambia con
-        signInWithCustomToken
-
-     Sostituisci AUTH_WORKER_URL con l'URL pubblico del tuo Worker una
-     volta deployato (vedi discord-oauth-worker/README.md), es.
-     https://pds-discord-oauth.tuo-nome.workers.dev
-     Sostituisci DISCORD_CLIENT_ID con il Client ID della tua app Discord
-     (https://discord.com/developers/applications) — questo è l'unico
-     dato Discord che può stare nel codice pubblico; il Client Secret
-     resta SOLO nei secret del Worker (wrangler secret put).
-     -------------------------------------------------------------------- */
-  const AUTH_WORKER_URL = "https://pds-discord-oauth.ryzedev63131.workers.dev/discord-auth";
-  const DISCORD_CLIENT_ID = "1543034109146959882";
-  const DISCORD_REDIRECT_URI = window.location.origin + window.location.pathname;
-
-
-  btnDiscord.addEventListener('click', () => {
-    const params = new URLSearchParams({
-      client_id: DISCORD_CLIENT_ID,
-      redirect_uri: DISCORD_REDIRECT_URI,
-      response_type: 'code',
-      scope: 'identify email'
-    });
-    window.location.href = `https://discord.com/api/oauth2/authorize?${params.toString()}`;
-  });
-
-  async function handleDiscordCallback(){
-    const url = new URL(window.location.href);
-    const code = url.searchParams.get('code');
-    if(!code) return;
-
-    setStatus('Completamento accesso con Discord…');
-    try{
-      const res = await fetch(`${AUTH_WORKER_URL}?code=${encodeURIComponent(code)}&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}`);
-      if(!res.ok) throw new Error('Cloud Function error: ' + res.status);
-      const data = await res.json();
-      if(!data.token) throw new Error('Nessun token ricevuto');
-
-      await signInWithCustomToken(auth, data.token);
-      setStatus('Accesso con Discord riuscito.', 'success');
-
-      url.searchParams.delete('code');
-      window.history.replaceState({}, '', url.pathname + url.hash);
-    }catch(err){
-      console.error(err);
-      setStatus('Accesso con Discord non riuscito. Riprova.', 'error');
-    }
-  }
-  handleDiscordCallback();
-
-  btnLogout.addEventListener('click', async (e) => {
-    e.preventDefault();
-    try{
-      await signOut(auth);
-    }catch(err){
-      console.error(err);
-    }
-  });
 </script>
 
 </body>
