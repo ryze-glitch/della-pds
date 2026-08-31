@@ -18,7 +18,8 @@
       { "source": "/notizie", "destination": "/notizie.html" },
       { "source": "/login", "destination": "/login.html" },
       { "source": "/dashboard", "destination": "/dashboard.html" },
-      { "source": "/candidature", "destination": "/candidature.html" }
+      { "source": "/candidature", "destination": "/candidature.html" },
+      { "source": "/concorso", "destination": "/concorso.html" }
     ],
     "headers": [
       {
