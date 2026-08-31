@@ -282,6 +282,25 @@
     .hero-content{padding:0 24px 72px;}
   }
 
+  .hero-scroll{
+    position:absolute;bottom:36px;right:48px;z-index:2;
+    display:flex;align-items:center;gap:12px;
+    font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--ivory-dim);
+    opacity:0;animation:riseIn 1s ease 1.1s forwards;
+  }
+  .hero-scroll .line{width:1px;height:40px;background:var(--ivory-dim);position:relative;overflow:hidden;}
+  .hero-scroll .line::after{
+    content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--gold);
+    animation:scrollLine 2.2s ease-in-out infinite;
+  }
+  @keyframes scrollLine{ 0%{top:-100%;} 60%{top:100%;} 100%{top:100%;} }
+  @keyframes riseIn{ from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
+
+  @media (max-width:900px){
+    .hero-scroll{right:24px;}
+  }
+
   /* ---------- reveal ---------- */
   .reveal{opacity:0;transform:translateY(36px);transition:opacity 1s ease, transform 1s ease;}
   .reveal.in{opacity:1;transform:translateY(0);}
@@ -498,6 +517,10 @@
       <span class="eyebrow" style="animation:riseIn 1s ease .1s forwards;">Concorso pubblico</span>
       <h1 style="animation:riseIn 1.1s ease .2s forwards;">Entra a far parte del <em>Corpo</em></h1>
       <p>Le selezioni per diventare agente sono aperte tutto l'anno. Compila il modulo di candidatura ufficiale per iniziare il tuo percorso in uno dei nostri reparti.</p>
+    </div>
+    <div class="hero-scroll">
+      <span>Scorri</span>
+      <div class="line"></div>
     </div>
   </section>
 
