@@ -909,6 +909,23 @@
   }
   raf();
 
+  /* ---------- land on the right section when arriving cross-page with a #hash ----------
+     Il wrapper diventa position:fixed (is-smooth), quindi lo scroll-to-hash nativo del
+     browser non trova nulla da scorrere e la pagina resta in cima invece di raggiungere
+     la sezione. Se c'e' un hash nell'URL, calcoliamo noi la posizione del target e la
+     applichiamo sia allo scroll reale che al nostro sistema smooth. */
+  function snapToHash(){
+    if(location.hash.length <= 1) return;
+    const hashTarget = document.getElementById(location.hash.slice(1));
+    if(!hashTarget) return;
+    const targetY = hashTarget.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo(0, targetY);
+    smooth.target = targetY;
+    smooth.current = targetY;
+  }
+  snapToHash();
+  window.addEventListener('load', snapToHash);
+
   /* ---------- page transition overlay ---------- */
   const transitionOverlay = document.getElementById('pageTransition');
   function navigateWithTransition(url){
