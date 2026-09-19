@@ -29,7 +29,7 @@ I nomi validi sono su https://fonts.google.com/icons (usa i nomi canonici, non g
 **Dopo aver modificato `css/m3.css` o `js/site.js`**
 Firebase mette in cache CSS e JS per un'ora. Incrementa la versione nei link di tutte le pagine:
 
-    sed -i 's/m3.css?v=1/m3.css?v=2/; s/site.js?v=1/site.js?v=2/' *.html
+    sed -i 's/m3.css?v=2/m3.css?v=3/; s/site.js?v=2/site.js?v=3/' *.html   # esempio: da v=2 a v=3
 
 ## Componenti disponibili (classi)
 
@@ -38,7 +38,9 @@ Firebase mette in cache CSS e JS per un'ora. Incrementa la versione nei link di 
 - Liste: `.list` > `.list-item`.
 - Sezioni: `.section`, `.container`, `.section-head` (con `--split` per titolo e testo affiancati).
 - Contenuto affiancato: `.feature`, `.feature--reverse`, `.feature--panel`.
-- Banner di chiusura: `.banner`.
+- Chiusura di pagina: `.banner` (con foto, usato solo in home) e `.banner--compact` (senza foto, per le altre pagine).
+- Layout con titolo fisso a sinistra e contenuto a destra: `.split-layout`.
+- Scheda reparto: `.card--dept` (su mobile diventa compatta, con miniatura a fianco).
 - Tipografia: `.display-*`, `.headline-*`, `.title-*`, `.body-*`, `.label-*` (scala M3) e `.t-display` / `.t-headline` che crescono con la larghezza dello schermo.
 
 ## Firebase Hosting

@@ -262,7 +262,7 @@
         '</a>' +
         '<p class="body-medium">Sito ufficiale della Polizia di Stato — Italian Paradise RP. Progetto portfolio, contenuti a scopo dimostrativo per la community FiveM.</p>' +
         '</div>' +
-        '<div class="footer-col"><h2>Esplora</h2><ul>' +
+        '<div class="footer-col footer-col--nav"><h2>Esplora</h2><ul>' +
         explore +
         '</ul></div>' +
         '<div class="footer-col"><h2>Servizi</h2><ul>' +

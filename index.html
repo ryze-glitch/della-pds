@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=arrow_back,arrow_forward,assignment_ind,brightness_auto,check_circle,chevron_right,close,dark_mode,dashboard,event,forum,groups,handshake,home,how_to_reg,light_mode,local_police,logout,menu,menu_book,mic,military_tech,newspaper,open_in_new,person,schedule,school,search,shield,support_agent,swap_horiz,theater_comedy,trending_up,workspace_premium&display=block">
-<link rel="stylesheet" href="/css/m3.css?v=1">
-<script src="/js/site.js?v=1"></script>
+<link rel="stylesheet" href="/css/m3.css?v=2">
+<script src="/js/site.js?v=2"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Vai al contenuto</a>
@@ -36,22 +36,9 @@
   </div>
   </div>
 </section>
-<section class="section section--tight-top" id="reparti">
-  <div class="container">
-    <div class="feature">
-      <div class="feature__media"><img src="/assets/hero-slide-1.jpg" alt="Auto di pattuglia in servizio" loading="lazy"></div>
-      <div class="feature__text">
-        <span class="overline">Reparti Operativi</span>
-        <h2 class="t-headline">Squadre specializzate per ogni esigenza del territorio</h2>
-        <p class="body-large">Dal Reparto Volanti al Nucleo Operativo Speciale, ogni divisione risponde a una parte specifica della sicurezza cittadina, con procedure e catena di comando dedicate.</p>
-        <a class="btn btn--tonal btn--icon-end" href="/reparti">Scopri i reparti<span class="icon" aria-hidden="true">arrow_forward</span></a>
-      </div>
-    </div>
-  </div>
-</section>
 <section class="section section--tight-top" id="storia">
   <div class="container">
-    <div class="feature feature--reverse">
+    <div class="feature">
       <div class="feature__media"><img src="/assets/hero-slide-2.jpg" alt="Distintivo e uniforme della Polizia" loading="lazy"></div>
       <div class="feature__text">
         <span class="overline">La Questura</span>
@@ -62,20 +49,27 @@
     </div>
   </div>
 </section>
-<section class="section section--tight-top" aria-labelledby="repartiTitle">
+<section class="section section--tight-top" id="reparti" aria-labelledby="repartiTitle">
   <div class="container">
     <div class="section-head section-head--split">
-      <h2 class="t-headline" id="repartiTitle">I nostri reparti</h2>
-      <p class="body-large">Ogni divisione ha una missione precisa e un ruolo definito nella catena operativa della Questura.</p>
+      <span class="overline">Reparti Operativi</span>
+      <h2 class="t-headline" id="repartiTitle">Squadre specializzate per ogni esigenza del territorio</h2>
+      <p class="body-large">Dal Reparto Volanti al Nucleo Operativo Speciale, ogni divisione risponde a una parte specifica della sicurezza cittadina, con procedure e catena di comando dedicate.</p>
     </div>
   </div>
-  <div class="carousel">
+  <div class="carousel" role="group" aria-label="I nostri reparti">
     <a class="carousel__item" href="/reparti"><img src="/assets/hero-slide-1.jpg" alt="Pattuglia in servizio" loading="lazy"><span class="carousel__label">Reparto Volanti</span></a>
     <a class="carousel__item" href="/reparti"><img src="/assets/hero-slide-2.jpg" alt="Scena di un'indagine" loading="lazy"><span class="carousel__label">Squadra Investigativa</span></a>
     <a class="carousel__item" href="/reparti"><img src="/assets/hero-slide-1.jpg" alt="Intervento speciale notturno" loading="lazy"><span class="carousel__label">Nucleo Operativo Speciale</span></a>
     <a class="carousel__item" href="/reparti"><img src="/assets/hero-slide-2.jpg" alt="Controllo del traffico stradale" loading="lazy"><span class="carousel__label">Polizia Stradale</span></a>
   </div>
-  <div class="container" style="margin-top:8px"><a class="btn btn--text btn--icon-end btn--flush" href="/reparti">Vedi tutti i reparti<span class="icon" aria-hidden="true">arrow_forward</span></a></div>
+  <div class="container carousel-caption">
+    <div>
+      <h3 class="title-large">I nostri reparti</h3>
+      <p class="body-medium">Ogni divisione ha una missione precisa e un ruolo definito nella catena operativa della Questura.</p>
+    </div>
+    <a class="btn btn--tonal btn--icon-end" href="/reparti">Vedi tutti i reparti<span class="icon" aria-hidden="true">arrow_forward</span></a>
+  </div>
 </section>
 <section class="section section--tight-top">
   <div class="container">
