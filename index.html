@@ -8,34 +8,248 @@
 <link rel="icon" href="/favicon.ico?v=2">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=arrow_back,arrow_forward,assignment_ind,brightness_auto,check_circle,chevron_right,close,dark_mode,dashboard,event,forum,groups,handshake,home,how_to_reg,light_mode,local_police,logout,menu,menu_book,mic,military_tech,newspaper,open_in_new,person,schedule,school,search,shield,support_agent,swap_horiz,theater_comedy,trending_up,workspace_premium&display=block">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Flex:opsz,wght@8..144,300..800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=arrow_back,arrow_forward,assignment_ind,auto_awesome,brightness_auto,check_circle,chevron_right,close,dark_mode,dashboard,event,forum,groups,handshake,home,how_to_reg,light_mode,local_police,logout,menu,menu_book,mic,military_tech,newspaper,open_in_new,person,schedule,school,search,shield,support_agent,swap_horiz,theater_comedy,trending_up,workspace_premium&display=block">
 <link rel="stylesheet" href="/css/m3.css?v=2">
+<style>
+  :root {
+    --gemini-bg-mesh: radial-gradient(circle at 15% 10%, rgba(66, 133, 244, 0.12) 0%, transparent 40%),
+                      radial-gradient(circle at 85% 25%, rgba(168, 85, 247, 0.10) 0%, transparent 45%),
+                      radial-gradient(circle at 50% 80%, rgba(29, 78, 216, 0.08) 0%, transparent 50%);
+    --gemini-surface: rgba(255, 255, 255, 0.72);
+    --gemini-surface-hover: rgba(255, 255, 255, 0.92);
+    --gemini-border: rgba(140, 175, 255, 0.22);
+    --gemini-border-focus: rgba(66, 133, 244, 0.55);
+    --gemini-pill-radius: 9999px;
+    --gemini-card-radius: 28px;
+    --gemini-accent: #1a73e8;
+    --gemini-gradient: linear-gradient(135deg, #1a73e8 0%, #7c3aed 50%, #4285f4 100%);
+    --gemini-shadow: 0 12px 36px -8px rgba(26, 115, 232, 0.14), 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --gemini-bg-mesh: radial-gradient(circle at 15% 10%, rgba(66, 133, 244, 0.18) 0%, transparent 45%),
+                        radial-gradient(circle at 85% 20%, rgba(147, 51, 234, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 50% 70%, rgba(30, 64, 175, 0.15) 0%, transparent 50%);
+      --gemini-surface: rgba(20, 24, 33, 0.65);
+      --gemini-surface-hover: rgba(28, 34, 48, 0.85);
+      --gemini-border: rgba(255, 255, 255, 0.08);
+      --gemini-border-focus: rgba(147, 197, 253, 0.4);
+      --gemini-accent: #8ab4f8;
+      --gemini-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  body {
+    font-family: 'Roboto Flex', system-ui, sans-serif;
+    background-image: var(--gemini-bg-mesh);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  h1, h2, h3, .t-display, .t-headline {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    letter-spacing: -0.025em;
+  }
+
+  .gemini-gradient-text {
+    background: var(--gemini-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
+  /* Pill Buttons & Micro-actions */
+  .btn {
+    border-radius: var(--gemini-pill-radius) !important;
+    transition: all 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+    backdrop-filter: blur(8px);
+    font-weight: 600;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -4px rgba(26, 115, 232, 0.25);
+  }
+
+  .btn--filled {
+    background: var(--gemini-gradient) !important;
+    border: none !important;
+    color: #fff !important;
+  }
+
+  .btn--tonal {
+    background: var(--gemini-surface) !important;
+    border: 1px solid var(--gemini-border) !important;
+  }
+
+  /* Expressive Floating Card System */
+  .card, .banner, .feature, .hero {
+    border-radius: var(--gemini-card-radius) !important;
+    border: 1px solid var(--gemini-border) !important;
+    background: var(--gemini-surface) !important;
+    backdrop-filter: blur(16px) saturate(180%);
+    box-shadow: var(--gemini-shadow);
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+
+  .card:hover, .feature:hover {
+    transform: translateY(-4px);
+    background: var(--gemini-surface-hover) !important;
+    border-color: var(--gemini-border-focus) !important;
+  }
+
+  /* Gemini Spark Badge */
+  .hero__badge {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 8px;
+    background: rgba(66, 133, 244, 0.12) !important;
+    border: 1px solid var(--gemini-border) !important;
+    color: var(--gemini-accent) !important;
+    border-radius: var(--gemini-pill-radius) !important;
+    padding: 8px 18px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600;
+    backdrop-filter: blur(12px);
+  }
+
+  /* Gemini Action/Prompt Bar */
+  .prompt-shell {
+    max-width: 780px;
+    margin: -32px auto 48px auto;
+    position: relative;
+    z-index: 10;
+    padding: 0 16px;
+  }
+
+  .prompt-bar {
+    background: var(--gemini-surface);
+    border: 1px solid var(--gemini-border);
+    backdrop-filter: blur(20px);
+    border-radius: var(--gemini-pill-radius);
+    padding: 10px 14px 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--gemini-shadow);
+    gap: 12px;
+  }
+
+  .prompt-bar__input {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: inherit;
+    opacity: 0.8;
+    font-size: 0.95rem;
+    flex-grow: 1;
+    text-decoration: none;
+  }
+
+  .prompt-bar__tags {
+    display: flex;
+    gap: 8px;
+  }
+
+  .gemini-chip {
+    padding: 6px 14px;
+    border-radius: var(--gemini-pill-radius);
+    background: rgba(125, 125, 125, 0.08);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .gemini-chip:hover {
+    background: rgba(66, 133, 244, 0.18);
+    color: var(--gemini-accent);
+  }
+
+  /* Carousel Expressive Polish */
+  .carousel__item {
+    border-radius: 20px !important;
+    overflow: hidden;
+    border: 1px solid var(--gemini-border);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .carousel__item:hover {
+    transform: scale(1.02);
+    border-color: var(--gemini-accent);
+  }
+
+  .card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(66, 133, 244, 0.12);
+    color: var(--gemini-accent);
+    margin-bottom: 16px;
+  }
+</style>
 <script src="/js/site.js?v=2"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Vai al contenuto</a>
 <site-header data-active="home"></site-header>
 <noscript><nav class="noscript-nav" aria-label="Navigazione principale"><ul><li><a href="/home">Home</a></li><li><a href="/notizie">Notizie</a></li><li><a href="/chi-siamo">Chi Siamo</a></li><li><a href="/qualifiche">Qualifiche</a></li><li><a href="/prenota">Prenota</a></li><li><a href="/concorso">Concorso</a></li><li><a href="/login">Area Personale</a></li></ul></nav></noscript>
+
 <main id="main">
 <section class="hero hero--tall">
-  <div class="hero__media"><div class="hero__slide"><img src="/assets/hero-slide-1.jpg" alt="Questura Centrale di notte, volanti in sosta"></div><div class="hero__slide"><img src="/assets/hero-slide-2.jpg" alt="Questura Centrale di giorno, volanti schierate"></div></div>
+  <div class="hero__media">
+    <div class="hero__slide"><img src="/assets/hero-slide-1.jpg" alt="Questura Centrale di notte, volanti in sosta"></div>
+    <div class="hero__slide"><img src="/assets/hero-slide-2.jpg" alt="Questura Centrale di giorno, volanti schierate"></div>
+  </div>
   <div class="hero__content">
-    <span class="hero__badge">Polizia di Stato — Italian Paradise RP</span>
-    <h1 class="t-display">Al servizio della città, senza sosta</h1>
-      <div class="hero__actions"><a class="btn btn--filled btn--icon-end btn--lg" href="/concorso">Invia candidatura<span class="icon" aria-hidden="true">arrow_forward</span></a><a class="btn btn--tonal btn--lg" href="/reparti">Scopri i reparti</a></div>
+    <span class="hero__badge">
+      <span class="material-symbols-outlined" style="font-size:18px">auto_awesome</span>
+      Polizia di Stato — Italian Paradise RP
+    </span>
+    <h1 class="t-display">Al servizio della città, <span class="gemini-gradient-text">senza sosta</span></h1>
+    <div class="hero__actions">
+      <a class="btn btn--filled btn--icon-end btn--lg" href="/concorso">Invia candidatura<span class="icon" aria-hidden="true">arrow_forward</span></a>
+      <a class="btn btn--tonal btn--lg" href="/reparti">Scopri i reparti</a>
+    </div>
   </div>
 </section>
+
+<!-- Gemini Floating Interaction Shell -->
+<div class="prompt-shell" aria-label="Accesso rapido ai servizi">
+  <div class="prompt-bar">
+    <a href="/prenota" class="prompt-bar__input">
+      <span class="material-symbols-outlined" style="color:var(--gemini-accent)">search</span>
+      <span>Cosa desideri richiedere oggi alla Questura?</span>
+    </a>
+    <div class="prompt-bar__tags">
+      <a href="/prenota" class="gemini-chip"><span class="material-symbols-outlined" style="font-size:16px">event</span>Prenota URP</a>
+      <a href="/notizie" class="gemini-chip"><span class="material-symbols-outlined" style="font-size:16px">newspaper</span>Bollettini</a>
+    </div>
+  </div>
+</div>
+
 <section class="section">
   <div class="container">
     <div class="section-head section-head--split">
-    <span class="overline">Missione</span>
-    <h2 class="t-headline">Ordine, tutela e vicinanza al cittadino</h2>
-    <p class="body-large">La Questura Centrale coordina reparti specializzati che operano ogni giorno sul territorio: dal pattugliamento urbano alle indagini più complesse, ogni agente porta avanti lo stesso impegno verso la sicurezza pubblica.</p>
-  </div>
+      <span class="overline">Missione</span>
+      <h2 class="t-headline">Ordine, tutela e vicinanza al cittadino</h2>
+      <p class="body-large">La Questura Centrale coordina reparti specializzati che operano ogni giorno sul territorio: dal pattugliamento urbano alle indagini più complesse, ogni agente porta avanti lo stesso impegno verso la sicurezza pubblica.</p>
+    </div>
   </div>
 </section>
+
 <section class="section section--tight-top" id="storia">
   <div class="container">
     <div class="feature">
@@ -49,6 +263,7 @@
     </div>
   </div>
 </section>
+
 <section class="section section--tight-top" id="reparti" aria-labelledby="repartiTitle">
   <div class="container">
     <div class="section-head section-head--split">
@@ -71,12 +286,13 @@
     <a class="btn btn--tonal btn--icon-end" href="/reparti">Vedi tutti i reparti<span class="icon" aria-hidden="true">arrow_forward</span></a>
   </div>
 </section>
+
 <section class="section section--tight-top">
   <div class="container">
     <div class="section-head section-head--split">
-    <h2 class="t-headline">Una carriera, otto gradi</h2>
-    <p class="body-large">Dalla prima divisa alla guida della Questura: ogni grado riconosce esperienza, impegno e capacità di comando.</p>
-  </div>
+      <h2 class="t-headline">Una carriera, otto gradi</h2>
+      <p class="body-large">Dalla prima divisa alla guida della Questura: ogni grado riconosce esperienza, impegno e capacità di comando.</p>
+    </div>
     <div class="grid grid--3">
       <div class="card card--filled">
         <div class="card__body">
@@ -103,16 +319,17 @@
         </div>
       </div>
     </div>
-    <div style="margin-top:16px"><a class="btn btn--text btn--icon-end btn--flush" href="/qualifiche">Scopri tutti i gradi<span class="icon" aria-hidden="true">arrow_forward</span></a></div>
+    <div style="margin-top:24px"><a class="btn btn--text btn--icon-end btn--flush" href="/qualifiche">Scopri tutti i gradi<span class="icon" aria-hidden="true">arrow_forward</span></a></div>
   </div>
 </section>
+
 <section class="section section--tight-top">
   <div class="container">
     <div class="section-head section-head--split">
-    <span class="overline">Oltre il servizio</span>
-    <h2 class="t-headline">Resta in contatto con la Questura</h2>
-    <p class="body-large">Dalle ultime notizie ai servizi per il cittadino, tutto quello che ti serve è a un clic di distanza.</p>
-  </div>
+      <span class="overline">Oltre il servizio</span>
+      <h2 class="t-headline">Resta in contatto con la Questura</h2>
+      <p class="body-large">Dalle ultime notizie ai servizi per il cittadino, tutto quello che ti serve è a un clic di distanza.</p>
+    </div>
     <div class="grid grid--2">
       <article class="card card--filled card--large">
         <div class="card__media"><img src="/assets/hero-slide-1.jpg" alt="Veduta della città al tramonto" loading="lazy"></div>
@@ -135,6 +352,7 @@
     </div>
   </div>
 </section>
+
 <section class="section section--tight-top">
   <div class="container">
     <figure class="quote">
@@ -143,6 +361,7 @@
     </figure>
   </div>
 </section>
+
 <section class="section">
   <div class="container">
     <div class="banner" id="concorso">
@@ -157,6 +376,7 @@
   </div>
 </section>
 </main>
+
 <site-footer></site-footer>
 </body>
 </html>
