@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
         />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=IBM+Plex+Mono:wght@500&display=swap"
         />
       </head>
       <body>{children}</body>
