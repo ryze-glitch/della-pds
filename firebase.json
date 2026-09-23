@@ -23,7 +23,8 @@
       { "source": "/concorso", "destination": "/concorso.html" },
       { "source": "/qualifiche", "destination": "/qualifiche.html" },
       { "source": "/reparti", "destination": "/reparti.html" },
-      { "source": "/prenota", "destination": "/prenota.html" }
+      { "source": "/prenota", "destination": "/prenota.html" },
+      { "source": "**", "destination": "/index.html" }
     ],
     "headers": [
       {
