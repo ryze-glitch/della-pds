@@ -1,41 +1,40 @@
 export default function MaintenancePage() {
   return (
     <main className="maint">
-      <div className="maint-aurora" aria-hidden="true">
-        <span className="blob blob--a" />
-        <span className="blob blob--b" />
-        <span className="blob blob--c" />
-      </div>
+      <div className="maint-grid" aria-hidden="true" />
+      <div className="maint-noise" aria-hidden="true" />
 
-      <div className="maint-card">
-        <div className="maint-logo-wrap">
-          <span className="maint-logo-glow" aria-hidden="true" />
+      <div className="maint-frame">
+        <div className="maint-mark">
           <img
-            className="maint-logo"
+            className="maint-crest"
             src="/assets/iprp-xi-logo.png"
             alt="Stemma IPRP XI"
             width={672}
             height={717}
           />
+          <span className="maint-kicker">IPRP — Aggiornamento in corso</span>
         </div>
 
-        <p className="maint-eyebrow">
-          <span className="maint-dot" aria-hidden="true" />
-          Aggiornamento in corso
+        <h1 className="maint-headline">
+          La nuova versione
+          <br />
+          sta arrivando.
+        </h1>
+
+        <p className="maint-sub">
+          Il sito è offline per il rilascio di <strong>IPRP XI</strong>.
+          Torniamo online a breve.
         </p>
 
-        <h1 className="maint-title">IPRP XI</h1>
-
-        <p className="maint-body">
-          Stiamo lavorando al rilascio della nuova versione del sito.
-          Il ritorno online è previsto a breve: grazie per la pazienza.
-        </p>
-
-        <div className="maint-progress" role="img" aria-label="Lavori in corso">
-          <span className="maint-progress-bar" />
+        <div className="maint-rule" role="img" aria-label="Lavori in corso">
+          <span className="maint-rule-fill" />
         </div>
 
-        <p className="maint-footer">Polizia di Stato — Italian Paradise RP</p>
+        <div className="maint-foot">
+          <span>Polizia di Stato — Italian Paradise RP</span>
+          <span className="maint-tag">XI</span>
+        </div>
       </div>
     </main>
   );
