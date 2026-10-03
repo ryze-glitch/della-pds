@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { onAuthStateChanged, signInWithCustomToken, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signInWithCustomToken } from 'firebase/auth';
 import { Btn, Container } from '../../components/ui';
 import { auth, DISCORD_AUTH_WORKER_URL, DISCORD_CLIENT_ID } from '../../lib/firebase';
 
@@ -67,20 +67,18 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="flex min-h-[70vh] items-center justify-center py-16">
+    <section className="grain flex min-h-[80vh] items-center justify-center border-b border-line py-20">
       <Container className="max-w-md text-center">
-        <div className="mx-auto mb-6 w-16">
-          <img src="/assets/crest-md.png" width="60" height="95" alt="Stemma Polizia di Stato" className="mx-auto" />
-        </div>
-        <span className="font-mono text-xs uppercase tracking-[0.1em] text-primary">Accesso Riservato</span>
-        <h1 className="mt-3 font-display text-3xl font-semibold">Area Personale</h1>
-        <p className="mt-3 text-ink-dim">
+        <img src="/assets/crest-md.png" width="52" height="82" alt="Stemma Polizia di Stato" className="mx-auto opacity-90" />
+        <span className="mt-8 block font-mono text-xs font-medium uppercase tracking-[0.14em] text-primary">Accesso Riservato</span>
+        <h1 className="mt-4 font-display text-4xl font-semibold">Area Personale</h1>
+        <p className="mt-4 text-ink-dim">
           Accedi con il tuo account per consultare il tuo profilo, i turni assegnati e le comunicazioni di reparto.
         </p>
 
         {!checking ? (
-          <div className="mt-8">
-            <Btn as="button" type="button" variant="tonal" lg onClick={handleDiscordLogin} className="w-full">
+          <div className="mt-10">
+            <Btn as="button" type="button" variant="outlined" lg onClick={handleDiscordLogin} className="w-full">
               <svg width="18" height="18" viewBox="0 0 24 18" fill="none" aria-hidden="true">
                 <path
                   fill="#5865F2"
@@ -93,14 +91,14 @@ export default function LoginPage() {
               <p
                 role="status"
                 aria-live="polite"
-                className={`mt-4 text-sm ${status.type === 'error' ? 'text-on-danger' : status.type === 'success' ? 'text-on-success' : 'text-ink-dim'}`}
+                className={`mt-5 text-sm ${status.type === 'error' ? 'text-danger' : status.type === 'success' ? 'text-success' : 'text-ink-dim'}`}
               >
                 {status.msg}
               </p>
             ) : null}
           </div>
         ) : (
-          <p className="mt-8 text-sm text-ink-dim">Verifica dell&apos;accesso…</p>
+          <p className="mt-10 font-mono text-xs uppercase tracking-wide text-ink-dim">Verifica dell&apos;accesso…</p>
         )}
       </Container>
     </section>

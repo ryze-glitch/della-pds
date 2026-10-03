@@ -199,15 +199,15 @@ export default function CandidaturePage() {
   }, [candidates, query]);
 
   return (
-    <Container className="py-10">
-      <section className="flex flex-col gap-6 rounded-3xl bg-surface-alt p-6 sm:flex-row sm:items-center">
-        <div className="flex h-16 w-16 flex-none items-center justify-center rounded-full bg-primary-soft text-on-primary-soft">
+    <Container className="py-14">
+      <section className="flex flex-col gap-6 border border-line p-7 sm:flex-row sm:items-center">
+        <div className="flex h-16 w-16 flex-none items-center justify-center border border-primary/40 text-primary">
           <Icon name="assignment_ind" />
         </div>
         <div className="flex-1">
-          <span className="font-mono text-xs uppercase tracking-[0.1em] text-primary">Area Personale</span>
+          <span className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-primary">Area Personale</span>
           <h1 className="mt-1 font-display text-2xl font-semibold">Gestione Candidature</h1>
-          <Chip className="mt-2" role="status">
+          <Chip className="mt-3" role="status">
             {loaded ? `${candidates.length} ${candidates.length === 1 ? 'candidatura' : 'candidature'}` : 'Caricamento...'}
           </Chip>
         </div>
@@ -221,9 +221,9 @@ export default function CandidaturePage() {
         </div>
       </section>
 
-      <section className="mt-8">
-        <label className="flex items-center gap-2 rounded-full border border-line px-4 py-2">
-          <Icon name="search" />
+      <section className="mt-10">
+        <label className="flex items-center gap-3 border border-line px-4 py-3">
+          <Icon name="search" className="text-ink-dim" />
           <span className="sr-only">Cerca una candidatura</span>
           <input
             type="text"
@@ -236,7 +236,7 @@ export default function CandidaturePage() {
         </label>
 
         {!loaded ? (
-          <div className={`mt-6 text-sm ${status.error ? 'text-on-danger' : 'text-ink-dim'}`} role="status">
+          <div className={`mt-6 text-sm ${status.error ? 'text-danger' : 'text-ink-dim'}`} role="status">
             {status.msg}
           </div>
         ) : filtered.length === 0 ? (
