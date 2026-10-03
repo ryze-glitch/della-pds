@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Btn, Chip, Container } from '../../components/ui';
+import { Btn, Chip, Container, Eyebrow } from '../../components/ui';
 import { Icon } from '../../components/icons';
 import { useAgentProfile } from '../../components/useAgentProfile';
 
@@ -31,35 +31,35 @@ export default function DashboardPage() {
   const initials = profile ? ((profile.nome || '')[0] || '' + (profile.cognome || '')[0] || '').toUpperCase() || '?' : '';
 
   return (
-    <Container className="py-10">
-      <section className={`flex flex-col gap-6 rounded-3xl bg-surface-alt p-6 sm:flex-row sm:items-center ${loading ? 'opacity-60' : ''}`}>
-        <div className="flex h-16 w-16 flex-none items-center justify-center rounded-full bg-primary-soft font-display text-xl font-semibold text-on-primary-soft">
+    <Container className="py-14">
+      <section className={`flex flex-col gap-6 border border-line p-7 sm:flex-row sm:items-center ${loading ? 'opacity-60' : ''}`}>
+        <div className="flex h-16 w-16 flex-none items-center justify-center border border-primary/40 font-display text-xl font-semibold text-primary">
           {initials}
         </div>
         <div className="flex-1">
-          <span className="font-mono text-xs uppercase tracking-[0.1em] text-primary">Area Personale</span>
+          <Eyebrow>Area Personale</Eyebrow>
           <h1 className="mt-1 font-display text-2xl font-semibold">{nome}</h1>
-          {profile ? <Chip className="mt-2">{profile.grado || 'Agente'}</Chip> : null}
+          {profile ? <Chip className="mt-3">{profile.grado || 'Agente'}</Chip> : null}
         </div>
         <Btn as="button" type="button" variant="outlined" iconStart="logout" onClick={logout}>
           Esci dall&apos;account
         </Btn>
       </section>
 
-      <div className="mt-10 grid gap-8 lg:grid-cols-[1.6fr_1fr]">
-        <div className="space-y-8">
+      <div className="mt-12 grid gap-12 lg:grid-cols-[1.6fr_1fr]">
+        <div className="space-y-12">
           <section>
-            <span className="font-mono text-xs uppercase tracking-[0.1em] text-primary">Prossimi Turni</span>
-            <h2 className="mt-1 font-display text-xl font-semibold">I tuoi turni di servizio</h2>
-            <ul className="mt-4 space-y-3">
+            <Eyebrow>Prossimi Turni</Eyebrow>
+            <h2 className="mt-2 font-display text-xl font-semibold">I tuoi turni di servizio</h2>
+            <ul className="mt-5 divide-y divide-line border-y border-line">
               {TURNI.map(([day, desc, state]) => (
-                <li key={day} className="flex items-center justify-between gap-4 rounded-2xl bg-surface-alt p-4">
+                <li key={day} className="flex items-center justify-between gap-4 py-4">
                   <div>
                     <div className="font-semibold">{day}</div>
                     <div className="text-sm text-ink-dim">{desc}</div>
                   </div>
                   <Chip tone={state === 'confermato' ? 'success' : 'pending'}>
-                    <Icon name={state === 'confermato' ? 'check_circle' : 'schedule'} className="text-base" />
+                    <Icon name={state === 'confermato' ? 'check_circle' : 'schedule'} className="text-sm" />
                     {state === 'confermato' ? 'Confermato' : 'Da confermare'}
                   </Chip>
                 </li>
@@ -68,12 +68,12 @@ export default function DashboardPage() {
           </section>
 
           <section>
-            <span className="font-mono text-xs uppercase tracking-[0.1em] text-primary">Bacheca</span>
-            <h2 className="mt-1 font-display text-xl font-semibold">Comunicazioni di reparto</h2>
-            <ul className="mt-4 space-y-3">
+            <Eyebrow>Bacheca</Eyebrow>
+            <h2 className="mt-2 font-display text-xl font-semibold">Comunicazioni di reparto</h2>
+            <ul className="mt-5 divide-y divide-line border-y border-line">
               {BACHECA.map(([tag, date, title, text]) => (
-                <li key={title} className="rounded-2xl bg-surface-alt p-4">
-                  <div className="flex items-center gap-2 text-xs text-ink-dim">
+                <li key={title} className="py-5">
+                  <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wide text-ink-dim">
                     <Chip>{tag}</Chip>
                     <span>{date}</span>
                   </div>
@@ -86,14 +86,14 @@ export default function DashboardPage() {
         </div>
 
         <section>
-          <span className="font-mono text-xs uppercase tracking-[0.1em] text-primary">Accesso Rapido</span>
-          <h2 className="mt-1 font-display text-xl font-semibold">Strumenti</h2>
-          <div className="mt-4 space-y-2">
+          <Eyebrow>Accesso Rapido</Eyebrow>
+          <h2 className="mt-2 font-display text-xl font-semibold">Strumenti</h2>
+          <div className="mt-5 divide-y divide-line border-y border-line">
             {QUICK_LINKS.map(([icon, label, title, href]) => (
-              <Link key={title} href={href} className="flex items-center gap-3 rounded-2xl bg-surface-alt p-4 hover:bg-surface-strong">
+              <Link key={title} href={href} className="flex items-center gap-3 py-4 hover:text-primary">
                 <Icon name={icon} />
                 <span className="flex-1">
-                  <span className="block text-xs text-ink-dim">{label}</span>
+                  <span className="block font-mono text-[11px] uppercase tracking-wide text-ink-dim">{label}</span>
                   <span className="block font-medium">{title}</span>
                 </span>
                 <Icon name="chevron_right" />

@@ -27,9 +27,9 @@ function isAffermativo(v) {
 
 function Field({ label, value }) {
   return (
-    <div className="border-b border-line py-2 last:border-0">
-      <div className="text-xs uppercase tracking-wide text-ink-dim">{label}</div>
-      <div className="mt-0.5 text-sm">{value || '—'}</div>
+    <div className="border-b border-line py-3 last:border-0">
+      <div className="font-mono text-[11px] uppercase tracking-wide text-ink-dim">{label}</div>
+      <div className="mt-1 text-sm">{value || '—'}</div>
     </div>
   );
 }
@@ -37,14 +37,14 @@ function Field({ label, value }) {
 function QuizField({ label, value, correct }) {
   const ok = normalizeAnswer(value) === normalizeAnswer(correct);
   return (
-    <div className="border-b border-line py-2 last:border-0">
-      <div className="flex items-center gap-2 text-xs uppercase tracking-wide text-ink-dim">
+    <div className="border-b border-line py-3 last:border-0">
+      <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wide text-ink-dim">
         <span>{label}</span>
-        <span className={`rounded-full px-2 py-0.5 font-mono text-[11px] ${ok ? 'bg-success text-on-success' : 'bg-danger text-on-danger'}`}>
+        <span className={`border px-1.5 py-0.5 text-[10px] ${ok ? 'border-success/50 text-success' : 'border-danger/50 text-danger'}`}>
           {ok ? '5/5' : '0/5'}
         </span>
       </div>
-      <div className="mt-0.5 text-sm">{value || '—'}</div>
+      <div className="mt-1 text-sm">{value || '—'}</div>
     </div>
   );
 }
@@ -55,16 +55,15 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
   const locked = !!(review && currentAgent && review.decisoDa?.discordId !== currentAgent.discordId);
   const etaPulita = (c.eta || '').replace(/\s*anni?\s*$/i, '');
 
-  const borderColor =
-    review?.stato === 'approvato' ? 'border-l-4 border-l-[var(--on-success)]' : review?.stato === 'rifiutato' ? 'border-l-4 border-l-[var(--on-danger)]' : '';
+  const sideColor = review?.stato === 'approvato' ? 'border-l-success' : review?.stato === 'rifiutato' ? 'border-l-danger' : 'border-l-transparent';
 
   return (
-    <div className={`rounded-2xl bg-surface-alt ${borderColor}`}>
-      <button type="button" onClick={() => setOpen((o) => !o)} className="flex w-full flex-wrap items-center gap-3 p-4 text-left">
-        {review?.stato === 'approvato' ? <Icon name="check_circle" className="text-[var(--on-success)]" /> : null}
-        {review?.stato === 'rifiutato' ? <Icon name="close" className="text-[var(--on-danger)]" /> : null}
+    <div className={`border border-line border-l-[3px] ${sideColor}`}>
+      <button type="button" onClick={() => setOpen((o) => !o)} className="flex w-full flex-wrap items-center gap-3 p-5 text-left">
+        {review?.stato === 'approvato' ? <Icon name="check_circle" className="text-success" /> : null}
+        {review?.stato === 'rifiutato' ? <Icon name="close" className="text-danger" /> : null}
         <span className="font-semibold">{c.nome || 'Sconosciuto'}</span>
-        <span className="flex flex-wrap gap-3 text-xs text-ink-dim">
+        <span className="flex flex-wrap gap-3 font-mono text-[11px] uppercase tracking-wide text-ink-dim">
           <span>{c.dataInvio}</span>
           {etaPulita ? <span>{etaPulita} anni</span> : null}
           <span>{c.titolo}</span>
@@ -80,7 +79,7 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
       </button>
 
       {open ? (
-        <div className="border-t border-line p-4">
+        <div className="border-t border-line p-5">
           <Field label="Email" value={c.email} />
           <Field label="Data di nascita" value={c.dataNascita} />
           {c.extra.map(([label, value]) => {
@@ -92,13 +91,13 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
             );
           })}
 
-          <div className="mt-4 flex flex-wrap items-center gap-3">
+          <div className="mt-5 flex flex-wrap items-center gap-4">
             <button
               type="button"
               disabled={locked}
               onClick={() => onDecide(c, 'approvato')}
-              className={`rounded-full px-4 py-2 text-sm font-medium disabled:opacity-40 ${
-                review?.stato === 'approvato' ? 'bg-success text-on-success' : 'border border-line hover:bg-surface-strong'
+              className={`border px-4 py-2 font-mono text-xs uppercase tracking-[0.08em] disabled:opacity-40 ${
+                review?.stato === 'approvato' ? 'border-success text-success' : 'border-line-strong hover:border-success hover:text-success'
               }`}
             >
               Approva
@@ -107,8 +106,8 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
               type="button"
               disabled={locked}
               onClick={() => onDecide(c, 'rifiutato')}
-              className={`rounded-full px-4 py-2 text-sm font-medium disabled:opacity-40 ${
-                review?.stato === 'rifiutato' ? 'bg-danger text-on-danger' : 'border border-line hover:bg-surface-strong'
+              className={`border px-4 py-2 font-mono text-xs uppercase tracking-[0.08em] disabled:opacity-40 ${
+                review?.stato === 'rifiutato' ? 'border-danger text-danger' : 'border-line-strong hover:border-danger hover:text-danger'
               }`}
             >
               Rifiuta
@@ -121,7 +120,7 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
                   (review.decisoIl ? ` il ${new Date(review.decisoIl).toLocaleString('it-IT')}` : '')}
             </span>
             {locked ? (
-              <span className="text-sm text-on-danger">
+              <span className="text-sm text-danger">
                 Decisione bloccata: solo {review.decisoDa?.nome} {review.decisoDa?.cognome} può modificarla.
               </span>
             ) : null}

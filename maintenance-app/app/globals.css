@@ -2,68 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Tema: chiaro di default, scuro via [data-theme="dark"], automatico
-   (nessun attributo) che segue prefers-color-scheme. Stessa logica di
-   prima, solo come variabili CSS invece di token M3 completi. */
+/* Editoriale, scuro di base — stessa identità della pagina di
+   manutenzione (nero caldo, crema, oro), estesa a tutto il sito.
+   Il tema chiaro è una variante "carta", non il Material pastello di
+   prima. data-theme assente = segue il sistema (vedi media query). */
 :root,
-:root[data-theme='light'] {
-  color-scheme: light;
-  --bg: #fff8f2;
-  --surface: #fff8f2;
-  --surface-alt: #f7ecdf;
-  --surface-strong: #f1e7d9;
-  --ink: #1f1b13;
-  --ink-dim: #6b5d3f;
-  --line: #e4d9c7;
-  --primary: #785a0b;
-  --on-primary: #ffffff;
-  --primary-soft: #ffdf9e;
-  --on-primary-soft: #5b4300;
-  --success: #e8f3e6;
-  --on-success: #2f5d31;
-  --danger: #fde3e0;
-  --on-danger: #93000a;
-}
-
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: #17130b;
-  --surface: #17130b;
-  --surface-alt: #231f17;
-  --surface-strong: #2e2921;
-  --ink: #ebe1d4;
-  --ink-dim: #d0c5b4;
-  --line: #3a352b;
-  --primary: #e9c16c;
-  --on-primary: #402d00;
-  --primary-soft: #5b4300;
-  --on-primary-soft: #ffdf9e;
-  --success: #203821;
-  --on-success: #b0cfa9;
-  --danger: #4c1313;
-  --on-danger: #ffb4ab;
+  --bg: #0b0a08;
+  --surface: #121109;
+  --surface-alt: #17150e;
+  --surface-strong: #201d13;
+  --ink: #f4efe3;
+  --ink-dim: #9c9587;
+  --line: rgba(244, 239, 227, 0.12);
+  --line-strong: rgba(244, 239, 227, 0.22);
+  --primary: #c9a24b;
+  --on-primary: #16130b;
+  --primary-soft: rgba(201, 162, 75, 0.14);
+  --on-primary-soft: #e9c87a;
+  --success: #7cc576;
+  --on-success: #16130b;
+  --danger: #e0574a;
+  --on-danger: #16130b;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']):not([data-theme='dark']) {
-    color-scheme: dark;
-    --bg: #17130b;
-    --surface: #17130b;
-    --surface-alt: #231f17;
-    --surface-strong: #2e2921;
-    --ink: #ebe1d4;
-    --ink-dim: #d0c5b4;
-    --line: #3a352b;
-    --primary: #e9c16c;
-    --on-primary: #402d00;
-    --primary-soft: #5b4300;
-    --on-primary-soft: #ffdf9e;
-    --success: #203821;
-    --on-success: #b0cfa9;
-    --danger: #4c1313;
-    --on-danger: #ffb4ab;
-  }
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f7f2e7;
+  --surface: #fffdf8;
+  --surface-alt: #efe7d6;
+  --surface-strong: #e5dac3;
+  --ink: #17140d;
+  --ink-dim: #6b6252;
+  --line: rgba(23, 20, 13, 0.12);
+  --line-strong: rgba(23, 20, 13, 0.24);
+  --primary: #8a6a1f;
+  --on-primary: #fffdf8;
+  --primary-soft: rgba(138, 106, 31, 0.1);
+  --on-primary-soft: #6b5219;
+  --success: #2f6d2b;
+  --on-success: #fffdf8;
+  --danger: #a23527;
+  --on-danger: #fffdf8;
 }
+
+/* Niente auto-switch sul prefers-color-scheme: lo scuro è l'identità
+   di default del brand, indipendentemente dal sistema. Il chiaro
+   resta disponibile solo scegliendolo esplicitamente dal toggle. */
 
 * {
   box-sizing: border-box;
@@ -82,6 +68,29 @@ body {
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Grana sottile sugli sfondi scuri, coerente con la pagina di
+   manutenzione: aggiunge texture senza inquinare il contrasto. */
+.grain {
+  position: relative;
+  isolation: isolate;
+}
+.grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+.hairline-grid {
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 64px 64px;
 }
 
 @keyframes ripple-anim {
