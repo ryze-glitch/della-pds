@@ -1,123 +1,149 @@
 import Link from 'next/link';
 import { Icon } from './icons';
 
-export function Container({ children, className = '' }) {
-  return <div className={`mx-auto w-full max-w-wide px-5 md:px-10 ${className}`}>{children}</div>;
+export function Cross({ className = '' }) {
+  return (
+    <span aria-hidden="true" className={`pointer-events-none absolute z-10 h-3 w-3 ${className}`}>
+      <span className="absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-muted" />
+      <span className="absolute left-0 top-1/2 h-px w-3 -translate-y-1/2 bg-muted" />
+    </span>
+  );
 }
 
-export function Label({ children, n, className = '' }) {
+export function Section({ children, className = '', id, first = false }) {
   return (
-    <span className={`mono inline-flex items-center gap-3 text-xs font-medium ${className}`}>
-      {n ? <span className="text-accent">({n})</span> : null}
+    <section id={id} className={`relative ${first ? '' : 'border-t border-line'} ${className}`}>
+      {first ? null : (
+        <>
+          <Cross className="-left-1.5 -top-1.5" />
+          <Cross className="-right-1.5 -top-1.5" />
+        </>
+      )}
+      {children}
+    </section>
+  );
+}
+
+export function Inner({ children, className = '' }) {
+  return <div className={`px-5 py-16 md:px-12 md:py-24 ${className}`}>{children}</div>;
+}
+
+export function Badge({ children, className = '' }) {
+  return (
+    <span className={`inline-flex items-center gap-2 rounded-full border border-line2 bg-bg px-3 py-1 text-xs font-medium text-muted ${className}`}>
       {children}
     </span>
   );
 }
 
+export function Mono({ children, className = '' }) {
+  return <span className={`font-mono text-xs uppercase tracking-wide text-muted ${className}`}>{children}</span>;
+}
+
 const base =
-  'group inline-flex items-center justify-center gap-3 border-2 font-extrabold uppercase tracking-wide transition-colors select-none whitespace-nowrap';
-const sizes = { md: 'px-6 py-3.5 text-sm', lg: 'px-8 py-5 text-base' };
+  'inline-flex items-center justify-center gap-2 rounded-md border text-sm font-medium transition-colors select-none whitespace-nowrap';
+const sizes = { md: 'h-10 px-4', lg: 'h-12 px-6 text-base', sm: 'h-8 px-3' };
 const variants = {
-  ink: 'border-ink bg-ink text-paper hover:border-accent hover:bg-accent',
-  accent: 'border-accent bg-accent text-white hover:border-ink hover:bg-ink',
-  outline: 'border-ink text-ink hover:bg-ink hover:text-paper',
-  paper: 'border-paper bg-paper text-ink hover:border-ink hover:bg-ink hover:text-paper',
-  'outline-paper': 'border-paper text-paper hover:bg-paper hover:text-ink',
+  primary: 'border-fg bg-fg text-bg hover:opacity-85',
+  secondary: 'border-line2 bg-bg text-fg hover:bg-bg2',
+  ghost: 'border-transparent text-muted hover:text-fg',
 };
 
-export function Btn({ as: As = 'a', variant = 'ink', size = 'md', icon, className = '', children, ...props }) {
+export function Btn({ as: As = 'a', variant = 'primary', size = 'md', icon, className = '', children, ...props }) {
   return (
     <As className={`${base} ${sizes[size]} ${variants[variant]} ${className}`} {...props}>
       {children}
-      {icon ? <Icon name={icon} size={size === 'lg' ? 22 : 18} strokeWidth={2.5} /> : null}
+      {icon ? <Icon name={icon} size={16} /> : null}
     </As>
   );
 }
 
-export function SectionTitle({ n, label, title, children, className = '' }) {
+export function SectionHead({ badge, title, text, center = false, children }) {
   return (
-    <div className={`border-t-2 border-ink pt-5 ${className}`}>
-      <div className="flex items-center justify-between">
-        <Label n={n}>{label}</Label>
-      </div>
-      {title ? <h2 className="display mt-8 text-[clamp(2.4rem,7vw,7rem)]">{title}</h2> : null}
+    <div className={center ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl'}>
+      {badge ? <Badge>{badge}</Badge> : null}
+      <h2 className="h-section mt-4 text-3xl md:text-5xl">{title}</h2>
+      {text ? <p className="mt-4 text-lg leading-relaxed text-muted">{text}</p> : null}
       {children}
     </div>
   );
 }
 
-export function PageHero({ label, title, text, img, pos = 'center', children }) {
+export function Cells({ children, cols = 'md:grid-cols-3', className = '' }) {
   return (
-    <section className="border-b-2 border-ink">
-      <Container className="pb-12 pt-12 md:pb-16 md:pt-20">
-        <Label>{label}</Label>
-        <h1 className="display mt-6 text-[clamp(3rem,10.5vw,10.5rem)]">{title}</h1>
-        {text ? <p className="mt-8 max-w-3xl text-xl font-medium leading-snug md:text-2xl">{text}</p> : null}
-        {children}
-      </Container>
-      {img ? (
-        <div className="border-t-2 border-ink">
-          <img src={img} alt="" className="h-[34vh] w-full object-cover md:h-[46vh]" style={{ objectPosition: pos }} />
-        </div>
-      ) : null}
-    </section>
-  );
-}
-
-export function Marquee({ items, className = '' }) {
-  const row = items.map((t) => (
-    <span key={t} className="mono flex items-center gap-8 px-4 text-sm font-bold md:text-base">
-      {t} <span aria-hidden="true">✱</span>
-    </span>
-  ));
-  return (
-    <div className={`overflow-hidden border-y-2 border-ink py-4 ${className}`} aria-hidden="true">
-      <div className="marquee-track">
-        <div className="flex">{row}</div>
-        <div className="flex">{row}</div>
-      </div>
+    <div className={`overflow-hidden ${className}`}>
+      <div className={`-mb-px -mr-px grid ${cols}`}>{children}</div>
     </div>
   );
 }
 
-export function DeptRows({ depts, href = '/reparti', cta }) {
+export function Cell({ children, className = '' }) {
+  return <div className={`border-b border-r border-line ${className}`}>{children}</div>;
+}
+
+export function PageHero({ badge, title, text, children }) {
   return (
-    <ul className="border-t-2 border-ink">
-      {depts.map((d, i) => (
-        <li key={d.name} className="border-b-2 border-ink">
-          <Link
-            href={href}
-            className="group grid grid-cols-[auto_1fr] items-start gap-x-5 gap-y-3 px-1 py-7 transition-colors hover:bg-ink hover:text-paper md:grid-cols-[5rem_1.3fr_1fr_9rem] md:items-center md:px-5 md:py-9"
-          >
-            <span className="mono text-sm font-bold text-accent group-hover:text-paper">0{i + 1}</span>
-            <span>
-              <span className="display block text-[clamp(2rem,5vw,4.5rem)]">{d.name}</span>
-              <span className="mono mt-3 block text-xs text-mute group-hover:text-paper/70">{d.tag}</span>
-            </span>
-            <span className="col-span-2 max-w-md text-base leading-snug text-mute group-hover:text-paper/80 md:col-span-1">{d.text}</span>
-            <span className="hidden items-center justify-end gap-4 md:flex">
-              <img src={d.img} alt="" className="h-16 w-28 object-cover opacity-0 transition-opacity group-hover:opacity-100" style={{ objectPosition: d.pos }} />
-              <Icon name="arrow-up-right" size={28} strokeWidth={2.5} />
-            </span>
-          </Link>
-        </li>
-      ))}
-      {cta}
-    </ul>
+    <section className="relative overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="bg-grid absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent_85%)]"
+      />
+      <div className="relative px-5 pb-16 pt-16 text-center md:px-12 md:pb-24 md:pt-28">
+        {badge ? <Badge>{badge}</Badge> : null}
+        <h1 className="h-display mx-auto mt-6 max-w-4xl text-4xl sm:text-5xl md:text-7xl">{title}</h1>
+        {text ? <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">{text}</p> : null}
+        {children}
+      </div>
+    </section>
   );
 }
 
-export function CtaBand({ label, title, text, action }) {
+export function DeptCards({ depts, href = '/reparti', cols = 'md:grid-cols-2 lg:grid-cols-3' }) {
   return (
-    <section className="border-y-2 border-ink bg-accent text-white">
-      <Container className="py-16 md:py-24">
-        <Label className="text-white/80">{label}</Label>
-        <h2 className="display mt-6 text-[clamp(3rem,10vw,10rem)]">{title}</h2>
-        <div className="mt-10 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-          {text ? <p className="max-w-xl text-xl font-medium leading-snug">{text}</p> : <span />}
-          {action}
+    <Cells cols={cols}>
+      {depts.map((d, i) => (
+        <Cell key={d.name}>
+          <Link href={href} className="group block h-full transition-colors hover:bg-bg2">
+            <div className="overflow-hidden">
+              <img
+                src={d.img}
+                alt={d.name}
+                className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                style={{ objectPosition: d.pos }}
+              />
+            </div>
+            <div className="p-6">
+              <div className="flex items-center justify-between">
+                <Mono>{d.tag}</Mono>
+                <Mono>{String(i + 1).padStart(2, '0')}</Mono>
+              </div>
+              <h3 className="mt-3 text-xl font-semibold tracking-tight">{d.name}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-muted">{d.text}</p>
+              <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
+                Scopri <Icon name="arrow-right" size={14} className="transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </div>
+          </Link>
+        </Cell>
+      ))}
+    </Cells>
+  );
+}
+
+export function CtaBox({ title, text, action }) {
+  return (
+    <Section>
+      <div className="relative overflow-hidden px-5 py-20 text-center md:px-12 md:py-28">
+        <div
+          aria-hidden="true"
+          className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]"
+        />
+        <div className="relative">
+          <h2 className="h-section mx-auto max-w-3xl text-3xl md:text-5xl">{title}</h2>
+          {text ? <p className="mx-auto mt-4 max-w-xl text-lg text-muted">{text}</p> : null}
+          <div className="mt-8 flex justify-center">{action}</div>
         </div>
-      </Container>
-    </section>
+      </div>
+    </Section>
   );
 }

@@ -1,25 +1,28 @@
 import Link from 'next/link';
 import { NAV } from './nav';
-import { Container } from './ui';
+import { ThemeSwitch } from './ThemeSwitch';
 
 export function Footer() {
   return (
-    <footer className="bg-ink text-paper">
-      <Container className="pb-8 pt-16 md:pt-24">
-        <div className="display text-[clamp(3rem,11.5vw,12rem)]">
-          Polizia di Stato<span className="text-accent">.</span>
-        </div>
-        <div className="mt-14 grid gap-10 border-t-2 border-paper pt-8 sm:grid-cols-2 lg:grid-cols-4">
-          <p className="max-w-sm text-sm leading-relaxed text-paper/70">
-            Sito ufficiale della Polizia di Stato — Italian Paradise RP. Progetto portfolio, contenuti a scopo
-            dimostrativo per la community FiveM.
-          </p>
+    <footer className="border-t border-line">
+      <div className="mx-auto max-w-[1200px] px-5 py-14 md:px-12">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
           <div>
-            <h2 className="mono mb-4 text-xs text-paper/50">Esplora</h2>
-            <ul className="space-y-2 text-lg font-bold">
+            <Link href="/" className="flex items-center gap-2.5">
+              <img src="/assets/crest-sm.png" width="26" height="40" alt="" loading="lazy" className="h-8 w-auto" />
+              <span className="font-semibold tracking-tight">Polizia di Stato</span>
+            </Link>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">
+              Sito ufficiale della Polizia di Stato — Italian Paradise RP. Progetto portfolio, contenuti a scopo
+              dimostrativo per la community FiveM.
+            </p>
+          </div>
+          <div>
+            <h2 className="mb-4 text-sm font-medium">Esplora</h2>
+            <ul className="space-y-3 text-sm text-muted">
               {NAV.map((n) => (
                 <li key={n.href}>
-                  <Link href={n.href} className="hover:text-accent">
+                  <Link href={n.href} className="hover:text-fg">
                     {n.label}
                   </Link>
                 </li>
@@ -27,46 +30,46 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h2 className="mono mb-4 text-xs text-paper/50">Servizi</h2>
-            <ul className="space-y-2 text-lg font-bold">
+            <h2 className="mb-4 text-sm font-medium">Servizi</h2>
+            <ul className="space-y-3 text-sm text-muted">
               <li>
-                <Link href="/prenota" className="hover:text-accent">
+                <Link href="/prenota" className="hover:text-fg">
                   Prenotazioni
                 </Link>
               </li>
               <li>
-                <Link href="/prenota" className="hover:text-accent">
+                <Link href="/prenota" className="hover:text-fg">
                   URP
                 </Link>
               </li>
               <li>
-                <Link href="/prenota" className="hover:text-accent">
+                <Link href="/prenota" className="hover:text-fg">
                   Porto d&apos;armi
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h2 className="mono mb-4 text-xs text-paper/50">Community</h2>
-            <ul className="space-y-2 text-lg font-bold">
+            <h2 className="mb-4 text-sm font-medium">Community</h2>
+            <ul className="space-y-3 text-sm text-muted">
               <li>
-                <a href="#" className="hover:text-accent">
+                <a href="#" className="hover:text-fg">
                   Discord IPRP
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-accent">
+                <a href="#" className="hover:text-fg">
                   Regolamento
                 </a>
               </li>
             </ul>
           </div>
         </div>
-        <div className="mono mt-14 flex flex-col gap-2 border-t border-paper/30 pt-5 text-[11px] text-paper/50 sm:flex-row sm:justify-between">
+        <div className="mt-12 flex flex-col gap-4 border-t border-line pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <span>© 2026 Polizia di Stato — Italian Paradise RP. Server FiveM, contenuti fittizi.</span>
-          <span>Termini &amp; Privacy</span>
+          <ThemeSwitch />
         </div>
-      </Container>
+      </div>
     </footer>
   );
 }

@@ -43,6 +43,7 @@ import {
   Dog,
   MapPin,
   Mail,
+  Monitor,
 } from 'lucide-react';
 
 const MAP = {
@@ -90,6 +91,7 @@ const MAP = {
   dog: Dog,
   pin: MapPin,
   mail: Mail,
+  monitor: Monitor,
 };
 
 export function Icon({ name, size = 20, className = '', strokeWidth = 2 }) {
