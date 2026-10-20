@@ -1,14 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { Btn, Chip, Container, Eyebrow } from '../../components/ui';
-import { Icon } from '../../components/icons';
+import { Btn, Container, Label } from '../../components/ui';
 import { useAgentProfile } from '../../components/useAgentProfile';
 
 const TURNI = [
-  ['Lun 31 Ago', 'Reparto Volanti — Centro Città, 18:00–22:00', 'confermato'],
-  ['Mer 2 Set', 'Polizia Stradale — Zona Industriale, 09:00–13:00', 'confermato'],
-  ['Ven 4 Set', 'Reparto Volanti — Porto Vecchio, 20:00–00:00', 'da-confermare'],
+  ['Lun 31 Ago', 'Reparto Volanti — Centro Città, 18:00–22:00', true],
+  ['Mer 2 Set', 'Polizia Stradale — Zona Industriale, 09:00–13:00', true],
+  ['Ven 4 Set', 'Reparto Volanti — Porto Vecchio, 20:00–00:00', false],
 ];
 
 const BACHECA = [
@@ -18,67 +17,68 @@ const BACHECA = [
 ];
 
 const QUICK_LINKS = [
-  ['support_agent', 'Prenotazioni', 'Richiedi un intervento', '#'],
-  ['assignment_ind', 'Candidature', 'Gestisci candidature', '/candidature'],
-  ['groups', 'Reparti', 'Vedi tutti i reparti', '/reparti'],
-  ['newspaper', 'Notizie', 'Ultimi comunicati', '/notizie'],
+  ['Prenotazioni', 'Richiedi un intervento', '/prenota'],
+  ['Candidature', 'Gestisci candidature', '/candidature'],
+  ['Reparti', 'Vedi tutti i reparti', '/reparti'],
+  ['Notizie', 'Ultimi comunicati', '/notizie'],
 ];
 
 export default function DashboardPage() {
   const { loading, profile, logout } = useAgentProfile();
 
-  const nome = profile ? `${profile.nome || ''} ${profile.cognome || ''}`.trim() || 'Agente' : 'Caricamento...';
-  const initials = profile ? ((profile.nome || '')[0] || '' + (profile.cognome || '')[0] || '').toUpperCase() || '?' : '';
+  const nome = profile ? `${profile.nome || ''} ${profile.cognome || ''}`.trim() || 'Agente' : 'Caricamento…';
 
   return (
-    <Container className="py-14">
-      <section className={`flex flex-col gap-6 border border-line p-7 sm:flex-row sm:items-center ${loading ? 'opacity-60' : ''}`}>
-        <div className="flex h-16 w-16 flex-none items-center justify-center border border-primary/40 font-display text-xl font-semibold text-primary">
-          {initials}
-        </div>
-        <div className="flex-1">
-          <Eyebrow>Area Personale</Eyebrow>
-          <h1 className="mt-1 font-display text-2xl font-semibold">{nome}</h1>
-          {profile ? <Chip className="mt-3">{profile.grado || 'Agente'}</Chip> : null}
-        </div>
-        <Btn as="button" type="button" variant="outlined" iconStart="logout" onClick={logout}>
-          Esci dall&apos;account
-        </Btn>
+    <>
+      <section className="border-b-2 border-ink">
+        <Container className={`py-12 md:py-20 ${loading ? 'opacity-60' : ''}`}>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <Label>Area personale</Label>
+            <Btn as="button" type="button" variant="outline" onClick={logout}>
+              Esci dall&apos;account
+            </Btn>
+          </div>
+          <h1 className="display mt-8 text-[clamp(3rem,9vw,9rem)]">{nome}</h1>
+          {profile ? (
+            <span className="mono mt-8 inline-block border-2 border-accent px-3 py-1.5 text-sm font-bold text-accent">
+              {profile.grado || 'Agente'}
+            </span>
+          ) : null}
+        </Container>
       </section>
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-[1.6fr_1fr]">
-        <div className="space-y-12">
+      <Container className="grid gap-16 py-16 md:py-24 lg:grid-cols-[1.5fr_1fr] lg:gap-20">
+        <div className="space-y-16">
           <section>
-            <Eyebrow>Prossimi Turni</Eyebrow>
-            <h2 className="mt-2 font-display text-xl font-semibold">I tuoi turni di servizio</h2>
-            <ul className="mt-5 divide-y divide-line border-y border-line">
-              {TURNI.map(([day, desc, state]) => (
-                <li key={day} className="flex items-center justify-between gap-4 py-4">
+            <Label n="01">Prossimi turni</Label>
+            <h2 className="display mt-6 text-5xl">I tuoi turni.</h2>
+            <ul className="mt-8 border-t-2 border-ink">
+              {TURNI.map(([day, desc, ok]) => (
+                <li key={day} className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-ink py-5">
                   <div>
-                    <div className="font-semibold">{day}</div>
-                    <div className="text-sm text-ink-dim">{desc}</div>
+                    <div className="text-2xl font-extrabold">{day}</div>
+                    <div className="text-mute">{desc}</div>
                   </div>
-                  <Chip tone={state === 'confermato' ? 'success' : 'pending'}>
-                    <Icon name={state === 'confermato' ? 'check_circle' : 'schedule'} className="text-sm" />
-                    {state === 'confermato' ? 'Confermato' : 'Da confermare'}
-                  </Chip>
+                  <span className={`mono border-2 px-3 py-1 text-xs font-bold ${ok ? 'border-ok text-ok' : 'border-accent text-accent'}`}>
+                    {ok ? 'Confermato' : 'Da confermare'}
+                  </span>
                 </li>
               ))}
             </ul>
           </section>
 
           <section>
-            <Eyebrow>Bacheca</Eyebrow>
-            <h2 className="mt-2 font-display text-xl font-semibold">Comunicazioni di reparto</h2>
-            <ul className="mt-5 divide-y divide-line border-y border-line">
+            <Label n="02">Bacheca</Label>
+            <h2 className="display mt-6 text-5xl">Comunicazioni.</h2>
+            <ul className="mt-8 border-t-2 border-ink">
               {BACHECA.map(([tag, date, title, text]) => (
-                <li key={title} className="py-5">
-                  <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wide text-ink-dim">
-                    <Chip>{tag}</Chip>
-                    <span>{date}</span>
+                <li key={title} className="border-b-2 border-ink py-6">
+                  <div className="mono flex items-center gap-3 text-xs">
+                    <span className="border border-ink px-2 py-0.5 font-bold">{tag}</span>
+                    <span className="text-mute">{date}</span>
                   </div>
-                  <h3 className="mt-2 font-semibold">{title}</h3>
-                  <p className="mt-1 text-sm text-ink-dim">{text}</p>
+                  <h3 className="mt-3 text-2xl font-extrabold">{title}</h3>
+                  <p className="mt-1 text-mute">{text}</p>
                 </li>
               ))}
             </ul>
@@ -86,22 +86,21 @@ export default function DashboardPage() {
         </div>
 
         <section>
-          <Eyebrow>Accesso Rapido</Eyebrow>
-          <h2 className="mt-2 font-display text-xl font-semibold">Strumenti</h2>
-          <div className="mt-5 divide-y divide-line border-y border-line">
-            {QUICK_LINKS.map(([icon, label, title, href]) => (
-              <Link key={title} href={href} className="flex items-center gap-3 py-4 hover:text-primary">
-                <Icon name={icon} />
-                <span className="flex-1">
-                  <span className="block font-mono text-[11px] uppercase tracking-wide text-ink-dim">{label}</span>
-                  <span className="block font-medium">{title}</span>
+          <Label n="03">Accesso rapido</Label>
+          <h2 className="display mt-6 text-5xl">Strumenti.</h2>
+          <div className="mt-8 border-t-2 border-ink">
+            {QUICK_LINKS.map(([label, title, href]) => (
+              <Link key={title} href={href} className="group flex items-center justify-between gap-4 border-b-2 border-ink py-5 transition-colors hover:bg-accent hover:px-4 hover:text-white">
+                <span>
+                  <span className="mono block text-xs text-mute group-hover:text-white/80">{label}</span>
+                  <span className="block text-xl font-extrabold">{title}</span>
                 </span>
-                <Icon name="chevron_right" />
+                <span className="text-2xl font-extrabold">→</span>
               </Link>
             ))}
           </div>
         </section>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 }
