@@ -65,7 +65,14 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="mt-12 flex flex-col gap-4 border-t border-line pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
+        <div
+          aria-hidden="true"
+          className="mt-16 select-none bg-gradient-to-b from-fg/25 to-transparent bg-clip-text text-center font-semibold leading-[0.85] tracking-tighter text-transparent"
+          style={{ fontSize: 'clamp(3rem, 14.5vw, 13rem)' }}
+        >
+          POLIZIA DI STATO
+        </div>
+        <div className="mt-8 flex flex-col gap-4 border-t border-line pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <span>© 2026 Polizia di Stato — Italian Paradise RP. Server FiveM, contenuti fittizi.</span>
           <ThemeSwitch />
         </div>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Btn, CtaBox, Inner, Mono, PageHero, Section } from '../../components/ui';
+import { Btn, CtaBox, PageHero, Section } from '../../components/ui';
+import { RankTimeline } from '../../components/motion';
 import { GRADI } from '../../lib/data';
 
 export const metadata = { title: 'Qualifiche — Polizia di Stato — Italian Paradise RP' };
@@ -13,15 +14,9 @@ export default function QualifichePage() {
         text="Dalla prima divisa alla guida della Questura: ogni grado riconosce esperienza, impegno e capacità di comando."
       />
       <Section>
-        <ol aria-label="Gradi in ordine di carriera">
-          {GRADI.map(([title, text], i) => (
-            <li key={title} className="grid gap-2 border-b border-line px-5 py-7 last:border-b-0 md:grid-cols-[5rem_1fr_1.4fr] md:items-baseline md:gap-6 md:px-12 md:py-8">
-              <Mono>{String(i + 1).padStart(2, '0')}</Mono>
-              <h3 className="text-2xl font-semibold tracking-tight">{title}</h3>
-              <p className="text-muted">{text}</p>
-            </li>
-          ))}
-        </ol>
+        <div className="mx-auto max-w-3xl px-5 py-16 md:px-0 md:py-28">
+          <RankTimeline items={GRADI} />
+        </div>
       </Section>
       <CtaBox
         title="Ogni grado parte da qui."

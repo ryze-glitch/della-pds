@@ -2,6 +2,7 @@ import './globals.css';
 import { ThemeScript } from '../components/ThemeScript';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { Intro, PageTransition, ScrollProgress, SmoothScroll } from '../components/motion';
 
 export const metadata = {
   title: 'Polizia di Stato — Italian Paradise RP',
@@ -31,6 +32,10 @@ export default function RootLayout({ children }) {
         >
           Vai al contenuto
         </a>
+        <Intro />
+        <PageTransition />
+        <ScrollProgress />
+        <SmoothScroll />
         <Header />
         <main id="main">
           {children}
