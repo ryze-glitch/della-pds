@@ -16,7 +16,7 @@ export function Header() {
   }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-bg/80 backdrop-blur-md">
+    <header className="anim-down sticky top-0 z-50 border-b border-line bg-bg/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-6 px-5 md:px-12">
         <Link href="/" className="flex items-center gap-2.5" aria-label="Polizia di Stato, vai alla home">
           <img src="/assets/crest-sm.png" width="26" height="40" alt="" className="h-8 w-auto" />
