@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
           Vai al contenuto
         </a>
         <Header />
-        <main id="main" className="mx-auto max-w-[1200px] border-x border-line">
+        <main id="main">
           {children}
         </main>
         <Footer />

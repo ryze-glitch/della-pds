@@ -199,7 +199,7 @@ export default function CandidaturePage() {
   }, [candidates, query]);
 
   return (
-    <div className="px-5 py-10 md:px-12 md:py-16">
+    <div className="mx-auto max-w-[1200px] px-5 py-10 md:px-12 md:py-16">
       <section className="flex flex-col gap-5 sm:flex-row sm:items-center">
         <div className="flex-1">
           <Mono>Area personale</Mono>

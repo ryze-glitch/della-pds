@@ -1,25 +1,13 @@
 import Link from 'next/link';
 import { Icon } from './icons';
-
-export function Cross({ className = '' }) {
-  return (
-    <span aria-hidden="true" className={`pointer-events-none absolute z-10 h-3 w-3 ${className}`}>
-      <span className="absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-muted" />
-      <span className="absolute left-0 top-1/2 h-px w-3 -translate-y-1/2 bg-muted" />
-    </span>
-  );
-}
+import { Reveal } from './Reveal';
 
 export function Section({ children, className = '', id, first = false }) {
   return (
-    <section id={id} className={`relative ${first ? '' : 'border-t border-line'} ${className}`}>
-      {first ? null : (
-        <>
-          <Cross className="-left-1.5 -top-1.5" />
-          <Cross className="-right-1.5 -top-1.5" />
-        </>
-      )}
-      {children}
+    <section id={id} className={`${first ? '' : 'border-t border-line'} ${className}`}>
+      <Reveal>
+        <div className="mx-auto max-w-[1200px]">{children}</div>
+      </Reveal>
     </section>
   );
 }
@@ -72,7 +60,7 @@ export function SectionHead({ badge, title, text, center = false, children }) {
 export function Cells({ children, cols = 'md:grid-cols-3', className = '' }) {
   return (
     <div className={`overflow-hidden ${className}`}>
-      <div className={`-mb-px -mr-px grid ${cols}`}>{children}</div>
+      <div className={`stagger -mb-px -mr-px grid ${cols}`}>{children}</div>
     </div>
   );
 }
@@ -88,11 +76,25 @@ export function PageHero({ badge, title, text, children }) {
         aria-hidden="true"
         className="bg-grid absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent_85%)]"
       />
-      <div className="relative px-5 pb-16 pt-16 text-center md:px-12 md:pb-24 md:pt-28">
-        {badge ? <Badge>{badge}</Badge> : null}
-        <h1 className="h-display mx-auto mt-6 max-w-4xl text-4xl sm:text-5xl md:text-7xl">{title}</h1>
-        {text ? <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">{text}</p> : null}
-        {children}
+      <div className="relative mx-auto max-w-[1200px] px-5 pb-16 pt-16 text-center md:px-12 md:pb-24 md:pt-28">
+        {badge ? (
+          <div className="anim-up">
+            <Badge>{badge}</Badge>
+          </div>
+        ) : null}
+        <h1 className="h-display anim-up mx-auto mt-6 max-w-4xl text-4xl sm:text-5xl md:text-7xl" style={{ '--d': '90ms' }}>
+          {title}
+        </h1>
+        {text ? (
+          <p className="anim-up mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted md:text-xl" style={{ '--d': '180ms' }}>
+            {text}
+          </p>
+        ) : null}
+        {children ? (
+          <div className="anim-up" style={{ '--d': '270ms' }}>
+            {children}
+          </div>
+        ) : null}
       </div>
     </section>
   );
@@ -132,18 +134,18 @@ export function DeptCards({ depts, href = '/reparti', cols = 'md:grid-cols-2 lg:
 
 export function CtaBox({ title, text, action }) {
   return (
-    <Section>
-      <div className="relative overflow-hidden px-5 py-20 text-center md:px-12 md:py-28">
-        <div
-          aria-hidden="true"
-          className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]"
-        />
-        <div className="relative">
+    <section className="relative overflow-hidden border-t border-line">
+      <div
+        aria-hidden="true"
+        className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]"
+      />
+      <Reveal>
+        <div className="relative mx-auto max-w-[1200px] px-5 py-20 text-center md:px-12 md:py-28">
           <h2 className="h-section mx-auto max-w-3xl text-3xl md:text-5xl">{title}</h2>
           {text ? <p className="mx-auto mt-4 max-w-xl text-lg text-muted">{text}</p> : null}
           <div className="mt-8 flex justify-center">{action}</div>
         </div>
-      </div>
-    </Section>
+      </Reveal>
+    </section>
   );
 }

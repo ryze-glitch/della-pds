@@ -31,7 +31,7 @@ export default function DashboardPage() {
   const initials = profile ? (((profile.nome || '')[0] || '') + ((profile.cognome || '')[0] || '')).toUpperCase() || '?' : '';
 
   return (
-    <div className="px-5 py-10 md:px-12 md:py-16">
+    <div className="mx-auto max-w-[1200px] px-5 py-10 md:px-12 md:py-16">
       <section className={`flex flex-col gap-5 sm:flex-row sm:items-center ${loading ? 'opacity-60' : ''}`}>
         <div className="flex h-16 w-16 flex-none items-center justify-center rounded-full border border-line2 text-xl font-semibold">{initials}</div>
         <div className="flex-1">

@@ -6,44 +6,46 @@ import { DEPTS, GRADI, STATS } from '../lib/data';
 export default function HomePage() {
   return (
     <>
-      <Section first>
-        <div className="relative overflow-hidden">
-          <div
-            aria-hidden="true"
-            className="bg-grid absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
-          />
-          <div className="relative px-5 pb-14 pt-16 text-center md:px-12 md:pb-20 md:pt-28">
+      <section className="relative overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="bg-grid absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
+        />
+        <div className="relative mx-auto max-w-[1200px] px-5 pb-14 pt-16 text-center md:px-12 md:pb-20 md:pt-28">
+          <div className="anim-up">
             <Link href="/concorso">
               <Badge className="hover:border-fg hover:text-fg">
                 <span className="h-1.5 w-1.5 rounded-full bg-ok" /> Selezioni aperte tutto l&apos;anno
                 <Icon name="arrow-right" size={12} />
               </Badge>
             </Link>
-            <h1 className="h-display mx-auto mt-7 max-w-4xl text-5xl sm:text-6xl md:text-7xl">
-              Al servizio della città, senza sosta.
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">
-              Reparti specializzati, una carriera in otto gradi e una comunità che ogni giorno lavora per la
-              sicurezza di tutti. Entra nella Questura Centrale.
-            </p>
-            <div className="mt-9 flex flex-wrap justify-center gap-3">
-              <Btn as={Link} href="/concorso" size="lg" icon="arrow-right">
-                Invia candidatura
-              </Btn>
-              <Btn as={Link} href="/reparti" size="lg" variant="secondary">
-                Scopri i reparti
-              </Btn>
-            </div>
+          </div>
+          <h1 className="h-display anim-up mx-auto mt-7 max-w-4xl text-5xl sm:text-6xl md:text-7xl" style={{ '--d': '90ms' }}>
+            Al servizio della città, senza sosta.
+          </h1>
+          <p className="anim-up mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted md:text-xl" style={{ '--d': '180ms' }}>
+            Reparti specializzati, una carriera in otto gradi e una comunità che ogni giorno lavora per la
+            sicurezza di tutti. Entra nella Questura Centrale.
+          </p>
+          <div className="anim-up mt-9 flex flex-wrap justify-center gap-3" style={{ '--d': '270ms' }}>
+            <Btn as={Link} href="/concorso" size="lg" icon="arrow-right">
+              Invia candidatura
+            </Btn>
+            <Btn as={Link} href="/reparti" size="lg" variant="secondary">
+              Scopri i reparti
+            </Btn>
           </div>
         </div>
-        <div className="border-t border-line p-3 md:p-6">
+      </section>
+      <section className="border-t border-line">
+        <div className="anim-scale mx-auto max-w-[1200px] px-5 py-6 md:px-12 md:py-10" style={{ '--d': '380ms' }}>
           <img
             src="/assets/hero-slide-1.jpg"
             alt="Questura Centrale di notte, volanti in sosta"
-            className="h-[300px] w-full rounded-lg border border-line object-cover object-[50%_62%] md:h-[520px]"
+            className="h-[300px] w-full rounded-lg border border-line object-cover object-[50%_62%] md:h-[560px]"
           />
         </div>
-      </Section>
+      </section>
 
       <Section>
         <Cells cols="grid-cols-2 md:grid-cols-4">
