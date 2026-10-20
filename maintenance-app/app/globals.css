@@ -2,58 +2,79 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Neutri come Vercel: chiaro/scuro seguono il sistema, o la scelta
+   dell'utente dallo switch nel footer (data-theme). */
 :root {
   color-scheme: light;
+  --bg: 255 255 255;
+  --bg2: 250 250 250;
+  --fg: 0 0 0;
+  --muted: 102 102 102;
+  --line: 234 234 234;
+  --line2: 205 205 205;
+  --accent: 0 112 243;
+  --ok: 10 122 47;
+  --bad: 229 72 77;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: 0 0 0;
+    --bg2: 10 10 10;
+    --fg: 237 237 237;
+    --muted: 161 161 161;
+    --line: 36 36 36;
+    --line2: 68 68 68;
+    --accent: 80 160 255;
+    --ok: 62 207 142;
+    --bad: 255 99 99;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: 0 0 0;
+  --bg2: 10 10 10;
+  --fg: 237 237 237;
+  --muted: 161 161 161;
+  --line: 36 36 36;
+  --line2: 68 68 68;
+  --accent: 80 160 255;
+  --ok: 62 207 142;
+  --bad: 255 99 99;
 }
 
 body {
-  background: #f5f4f0;
-  color: #0a0a0a;
-  font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: 'Geist', 'Inter', 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
 ::selection {
-  background: #1a3cff;
-  color: #fff;
+  background: rgb(var(--fg) / 0.15);
 }
 
 @layer components {
-  .display {
-    font-weight: 900;
-    font-stretch: 80%;
-    text-transform: uppercase;
-    letter-spacing: -0.025em;
-    line-height: 0.9;
-    overflow-wrap: break-word;
-    hyphens: manual;
+  .h-display {
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+    text-wrap: balance;
   }
-  .mono {
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+  .h-section {
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    text-wrap: balance;
   }
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 32s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
+  .bg-grid {
+    background-image: linear-gradient(rgb(var(--line)) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--line)) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: center top;
   }
 }

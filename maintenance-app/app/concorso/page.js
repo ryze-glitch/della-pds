@@ -1,4 +1,4 @@
-import { Btn, Container, CtaBand, Label, PageHero, SectionTitle } from '../../components/ui';
+import { Btn, Cell, Cells, CtaBox, Inner, Mono, PageHero, Section, SectionHead } from '../../components/ui';
 import { FORM_URL } from '../../lib/data';
 
 export const metadata = { title: 'Concorso — Polizia di Stato — Italian Paradise RP' };
@@ -20,59 +20,52 @@ export default function ConcorsoPage() {
   return (
     <>
       <PageHero
-        label="Concorso pubblico"
+        badge="Concorso pubblico"
         title="Entra a far parte del Corpo."
-        text="Le selezioni per diventare agente sono aperte tutto l'anno. Compila il modulo di candidatura ufficiale per iniziare il tuo percorso in uno dei nostri reparti."
-        img="/assets/hero-slide-2.jpg"
-        pos="center 45%"
+        text="Le selezioni per diventare agente sono aperte tutto l'anno. Compila il modulo di candidatura ufficiale per iniziare il tuo percorso."
       >
-        <div className="mt-10">
-          <Btn href={FORM_URL} target="_blank" rel="noopener" size="lg" variant="accent" icon="arrow-up-right">
+        <div className="mt-8 flex flex-col items-center gap-3">
+          <Btn href={FORM_URL} target="_blank" rel="noopener" size="lg" icon="external">
             Vai al modulo di candidatura
           </Btn>
-          <p className="mono mt-4 text-xs text-mute">Si apre in una nuova scheda, su Google Forms.</p>
+          <Mono className="normal-case">Si apre in una nuova scheda, su Google Forms.</Mono>
         </div>
       </PageHero>
 
-      <section className="py-16 md:py-28">
-        <Container>
-          <SectionTitle n="01" label="Il percorso" title="Come funziona la selezione." />
-          <ol className="mt-12 grid border-2 border-ink md:grid-cols-3">
-            {STEPS.map(([n, t, d], i) => (
-              <li key={t} className={`p-6 md:p-10 ${i > 0 ? 'border-t-2 border-ink md:border-l-2 md:border-t-0' : ''}`}>
-                <div className="display text-[clamp(4rem,9vw,9rem)] text-accent">{n}</div>
-                <h3 className="mt-6 text-3xl font-extrabold">{t}</h3>
-                <p className="mt-3 text-lg text-mute">{d}</p>
-              </li>
-            ))}
-          </ol>
-        </Container>
-      </section>
+      <Section>
+        <Inner className="!pb-12">
+          <SectionHead badge="Il percorso" title="Come funziona la selezione." />
+        </Inner>
+        <Cells cols="md:grid-cols-3" className="border-t border-line">
+          {STEPS.map(([n, t, d]) => (
+            <Cell key={t} className="p-6 md:p-8">
+              <Mono>{n}</Mono>
+              <h3 className="mt-4 text-xl font-semibold tracking-tight">{t}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-muted">{d}</p>
+            </Cell>
+          ))}
+        </Cells>
+      </Section>
 
-      <section className="border-y-2 border-ink bg-ink py-16 text-paper md:py-28">
-        <Container>
-          <Label n="02" className="text-paper/70">
-            Prima di candidarti
-          </Label>
-          <h2 className="display mt-8 text-[clamp(2.6rem,7vw,7rem)]">Cosa cerchiamo.</h2>
-          <ul className="mt-14 border-t-2 border-paper">
-            {REQS.map(([t, d], i) => (
-              <li key={t} className="grid gap-3 border-b-2 border-paper/30 py-7 md:grid-cols-12 md:items-baseline">
-                <span className="mono text-xs font-bold text-accent md:col-span-1">0{i + 1}</span>
-                <h3 className="text-3xl font-extrabold md:col-span-5">{t}</h3>
-                <p className="text-lg text-paper/70 md:col-span-6">{d}</p>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </section>
+      <Section>
+        <Inner className="!pb-12">
+          <SectionHead badge="Prima di candidarti" title="Cosa cerchiamo." />
+        </Inner>
+        <Cells cols="md:grid-cols-2" className="border-t border-line">
+          {REQS.map(([t, d]) => (
+            <Cell key={t} className="p-6 md:p-8">
+              <h3 className="text-lg font-semibold tracking-tight">{t}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-muted">{d}</p>
+            </Cell>
+          ))}
+        </Cells>
+      </Section>
 
-      <CtaBand
-        label="Pronto a partire?"
-        title="Candidati ora."
-        text="Le selezioni sono aperte tutto l'anno. Il primo passo è il modulo di candidatura: il resto lo scopri strada facendo."
+      <CtaBox
+        title="Pronto a partire?"
+        text="Il primo passo è il modulo di candidatura: il resto lo scopri strada facendo."
         action={
-          <Btn href={FORM_URL} target="_blank" rel="noopener" variant="paper" size="lg" icon="arrow-up-right">
+          <Btn href={FORM_URL} target="_blank" rel="noopener" size="lg" icon="external">
             Vai al modulo
           </Btn>
         }

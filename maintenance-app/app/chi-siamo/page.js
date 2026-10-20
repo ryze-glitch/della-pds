@@ -1,94 +1,97 @@
 import Link from 'next/link';
-import { Btn, Container, CtaBand, Label, PageHero, SectionTitle } from '../../components/ui';
+import { Btn, Cell, Cells, CtaBox, Inner, Mono, PageHero, Section, SectionHead } from '../../components/ui';
+import { Icon } from '../../components/icons';
 import { DeptGrid } from '../../components/DeptGrid';
 
 export const metadata = { title: 'Chi Siamo — Polizia di Stato — Italian Paradise RP' };
 
 const PERKS = [
-  ['Formazione continua', 'Corsi di aggiornamento periodici e affiancamento diretto da agenti esperti in ogni reparto.'],
-  ['Percorso di carriera', 'Otto gradi che riconoscono impegno, esperienza sul campo e capacità di comando.'],
-  ['Equipaggiamento dedicato', "Ogni reparto fornisce l'equipaggiamento e i veicoli necessari per operare in sicurezza."],
-  ['Comunità di colleghi', 'Entri a far parte di un gruppo affiatato, con briefing regolari e attività di reparto.'],
-  ['Il tuo referente', "Un superiore diretto ti segue dal primo giorno in accademia fino all'assegnazione finale."],
-  ['Turni flessibili', 'Organizzazione dei turni pensata per conciliare servizio attivo e vita privata.'],
-  ['Mobilità tra reparti', "Possibilità di richiedere il trasferimento ad altri reparti una volta maturata l'esperienza."],
-  ['Riconoscimenti di servizio', 'Encomi e riconoscimenti ufficiali per gli interventi che si distinguono per merito.'],
+  ['graduation', 'Formazione continua', 'Corsi di aggiornamento periodici e affiancamento diretto da agenti esperti in ogni reparto.'],
+  ['trend', 'Percorso di carriera', 'Otto gradi che riconoscono impegno, esperienza sul campo e capacità di comando.'],
+  ['shield-check', 'Equipaggiamento dedicato', "Ogni reparto fornisce l'equipaggiamento e i veicoli necessari per operare in sicurezza."],
+  ['users', 'Comunità di colleghi', 'Entri a far parte di un gruppo affiatato, con briefing regolari e attività di reparto.'],
+  ['user-check', 'Il tuo referente', "Un superiore diretto ti segue dal primo giorno in accademia fino all'assegnazione finale."],
+  ['clock', 'Turni flessibili', 'Organizzazione dei turni pensata per conciliare servizio attivo e vita privata.'],
+  ['repeat', 'Mobilità tra reparti', "Possibilità di richiedere il trasferimento ad altri reparti una volta maturata l'esperienza."],
+  ['award', 'Riconoscimenti di servizio', 'Encomi e riconoscimenti ufficiali per gli interventi che si distinguono per merito.'],
 ];
 
 export default function ChiSiamoPage() {
   return (
     <>
       <PageHero
-        label="Chi siamo"
+        badge="Chi siamo"
         title="Entra nella Questura."
         text="Dalle strade del centro alle indagini più complesse, la Questura Centrale riunisce sei reparti con una missione comune: la sicurezza della città e di chi la vive ogni giorno."
-        img="/assets/hero-slide-1.jpg"
-        pos="center 55%"
       >
-        <div className="mt-10 flex flex-wrap items-center gap-6">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Btn as={Link} href="/concorso" size="lg" icon="arrow-right">
             Invia candidatura
           </Btn>
-          <span className="mono text-sm font-bold">concorsi@iprp-polizia.it</span>
+          <Mono className="normal-case">concorsi@iprp-polizia.it</Mono>
         </div>
       </PageHero>
 
-      <section className="py-16 md:py-28">
-        <Container>
-          <SectionTitle n="01" label="I nostri reparti" title="Il tuo posto nel Corpo." />
-          <div className="mt-12">
-            <DeptGrid />
-          </div>
-        </Container>
-      </section>
+      <Section>
+        <div className="border-b border-line p-3 md:p-6">
+          <img src="/assets/hero-slide-1.jpg" alt="Volanti della Polizia schierate davanti alla Questura" className="h-[260px] w-full rounded-lg border border-line object-cover object-[50%_55%] md:h-[440px]" />
+        </div>
+        <Inner className="!pb-12">
+          <SectionHead badge="I nostri reparti" title="Il tuo posto nel Corpo." />
+        </Inner>
+        <div className="border-t border-line pb-12">
+          <DeptGridWrap />
+        </div>
+      </Section>
 
-      <section className="border-y-2 border-ink bg-ink py-16 text-paper md:py-28">
-        <Container>
-          <Label n="02" className="text-paper/70">
-            Vantaggi del Corpo
-          </Label>
-          <h2 className="display mt-8 text-[clamp(2.6rem,7vw,7rem)]">Cosa trovi entrando in Polizia.</h2>
-          <ul className="mt-14 grid border-t-2 border-paper md:grid-cols-2 md:gap-x-16">
-            {PERKS.map(([t, d], i) => (
-              <li key={t} className="border-b-2 border-paper/30 py-6">
-                <div className="flex items-baseline gap-4">
-                  <span className="mono text-xs font-bold text-accent">0{i + 1}</span>
-                  <h3 className="text-2xl font-extrabold">{t}</h3>
-                </div>
-                <p className="mt-2 pl-9 text-paper/70">{d}</p>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </section>
+      <Section>
+        <Inner className="!pb-12">
+          <SectionHead badge="Vantaggi del Corpo" title="Cosa trovi entrando in Polizia." />
+        </Inner>
+        <Cells cols="sm:grid-cols-2 lg:grid-cols-4" className="border-t border-line">
+          {PERKS.map(([icon, t, d]) => (
+            <Cell key={t} className="p-6">
+              <span className="flex h-9 w-9 items-center justify-center rounded-md border border-line2">
+                <Icon name={icon} size={18} />
+              </span>
+              <h3 className="mt-5 font-semibold">{t}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">{d}</p>
+            </Cell>
+          ))}
+        </Cells>
+      </Section>
 
-      <section className="py-16 md:py-28">
-        <Container className="grid gap-10 md:grid-cols-12 md:items-end">
-          <div className="md:col-span-8">
-            <Label>In arrivo</Label>
-            <h2 className="display mt-6 text-[clamp(2.6rem,7vw,7rem)]">Nuova sezione cinofila.</h2>
-          </div>
-          <div className="md:col-span-4">
-            <p className="text-lg leading-relaxed text-mute">
+      <Section>
+        <Inner className="grid gap-8 md:grid-cols-[1.2fr_1fr] md:items-end">
+          <SectionHead badge="In arrivo" title="Nuova sezione cinofila." />
+          <div>
+            <p className="leading-relaxed text-muted">
               È in fase di costituzione un nuovo reparto dedicato alle unità cinofile, per il supporto nelle ricerche
               e nel controllo del territorio. Resta aggiornato per le prime candidature.
             </p>
-            <Btn as={Link} href="/concorso" variant="outline" icon="arrow-right" className="mt-6">
+            <Btn as={Link} href="/concorso" variant="secondary" icon="arrow-right" className="mt-6">
               Resta aggiornato
             </Btn>
           </div>
-        </Container>
-      </section>
+        </Inner>
+      </Section>
 
-      <CtaBand
-        label="Il momento è adesso"
-        title="Trova il tuo posto."
+      <CtaBox
+        title="Trova il tuo posto nella Questura."
         action={
-          <Btn as={Link} href="/concorso" variant="paper" size="lg" icon="arrow-right">
+          <Btn as={Link} href="/concorso" size="lg" icon="arrow-right">
             Candidati ora
           </Btn>
         }
       />
     </>
+  );
+}
+
+function DeptGridWrap() {
+  return (
+    <div className="px-0">
+      <DeptGrid />
+    </div>
   );
 }

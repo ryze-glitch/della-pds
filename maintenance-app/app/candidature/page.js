@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
-import { Btn, Container, Label } from '../../components/ui';
+import { Badge, Btn, Mono } from '../../components/ui';
+import { Icon } from '../../components/icons';
 import { CandidateItem } from '../../components/CandidateItem';
 import { useAgentProfile } from '../../components/useAgentProfile';
 import { db } from '../../lib/firebase';
@@ -198,55 +199,53 @@ export default function CandidaturePage() {
   }, [candidates, query]);
 
   return (
-    <>
-      <section className="border-b-2 border-ink">
-        <Container className="py-12 md:py-20">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <Label>Area personale</Label>
-            <div className="flex flex-wrap gap-3">
-              <Btn as="a" href="/dashboard" variant="outline">
-                Dashboard
-              </Btn>
-              <Btn as="button" type="button" variant="outline" onClick={logout}>
-                Esci
-              </Btn>
-            </div>
-          </div>
-          <h1 className="display mt-8 text-[clamp(3rem,9vw,9rem)]">Candidature.</h1>
-          <span role="status" className="mono mt-8 inline-block border-2 border-accent px-3 py-1.5 text-sm font-bold text-accent">
+    <div className="px-5 py-10 md:px-12 md:py-16">
+      <section className="flex flex-col gap-5 sm:flex-row sm:items-center">
+        <div className="flex-1">
+          <Mono>Area personale</Mono>
+          <h1 className="h-section mt-1 text-3xl md:text-4xl">Gestione candidature</h1>
+          <Badge className="mt-3" role="status">
             {loaded ? `${candidates.length} ${candidates.length === 1 ? 'candidatura' : 'candidature'}` : 'Caricamento…'}
-          </span>
-        </Container>
+          </Badge>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Btn as="a" href="/dashboard" variant="secondary">
+            Dashboard
+          </Btn>
+          <Btn as="button" type="button" variant="secondary" onClick={logout}>
+            Esci
+          </Btn>
+        </div>
       </section>
 
-      <Container className="py-12 md:py-20">
-        <label className="flex items-center gap-4 border-2 border-ink px-5 py-4">
-          <span className="mono text-xs font-bold">Cerca</span>
+      <section className="mt-8">
+        <label className="flex h-11 items-center gap-3 rounded-md border border-line2 px-4 focus-within:border-fg">
+          <Icon name="search" size={16} className="text-muted" />
           <span className="sr-only">Cerca una candidatura</span>
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Nome, cognome o ID Discord..."
+            placeholder="Cerca per nome, cognome o ID Discord..."
             autoComplete="off"
-            className="w-full bg-transparent text-lg outline-none placeholder:text-mute"
+            className="w-full bg-transparent text-sm outline-none placeholder:text-muted"
           />
         </label>
 
         {!loaded ? (
-          <div className={`mono mt-8 text-xs font-bold ${status.error ? 'text-bad' : 'text-mute'}`} role="status">
+          <div className={`mt-6 text-sm ${status.error ? 'text-bad' : 'text-muted'}`} role="status">
             {status.msg}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="mono mt-8 text-xs font-bold text-mute">Nessuna candidatura trovata.</div>
+          <div className="mt-6 text-sm text-muted">Nessuna candidatura trovata.</div>
         ) : (
-          <div className="mt-8 space-y-3">
+          <div className="mt-6 space-y-3">
             {filtered.map((c) => (
               <CandidateItem key={c.decisionId} c={c} currentAgent={currentAgent} onDecide={handleDecide} />
             ))}
           </div>
         )}
-      </Container>
-    </>
+      </section>
+    </div>
   );
 }

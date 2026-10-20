@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Btn, Container, Label } from '../../components/ui';
+import { Btn, Badge, Mono } from '../../components/ui';
+import { Icon } from '../../components/icons';
 import { useAgentProfile } from '../../components/useAgentProfile';
 
 const TURNI = [
@@ -17,90 +18,88 @@ const BACHECA = [
 ];
 
 const QUICK_LINKS = [
-  ['Prenotazioni', 'Richiedi un intervento', '/prenota'],
-  ['Candidature', 'Gestisci candidature', '/candidature'],
-  ['Reparti', 'Vedi tutti i reparti', '/reparti'],
-  ['Notizie', 'Ultimi comunicati', '/notizie'],
+  ['headset', 'Prenotazioni', 'Richiedi un intervento', '/prenota'],
+  ['clipboard', 'Candidature', 'Gestisci candidature', '/candidature'],
+  ['users', 'Reparti', 'Vedi tutti i reparti', '/reparti'],
+  ['news', 'Notizie', 'Ultimi comunicati', '/notizie'],
 ];
 
 export default function DashboardPage() {
   const { loading, profile, logout } = useAgentProfile();
 
   const nome = profile ? `${profile.nome || ''} ${profile.cognome || ''}`.trim() || 'Agente' : 'Caricamento…';
+  const initials = profile ? (((profile.nome || '')[0] || '') + ((profile.cognome || '')[0] || '')).toUpperCase() || '?' : '';
 
   return (
-    <>
-      <section className="border-b-2 border-ink">
-        <Container className={`py-12 md:py-20 ${loading ? 'opacity-60' : ''}`}>
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <Label>Area personale</Label>
-            <Btn as="button" type="button" variant="outline" onClick={logout}>
-              Esci dall&apos;account
-            </Btn>
-          </div>
-          <h1 className="display mt-8 text-[clamp(3rem,9vw,9rem)]">{nome}</h1>
-          {profile ? (
-            <span className="mono mt-8 inline-block border-2 border-accent px-3 py-1.5 text-sm font-bold text-accent">
-              {profile.grado || 'Agente'}
-            </span>
-          ) : null}
-        </Container>
+    <div className="px-5 py-10 md:px-12 md:py-16">
+      <section className={`flex flex-col gap-5 sm:flex-row sm:items-center ${loading ? 'opacity-60' : ''}`}>
+        <div className="flex h-16 w-16 flex-none items-center justify-center rounded-full border border-line2 text-xl font-semibold">{initials}</div>
+        <div className="flex-1">
+          <Mono>Area personale</Mono>
+          <h1 className="h-section mt-1 text-3xl md:text-4xl">{nome}</h1>
+          {profile ? <Badge className="mt-3">{profile.grado || 'Agente'}</Badge> : null}
+        </div>
+        <Btn as="button" type="button" variant="secondary" onClick={logout}>
+          Esci dall&apos;account
+        </Btn>
       </section>
 
-      <Container className="grid gap-16 py-16 md:py-24 lg:grid-cols-[1.5fr_1fr] lg:gap-20">
-        <div className="space-y-16">
-          <section>
-            <Label n="01">Prossimi turni</Label>
-            <h2 className="display mt-6 text-5xl">I tuoi turni.</h2>
-            <ul className="mt-8 border-t-2 border-ink">
+      <div className="mt-10 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+        <div className="space-y-6">
+          <section className="rounded-lg border border-line">
+            <div className="border-b border-line px-6 py-4">
+              <h2 className="font-semibold">I tuoi turni di servizio</h2>
+            </div>
+            <ul className="divide-y divide-line">
               {TURNI.map(([day, desc, ok]) => (
-                <li key={day} className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-ink py-5">
+                <li key={day} className="flex flex-wrap items-center justify-between gap-3 px-6 py-4">
                   <div>
-                    <div className="text-2xl font-extrabold">{day}</div>
-                    <div className="text-mute">{desc}</div>
+                    <div className="font-medium">{day}</div>
+                    <div className="text-sm text-muted">{desc}</div>
                   </div>
-                  <span className={`mono border-2 px-3 py-1 text-xs font-bold ${ok ? 'border-ok text-ok' : 'border-accent text-accent'}`}>
-                    {ok ? 'Confermato' : 'Da confermare'}
-                  </span>
+                  <Badge className={ok ? '!border-ok/50 !text-ok' : ''}>{ok ? 'Confermato' : 'Da confermare'}</Badge>
                 </li>
               ))}
             </ul>
           </section>
 
-          <section>
-            <Label n="02">Bacheca</Label>
-            <h2 className="display mt-6 text-5xl">Comunicazioni.</h2>
-            <ul className="mt-8 border-t-2 border-ink">
+          <section className="rounded-lg border border-line">
+            <div className="border-b border-line px-6 py-4">
+              <h2 className="font-semibold">Comunicazioni di reparto</h2>
+            </div>
+            <ul className="divide-y divide-line">
               {BACHECA.map(([tag, date, title, text]) => (
-                <li key={title} className="border-b-2 border-ink py-6">
-                  <div className="mono flex items-center gap-3 text-xs">
-                    <span className="border border-ink px-2 py-0.5 font-bold">{tag}</span>
-                    <span className="text-mute">{date}</span>
+                <li key={title} className="px-6 py-5">
+                  <div className="flex items-center gap-3">
+                    <Badge>{tag}</Badge>
+                    <Mono>{date}</Mono>
                   </div>
-                  <h3 className="mt-3 text-2xl font-extrabold">{title}</h3>
-                  <p className="mt-1 text-mute">{text}</p>
+                  <h3 className="mt-3 font-medium">{title}</h3>
+                  <p className="mt-1 text-sm text-muted">{text}</p>
                 </li>
               ))}
             </ul>
           </section>
         </div>
 
-        <section>
-          <Label n="03">Accesso rapido</Label>
-          <h2 className="display mt-6 text-5xl">Strumenti.</h2>
-          <div className="mt-8 border-t-2 border-ink">
-            {QUICK_LINKS.map(([label, title, href]) => (
-              <Link key={title} href={href} className="group flex items-center justify-between gap-4 border-b-2 border-ink py-5 transition-colors hover:bg-accent hover:px-4 hover:text-white">
-                <span>
-                  <span className="mono block text-xs text-mute group-hover:text-white/80">{label}</span>
-                  <span className="block text-xl font-extrabold">{title}</span>
+        <section className="h-fit rounded-lg border border-line">
+          <div className="border-b border-line px-6 py-4">
+            <h2 className="font-semibold">Strumenti</h2>
+          </div>
+          <div className="divide-y divide-line">
+            {QUICK_LINKS.map(([icon, label, title, href]) => (
+              <Link key={title} href={href} className="group flex items-center gap-4 px-6 py-4 hover:bg-bg2">
+                <Icon name={icon} size={18} className="text-muted" />
+                <span className="flex-1">
+                  <span className="block text-xs text-muted">{label}</span>
+                  <span className="block text-sm font-medium">{title}</span>
                 </span>
-                <span className="text-2xl font-extrabold">→</span>
+                <Icon name="chevron" size={16} className="text-muted transition-transform group-hover:translate-x-0.5" />
               </Link>
             ))}
           </div>
         </section>
-      </Container>
-    </>
+      </div>
+    </div>
   );
 }

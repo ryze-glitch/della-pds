@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Icon } from './icons';
 
 const QUIZ_ANSWERS = [
   { match: 'che tipo di servizio', correct: 'Competenza Generale e in Servizio Permanente di Pubblica Sicurezza' },
@@ -24,15 +25,15 @@ function isAffermativo(v) {
 }
 
 function Tag({ children, tone = 'default' }) {
-  const tones = { default: 'border-ink/40 text-mute', ok: 'border-ok text-ok', bad: 'border-bad text-bad', accent: 'border-accent text-accent' };
-  return <span className={`mono border px-2 py-0.5 text-[11px] font-bold ${tones[tone]}`}>{children}</span>;
+  const tones = { default: 'border-line2 text-muted', ok: 'border-ok/50 text-ok', bad: 'border-bad/50 text-bad', accent: 'border-accent/50 text-accent' };
+  return <span className={`rounded-full border px-2 py-0.5 text-xs font-medium ${tones[tone]}`}>{children}</span>;
 }
 
 function Field({ label, value }) {
   return (
-    <div className="border-b border-ink/20 py-3 last:border-0">
-      <div className="mono text-[11px] font-bold text-mute">{label}</div>
-      <div className="mt-1">{value || '—'}</div>
+    <div className="border-b border-line py-3 last:border-0">
+      <div className="font-mono text-xs uppercase tracking-wide text-muted">{label}</div>
+      <div className="mt-1 text-sm">{value || '—'}</div>
     </div>
   );
 }
@@ -40,12 +41,12 @@ function Field({ label, value }) {
 function QuizField({ label, value, correct }) {
   const ok = normalizeAnswer(value) === normalizeAnswer(correct);
   return (
-    <div className="border-b border-ink/20 py-3 last:border-0">
-      <div className="mono flex items-start gap-3 text-[11px] font-bold text-mute">
+    <div className="border-b border-line py-3 last:border-0">
+      <div className="flex items-start gap-3 font-mono text-xs uppercase tracking-wide text-muted">
         <span className="flex-1">{label}</span>
         <Tag tone={ok ? 'ok' : 'bad'}>{ok ? '5/5' : '0/5'}</Tag>
       </div>
-      <div className="mt-1">{value || '—'}</div>
+      <div className="mt-1 text-sm">{value || '—'}</div>
     </div>
   );
 }
@@ -55,15 +56,15 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
   const review = c.review;
   const locked = !!(review && currentAgent && review.decisoDa?.discordId !== currentAgent.discordId);
   const etaPulita = (c.eta || '').replace(/\s*anni?\s*$/i, '');
-  const border = review?.stato === 'approvato' ? 'border-ok' : review?.stato === 'rifiutato' ? 'border-bad' : 'border-ink';
+  const border = review?.stato === 'approvato' ? 'border-ok/50' : review?.stato === 'rifiutato' ? 'border-bad/50' : 'border-line';
 
   return (
-    <div className={`border-2 ${border}`}>
-      <button type="button" onClick={() => setOpen((o) => !o)} className="flex w-full flex-wrap items-center gap-3 p-4 text-left hover:bg-ink hover:text-paper">
-        {review?.stato === 'approvato' ? <Tag tone="ok">Approvata</Tag> : null}
-        {review?.stato === 'rifiutato' ? <Tag tone="bad">Rifiutata</Tag> : null}
-        <span className="text-xl font-extrabold">{c.nome || 'Sconosciuto'}</span>
-        <span className="mono flex flex-wrap gap-x-3 text-[11px] opacity-70">
+    <div className={`overflow-hidden rounded-lg border ${border}`}>
+      <button type="button" onClick={() => setOpen((o) => !o)} className="flex w-full flex-wrap items-center gap-3 px-5 py-4 text-left hover:bg-bg2">
+        {review?.stato === 'approvato' ? <Icon name="check" size={18} className="text-ok" /> : null}
+        {review?.stato === 'rifiutato' ? <Icon name="cross" size={18} className="text-bad" /> : null}
+        <span className="font-semibold">{c.nome || 'Sconosciuto'}</span>
+        <span className="flex flex-wrap gap-x-3 text-xs text-muted">
           <span>{c.dataInvio}</span>
           {etaPulita ? <span>{etaPulita} anni</span> : null}
           <span>{c.titolo}</span>
@@ -75,11 +76,11 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
           <Tag tone={isAffermativo(c.certificato) ? 'ok' : 'default'}>Cert. {c.certificato}</Tag>
           <Tag tone={isAffermativo(c.patente) ? 'ok' : 'default'}>Pat. B {c.patente}</Tag>
         </span>
-        <span className="text-xl font-extrabold">{open ? '−' : '+'}</span>
+        <Icon name="chevron" size={16} className={`text-muted transition-transform ${open ? 'rotate-90' : ''}`} />
       </button>
 
       {open ? (
-        <div className="border-t-2 border-ink p-5">
+        <div className="border-t border-line px-5 py-4">
           <Field label="Email" value={c.email} />
           <Field label="Data di nascita" value={c.dataNascita} />
           {c.extra.map(([label, value]) => {
@@ -92,8 +93,8 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
               type="button"
               disabled={locked}
               onClick={() => onDecide(c, 'approvato')}
-              className={`border-2 px-5 py-2.5 text-sm font-extrabold uppercase disabled:opacity-40 ${
-                review?.stato === 'approvato' ? 'border-ok bg-ok text-white' : 'border-ink hover:border-ok hover:bg-ok hover:text-white'
+              className={`h-9 rounded-md border px-4 text-sm font-medium disabled:opacity-40 ${
+                review?.stato === 'approvato' ? 'border-ok bg-ok text-bg' : 'border-line2 hover:border-ok hover:text-ok'
               }`}
             >
               Approva
@@ -102,13 +103,13 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
               type="button"
               disabled={locked}
               onClick={() => onDecide(c, 'rifiutato')}
-              className={`border-2 px-5 py-2.5 text-sm font-extrabold uppercase disabled:opacity-40 ${
-                review?.stato === 'rifiutato' ? 'border-bad bg-bad text-white' : 'border-ink hover:border-bad hover:bg-bad hover:text-white'
+              className={`h-9 rounded-md border px-4 text-sm font-medium disabled:opacity-40 ${
+                review?.stato === 'rifiutato' ? 'border-bad bg-bad text-bg' : 'border-line2 hover:border-bad hover:text-bad'
               }`}
             >
               Rifiuta
             </button>
-            <span className="text-sm text-mute">
+            <span className="text-sm text-muted">
               {!review
                 ? 'Nessuna decisione registrata.'
                 : `${review.stato === 'approvato' ? 'Approvata' : 'Rifiutata'} da ${review.decisoDa?.nome || ''} ${review.decisoDa?.cognome || ''}`.trim() +
@@ -116,7 +117,7 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
                   (review.decisoIl ? ` il ${new Date(review.decisoIl).toLocaleString('it-IT')}` : '')}
             </span>
             {locked ? (
-              <span className="text-sm font-bold text-bad">
+              <span className="text-sm text-bad">
                 Decisione bloccata: solo {review.decisoDa?.nome} {review.decisoDa?.cognome} può modificarla.
               </span>
             ) : null}

@@ -1,169 +1,163 @@
 import Link from 'next/link';
-import { Btn, Container, CtaBand, DeptRows, Label, Marquee, SectionTitle } from '../components/ui';
+import { Badge, Btn, Cell, Cells, CtaBox, DeptCards, Inner, Mono, Section, SectionHead } from '../components/ui';
+import { Icon } from '../components/icons';
 import { DEPTS, GRADI, STATS } from '../lib/data';
 
 export default function HomePage() {
   return (
     <>
-      <section className="border-b-2 border-ink">
-        <Container className="pb-12 pt-10 md:pb-16 md:pt-16">
-          <div className="flex items-center justify-between">
-            <Label>Polizia di Stato — Italian Paradise RP</Label>
-            <Label className="hidden sm:inline-flex">Questura Centrale</Label>
-          </div>
-          <h1 className="display mt-8 text-[clamp(3.2rem,12vw,12.5rem)]">
-            Al servizio della città,
-            <br />
-            <span className="text-accent">senza sosta.</span>
-          </h1>
-          <div className="mt-10 grid gap-8 md:grid-cols-12 md:items-end">
-            <p className="text-xl font-medium leading-snug md:col-span-6 md:text-2xl">
+      <Section first>
+        <div className="relative overflow-hidden">
+          <div
+            aria-hidden="true"
+            className="bg-grid absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent_80%)]"
+          />
+          <div className="relative px-5 pb-14 pt-16 text-center md:px-12 md:pb-20 md:pt-28">
+            <Link href="/concorso">
+              <Badge className="hover:border-fg hover:text-fg">
+                <span className="h-1.5 w-1.5 rounded-full bg-ok" /> Selezioni aperte tutto l&apos;anno
+                <Icon name="arrow-right" size={12} />
+              </Badge>
+            </Link>
+            <h1 className="h-display mx-auto mt-7 max-w-4xl text-5xl sm:text-6xl md:text-7xl">
+              Al servizio della città, senza sosta.
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">
               Reparti specializzati, una carriera in otto gradi e una comunità che ogni giorno lavora per la
-              sicurezza di tutti.
+              sicurezza di tutti. Entra nella Questura Centrale.
             </p>
-            <div className="flex flex-wrap gap-3 md:col-span-6 md:justify-end">
+            <div className="mt-9 flex flex-wrap justify-center gap-3">
               <Btn as={Link} href="/concorso" size="lg" icon="arrow-right">
                 Invia candidatura
               </Btn>
-              <Btn as={Link} href="/reparti" size="lg" variant="outline">
+              <Btn as={Link} href="/reparti" size="lg" variant="secondary">
                 Scopri i reparti
               </Btn>
             </div>
           </div>
-        </Container>
-        <div className="border-t-2 border-ink">
+        </div>
+        <div className="border-t border-line p-3 md:p-6">
           <img
             src="/assets/hero-slide-1.jpg"
             alt="Questura Centrale di notte, volanti in sosta"
-            className="h-[48vh] w-full object-cover object-[50%_62%] md:h-[68vh]"
+            className="h-[300px] w-full rounded-lg border border-line object-cover object-[50%_62%] md:h-[520px]"
           />
         </div>
-      </section>
+      </Section>
 
-      <Marquee
-        className="bg-accent text-white"
-        items={['Polizia di Stato', 'Italian Paradise RP', 'Selezioni sempre aperte', 'Sicurezza 24/7', 'Sub Lege Libertas']}
-      />
+      <Section>
+        <Cells cols="grid-cols-2 md:grid-cols-4">
+          {STATS.map(([v, l]) => (
+            <Cell key={l} className="px-6 py-8 md:px-8 md:py-10">
+              <div className="text-4xl font-semibold tracking-tighter md:text-5xl">{v}</div>
+              <div className="mt-2 text-sm text-muted">{l}</div>
+            </Cell>
+          ))}
+        </Cells>
+      </Section>
 
-      <section className="border-b-2 border-ink">
-        <Container>
-          <div className="grid grid-cols-2 md:grid-cols-4">
-            {STATS.map(([v, l], i) => (
-              <div key={l} className={`py-10 md:py-14 ${i > 0 ? 'md:border-l-2 md:border-ink md:pl-8' : ''} ${i % 2 === 1 ? 'border-l-2 border-ink pl-5 md:pl-8' : ''} ${i > 1 ? 'border-t-2 border-ink md:border-t-0' : ''}`}>
-                <div className="display text-[clamp(3.4rem,8vw,8rem)]">{v}</div>
-                <div className="mono mt-4 text-xs text-mute">{l}</div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section className="py-16 md:py-28">
-        <Container>
-          <SectionTitle n="01" label="Missione" />
-          <div className="mt-10 grid gap-12 md:grid-cols-12">
-            <h2 className="display text-[clamp(2.6rem,6.5vw,6.5rem)] md:col-span-8">
-              Ordine, tutela e vicinanza al cittadino.
-            </h2>
-            <p className="text-lg leading-relaxed text-mute md:col-span-4 md:text-xl">
-              La Questura Centrale coordina reparti specializzati che operano ogni giorno sul territorio: dal
-              pattugliamento urbano alle indagini più complesse, ogni agente porta avanti lo stesso impegno verso la
-              sicurezza pubblica.
-            </p>
-          </div>
-          <ul className="mt-16 border-t-2 border-ink">
-            {[
-              ['Formazione', "Accademia & addestramento: dalle basi teoriche all'affiancamento sul campo con agenti esperti."],
-              ['Carriera', 'Otto gradi, da Agente a Questore. Impegno, esperienza e capacità di comando vengono riconosciuti.'],
-              ['Comunità', "L'Ufficio Relazioni Pubbliche è il punto di contatto diretto per segnalazioni, denunce e richieste."],
-            ].map(([t, d], i) => (
-              <li key={t} className="grid gap-3 border-b-2 border-ink py-7 md:grid-cols-12 md:items-baseline">
-                <span className="mono text-sm font-bold text-accent md:col-span-1">0{i + 1}</span>
-                <span className="display text-4xl md:col-span-5 md:text-6xl">{t}</span>
-                <span className="text-lg text-mute md:col-span-6">{d}</span>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </section>
-
-      <section className="pb-16 md:pb-28">
-        <Container>
-          <SectionTitle n="02" label="Reparti operativi" title="Una squadra per ogni esigenza." />
-          <div className="mt-12">
-            <DeptRows
-              depts={DEPTS}
-              cta={
-                <li className="py-8">
-                  <Btn as={Link} href="/reparti" variant="outline" icon="arrow-right">
-                    Tutti i reparti
-                  </Btn>
-                </li>
-              }
-            />
-          </div>
-        </Container>
-      </section>
-
-      <section className="border-y-2 border-ink bg-ink py-16 text-paper md:py-28">
-        <Container>
-          <Label n="03" className="text-paper/70">
-            Una carriera, otto gradi
-          </Label>
-          <p className="display mt-10 text-[clamp(2.4rem,6vw,6rem)]">
-            {GRADI.map(([name], i) => (
-              <span key={name} className="mr-5 inline-block">
-                {name}
-                <sup className="mono ml-1 align-super text-[0.28em] font-bold text-accent">{String(i + 1).padStart(2, '0')}</sup>
-                {i < GRADI.length - 1 ? <span className="text-paper/30"> /</span> : <span className="text-accent">.</span>}
+      <Section>
+        <Inner>
+          <SectionHead
+            badge="Missione"
+            title="Ordine, tutela e vicinanza al cittadino."
+            text="Dal pattugliamento urbano alle indagini più complesse, ogni agente porta avanti lo stesso impegno verso la sicurezza pubblica."
+          />
+        </Inner>
+        <Cells cols="md:grid-cols-3" className="border-t border-line">
+          {[
+            ['graduation', 'Formazione', 'Accademia & addestramento', "Un percorso strutturato dalle basi teoriche all'affiancamento sul campo con agenti esperti."],
+            ['medal', 'Carriera', 'Otto gradi, un solo obiettivo', 'Da Agente a Questore: impegno, esperienza e capacità di comando vengono riconosciuti.'],
+            ['handshake', 'Comunità', 'Vicini al cittadino', "L'Ufficio Relazioni Pubbliche è il punto di contatto diretto per segnalazioni, denunce e richieste."],
+          ].map(([icon, tag, title, text]) => (
+            <Cell key={title} className="p-6 md:p-8">
+              <span className="flex h-9 w-9 items-center justify-center rounded-md border border-line2">
+                <Icon name={icon} size={18} />
               </span>
-            ))}
-          </p>
-          <div className="mt-12">
-            <Btn as={Link} href="/qualifiche" variant="outline-paper" icon="arrow-right">
+              <Mono className="mt-6 block">{tag}</Mono>
+              <h3 className="mt-2 text-xl font-semibold tracking-tight">{title}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-muted">{text}</p>
+            </Cell>
+          ))}
+        </Cells>
+      </Section>
+
+      <Section>
+        <Inner className="!pb-12 md:!pb-14">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <SectionHead badge="Reparti operativi" title="Una squadra per ogni esigenza." />
+            <Btn as={Link} href="/reparti" variant="secondary" icon="arrow-right">
+              Tutti i reparti
+            </Btn>
+          </div>
+        </Inner>
+        <div className="border-t border-line">
+          <DeptCards depts={DEPTS} />
+        </div>
+      </Section>
+
+      <Section>
+        <Inner className="grid gap-12 md:grid-cols-[1fr_1.3fr] md:gap-16">
+          <div>
+            <SectionHead badge="Carriera" title="Otto gradi, dalla prima divisa alla guida della Questura." />
+            <Btn as={Link} href="/qualifiche" variant="secondary" icon="arrow-right" className="mt-8">
               Tutti i gradi
             </Btn>
           </div>
-        </Container>
-      </section>
+          <ol className="border-t border-line">
+            {GRADI.map(([name, text], i) => (
+              <li key={name} className="grid grid-cols-[2.5rem_1fr] gap-x-2 border-b border-line py-4">
+                <Mono className="pt-1">{String(i + 1).padStart(2, '0')}</Mono>
+                <div>
+                  <span className="font-semibold">{name}</span>
+                  <p className="mt-0.5 text-sm text-muted">{text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Inner>
+      </Section>
 
-      <section className="py-16 md:py-28">
-        <Container>
-          <SectionTitle n="04" label="Oltre il servizio" title="Resta in contatto." />
-          <div className="mt-12 grid gap-px border-2 border-ink bg-ink md:grid-cols-2">
-            {[
-              ['/notizie', '/assets/hero-slide-2.jpg', '30% 40%', 'Sul territorio', 'Le ultime notizie dalla Questura', 'Comunicati ufficiali, operazioni concluse e aggiornamenti sulla vita dei reparti.'],
-              ['/prenota', '/assets/hero-slide-1.jpg', '80% 50%', 'Servizi al cittadino', 'Prenota un appuntamento', "Appuntamento in Questura, URP o porto d'armi: scegli il servizio che ti serve."],
-            ].map(([href, img, pos, tag, title, text]) => (
-              <Link key={title} href={href} className="group bg-paper transition-colors hover:bg-accent hover:text-white">
-                <img src={img} alt="" className="h-64 w-full object-cover md:h-80" style={{ objectPosition: pos }} />
+      <Section>
+        <Cells cols="md:grid-cols-2">
+          {[
+            ['/notizie', '/assets/hero-slide-2.jpg', '30% 40%', 'Sul territorio', 'Le ultime notizie dalla Questura', 'Comunicati ufficiali, operazioni concluse e aggiornamenti sulla vita dei reparti.'],
+            ['/prenota', '/assets/hero-slide-1.jpg', '80% 50%', 'Servizi al cittadino', 'Prenota un appuntamento', "Appuntamento in Questura, URP o porto d'armi: scegli il servizio che ti serve."],
+          ].map(([href, img, pos, tag, title, text]) => (
+            <Cell key={title}>
+              <Link href={href} className="group block h-full hover:bg-bg2">
+                <div className="overflow-hidden">
+                  <img src={img} alt="" className="aspect-[16/8] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" style={{ objectPosition: pos }} />
+                </div>
                 <div className="p-6 md:p-8">
-                  <Label className="group-hover:text-white/80">{tag}</Label>
-                  <h3 className="display mt-4 text-4xl md:text-5xl">{title}</h3>
-                  <p className="mt-4 max-w-md text-lg text-mute group-hover:text-white/85">{text}</p>
+                  <Mono>{tag}</Mono>
+                  <h3 className="mt-3 text-2xl font-semibold tracking-tight">{title}</h3>
+                  <p className="mt-2 text-muted">{text}</p>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
+                    Continua <Icon name="arrow-right" size={14} />
+                  </span>
                 </div>
               </Link>
-            ))}
-          </div>
-        </Container>
-      </section>
+            </Cell>
+          ))}
+        </Cells>
+      </Section>
 
-      <section className="border-y-2 border-ink">
-        <Container className="py-16 md:py-28">
-          <blockquote className="display text-[clamp(2.2rem,5.5vw,5.5rem)]">
+      <Section>
+        <Inner className="mx-auto max-w-3xl text-center">
+          <blockquote className="h-section text-2xl md:text-4xl">
             &ldquo;Indossare questa divisa significa scegliere ogni giorno di mettersi al servizio di chi ci
             circonda.&rdquo;
           </blockquote>
-          <cite className="mono mt-8 block text-xs not-italic text-mute">— Commissario, Questura Centrale</cite>
-        </Container>
-      </section>
+          <cite className="mt-6 block text-sm not-italic text-muted">— Commissario, Questura Centrale</cite>
+        </Inner>
+      </Section>
 
-      <CtaBand
-        label="Concorso pubblico"
-        title="Candidati."
-        text="Le selezioni sono aperte tutto l'anno. Supera il colloquio, completa l'accademia e inizia il tuo percorso in uno dei nostri reparti."
+      <CtaBox
+        title="Entra a far parte del corpo."
+        text="Le selezioni sono aperte tutto l'anno. Supera il colloquio, completa l'accademia e inizia il tuo percorso."
         action={
-          <Btn as={Link} href="/concorso" variant="paper" size="lg" icon="arrow-right">
+          <Btn as={Link} href="/concorso" size="lg" icon="arrow-right">
             Invia candidatura
           </Btn>
         }

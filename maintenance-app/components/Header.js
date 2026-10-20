@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Icon } from './icons';
 import { NAV, AREA } from './nav';
 
 export function Header() {
@@ -14,80 +15,77 @@ export function Header() {
     setOpen(false);
   }, [pathname]);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [open]);
-
   return (
-    <>
-      <header className="sticky top-0 z-50 border-b-2 border-ink bg-paper">
-        <div className="mx-auto flex h-16 max-w-wide items-center gap-6 px-5 md:px-10">
-          <Link href="/" className="flex items-center gap-3" aria-label="Polizia di Stato, vai alla home">
-            <img src="/assets/crest-sm.png" width="26" height="40" alt="" className="h-9 w-auto" />
-            <span className="display hidden text-xl sm:block">
-              Polizia di Stato<span className="text-accent">.</span>
-            </span>
-          </Link>
+    <header className="sticky top-0 z-50 border-b border-line bg-bg/80 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-6 px-5 md:px-12">
+        <Link href="/" className="flex items-center gap-2.5" aria-label="Polizia di Stato, vai alla home">
+          <img src="/assets/crest-sm.png" width="26" height="40" alt="" className="h-8 w-auto" />
+          <span className="text-[15px] font-semibold tracking-tight">Polizia di Stato</span>
+        </Link>
 
-          <nav aria-label="Navigazione principale" className="ml-auto hidden items-center gap-7 lg:flex">
-            {NAV.map((n) => {
-              const active = pathname === n.href;
-              return (
-                <Link
-                  key={n.href}
-                  href={n.href}
-                  aria-current={active ? 'page' : undefined}
-                  className={`mono border-b-2 py-1 text-xs font-bold transition-colors ${
-                    active ? 'border-accent text-accent' : 'border-transparent hover:border-ink'
-                  }`}
-                >
-                  {n.label}
-                </Link>
-              );
-            })}
-          </nav>
+        <nav aria-label="Navigazione principale" className="hidden items-center gap-1 lg:flex">
+          {NAV.map((n) => {
+            const active = pathname === n.href;
+            return (
+              <Link
+                key={n.href}
+                href={n.href}
+                aria-current={active ? 'page' : undefined}
+                className={`rounded-md px-3 py-1.5 text-sm transition-colors ${
+                  active ? 'font-medium text-fg' : 'text-muted hover:text-fg'
+                }`}
+              >
+                {n.label}
+              </Link>
+            );
+          })}
+        </nav>
 
+        <div className="ml-auto flex items-center gap-2">
           <Link
             href={AREA.href}
             aria-current={areaActive ? 'page' : undefined}
-            className={`mono ml-auto hidden border-2 px-4 py-2.5 text-xs font-bold transition-colors sm:block lg:ml-0 ${
-              areaActive ? 'border-accent bg-accent text-white' : 'border-ink bg-ink text-paper hover:border-accent hover:bg-accent'
-            }`}
+            className="hidden h-8 items-center rounded-md border border-line2 px-3 text-sm font-medium hover:bg-bg2 sm:inline-flex"
           >
             {AREA.label}
+          </Link>
+          <Link
+            href="/concorso"
+            className="hidden h-8 items-center rounded-md border border-fg bg-fg px-3 text-sm font-medium text-bg hover:opacity-85 sm:inline-flex"
+          >
+            Candidati
           </Link>
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-label={open ? 'Chiudi il menu' : 'Apri il menu di navigazione'}
-            className="mono ml-auto border-2 border-ink px-4 py-2.5 text-xs font-bold hover:bg-ink hover:text-paper sm:ml-0 lg:hidden"
+            className="flex h-8 w-8 items-center justify-center rounded-md border border-line2 lg:hidden"
           >
-            {open ? 'Chiudi' : 'Menu'}
+            <Icon name={open ? 'x' : 'menu'} size={16} />
           </button>
         </div>
-      </header>
+      </div>
 
-      <div
-        className={`fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-ink text-paper lg:hidden ${open ? 'block' : 'hidden'}`}
-        aria-hidden={!open}
-      >
-        <nav aria-label="Menu mobile" className="px-5 pb-12 pt-4">
-          {[...NAV, AREA].map((n, i) => (
+      {open ? (
+        <nav aria-label="Menu mobile" className="border-t border-line bg-bg px-5 pb-6 pt-2 lg:hidden">
+          {[...NAV, AREA].map((n) => (
             <Link
               key={n.href}
               href={n.href}
-              className="flex items-baseline gap-4 border-b-2 border-paper/30 py-5 hover:text-accent"
+              className={`flex items-center justify-between border-b border-line py-4 text-lg ${
+                pathname === n.href ? 'font-semibold' : 'text-muted'
+              }`}
             >
-              <span className="mono text-xs text-accent">0{i + 1}</span>
-              <span className="display text-5xl">{n.label}</span>
+              {n.label}
+              <Icon name="chevron" size={18} />
             </Link>
           ))}
+          <Link href="/concorso" className="mt-5 flex h-12 items-center justify-center rounded-md bg-fg font-medium text-bg">
+            Candidati
+          </Link>
         </nav>
-      </div>
-    </>
+      ) : null}
+    </header>
   );
 }

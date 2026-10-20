@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged, signInWithCustomToken } from 'firebase/auth';
-import { Container, Label } from '../../components/ui';
+import { Badge } from '../../components/ui';
 import { auth, DISCORD_AUTH_WORKER_URL, DISCORD_CLIENT_ID } from '../../lib/firebase';
 
 export default function LoginPage() {
@@ -67,19 +67,16 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="border-b-2 border-ink">
-      <Container className="grid gap-12 py-16 md:grid-cols-12 md:py-28">
-        <div className="md:col-span-7">
-          <Label>Accesso riservato</Label>
-          <h1 className="display mt-6 text-[clamp(3.2rem,10vw,10rem)]">
-            Area
-            <br />
-            personale<span className="text-accent">.</span>
-          </h1>
-        </div>
-        <div className="flex flex-col justify-end md:col-span-5">
-          <img src="/assets/crest-md.png" width="52" height="82" alt="Stemma Polizia di Stato" className="mb-8 h-20 w-auto self-start" />
-          <p className="text-xl font-medium leading-snug">
+    <section className="relative overflow-hidden">
+      <div aria-hidden="true" className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
+      <div className="relative flex min-h-[70vh] items-center justify-center px-5 py-16">
+        <div className="w-full max-w-sm rounded-xl border border-line2 bg-bg p-8 text-center shadow-sm">
+          <img src="/assets/crest-md.png" width="52" height="82" alt="Stemma Polizia di Stato" className="mx-auto h-16 w-auto" />
+          <div className="mt-6">
+            <Badge>Accesso riservato</Badge>
+          </div>
+          <h1 className="h-section mt-4 text-3xl">Area Personale</h1>
+          <p className="mt-3 text-sm leading-relaxed text-muted">
             Accedi con il tuo account per consultare il tuo profilo, i turni assegnati e le comunicazioni di reparto.
           </p>
           {!checking ? (
@@ -87,13 +84,10 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={handleDiscordLogin}
-                className="mt-8 flex w-full items-center justify-center gap-3 border-2 border-ink bg-ink px-6 py-5 text-base font-extrabold uppercase tracking-wide text-paper transition-colors hover:border-[#5865F2] hover:bg-[#5865F2]"
+                className="mt-7 flex h-11 w-full items-center justify-center gap-2.5 rounded-md bg-[#5865F2] text-sm font-medium text-white transition-opacity hover:opacity-90"
               >
-                <svg width="22" height="22" viewBox="0 0 24 18" fill="none" aria-hidden="true">
-                  <path
-                    fill="currentColor"
-                    d="M20.3 1.8A19.5 19.5 0 0 0 15.6.3a.07.07 0 0 0-.08.04c-.2.36-.43.83-.59 1.2a18 18 0 0 0-5.4 0 12 12 0 0 0-.6-1.2.08.08 0 0 0-.08-.04A19.4 19.4 0 0 0 3.9 1.8a.07.07 0 0 0-.03.03C.9 6.3.1 10.6.5 14.9a.08.08 0 0 0 .03.06 19.6 19.6 0 0 0 5.9 3 .08.08 0 0 0 .08-.03c.46-.62.86-1.28 1.2-1.97a.08.08 0 0 0-.04-.1 12.9 12.9 0 0 1-1.85-.88.08.08 0 0 1 0-.13c.12-.1.25-.2.37-.29a.07.07 0 0 1 .08 0c3.9 1.77 8.1 1.77 11.94 0a.07.07 0 0 1 .08 0c.12.1.25.2.37.3a.08.08 0 0 1 0 .13c-.59.34-1.21.63-1.85.87a.08.08 0 0 0-.04.11c.35.68.76 1.34 1.2 1.96a.08.08 0 0 0 .08.03 19.5 19.5 0 0 0 5.93-3 .08.08 0 0 0 .03-.05c.5-4.97-.83-9.24-3.5-13.06a.06.06 0 0 0-.03-.03zM8.02 12.3c-1.18 0-2.15-1.08-2.15-2.4 0-1.33.95-2.41 2.15-2.41 1.21 0 2.17 1.09 2.15 2.4 0 1.33-.95 2.41-2.15 2.41zm7.97 0c-1.18 0-2.15-1.08-2.15-2.4 0-1.33.95-2.41 2.15-2.41 1.21 0 2.17 1.09 2.15 2.4 0 1.33-.94 2.41-2.15 2.41z"
-                  />
+                <svg width="18" height="18" viewBox="0 0 24 18" fill="none" aria-hidden="true">
+                  <path fill="currentColor" d="M20.3 1.8A19.5 19.5 0 0 0 15.6.3a.07.07 0 0 0-.08.04c-.2.36-.43.83-.59 1.2a18 18 0 0 0-5.4 0 12 12 0 0 0-.6-1.2.08.08 0 0 0-.08-.04A19.4 19.4 0 0 0 3.9 1.8a.07.07 0 0 0-.03.03C.9 6.3.1 10.6.5 14.9a.08.08 0 0 0 .03.06 19.6 19.6 0 0 0 5.9 3 .08.08 0 0 0 .08-.03c.46-.62.86-1.28 1.2-1.97a.08.08 0 0 0-.04-.1 12.9 12.9 0 0 1-1.85-.88.08.08 0 0 1 0-.13c.12-.1.25-.2.37-.29a.07.07 0 0 1 .08 0c3.9 1.77 8.1 1.77 11.94 0a.07.07 0 0 1 .08 0c.12.1.25.2.37.3a.08.08 0 0 1 0 .13c-.59.34-1.21.63-1.85.87a.08.08 0 0 0-.04.11c.35.68.76 1.34 1.2 1.96a.08.08 0 0 0 .08.03 19.5 19.5 0 0 0 5.93-3 .08.08 0 0 0 .03-.05c.5-4.97-.83-9.24-3.5-13.06a.06.06 0 0 0-.03-.03zM8.02 12.3c-1.18 0-2.15-1.08-2.15-2.4 0-1.33.95-2.41 2.15-2.41 1.21 0 2.17 1.09 2.15 2.4 0 1.33-.95 2.41-2.15 2.41zm7.97 0c-1.18 0-2.15-1.08-2.15-2.4 0-1.33.95-2.41 2.15-2.41 1.21 0 2.17 1.09 2.15 2.4 0 1.33-.94 2.41-2.15 2.41z" />
                 </svg>
                 Continua con Discord
               </button>
@@ -101,8 +95,8 @@ export default function LoginPage() {
                 <p
                   role="status"
                   aria-live="polite"
-                  className={`mono mt-5 border-2 px-4 py-3 text-xs font-bold ${
-                    status.type === 'error' ? 'border-bad text-bad' : status.type === 'success' ? 'border-ok text-ok' : 'border-ink text-mute'
+                  className={`mt-4 rounded-md border px-3 py-2 text-left text-sm ${
+                    status.type === 'error' ? 'border-bad/40 text-bad' : status.type === 'success' ? 'border-ok/40 text-ok' : 'border-line text-muted'
                   }`}
                 >
                   {status.msg}
@@ -110,10 +104,10 @@ export default function LoginPage() {
               ) : null}
             </>
           ) : (
-            <p className="mono mt-8 text-xs text-mute">Verifica dell&apos;accesso…</p>
+            <p className="mt-7 text-sm text-muted">Verifica dell&apos;accesso…</p>
           )}
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

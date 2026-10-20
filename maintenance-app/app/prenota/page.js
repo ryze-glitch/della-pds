@@ -1,11 +1,12 @@
-import { Btn, Container, CtaBand, Label, PageHero, SectionTitle } from '../../components/ui';
+import { Btn, Cell, Cells, CtaBox, Inner, Mono, PageHero, Section, SectionHead } from '../../components/ui';
+import { Icon } from '../../components/icons';
 
 export const metadata = { title: 'Prenota — Polizia di Stato — Italian Paradise RP' };
 
 const SERVICES = [
-  ['Appuntamento in Questura', 'Richiedi un incontro diretto con un agente per pratiche, segnalazioni o colloqui informativi.', ['Pratiche e segnalazioni', 'Colloqui informativi', 'Incontro con un agente']],
-  ['URP', "L'Ufficio Relazioni Pubbliche risponde a domande generali e indirizza la tua richiesta al reparto giusto.", ['Informazioni generali', 'Orientamento ai reparti', 'Richieste dei cittadini']],
-  ["Porto d'armi", "Prenota un appuntamento dedicato per l'iter di richiesta o rinnovo del porto d'armi.", ['Nuova richiesta', 'Rinnovo', 'Verifica requisiti']],
+  ['calendar-check', 'Appuntamento in Questura', 'Richiedi un incontro diretto con un agente per pratiche, segnalazioni o colloqui informativi.', ['Pratiche e segnalazioni', 'Colloqui informativi', 'Incontro con un agente']],
+  ['headset', 'URP', "L'Ufficio Relazioni Pubbliche risponde a domande generali e indirizza la tua richiesta al reparto giusto.", ['Informazioni generali', 'Orientamento ai reparti', 'Richieste dei cittadini']],
+  ['shield-check', "Porto d'armi", "Prenota un appuntamento dedicato per l'iter di richiesta o rinnovo del porto d'armi.", ['Nuova richiesta', 'Rinnovo', 'Verifica requisiti']],
 ];
 
 const STEPS = [
@@ -18,59 +19,53 @@ export default function PrenotaPage() {
   return (
     <>
       <PageHero
-        label="Servizi al cittadino"
+        badge="Servizi al cittadino"
         title="Prenota un servizio."
         text="Alcuni servizi della Questura richiedono un appuntamento. Scegli quello che ti serve e contattaci per fissare un orario."
-        img="/assets/hero-slide-2.jpg"
-        pos="center 60%"
       />
 
-      <section className="py-16 md:py-28">
-        <Container>
-          <SectionTitle n="01" label="Cosa puoi prenotare" title="I nostri servizi." />
-          <ul className="mt-12 border-t-2 border-ink">
-            {SERVICES.map(([t, d, pts], i) => (
-              <li key={t} className="grid gap-6 border-b-2 border-ink py-10 md:grid-cols-12 md:items-start">
-                <span className="mono text-sm font-bold text-accent md:col-span-1">0{i + 1}</span>
-                <h3 className="display text-[clamp(2.2rem,4.2vw,4.2rem)] md:col-span-5 [overflow-wrap:normal]">{t}</h3>
-                <p className="text-lg text-mute md:col-span-3">{d}</p>
-                <ul className="mono space-y-2 text-xs font-bold md:col-span-3">
-                  {pts.map((p) => (
-                    <li key={p} className="border-b border-ink/20 pb-2">
-                      + {p}
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </section>
+      <Section>
+        <Cells cols="md:grid-cols-3">
+          {SERVICES.map(([icon, t, d, pts]) => (
+            <Cell key={t} className="flex flex-col p-6 md:p-8">
+              <span className="flex h-10 w-10 items-center justify-center rounded-md border border-line2">
+                <Icon name={icon} size={20} />
+              </span>
+              <h3 className="mt-6 text-2xl font-semibold tracking-tight">{t}</h3>
+              <p className="mt-2 leading-relaxed text-muted">{d}</p>
+              <ul className="mt-6 space-y-2.5 border-t border-line pt-6 text-sm">
+                {pts.map((p) => (
+                  <li key={p} className="flex items-center gap-2.5">
+                    <Icon name="check" size={15} className="text-ok" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </Cell>
+          ))}
+        </Cells>
+      </Section>
 
-      <section className="border-y-2 border-ink bg-ink py-16 text-paper md:py-28">
-        <Container>
-          <Label n="02" className="text-paper/70">
-            Come funziona
-          </Label>
-          <h2 className="display mt-8 text-[clamp(2.6rem,7vw,7rem)]">Prenotare è semplice.</h2>
-          <ol className="mt-14 grid border-2 border-paper md:grid-cols-3">
-            {STEPS.map(([n, t, d], i) => (
-              <li key={t} className={`p-6 md:p-10 ${i > 0 ? 'border-t-2 border-paper md:border-l-2 md:border-t-0' : ''}`}>
-                <div className="display text-[clamp(4rem,9vw,9rem)] text-accent">{n}</div>
-                <h3 className="mt-6 text-3xl font-extrabold">{t}</h3>
-                <p className="mt-3 text-lg text-paper/70">{d}</p>
-              </li>
-            ))}
-          </ol>
-        </Container>
-      </section>
+      <Section>
+        <Inner className="!pb-12">
+          <SectionHead badge="Come funziona" title="Prenotare è semplice." />
+        </Inner>
+        <Cells cols="md:grid-cols-3" className="border-t border-line">
+          {STEPS.map(([n, t, d]) => (
+            <Cell key={t} className="p-6 md:p-8">
+              <Mono>{n}</Mono>
+              <h3 className="mt-4 text-xl font-semibold tracking-tight">{t}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-muted">{d}</p>
+            </Cell>
+          ))}
+        </Cells>
+      </Section>
 
-      <CtaBand
-        label="Serve altro?"
+      <CtaBox
         title="Scrivici su Discord."
         text="Per fissare un appuntamento o avere informazioni, il modo più rapido è passare dal nostro server Discord."
         action={
-          <Btn href="#" variant="paper" size="lg" icon="arrow-up-right">
+          <Btn href="#" size="lg" icon="arrow-up-right">
             Vai al Discord IPRP
           </Btn>
         }
