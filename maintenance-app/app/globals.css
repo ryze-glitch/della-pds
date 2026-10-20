@@ -120,8 +120,16 @@ body {
 .stagger > *:nth-child(6) { animation-delay: 350ms !important; }
 .stagger > *:nth-child(n + 7) { animation-delay: 420ms !important; }
 
+/* Con "riduci animazioni" attivo togliamo solo il movimento: restano
+   le dissolvenze, così il sito non appare "fermo". */
+@keyframes fade-only {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .anim-up, .anim-down, .anim-scale, .page-enter, .reveal.is-in .stagger > * { animation: none !important; }
-  .js .reveal { opacity: 1; transform: none; transition: none; }
-  .js .reveal:not(.is-in) .stagger > * { opacity: 1; }
+  .anim-up, .anim-down, .anim-scale, .page-enter, .reveal.is-in .stagger > * {
+    animation-name: fade-only !important;
+    animation-duration: 0.7s !important;
+  }
+  .js .reveal { transform: none; transition: opacity 0.8s ease; }
 }
