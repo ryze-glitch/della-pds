@@ -1,98 +1,83 @@
-import { BackHome, Container, Eyebrow, Rule, Section } from '../../components/ui';
+import Link from 'next/link';
+import { Btn, Container, CtaBand, Label, PageHero, SectionTitle } from '../../components/ui';
 
 export const metadata = { title: 'Notizie — Polizia di Stato — Italian Paradise RP' };
+
+const NEWS = [
+  ['12 Agosto 2026', "Il Nucleo Operativo Speciale rafforza l'organico", "A seguito degli ultimi interventi ad alto rischio, il Nucleo Operativo Speciale ha aperto una selezione interna per rafforzare l'organico. I candidati dovranno superare una prova fisica e un colloquio tattico con i responsabili di reparto.", '/assets/hero-slide-2.jpg', '80% 50%'],
+  ['5 Agosto 2026', 'Nuovi turni per la Polizia Stradale', 'Da questo mese la Polizia Stradale adotta una nuova turnazione per garantire una copertura più costante delle arterie principali della città, in particolare nelle ore serali dei fine settimana.', '/assets/hero-slide-1.jpg', '10% 60%'],
+];
 
 export default function NotiziePage() {
   return (
     <>
-      <section className="grain relative flex h-96 items-end overflow-hidden border-b border-line">
-        <img src="/assets/hero-slide-2.jpg" alt="Questura Centrale di giorno" className="absolute inset-0 h-full w-full object-cover opacity-60 grayscale" />
-        <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-bg/10" />
-        <Container className="relative z-10 pb-14">
-          <Eyebrow>Comunicati &amp; Aggiornamenti</Eyebrow>
-          <h1 className="mt-4 font-display text-5xl font-semibold tracking-tight sm:text-6xl">Le nostre notizie</h1>
-        </Container>
-      </section>
+      <PageHero
+        label="Comunicati & aggiornamenti"
+        title="Le nostre notizie."
+        text="Comunicati ufficiali, aggiornamenti sui reparti e storie dal campo: qui raccontiamo cosa succede ogni giorno nella Polizia di Stato di Italian Paradise RP."
+        img="/assets/hero-slide-2.jpg"
+        pos="center 40%"
+      />
 
-      <Section>
+      <section className="py-16 md:py-28">
         <Container>
-          <Eyebrow n="01">Dalla Questura</Eyebrow>
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-dim">
-            Comunicati ufficiali, aggiornamenti sui reparti e storie dal campo: qui raccontiamo cosa succede ogni
-            giorno all&apos;interno della Polizia di Stato di Italian Paradise RP.
-          </p>
-
-          <div className="mt-12 grid gap-px border border-line bg-line lg:grid-cols-2">
-            <div className="aspect-[4/3] overflow-hidden bg-bg lg:aspect-auto">
-              <img src="/assets/hero-slide-1.jpg" alt="Nuove reclute in formazione in accademia" className="h-full w-full object-cover opacity-60 grayscale" />
-            </div>
-            <div className="bg-bg p-8">
-              <Eyebrow>18 Agosto 2026</Eyebrow>
-              <h3 className="mt-3 font-display text-2xl font-semibold">Al via il nuovo corso per le reclute</h3>
-              <p className="mt-3 text-sm leading-relaxed text-ink-dim">
+          <SectionTitle n="01" label="In evidenza" />
+          <article className="mt-10 grid gap-8 md:grid-cols-2 md:gap-12">
+            <img src="/assets/hero-slide-1.jpg" alt="Nuove reclute in formazione in accademia" className="h-72 w-full border-2 border-ink object-cover md:h-full md:min-h-[26rem]" />
+            <div className="flex flex-col justify-center">
+              <Label>18 Agosto 2026</Label>
+              <h2 className="display mt-5 text-[clamp(2.6rem,6vw,6rem)]">Al via il nuovo corso per le reclute.</h2>
+              <p className="mt-6 text-lg leading-relaxed text-mute">
                 Ha preso il via questa settimana il nuovo ciclo di formazione in accademia: dodici nuove reclute
                 inizieranno un percorso di otto settimane tra teoria, addestramento fisico e affiancamento sul campo
                 prima dell&apos;assegnazione ai reparti.
               </p>
-              <span className="mt-6 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.08em] text-primary">Leggi tutto →</span>
+              <div className="mt-8">
+                <Btn as="button" type="button" variant="outline" icon="arrow-right">
+                  Leggi tutto
+                </Btn>
+              </div>
             </div>
-          </div>
-
-          <div className="mt-px grid gap-px border-x border-b border-line bg-line sm:grid-cols-2">
-            <div className="bg-bg p-8">
-              <Eyebrow>12 Agosto 2026</Eyebrow>
-              <h3 className="mt-3 font-display text-lg font-semibold">Il Nucleo Operativo Speciale rafforza l&apos;organico</h3>
-              <p className="mt-3 text-sm leading-relaxed text-ink-dim">
-                A seguito degli ultimi interventi ad alto rischio, il Nucleo Operativo Speciale ha aperto una
-                selezione interna per rafforzare l&apos;organico.
-              </p>
-            </div>
-            <div className="bg-bg p-8">
-              <Eyebrow>5 Agosto 2026</Eyebrow>
-              <h3 className="mt-3 font-display text-lg font-semibold">Nuovi turni per la Polizia Stradale</h3>
-              <p className="mt-3 text-sm leading-relaxed text-ink-dim">
-                Da questo mese la Polizia Stradale adotta una nuova turnazione per garantire una copertura più
-                costante delle arterie principali della città.
-              </p>
-            </div>
-          </div>
+          </article>
         </Container>
-      </Section>
+      </section>
 
-      <Rule />
-
-      <Section>
+      <section className="pb-16 md:pb-28">
         <Container>
-          <Eyebrow n="02">In Breve</Eyebrow>
-          <h2 className="mt-4 font-display text-3xl font-semibold">Altri aggiornamenti</h2>
-          <div className="mt-10 grid gap-10 lg:grid-cols-[1.5fr_1fr]">
-            <ul className="divide-y divide-line border-y border-line">
-              <li className="flex gap-5 py-5">
-                <img src="/assets/hero-slide-2.jpg" alt="Volante della Polizia" className="h-16 w-24 flex-none object-cover opacity-70 grayscale" />
-                <div>
-                  <h3 className="font-semibold">Nuove volanti in dotazione al Reparto</h3>
-                  <p className="mt-1 text-sm text-ink-dim">Consegnati questa settimana due nuovi veicoli per il pattugliamento del centro città.</p>
-                </div>
+          <SectionTitle n="02" label="Archivio" />
+          <ul className="mt-10 border-t-2 border-ink">
+            {NEWS.map(([date, title, text, img, pos]) => (
+              <li key={title} className="grid gap-6 border-b-2 border-ink py-10 md:grid-cols-12 md:items-center">
+                <Label className="md:col-span-2">{date}</Label>
+                <h3 className="display text-4xl md:col-span-5 md:text-5xl">{title}</h3>
+                <p className="text-lg text-mute md:col-span-3">{text}</p>
+                <img src={img} alt="" className="hidden h-28 w-full object-cover md:col-span-2 md:block" style={{ objectPosition: pos }} />
               </li>
-              <li className="flex gap-5 py-5">
-                <img src="/assets/hero-slide-1.jpg" alt="Ufficio Relazioni Pubbliche" className="h-16 w-24 flex-none object-cover opacity-70 grayscale" />
-                <div>
-                  <h3 className="font-semibold">URP: nuovi orari di sportello</h3>
-                  <p className="mt-1 text-sm text-ink-dim">L&apos;Ufficio Relazioni Pubbliche estende gli orari di apertura per le segnalazioni dei cittadini.</p>
-                </div>
+            ))}
+            {[
+              ['Nuove volanti in dotazione al Reparto', 'Consegnati questa settimana due nuovi veicoli per il pattugliamento del centro città.'],
+              ['URP: nuovi orari di sportello', "L'Ufficio Relazioni Pubbliche estende gli orari di apertura per le segnalazioni dei cittadini."],
+            ].map(([title, text]) => (
+              <li key={title} className="grid gap-3 border-b-2 border-ink py-7 md:grid-cols-12 md:items-baseline">
+                <Label className="md:col-span-2">In breve</Label>
+                <h3 className="text-2xl font-extrabold md:col-span-5">{title}</h3>
+                <p className="text-mute md:col-span-5">{text}</p>
               </li>
-            </ul>
-            <div className="border border-line p-7">
-              <h3 className="font-display text-lg font-semibold">Resta aggiornato</h3>
-              <p className="mt-3 text-sm leading-relaxed text-ink-dim">
-                Ricevi le ultime notizie e i comunicati della Questura direttamente sul canale Discord di IPRP.
-              </p>
-              <span className="mt-6 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.08em] text-primary">Unisciti al Discord →</span>
-            </div>
-          </div>
+            ))}
+          </ul>
         </Container>
-      </Section>
-      <BackHome />
+      </section>
+
+      <CtaBand
+        label="Resta aggiornato"
+        title="Entra su Discord."
+        text="Ricevi le ultime notizie e i comunicati della Questura direttamente sul canale Discord di IPRP."
+        action={
+          <Btn href="#" variant="paper" size="lg" icon="arrow-up-right">
+            Unisciti al Discord
+          </Btn>
+        }
+      />
     </>
   );
 }

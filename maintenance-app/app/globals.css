@@ -2,120 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Editoriale, scuro di base — stessa identità della pagina di
-   manutenzione (nero caldo, crema, oro), estesa a tutto il sito.
-   Il tema chiaro è una variante "carta", non il Material pastello di
-   prima. data-theme assente = segue il sistema (vedi media query). */
-:root,
-:root[data-theme='dark'] {
-  color-scheme: dark;
-  --bg: #0b0a08;
-  --surface: #121109;
-  --surface-alt: #17150e;
-  --surface-strong: #201d13;
-  --ink: #f4efe3;
-  --ink-dim: #9c9587;
-  --line: rgba(244, 239, 227, 0.12);
-  --line-strong: rgba(244, 239, 227, 0.22);
-  --primary: #c9a24b;
-  --on-primary: #16130b;
-  --primary-soft: rgba(201, 162, 75, 0.14);
-  --on-primary-soft: #e9c87a;
-  --success: #7cc576;
-  --on-success: #16130b;
-  --danger: #e0574a;
-  --on-danger: #16130b;
-}
-
-:root[data-theme='light'] {
+:root {
   color-scheme: light;
-  --bg: #f7f2e7;
-  --surface: #fffdf8;
-  --surface-alt: #efe7d6;
-  --surface-strong: #e5dac3;
-  --ink: #17140d;
-  --ink-dim: #6b6252;
-  --line: rgba(23, 20, 13, 0.12);
-  --line-strong: rgba(23, 20, 13, 0.24);
-  --primary: #8a6a1f;
-  --on-primary: #fffdf8;
-  --primary-soft: rgba(138, 106, 31, 0.1);
-  --on-primary-soft: #6b5219;
-  --success: #2f6d2b;
-  --on-success: #fffdf8;
-  --danger: #a23527;
-  --on-danger: #fffdf8;
-}
-
-/* Niente auto-switch sul prefers-color-scheme: lo scuro è l'identità
-   di default del brand, indipendentemente dal sistema. Il chiaro
-   resta disponibile solo scegliendolo esplicitamente dal toggle. */
-
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
 }
 
 body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
-  font-optical-sizing: auto;
+  background: #f5f4f0;
+  color: #0a0a0a;
+  font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Grana sottile sugli sfondi scuri, coerente con la pagina di
-   manutenzione: aggiunge texture senza inquinare il contrasto. */
-.grain {
-  position: relative;
-  isolation: isolate;
-}
-.grain::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  opacity: 0.045;
-  mix-blend-mode: overlay;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+::selection {
+  background: #1a3cff;
+  color: #fff;
 }
 
-.hairline-grid {
-  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 64px 64px;
+@layer components {
+  .display {
+    font-weight: 900;
+    font-stretch: 80%;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    line-height: 0.9;
+    overflow-wrap: break-word;
+    hyphens: manual;
+  }
+  .mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
 }
 
-@keyframes ripple-anim {
+@keyframes marquee {
   from {
-    transform: scale(0);
-    opacity: 0.25;
+    transform: translateX(0);
   }
   to {
-    transform: scale(1);
-    opacity: 0;
+    transform: translateX(-50%);
   }
 }
 
-.ripple {
-  position: absolute;
-  border-radius: 50%;
-  background: currentColor;
-  pointer-events: none;
-  transform: scale(0);
-  animation: ripple-anim 500ms ease-out;
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ripple {
+  .marquee-track {
     animation: none;
-    display: none;
   }
 }

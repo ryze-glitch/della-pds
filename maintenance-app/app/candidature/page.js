@@ -2,8 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
-import { Btn, Chip, Container } from '../../components/ui';
-import { Icon } from '../../components/icons';
+import { Btn, Container, Label } from '../../components/ui';
 import { CandidateItem } from '../../components/CandidateItem';
 import { useAgentProfile } from '../../components/useAgentProfile';
 import { db } from '../../lib/firebase';
@@ -199,56 +198,55 @@ export default function CandidaturePage() {
   }, [candidates, query]);
 
   return (
-    <Container className="py-14">
-      <section className="flex flex-col gap-6 border border-line p-7 sm:flex-row sm:items-center">
-        <div className="flex h-16 w-16 flex-none items-center justify-center border border-primary/40 text-primary">
-          <Icon name="assignment_ind" />
-        </div>
-        <div className="flex-1">
-          <span className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-primary">Area Personale</span>
-          <h1 className="mt-1 font-display text-2xl font-semibold">Gestione Candidature</h1>
-          <Chip className="mt-3" role="status">
-            {loaded ? `${candidates.length} ${candidates.length === 1 ? 'candidatura' : 'candidature'}` : 'Caricamento...'}
-          </Chip>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <Btn as="a" href="/dashboard" variant="outlined" iconStart="dashboard">
-            Torna alla dashboard
-          </Btn>
-          <Btn as="button" type="button" variant="outlined" iconStart="logout" onClick={logout}>
-            Esci dall&apos;account
-          </Btn>
-        </div>
+    <>
+      <section className="border-b-2 border-ink">
+        <Container className="py-12 md:py-20">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <Label>Area personale</Label>
+            <div className="flex flex-wrap gap-3">
+              <Btn as="a" href="/dashboard" variant="outline">
+                Dashboard
+              </Btn>
+              <Btn as="button" type="button" variant="outline" onClick={logout}>
+                Esci
+              </Btn>
+            </div>
+          </div>
+          <h1 className="display mt-8 text-[clamp(3rem,9vw,9rem)]">Candidature.</h1>
+          <span role="status" className="mono mt-8 inline-block border-2 border-accent px-3 py-1.5 text-sm font-bold text-accent">
+            {loaded ? `${candidates.length} ${candidates.length === 1 ? 'candidatura' : 'candidature'}` : 'Caricamento…'}
+          </span>
+        </Container>
       </section>
 
-      <section className="mt-10">
-        <label className="flex items-center gap-3 border border-line px-4 py-3">
-          <Icon name="search" className="text-ink-dim" />
+      <Container className="py-12 md:py-20">
+        <label className="flex items-center gap-4 border-2 border-ink px-5 py-4">
+          <span className="mono text-xs font-bold">Cerca</span>
           <span className="sr-only">Cerca una candidatura</span>
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Cerca per nome, cognome o ID Discord..."
+            placeholder="Nome, cognome o ID Discord..."
             autoComplete="off"
-            className="w-full bg-transparent text-sm outline-none placeholder:text-ink-dim"
+            className="w-full bg-transparent text-lg outline-none placeholder:text-mute"
           />
         </label>
 
         {!loaded ? (
-          <div className={`mt-6 text-sm ${status.error ? 'text-danger' : 'text-ink-dim'}`} role="status">
+          <div className={`mono mt-8 text-xs font-bold ${status.error ? 'text-bad' : 'text-mute'}`} role="status">
             {status.msg}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="mt-6 text-sm text-ink-dim">Nessuna candidatura trovata.</div>
+          <div className="mono mt-8 text-xs font-bold text-mute">Nessuna candidatura trovata.</div>
         ) : (
-          <div className="mt-6 space-y-3">
+          <div className="mt-8 space-y-3">
             {filtered.map((c) => (
               <CandidateItem key={c.decisionId} c={c} currentAgent={currentAgent} onDecide={handleDecide} />
             ))}
           </div>
         )}
-      </section>
-    </Container>
+      </Container>
+    </>
   );
 }

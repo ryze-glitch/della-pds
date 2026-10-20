@@ -1,8 +1,6 @@
 import './globals.css';
-import { ThemeScript } from '../components/ThemeScript';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
-import { ICON_NAMES } from '../components/icons';
 
 export const metadata = {
   title: 'Polizia di Stato — Italian Paradise RP',
@@ -14,25 +12,20 @@ export default function RootLayout({ children }) {
   return (
     <html lang="it">
       <head>
-        <meta name="color-scheme" content="light dark" />
-        <ThemeScript />
+        <meta name="color-scheme" content="light" />
         <link rel="icon" href="/favicon.ico?v=2" />
         <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=IBM+Plex+Mono:wght@500&display=swap"
-        />
-        <link
-          rel="stylesheet"
-          href={`https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=${ICON_NAMES}&display=block`}
+          href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;500;700&display=swap"
         />
       </head>
       <body>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-primary focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase focus:text-on-primary"
+          className="mono sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-accent focus:px-4 focus:py-2 focus:text-xs focus:text-white"
         >
           Vai al contenuto
         </a>

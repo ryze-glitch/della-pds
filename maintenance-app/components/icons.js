@@ -1,14 +1,99 @@
-export function Icon({ name, className = '', filled = false }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`material-symbols-outlined inline-block select-none leading-none ${filled ? 'icon-fill' : ''} ${className}`}
-      style={filled ? { fontVariationSettings: "'FILL' 1" } : undefined}
-    >
-      {name}
-    </span>
-  );
-}
+import {
+  Menu,
+  X,
+  Sun,
+  Moon,
+  User,
+  ArrowRight,
+  ArrowLeft,
+  ArrowUpRight,
+  ExternalLink,
+  Shield,
+  ShieldCheck,
+  GraduationCap,
+  Medal,
+  Handshake,
+  Users,
+  Newspaper,
+  Calendar,
+  CalendarCheck,
+  Headset,
+  Mic,
+  BookOpen,
+  Clock,
+  Drama,
+  ChevronRight,
+  ChevronDown,
+  LogOut,
+  LayoutDashboard,
+  Search,
+  ClipboardList,
+  CheckCircle2,
+  XCircle,
+  Siren,
+  Car,
+  TrendingUp,
+  Repeat,
+  Award,
+  UserCheck,
+  Fingerprint,
+  MessageCircle,
+  Sparkles,
+  Crown,
+  Dog,
+  MapPin,
+  Mail,
+} from 'lucide-react';
 
-export const ICON_NAMES =
-  'arrow_back,arrow_forward,assignment_ind,brightness_auto,check_circle,chevron_right,close,dark_mode,dashboard,event,forum,groups,handshake,home,how_to_reg,light_mode,local_police,logout,menu,menu_book,mic,military_tech,newspaper,open_in_new,person,schedule,school,search,shield,support_agent,swap_horiz,theater_comedy,trending_up,workspace_premium';
+const MAP = {
+  menu: Menu,
+  x: X,
+  sun: Sun,
+  moon: Moon,
+  user: User,
+  'arrow-right': ArrowRight,
+  'arrow-left': ArrowLeft,
+  'arrow-up-right': ArrowUpRight,
+  external: ExternalLink,
+  shield: Shield,
+  'shield-check': ShieldCheck,
+  graduation: GraduationCap,
+  medal: Medal,
+  handshake: Handshake,
+  users: Users,
+  news: Newspaper,
+  calendar: Calendar,
+  'calendar-check': CalendarCheck,
+  headset: Headset,
+  mic: Mic,
+  book: BookOpen,
+  clock: Clock,
+  drama: Drama,
+  chevron: ChevronRight,
+  'chevron-down': ChevronDown,
+  logout: LogOut,
+  dashboard: LayoutDashboard,
+  search: Search,
+  clipboard: ClipboardList,
+  check: CheckCircle2,
+  cross: XCircle,
+  siren: Siren,
+  car: Car,
+  trend: TrendingUp,
+  repeat: Repeat,
+  award: Award,
+  'user-check': UserCheck,
+  fingerprint: Fingerprint,
+  message: MessageCircle,
+  sparkles: Sparkles,
+  crown: Crown,
+  dog: Dog,
+  pin: MapPin,
+  mail: Mail,
+};
+
+export function Icon({ name, size = 20, className = '', strokeWidth = 2 }) {
+  const Cmp = MAP[name];
+  if (!Cmp) return null;
+  return <Cmp size={size} strokeWidth={strokeWidth} className={className} aria-hidden="true" />;
+}
