@@ -32,8 +32,8 @@ export default function PrenotaPage() {
                 <Icon name={icon} size={20} />
               </span>
               <h3 className="mt-6 text-2xl font-semibold tracking-tight">{t}</h3>
-              <p className="mt-2 leading-relaxed text-muted">{d}</p>
-              <ul className="mt-6 space-y-2.5 border-t border-line pt-6 text-sm">
+              <p className="mb-6 mt-2 leading-relaxed text-muted">{d}</p>
+              <ul className="mt-auto space-y-2.5 border-t border-line pt-6 text-sm">
                 {pts.map((p) => (
                   <li key={p} className="flex items-center gap-2.5">
                     <Icon name="check" size={15} className="text-ok" />
