@@ -68,6 +68,6 @@ node_modules/
 # dataconnect generated files
 .dataconnect
 
-# Next.js build output (maintenance-app/out is copied to the repo root and deployed from there)
-maintenance-app/.next/
-maintenance-app/out/
+# Next.js build output (portal/out is copied to the repo root and deployed from there)
+portal/.next/
+portal/out/

@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Portale istituzionale: chiaro di default, scuro con lo switch (o col
+   sistema). Token come canali RGB per supportare le opacità di Tailwind. */
+:root {
+  color-scheme: light;
+  --bg: 255 255 255;
+  --surface: 244 246 249;
+  --surface2: 232 237 243;
+  --fg: 17 28 43;
+  --muted: 82 98 117;
+  --line: 218 225 233;
+  --primary: 15 43 72;
+  --primary-fg: 255 255 255;
+  --link: 11 92 173;
+  --gold: 197 155 39;
+  --gold-soft: 250 243 220;
+  --gold-ink: 122 92 10;
+  --ok: 22 121 63;
+  --bad: 180 35 24;
+  --warn: 161 98 7;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: 9 18 30;
+    --surface: 14 27 43;
+    --surface2: 22 38 58;
+    --fg: 232 238 245;
+    --muted: 150 166 184;
+    --line: 38 56 78;
+    --primary: 10 28 48;
+    --primary-fg: 255 255 255;
+    --link: 111 168 232;
+    --gold: 224 187 74;
+    --gold-soft: 52 44 20;
+    --gold-ink: 224 187 74;
+    --ok: 74 200 125;
+    --bad: 255 120 105;
+    --warn: 245 180 70;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: 9 18 30;
+  --surface: 14 27 43;
+  --surface2: 22 38 58;
+  --fg: 232 238 245;
+  --muted: 150 166 184;
+  --line: 38 56 78;
+  --primary: 10 28 48;
+  --primary-fg: 255 255 255;
+  --link: 111 168 232;
+  --gold: 224 187 74;
+  --gold-soft: 52 44 20;
+  --gold-ink: 224 187 74;
+  --ok: 74 200 125;
+  --bad: 255 120 105;
+  --warn: 245 180 70;
+}
+
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgb(var(--gold) / 0.35);
+}
+
+@layer components {
+  .h1 {
+    @apply text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl;
+  }
+  .h2 {
+    @apply text-2xl font-bold leading-tight tracking-tight sm:text-3xl;
+  }
+  .input {
+    @apply block w-full rounded-md border border-line bg-bg px-3.5 py-2.5 text-[15px] text-fg shadow-sm outline-none transition placeholder:text-muted/70 focus:border-link focus:ring-2 focus:ring-link/25;
+  }
+  .input[aria-invalid='true'] {
+    @apply border-bad focus:border-bad focus:ring-bad/25;
+  }
+  .gold-rule {
+    height: 3px;
+    background: linear-gradient(90deg, rgb(var(--gold)), rgb(var(--gold) / 0.2));
+  }
+}
+
+/* Movimento sobrio: comparsa allo scroll e cambio pagina */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.page-enter { animation: page-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+.rv { transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms); }
+.js .rv:not(.is-in) { opacity: 0; transform: translateY(22px); }
+.anim-failsafe .rv { opacity: 1 !important; transform: none !important; }
+
+@keyframes ping-soft {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.ping-soft { animation: ping-soft 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+@media print {
+  header, footer, .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+}
