@@ -14,6 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="it">
       <head>
         <meta name="color-scheme" content="dark" />
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <meta name="theme-color" content="#09111f" />
         <link rel="icon" href="/favicon.ico?v=2" />
         <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
