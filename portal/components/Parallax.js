@@ -30,13 +30,3 @@ export function Parallax({ children, speed = 0.25, className = '' }) {
     </div>
   );
 }
-
-// Luci della volante: bagliore blu/rosso alternato, molto discreto.
-export function Siren() {
-  return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="siren siren-blue" />
-      <div className="siren siren-red" />
-    </div>
-  );
-}
