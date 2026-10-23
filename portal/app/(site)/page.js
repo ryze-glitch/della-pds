@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Btn, Container, Eyebrow } from '../../components/ui';
 import { Icon } from '../../components/icons';
 import { Reveal } from '../../components/Reveal';
+import { Crest3D } from '../../components/Crest3D';
 import { HeroTrack } from '../../components/forms/HeroTrack';
 import { COMUNICATI, DEPTS, SERVIZI } from '../../lib/data';
 
@@ -27,7 +28,14 @@ export default function HomePage() {
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-bg/70 via-transparent to-bg" />
         <div className="absolute inset-0 bg-gradient-to-r from-bg/80 via-bg/10 to-transparent" style={{ backgroundSize: '70% 100%', backgroundRepeat: 'no-repeat' }} />
-        <Container className="relative pt-32 lg:pt-36">
+        <div className="pointer-events-none absolute inset-0 z-[1] hidden lg:block">
+          <div className="mx-auto h-full max-w-page px-8">
+            <div className="relative h-full">
+              <Crest3D className="hero-in absolute right-[3%] top-[19%] h-[400px] w-[320px]" fallbackClass="h-[330px] w-auto" />
+            </div>
+          </div>
+        </div>
+        <Container className="relative z-10 pt-32 lg:pt-36">
           <Eyebrow className="hero-in">Italian Paradise XI · Questura</Eyebrow>
           <h1 style={{ '--d': '140ms' }} className="hero-in mt-4 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem]">
             Lo sportello della Polizia di Stato, online.

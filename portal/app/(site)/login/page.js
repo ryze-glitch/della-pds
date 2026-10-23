@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged, signInWithCustomToken } from 'firebase/auth';
+import { Crest3D } from '../../../components/Crest3D';
 import { Badge, Container, Notice } from '../../../components/ui';
 import { Icon } from '../../../components/icons';
 import { auth, DISCORD_AUTH_WORKER_URL, DISCORD_CLIENT_ID } from '../../../lib/firebase';
@@ -72,7 +73,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md overflow-hidden rounded-2xl border border-line bg-surface ">
         <div className="gold-rule" />
         <div className="p-7 text-center sm:p-9">
-          <img src="/assets/crest-md.png" width="60" height="95" alt="Stemma Polizia di Stato" className="mx-auto h-20 w-auto" />
+          <Crest3D className="relative mx-auto h-36 w-28" fallbackClass="h-32 w-auto" glow={false} />
           <div className="mt-5">
             <Badge tone="gold">
               <Icon name="lock" size={13} /> Accesso riservato
