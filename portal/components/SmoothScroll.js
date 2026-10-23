@@ -19,6 +19,7 @@ export function SmoothScroll() {
       smoothWheel: true,
       wheelMultiplier: 1,
       anchors: true,
+      respectReducedMotion: false, // su Windows con "animazioni disattivate" lo scroll morbido deve restare attivo
     });
     instance = lenis;
     lenis.on('scroll', ({ progress }) => {
