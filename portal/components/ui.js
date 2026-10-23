@@ -7,7 +7,7 @@ export function Container({ children, className = '' }) {
 }
 
 export function Section({ children, className = '', tone = 'plain', id }) {
-  const tones = { plain: '', surface: 'bg-surface', primary: 'bg-primary text-primary-fg' };
+  const tones = { plain: '', surface: 'bg-surface2', primary: 'bg-primary text-primary-fg' };
   return (
     <section id={id} className={`${tones[tone]} ${className}`}>
       <Container className="py-14 md:py-20">{children}</Container>
@@ -37,14 +37,15 @@ export function SectionHead({ eyebrow, title, text, action, className = '' }) {
 }
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-md border text-sm font-semibold transition-colors duration-200 select-none whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link disabled:cursor-not-allowed disabled:opacity-60';
+  'inline-flex items-center justify-center gap-2 rounded-sm border text-sm font-semibold transition-colors duration-200 select-none whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link disabled:cursor-not-allowed disabled:opacity-60';
 const sizes = { sm: 'h-9 px-3.5', md: 'h-11 px-5', lg: 'h-12 px-6 text-[15px]' };
 const variants = {
   primary: 'border-primary bg-primary text-primary-fg hover:bg-primary/90',
   gold: 'border-gold bg-gold text-[#1a1405] hover:brightness-105',
-  outline: 'border-line bg-bg text-fg hover:border-primary hover:bg-surface',
-  'outline-light': 'border-white/40 bg-transparent text-white hover:bg-white/10',
-  ghost: 'border-transparent text-link hover:bg-surface',
+  outline: 'border-white/25 bg-transparent text-fg hover:border-white/60 hover:bg-white/5',
+  light: 'border-white bg-white text-[#0a1426] hover:bg-white/90',
+  'outline-light': 'border-white/40 bg-bg/40 text-white backdrop-blur-sm hover:bg-white/10',
+  ghost: 'border-transparent text-link hover:bg-surface2',
 };
 
 export function Btn({ as: As = 'a', variant = 'primary', size = 'md', icon, iconStart, className = '', children, ...props }) {
@@ -59,7 +60,7 @@ export function Btn({ as: As = 'a', variant = 'primary', size = 'md', icon, icon
 
 export function Badge({ children, tone = 'neutral', className = '' }) {
   const tones = {
-    neutral: 'border-line bg-surface text-muted',
+    neutral: 'border-line bg-surface2 text-muted',
     gold: 'border-gold/40 bg-gold-soft text-gold-ink',
     ok: 'border-ok/30 bg-ok/10 text-ok',
     bad: 'border-bad/30 bg-bad/10 text-bad',
@@ -74,17 +75,17 @@ export function Badge({ children, tone = 'neutral', className = '' }) {
 }
 
 export function Card({ children, className = '' }) {
-  return <div className={`rounded-lg border border-line bg-bg shadow-card ${className}`}>{children}</div>;
+  return <div className={`rounded-sm border border-line bg-surface  ${className}`}>{children}</div>;
 }
 
 export function IconTile({ name, tone = 'primary', className = '' }) {
   const tones = {
     primary: 'bg-primary text-primary-fg',
     gold: 'bg-gold-soft text-gold-ink',
-    soft: 'bg-surface2 text-fg',
+    soft: 'bg-line text-fg',
   };
   return (
-    <span className={`inline-flex h-11 w-11 flex-none items-center justify-center rounded-md ${tones[tone]} ${className}`}>
+    <span className={`inline-flex h-11 w-11 flex-none items-center justify-center rounded-sm ${tones[tone]} ${className}`}>
       <Icon name={name} size={21} />
     </span>
   );
@@ -92,8 +93,10 @@ export function IconTile({ name, tone = 'primary', className = '' }) {
 
 export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
   return (
-    <section className="border-b border-line bg-surface">
-      <Container className="py-10 md:py-14">
+    <section className="relative overflow-hidden border-b border-line">
+      <img src="/assets/hero-slide-1.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '50% 60%' }} />
+      <div className="absolute inset-0 bg-gradient-to-b from-bg/90 via-bg/75 to-bg" />
+      <Container className="relative pb-10 pt-40 md:pb-14">
         <nav aria-label="Percorso" className="mb-5 flex flex-wrap items-center gap-1.5 text-sm text-muted">
           <Link href="/" className="hover:text-fg">
             Home
@@ -129,7 +132,7 @@ export function Notice({ tone = 'info', title, children, className = '' }) {
   };
   const icons = { info: 'info', warn: 'alert', gold: 'info', bad: 'alert' };
   return (
-    <div role="note" className={`flex gap-3 rounded-lg border p-4 text-sm leading-relaxed ${tones[tone]} ${className}`}>
+    <div role="note" className={`flex gap-3 rounded-sm border p-4 text-sm leading-relaxed ${tones[tone]} ${className}`}>
       <Icon name={icons[tone]} size={19} className="mt-0.5 flex-none" />
       <div>
         {title ? <div className="font-semibold">{title}</div> : null}

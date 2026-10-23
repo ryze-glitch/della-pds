@@ -32,7 +32,7 @@ function Result({ code, pratica }) {
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">Pratica</div>
-            <div className="text-2xl font-extrabold tracking-wide text-primary">#{code}</div>
+            <div className="text-2xl font-semibold tracking-wide text-primary">#{code}</div>
             <div className="mt-1 text-sm text-muted">
               {TIPI_PRATICA[pratica.tipo] || pratica.tipo} · inviata il {fmt(pratica.creatoIl) || '—'}
             </div>
@@ -47,7 +47,7 @@ function Result({ code, pratica }) {
             const done = !bad && i <= idx;
             return (
               <li key={key}>
-                <div className={`h-1.5 rounded-full ${bad ? 'bg-bad/40' : done ? 'bg-primary' : 'bg-surface2'}`} />
+                <div className={`h-1.5 rounded-full ${bad ? 'bg-bad/40' : done ? 'bg-primary' : 'bg-line'}`} />
                 <div className={`mt-2 text-xs font-semibold sm:text-sm ${done ? 'text-fg' : 'text-muted'}`}>{label}</div>
               </li>
             );
@@ -60,7 +60,7 @@ function Result({ code, pratica }) {
 
         {pratica.aggiornamenti && pratica.aggiornamenti.length > 0 ? (
           <div className="mt-7">
-            <h3 className="text-sm font-bold">Aggiornamenti</h3>
+            <h3 className="text-sm font-semibold">Aggiornamenti</h3>
             <ul className="mt-3 space-y-3 border-l-2 border-line pl-5">
               {[...pratica.aggiornamenti].reverse().map((a, i) => (
                 <li key={i} className="relative">

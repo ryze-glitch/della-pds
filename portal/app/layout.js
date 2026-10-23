@@ -1,7 +1,7 @@
+import '@fontsource/poppins/latin-400.css';
+import '@fontsource/poppins/latin-500.css';
+import '@fontsource/poppins/latin-600.css';
 import './globals.css';
-import { ThemeScript } from '../components/ThemeScript';
-import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
 
 export const metadata = {
   title: 'Polizia di Stato — Questura IPRP · Italian Paradise XI',
@@ -11,26 +11,21 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="it" suppressHydrationWarning>
+    <html lang="it">
       <head>
-        <meta name="color-scheme" content="light dark" />
-        <ThemeScript />
+        <meta name="color-scheme" content="dark" />
+        <meta name="theme-color" content="#09111f" />
         <link rel="icon" href="/favicon.ico?v=2" />
         <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
       </head>
       <body>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-fg"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-sm focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-fg"
         >
           Vai al contenuto
         </a>
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

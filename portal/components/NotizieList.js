@@ -19,7 +19,7 @@ export function NotizieList() {
             type="button"
             onClick={() => setF(t)}
             aria-pressed={f === t}
-            className={`rounded-full border px-4 py-1.5 text-sm font-semibold transition ${f === t ? 'border-primary bg-primary text-primary-fg' : 'border-line hover:bg-surface'}`}
+            className={`rounded-full border px-4 py-1.5 text-sm font-semibold transition ${f === t ? 'border-primary bg-primary text-primary-fg' : 'border-line hover:bg-surface2'}`}
           >
             {t === 'Tutti' ? 'Tutti' : t === 'Ordinanza' ? 'Ordinanze' : t === 'Allerta' ? 'Allerte' : 'Comunicati'}
           </button>
@@ -27,14 +27,14 @@ export function NotizieList() {
       </div>
       <div className="mt-6 grid gap-5 md:grid-cols-2">
         {list.map((c) => (
-          <article key={c.id} className="flex flex-col rounded-lg border border-line bg-bg p-6 shadow-card">
+          <article key={c.id} className="flex flex-col rounded-sm border border-line bg-surface p-6 ">
             <div className="flex items-center justify-between gap-3">
               <Badge tone={TONE[c.tipo]}>{c.tipo}</Badge>
               <time className="text-xs text-muted" dateTime={c.data}>
                 {new Date(c.data + 'T12:00:00').toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
               </time>
             </div>
-            <h2 className="mt-4 text-lg font-bold leading-snug">{c.titolo}</h2>
+            <h2 className="mt-4 text-lg font-semibold leading-snug">{c.titolo}</h2>
             <p className="mt-2 text-[15px] leading-relaxed text-muted">{c.testo}</p>
           </article>
         ))}

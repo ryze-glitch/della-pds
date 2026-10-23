@@ -55,11 +55,11 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
   const border = review?.stato === 'approvato' ? 'border-ok/50' : review?.stato === 'rifiutato' ? 'border-bad/50' : 'border-line';
 
   return (
-    <div className={`overflow-hidden rounded-lg border bg-bg shadow-card ${border}`}>
-      <button type="button" onClick={() => setOpen((o) => !o)} className="flex w-full flex-wrap items-center gap-3 px-5 py-4 text-left hover:bg-surface">
+    <div className={`overflow-hidden rounded-sm border bg-surface  ${border}`}>
+      <button type="button" onClick={() => setOpen((o) => !o)} className="flex w-full flex-wrap items-center gap-3 px-5 py-4 text-left hover:bg-surface2">
         {review?.stato === 'approvato' ? <Icon name="check-circle" size={19} className="text-ok" /> : null}
         {review?.stato === 'rifiutato' ? <Icon name="cross" size={19} className="text-bad" /> : null}
-        <span className="font-bold">{c.nome || 'Sconosciuto'}</span>
+        <span className="font-semibold">{c.nome || 'Sconosciuto'}</span>
         <span className="flex flex-wrap gap-x-3 text-xs text-muted">
           <span>{c.dataInvio}</span>
           {etaPulita ? <span>{etaPulita} anni</span> : null}
@@ -89,7 +89,7 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
               type="button"
               disabled={locked}
               onClick={() => onDecide(c, 'approvato')}
-              className={`h-10 rounded-md border px-5 text-sm font-semibold transition disabled:opacity-40 ${review?.stato === 'approvato' ? 'border-ok bg-ok text-white' : 'border-line hover:border-ok hover:text-ok'}`}
+              className={`h-10 rounded-sm border px-5 text-sm font-semibold transition disabled:opacity-40 ${review?.stato === 'approvato' ? 'border-ok bg-ok text-white' : 'border-line hover:border-ok hover:text-ok'}`}
             >
               Approva
             </button>
@@ -97,7 +97,7 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
               type="button"
               disabled={locked}
               onClick={() => onDecide(c, 'rifiutato')}
-              className={`h-10 rounded-md border px-5 text-sm font-semibold transition disabled:opacity-40 ${review?.stato === 'rifiutato' ? 'border-bad bg-bad text-white' : 'border-line hover:border-bad hover:text-bad'}`}
+              className={`h-10 rounded-sm border px-5 text-sm font-semibold transition disabled:opacity-40 ${review?.stato === 'rifiutato' ? 'border-bad bg-bad text-white' : 'border-line hover:border-bad hover:text-bad'}`}
             >
               Rifiuta
             </button>
