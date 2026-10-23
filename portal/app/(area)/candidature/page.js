@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
-import { Badge, Btn, Card, Container } from '../../../components/ui';
+import { Badge, Container } from '../../../components/ui';
 import { Icon } from '../../../components/icons';
 import { CandidateItem } from '../../../components/CandidateItem';
 import { useAgentProfile } from '../../../components/useAgentProfile';
@@ -200,26 +200,16 @@ export default function CandidaturePage() {
 
   return (
     <Container className="py-10 md:py-14">
-      <Card className="flex flex-col gap-5 p-6 sm:flex-row sm:items-center">
-        <div className="flex-1">
-          <div className="text-xs font-semibold uppercase tracking-[0.14em] text-gold-ink">Area riservata</div>
-          <h1 className="h2 mt-0.5">Gestione candidature</h1>
-          <Badge className="mt-2" tone="blue">
-            {loaded ? `${candidates.length} ${candidates.length === 1 ? 'candidatura' : 'candidature'}` : 'Caricamento…'}
-          </Badge>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="text-[25px] font-normal">Gestione candidature</h1>
+          <p className="mt-1 text-sm text-[#c9d2e0]">Valuta le candidature al reclutamento.</p>
         </div>
-        <div className="flex flex-wrap gap-3">
-          <Btn as="a" href="/dashboard" variant="outline">
-            Dashboard
-          </Btn>
-          <Btn as="button" type="button" variant="outline" iconStart="logout" onClick={logout}>
-            Esci
-          </Btn>
-        </div>
-      </Card>
+        <Badge tone="blue">{loaded ? `${candidates.length} ${candidates.length === 1 ? 'candidatura' : 'candidature'}` : 'Caricamento…'}</Badge>
+      </div>
 
-      <section className="mt-6">
-        <label className="flex h-12 items-center gap-3 rounded-2xl border border-line bg-surface px-4 focus-within:border-link focus-within:ring-2 focus-within:ring-link/25">
+      <section className="mt-7">
+        <label className="flex h-12 items-center gap-3 rounded-full border border-[#2a3341] px-5 focus-within:border-link focus-within:ring-2 focus-within:ring-link/25">
           <Icon name="search" size={17} className="text-muted" />
           <span className="sr-only">Cerca una candidatura</span>
           <input

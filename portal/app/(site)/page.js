@@ -27,7 +27,7 @@ export default function HomePage() {
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-bg/70 via-transparent to-bg" />
         <div className="absolute inset-0 bg-gradient-to-r from-bg/80 via-bg/10 to-transparent" style={{ backgroundSize: '70% 100%', backgroundRepeat: 'no-repeat' }} />
-        <Container className="relative pt-44 lg:pt-48">
+        <Container className="relative pt-32 lg:pt-36">
           <Eyebrow className="hero-in">Italian Paradise XI · Questura</Eyebrow>
           <h1 style={{ '--d': '140ms' }} className="hero-in mt-4 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem]">
             Lo sportello della Polizia di Stato, online.

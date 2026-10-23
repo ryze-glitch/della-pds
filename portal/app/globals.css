@@ -10,7 +10,7 @@
   --surface: 18 24 33;
   --surface2: 25 33 46;
   --fg: 238 242 248;
-  --muted: 139 151 170;
+  --muted: 160 172 190;
   --line: 36 45 59;
   --primary: 23 168 189;
   --primary-fg: 4 34 42;
@@ -40,7 +40,7 @@ body {
     @apply text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl;
   }
   .h2 {
-    @apply text-2xl font-semibold leading-tight tracking-tight sm:text-4xl;
+    @apply text-2xl font-semibold leading-tight tracking-tight sm:text-3xl;
   }
   .input {
     @apply block w-full rounded-[14px] border border-line bg-surface px-4 py-3 text-[15px] text-fg outline-none transition placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/25;
