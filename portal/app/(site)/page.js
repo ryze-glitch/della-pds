@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Btn, Container, Eyebrow } from '../../components/ui';
 import { Icon } from '../../components/icons';
 import { Reveal } from '../../components/Reveal';
+import { Parallax, Siren } from '../../components/Parallax';
 import { HeroTrack } from '../../components/forms/HeroTrack';
 import { COMUNICATI, DEPTS, SERVIZI } from '../../lib/data';
 
@@ -22,18 +23,23 @@ export default function HomePage() {
   return (
     <>
       <section className="relative">
-        <img src="/assets/hero-slide-1.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '62% 62%' }} />
+        <div className="absolute inset-0 overflow-hidden">
+          <Parallax speed={0.22}>
+            <img src="/assets/hero-slide-1.jpg" alt="" className="kb h-full w-full object-cover" style={{ objectPosition: '62% 62%' }} />
+          </Parallax>
+        </div>
+        <Siren />
         <div className="absolute inset-0 bg-gradient-to-b from-bg/80 via-bg/20 to-bg" />
         <div className="absolute inset-0 bg-gradient-to-r from-bg/90 via-bg/30 to-transparent" />
         <Container className="relative pt-48 lg:pt-52">
-          <Eyebrow>Italian Paradise XI · Questura</Eyebrow>
-          <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-[4rem]">
+          <Eyebrow className="hero-in">Italian Paradise XI · Questura</Eyebrow>
+          <h1 style={{ '--d': '140ms' }} className="hero-in mt-4 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-[4rem]">
             Lo sportello della Polizia di Stato, online.
           </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/80">
+          <p style={{ '--d': '300ms' }} className="hero-in mt-5 max-w-xl text-lg leading-relaxed text-white/80">
             Denunce, porto d’armi e colloqui con i dirigenti. Ogni pratica ha un codice e uno stato sempre consultabile.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div style={{ '--d': '460ms' }} className="hero-in mt-8 flex flex-wrap gap-3">
             <Btn as={Link} href="/sportello/denuncia" variant="light" size="lg" icon="arrow-right">
               Presenta una denuncia
             </Btn>
@@ -43,9 +49,9 @@ export default function HomePage() {
           </div>
 
           <div className="mt-16 grid gap-px overflow-hidden rounded-[20px] border border-line bg-line md:grid-cols-2 lg:mt-24 lg:grid-cols-4">
-            {dock.map((s) => (
-              <Link key={s.href} href={s.href} className="group flex flex-col gap-2 bg-surface p-7 transition hover:bg-surface2">
-                <Icon name={s.icon} size={28} strokeWidth={1.5} className="text-link" />
+            {dock.map((s, i) => (
+              <Link key={s.href} href={s.href} style={{ '--d': `${640 + i * 110}ms` }} className="hero-in group flex flex-col gap-2 bg-surface p-7 transition hover:bg-surface2">
+                <Icon name={s.icon} size={28} strokeWidth={1.5} className="text-link transition-transform duration-300 group-hover:scale-110" />
                 <h2 className="mt-3 text-lg font-semibold leading-snug">{s.title.replace(' Online', '')}</h2>
                 <p className="flex-1 text-sm text-muted">{s.text.split('.')[0]}.</p>
                 <span className="mt-2 inline-flex items-center gap-2 text-sm font-medium">
@@ -53,7 +59,7 @@ export default function HomePage() {
                 </span>
               </Link>
             ))}
-            <div className="flex flex-col gap-2 bg-surface2 p-7">
+            <div style={{ '--d': '970ms' }} className="hero-in flex flex-col gap-2 bg-surface2 p-7">
               <Icon name="search" size={28} strokeWidth={1.5} className="text-link" />
               <h2 className="mt-3 text-lg font-semibold">Traccia la pratica</h2>
               <p className="flex-1 text-sm text-muted">Inserisci il codice che hai ricevuto.</p>

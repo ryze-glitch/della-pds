@@ -61,8 +61,8 @@ body {
 }
 .page-enter { animation: page-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 
-.rv { transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms); }
-.js .rv:not(.is-in) { opacity: 0; transform: translateY(22px); }
+.rv { transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms); }
+.js .rv:not(.is-in) { opacity: 0; transform: translateY(34px); }
 .anim-failsafe .rv { opacity: 1 !important; transform: none !important; }
 
 @keyframes ping-soft {
@@ -70,6 +70,37 @@ body {
   100% { transform: scale(2.4); opacity: 0; }
 }
 .ping-soft { animation: ping-soft 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+/* Ingresso in pagina e hero */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+.hero-in { animation: rise 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: var(--d, 0ms); }
+
+@keyframes kenburns {
+  from { transform: scale(1.14); }
+  to { transform: scale(1); }
+}
+.kb { animation: kenburns 2.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+@keyframes siren-a {
+  0%, 46%, 100% { opacity: 0; }
+  8%, 38% { opacity: 1; }
+}
+@keyframes siren-b {
+  0%, 50%, 100% { opacity: 0; }
+  58%, 88% { opacity: 1; }
+}
+.siren { position: absolute; bottom: -10%; width: 60%; height: 80%; filter: blur(30px); mix-blend-mode: screen; opacity: 0; }
+.siren-blue { left: -10%; background: radial-gradient(closest-side, rgb(40 110 255 / 0.55), transparent); animation: siren-a 2.8s ease-in-out infinite; }
+.siren-red { right: -10%; background: radial-gradient(closest-side, rgb(255 45 70 / 0.45), transparent); animation: siren-b 2.8s ease-in-out infinite; }
+
+@keyframes line-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.line-grow { transform-origin: left; animation: line-grow 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both; }
 
 @media print {
   header, footer, aside, .no-print { display: none !important; }

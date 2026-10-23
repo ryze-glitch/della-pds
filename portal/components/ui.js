@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Icon } from './icons';
 import { Reveal } from './Reveal';
+import { Parallax } from './Parallax';
 
 export function Container({ children, className = '' }) {
   return <div className={`mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>;
@@ -37,7 +38,7 @@ export function SectionHead({ eyebrow, title, text, action, className = '' }) {
 }
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-full border text-sm font-semibold transition-colors duration-200 select-none whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link disabled:cursor-not-allowed disabled:opacity-60';
+  'inline-flex items-center justify-center gap-2 rounded-full border text-sm font-semibold transition duration-200 select-none hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link disabled:cursor-not-allowed disabled:opacity-60';
 const sizes = { sm: 'h-9 px-3.5', md: 'h-11 px-5', lg: 'h-12 px-6 text-[15px]' };
 const variants = {
   primary: 'border-primary bg-primary text-primary-fg hover:bg-primary/90',
@@ -94,7 +95,9 @@ export function IconTile({ name, tone = 'primary', className = '' }) {
 export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
   return (
     <section className="relative overflow-hidden border-b border-line">
-      <img src="/assets/hero-slide-1.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '50% 60%' }} />
+      <Parallax speed={0.18}>
+        <img src="/assets/hero-slide-1.jpg" alt="" className="kb h-full w-full object-cover" style={{ objectPosition: '50% 60%' }} />
+      </Parallax>
       <div className="absolute inset-0 bg-gradient-to-b from-bg/90 via-bg/75 to-bg" />
       <Container className="relative pb-10 pt-40 md:pb-14">
         <nav aria-label="Percorso" className="mb-5 flex flex-wrap items-center gap-1.5 text-sm text-muted">
@@ -114,9 +117,9 @@ export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
             </span>
           ))}
         </nav>
-        {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-        <h1 className="h1 mt-2 max-w-3xl">{title}</h1>
-        {text ? <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">{text}</p> : null}
+        {eyebrow ? <Eyebrow className="hero-in">{eyebrow}</Eyebrow> : null}
+        <h1 className="h1 hero-in mt-2 max-w-3xl" style={{ '--d': '120ms' }}>{title}</h1>
+        {text ? <p className="hero-in mt-4 max-w-2xl text-lg leading-relaxed text-muted" style={{ '--d': '260ms' }}>{text}</p> : null}
         {children}
       </Container>
     </section>
