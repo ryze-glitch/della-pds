@@ -42,6 +42,31 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // Pratiche dello Sportello Telematico. Il documento contiene SOLO lo stato
+    // (nessun dato personale: i dettagli vanno solo su Discord). Si legge solo
+    // conoscendo il codice univoco (get), non si può elencare dal pubblico.
+    match /pratiche/{code} {
+      allow get: if true;
+      allow list: if isAgent();
+      allow create: if code.matches('POL-[0-9]{4}-[A-HJ-NP-Z2-9]{6}') &&
+        request.resource.data.keys().hasOnly(['tipo', 'stato', 'creatoIl', 'aggiornamenti']) &&
+        request.resource.data.tipo in ['denuncia', 'pda', 'colloquio'] &&
+        request.resource.data.stato == 'ricevuta' &&
+        request.resource.data.creatoIl == request.time &&
+        request.resource.data.aggiornamenti.size() == 0;
+      allow update: if isAgent() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['stato', 'aggiornamenti', 'aggiornatoIl']) &&
+        request.resource.data.stato in ['ricevuta', 'in_lavorazione', 'in_attesa', 'conclusa', 'respinta'];
+      allow delete: if false;
+    }
+
+    // Stato pubblico della Questura (badge in header). Opzionale: se manca, il
+    // sito ricava l'orario dello sportello. Si modifica dalla console.
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

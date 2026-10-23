@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Portale della Questura: tema scuro, token come canali RGB per supportare
+   le opacità di Tailwind. */
+:root {
+  color-scheme: dark;
+  --bg: 9 17 31;
+  --surface: 14 25 44;
+  --surface2: 18 32 58;
+  --fg: 232 237 246;
+  --muted: 148 163 189;
+  --line: 29 44 71;
+  --primary: 91 134 217;
+  --primary-fg: 255 255 255;
+  --link: 126 164 238;
+  --gold: 201 166 64;
+  --gold-soft: 44 38 20;
+  --gold-ink: 214 181 84;
+  --ok: 52 209 127;
+  --bad: 255 107 125;
+  --warn: 245 180 70;
+}
+
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgb(var(--gold) / 0.35);
+}
+
+@layer components {
+  .h1 {
+    @apply text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl;
+  }
+  .h2 {
+    @apply text-2xl font-semibold leading-tight tracking-tight sm:text-4xl;
+  }
+  .input {
+    @apply block w-full rounded-sm border border-line bg-surface px-4 py-3 text-[15px] text-fg outline-none transition placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/25;
+  }
+  .input[aria-invalid='true'] {
+    @apply border-bad focus:border-bad focus:ring-bad/25;
+  }
+  .gold-rule {
+    height: 3px;
+    background: rgb(var(--gold));
+  }
+}
+
+/* Movimento sobrio: comparsa allo scroll e cambio pagina */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.page-enter { animation: page-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+.rv { transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms); }
+.js .rv:not(.is-in) { opacity: 0; transform: translateY(22px); }
+.anim-failsafe .rv { opacity: 1 !important; transform: none !important; }
+
+@keyframes ping-soft {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.ping-soft { animation: ping-soft 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+@media print {
+  header, footer, aside, .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+}

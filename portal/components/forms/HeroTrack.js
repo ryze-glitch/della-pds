@@ -1,0 +1,34 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+export function HeroTrack() {
+  const router = useRouter();
+  const [v, setV] = useState('');
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        router.push(`/sportello/pratica?codice=${encodeURIComponent(v.trim())}`);
+      }}
+      className="mt-1 flex border border-line"
+    >
+      <label htmlFor="hero-code" className="sr-only">
+        Codice pratica
+      </label>
+      <input
+        id="hero-code"
+        value={v}
+        onChange={(e) => setV(e.target.value)}
+        placeholder="#POL-2026-"
+        autoComplete="off"
+        spellCheck="false"
+        className="min-w-0 flex-1 bg-transparent px-3.5 py-2.5 font-mono text-[14px] uppercase tracking-wide text-fg outline-none placeholder:text-muted/60"
+      />
+      <button type="submit" className="bg-primary px-4 text-sm font-medium text-primary-fg transition hover:bg-primary/90">
+        Cerca
+      </button>
+    </form>
+  );
+}

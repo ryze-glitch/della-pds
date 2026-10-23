@@ -1,0 +1,14 @@
+name = "iprp-sportello"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+# Origini autorizzate (CORS). Aggiungi qui eventuali domini personalizzati.
+ALLOWED_ORIGINS = "https://polizia-iprp.web.app,https://polizia-iprp.firebaseapp.com,http://localhost:3000"
+
+# SEGRETI (non vanno qui): impostali con `npx wrangler secret put <NOME>`
+#   DISCORD_WEBHOOK_DENUNCE   URL webhook del canale denunce
+#   DISCORD_WEBHOOK_PDA       URL webhook del canale porto d'armi
+#   DISCORD_WEBHOOK_COLLOQUI  URL webhook del canale colloqui
+# Facoltativi (ID ruolo da taggare nell'embed):
+#   DISCORD_ROLE_DENUNCE, DISCORD_ROLE_PDA, DISCORD_ROLE_COLLOQUI
