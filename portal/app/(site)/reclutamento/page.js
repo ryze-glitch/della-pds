@@ -59,7 +59,7 @@ export default function ReclutamentoPage() {
         <div className="grid gap-5 md:grid-cols-3">
           {STEPS.map(([icon, t, d], i) => (
             <Reveal key={t} delay={i * 80}>
-              <div className="h-full rounded-sm border border-line bg-surface p-6">
+              <div className="h-full rounded-2xl border border-line bg-surface p-6">
                 <div className="flex items-center gap-3">
                   <IconTile name={icon} />
                   <span className="text-3xl font-semibold text-gold">0{i + 1}</span>
@@ -76,7 +76,7 @@ export default function ReclutamentoPage() {
         <SectionHead eyebrow="Requisiti" title="Cosa cerchiamo" />
         <div className="grid gap-4 sm:grid-cols-2">
           {REQ.map(([t, d]) => (
-            <div key={t} className="flex gap-3 rounded-sm border border-line p-5">
+            <div key={t} className="flex gap-3 rounded-2xl border border-line p-5">
               <Icon name="check-circle" size={22} className="mt-0.5 flex-none text-ok" />
               <div>
                 <h3 className="font-semibold">{t}</h3>

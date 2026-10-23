@@ -18,7 +18,7 @@ export function FormPage({ children, aside }) {
 
 export function Checklist({ title, items, icon = 'check-circle' }) {
   return (
-    <div className="rounded-sm border border-line bg-surface2 p-5">
+    <div className="rounded-2xl border border-line bg-surface2 p-5">
       <h2 className="font-semibold">{title}</h2>
       <ul className="mt-3 space-y-2.5 text-[15px]">
         {items.map((t) => (

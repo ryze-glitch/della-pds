@@ -19,7 +19,7 @@ export default function OrganigrammaPage() {
         <SectionHead eyebrow="Struttura" title="Dirigenza e reparti" />
         <div className="mx-auto max-w-4xl">
           <Reveal>
-            <div className="mx-auto max-w-sm rounded-sm border-2 border-gold bg-gold-soft p-5 text-center ">
+            <div className="mx-auto max-w-sm rounded-2xl border-2 border-gold bg-gold-soft p-5 text-center ">
               <Icon name="crown" size={26} className="mx-auto text-gold-ink" />
               <div className="mt-2 text-lg font-semibold text-primary">Questore</div>
               <div className="text-sm text-muted">Vertice della Questura</div>
@@ -31,7 +31,7 @@ export default function OrganigrammaPage() {
             <div className="grid gap-4 pt-0 sm:grid-cols-2 md:grid-cols-3 md:pt-6">
               {DEPTS.map((d, i) => (
                 <Reveal key={d.name} delay={(i % 3) * 70}>
-                  <div className="relative h-full rounded-sm border border-line bg-surface p-5 ">
+                  <div className="relative h-full rounded-2xl border border-line bg-surface p-5 ">
                     <span className="absolute -top-6 left-1/2 hidden h-6 w-px bg-line md:block" />
                     <IconTile name={d.icon} />
                     <h3 className="mt-3 font-semibold leading-snug">{d.name}</h3>
@@ -46,7 +46,7 @@ export default function OrganigrammaPage() {
 
       <Section tone="surface">
         <SectionHead eyebrow="Carriera" title="La scala dei gradi" text="Otto gradi, dalla prima divisa al vertice della Questura." />
-        <ol className="mx-auto max-w-4xl divide-y divide-line overflow-hidden rounded-sm border border-line bg-surface" aria-label="Gradi in ordine di carriera">
+        <ol className="mx-auto max-w-4xl divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface" aria-label="Gradi in ordine di carriera">
           {[...GRADI].reverse().map(([name, text], i) => {
             const n = GRADI.length - i;
             const top = n === GRADI.length;

@@ -6,18 +6,18 @@
    le opacità di Tailwind. */
 :root {
   color-scheme: dark;
-  --bg: 9 17 31;
-  --surface: 14 25 44;
-  --surface2: 18 32 58;
-  --fg: 232 237 246;
-  --muted: 148 163 189;
-  --line: 29 44 71;
-  --primary: 91 134 217;
-  --primary-fg: 255 255 255;
-  --link: 126 164 238;
-  --gold: 201 166 64;
-  --gold-soft: 44 38 20;
-  --gold-ink: 214 181 84;
+  --bg: 20 26 36;
+  --surface: 18 24 33;
+  --surface2: 25 33 46;
+  --fg: 238 242 248;
+  --muted: 139 151 170;
+  --line: 36 45 59;
+  --primary: 23 168 189;
+  --primary-fg: 4 34 42;
+  --link: 63 196 214;
+  --gold: 23 168 189;
+  --gold-soft: 15 57 71;
+  --gold-ink: 63 196 214;
   --ok: 52 209 127;
   --bad: 255 107 125;
   --warn: 245 180 70;
@@ -43,7 +43,7 @@ body {
     @apply text-2xl font-semibold leading-tight tracking-tight sm:text-4xl;
   }
   .input {
-    @apply block w-full rounded-sm border border-line bg-surface px-4 py-3 text-[15px] text-fg outline-none transition placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/25;
+    @apply block w-full rounded-[14px] border border-line bg-surface px-4 py-3 text-[15px] text-fg outline-none transition placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/25;
   }
   .input[aria-invalid='true'] {
     @apply border-bad focus:border-bad focus:ring-bad/25;

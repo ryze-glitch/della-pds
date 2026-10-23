@@ -12,7 +12,7 @@ export function HeroTrack() {
         e.preventDefault();
         router.push(`/sportello/pratica?codice=${encodeURIComponent(v.trim())}`);
       }}
-      className="mt-1 flex border border-line"
+      className="mt-1 flex overflow-hidden rounded-full border border-line"
     >
       <label htmlFor="hero-code" className="sr-only">
         Codice pratica
@@ -24,9 +24,9 @@ export function HeroTrack() {
         placeholder="#POL-2026-"
         autoComplete="off"
         spellCheck="false"
-        className="min-w-0 flex-1 bg-transparent px-3.5 py-2.5 font-mono text-[14px] uppercase tracking-wide text-fg outline-none placeholder:text-muted/60"
+        className="min-w-0 flex-1 bg-transparent pl-4 pr-2 py-2.5 font-mono text-[14px] uppercase tracking-wide text-fg outline-none placeholder:text-muted/60"
       />
-      <button type="submit" className="bg-primary px-4 text-sm font-medium text-primary-fg transition hover:bg-primary/90">
+      <button type="submit" className="bg-primary px-5 text-sm font-medium text-primary-fg transition hover:bg-primary/90">
         Cerca
       </button>
     </form>
