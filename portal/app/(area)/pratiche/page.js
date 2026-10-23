@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { arrayUnion, collection, doc, getDocs, limit, orderBy, query, serverTimestamp, Timestamp, updateDoc } from 'firebase/firestore';
-import { Badge, Btn, Card, Container } from '../../../components/ui';
+import { Badge, Btn, Container } from '../../../components/ui';
 import { Icon } from '../../../components/icons';
 import { useAgentProfile } from '../../../components/useAgentProfile';
 import { db } from '../../../lib/firebase';
@@ -56,15 +56,15 @@ function Row({ p, agent, onSaved }) {
         <Badge tone={st.tone}>{st.label}</Badge>
       </div>
       <div className="mt-3 grid gap-2 sm:grid-cols-[200px_1fr_auto]">
-        <select value={stato} onChange={(e) => setStato(e.target.value)} className="input h-10 py-0" aria-label="Stato pratica">
+        <select value={stato} onChange={(e) => setStato(e.target.value)} className="input h-11 rounded-full py-0" aria-label="Stato pratica">
           {Object.entries(STATI).map(([k, v]) => (
             <option key={k} value={k}>
               {v.label}
             </option>
           ))}
         </select>
-        <input value={nota} onChange={(e) => setNota(e.target.value)} maxLength={300} placeholder="Nota visibile al cittadino (facoltativa)" className="input h-10 py-0" aria-label="Nota" />
-        <Btn as="button" type="button" size="sm" disabled={!dirty || saving} onClick={save} className="h-10">
+        <input value={nota} onChange={(e) => setNota(e.target.value)} maxLength={300} placeholder="Nota visibile al cittadino (facoltativa)" className="input h-11 rounded-full py-0" aria-label="Nota" />
+        <Btn as="button" type="button" size="sm" disabled={!dirty || saving} onClick={save} className="h-11">
           {saving ? 'Salvo…' : 'Aggiorna'}
         </Btn>
       </div>
@@ -74,7 +74,7 @@ function Row({ p, agent, onSaved }) {
 }
 
 export default function PratichePage() {
-  const { loading: authLoading, profile, discordId, logout } = useAgentProfile();
+  const { loading: authLoading, profile, discordId } = useAgentProfile();
   const [items, setItems] = useState([]);
   const [state, setState] = useState({ loaded: false, error: '' });
   const [q, setQ] = useState('');
@@ -106,29 +106,16 @@ export default function PratichePage() {
 
   return (
     <Container className="py-10 md:py-14">
-      <Card className="flex flex-col gap-5 p-6 sm:flex-row sm:items-center">
-        <div className="flex-1">
-          <div className="text-xs font-semibold uppercase tracking-[0.14em] text-gold-ink">Area riservata</div>
-          <h1 className="h2 mt-0.5">Gestione pratiche</h1>
-          <p className="mt-1 text-sm text-muted">Aggiorna lo stato delle pratiche dello Sportello. I dettagli di ogni richiesta sono nei canali Discord della fazione.</p>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <Btn as="a" href="/dashboard" variant="outline">
-            Dashboard
-          </Btn>
-          <Btn as="button" type="button" variant="outline" iconStart="logout" onClick={logout}>
-            Esci
-          </Btn>
-        </div>
-      </Card>
+      <h1 className="text-[25px] font-normal">Gestione pratiche</h1>
+      <p className="mt-1 max-w-2xl text-sm text-[#c9d2e0]">Aggiorna lo stato delle pratiche dello Sportello. I dettagli di ogni richiesta sono nei canali Discord della fazione.</p>
 
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-        <label className="flex h-11 flex-1 items-center gap-3 rounded-2xl border border-line bg-surface px-4 focus-within:border-link focus-within:ring-2 focus-within:ring-link/25">
+      <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+        <label className="flex h-12 flex-1 items-center gap-3 rounded-full border border-[#2a3341] px-5 focus-within:border-link focus-within:ring-2 focus-within:ring-link/25">
           <Icon name="search" size={17} className="text-muted" />
           <span className="sr-only">Cerca per codice</span>
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Cerca per codice (es. K7M2QX)" className="w-full bg-transparent font-mono text-sm uppercase outline-none placeholder:normal-case placeholder:text-muted" />
         </label>
-        <select value={tipo} onChange={(e) => setTipo(e.target.value)} className="input h-11 w-full py-0 sm:w-56" aria-label="Tipo">
+        <select value={tipo} onChange={(e) => setTipo(e.target.value)} className="input h-12 w-full rounded-full py-0 sm:w-56" aria-label="Tipo">
           <option value="tutte">Tutti i tipi</option>
           {Object.entries(TIPI_PRATICA).map(([k, v]) => (
             <option key={k} value={k}>
@@ -138,7 +125,7 @@ export default function PratichePage() {
         </select>
       </div>
 
-      <Card className="mt-5 overflow-hidden">
+      <div className="mt-5 overflow-hidden rounded-[20px] border border-[#242d3b]">
         {!state.loaded ? (
           <div className={`p-6 text-sm ${state.error ? 'text-bad' : 'text-muted'}`} role="status">
             {state.error || 'Caricamento pratiche…'}
@@ -146,13 +133,13 @@ export default function PratichePage() {
         ) : filtered.length === 0 ? (
           <div className="p-6 text-sm text-muted">Nessuna pratica trovata.</div>
         ) : (
-          <ul className="divide-y divide-line">
+          <ul className="divide-y divide-[#1e2735]">
             {filtered.map((p) => (
               <Row key={p.id} p={p} agent={agent} onSaved={onSaved} />
             ))}
           </ul>
         )}
-      </Card>
+      </div>
     </Container>
   );
 }

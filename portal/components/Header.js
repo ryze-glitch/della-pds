@@ -73,7 +73,7 @@ export function Header() {
         <div className="ml-auto flex items-center gap-2">
           <Link
             href={AREA.href}
-            className="hidden items-center gap-2 whitespace-nowrap rounded-full bg-primary px-5 py-3 text-[13.5px] font-medium text-primary-fg transition hover:brightness-110 sm:inline-flex"
+            className="hidden items-center gap-2 whitespace-nowrap rounded-full border border-white/25 px-5 py-2.5 text-[13.5px] font-medium text-fg transition hover:border-white/50 hover:bg-white/5 sm:inline-flex"
           >
             <Icon name="lock" size={15} /> {AREA.label}
           </Link>
@@ -118,7 +118,7 @@ export function Header() {
               </Link>
             )
           )}
-          <Link href={AREA.href} className="mt-5 flex h-12 items-center justify-center gap-2 rounded-full bg-primary font-medium text-primary-fg">
+          <Link href={AREA.href} className="mt-5 flex h-12 items-center justify-center gap-2 rounded-full border border-white/25 font-medium">
             <Icon name="lock" size={17} /> {AREA.label}
           </Link>
         </nav>

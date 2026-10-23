@@ -17,15 +17,7 @@ const COLS = [
       ['/organigramma', 'Organigramma'],
       ['/reclutamento', 'Bandi & Reclutamento'],
       ['/notizie', 'Comunicati e avvisi'],
-    ],
-  },
-  {
-    title: 'Area riservata',
-    links: [
       ['/login', 'Accesso agenti'],
-      ['/dashboard', 'Dashboard'],
-      ['/candidature', 'Candidature'],
-      ['/pratiche', 'Gestione pratiche'],
     ],
   },
 ];
@@ -34,7 +26,7 @@ export function Footer() {
   return (
     <footer className="mt-24 border-t border-line bg-surface">
       <Container className="py-14">
-        <div className="grid gap-10 lg:grid-cols-[1.6fr_repeat(3,1fr)]">
+        <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-3">
               <img src="/assets/crest-md.png" width="60" height="95" alt="" loading="lazy" className="h-16 w-auto" />

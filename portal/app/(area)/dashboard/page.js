@@ -54,7 +54,7 @@ export default function DashboardPage() {
       <h1 className="text-[25px] font-normal">{nome ? `Ciao, ${nome}` : 'Dashboard'}</h1>
       <p className="mt-1 text-[#c9d2e0]">{profile ? `${profile.grado || 'Agente'} · Questura IPRP` : 'Caricamento…'}</p>
 
-      <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {stats.map(([label, n]) => (
           <div key={label} className="rounded-[20px] border border-[#242d3b] p-5">
             <div className="text-sm text-muted">{label}</div>

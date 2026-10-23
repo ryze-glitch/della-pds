@@ -1,0 +1,8 @@
+User-Agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /candidature
+Disallow: /pratiche
+Disallow: /login
+
+Sitemap: https://polizia-iprp.web.app/sitemap.xml

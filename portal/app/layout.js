@@ -5,10 +5,23 @@ import 'lenis/dist/lenis.css';
 import './globals.css';
 import { SmoothScroll } from '../components/SmoothScroll';
 
+const TITLE = 'Polizia di Stato — Questura IPRP · Italian Paradise XI';
+const DESC =
+  'Portale della Questura IPRP: sportello cittadino per denunce e porto d’armi, reclutamento, organigramma e comunicati. Servizio in-character del server roleplay Italian Paradise XI.';
+
 export const metadata = {
-  title: 'Polizia di Stato — Questura IPRP · Italian Paradise XI',
-  description:
-    'Portale della Questura IPRP: sportello cittadino per denunce e porto d’armi, reclutamento, organigramma e comunicati. Servizio in-character del server roleplay Italian Paradise XI.',
+  metadataBase: new URL('https://polizia-iprp.web.app'),
+  title: TITLE,
+  description: DESC,
+  openGraph: {
+    type: 'website',
+    locale: 'it_IT',
+    siteName: 'Questura IPRP',
+    title: TITLE,
+    description: DESC,
+    images: [{ url: '/assets/hero-slide-1.jpg', width: 2000, height: 920, alt: 'La Questura IPRP con le volanti' }],
+  },
+  twitter: { card: 'summary_large_image', title: TITLE, description: DESC, images: ['/assets/hero-slide-1.jpg'] },
 };
 
 export default function RootLayout({ children }) {
