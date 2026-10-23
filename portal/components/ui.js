@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Icon } from './icons';
 import { Reveal } from './Reveal';
-import { Parallax } from './Parallax';
 
 export function Container({ children, className = '' }) {
   return <div className={`mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>;
@@ -95,10 +94,10 @@ export function IconTile({ name, tone = 'primary', className = '' }) {
 export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
   return (
     <section className="relative overflow-hidden border-b border-line">
-      <Parallax speed={0.18}>
+      <div className="absolute inset-0 overflow-hidden">
         <img src="/assets/hero-slide-1.jpg" alt="" className="kb h-full w-full object-cover" style={{ objectPosition: '50% 60%' }} />
-      </Parallax>
-      <div className="absolute inset-0 bg-gradient-to-b from-bg/90 via-bg/75 to-bg" />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-bg/80 via-bg/55 to-bg" />
       <Container className="relative pb-10 pt-40 md:pb-14">
         <nav aria-label="Percorso" className="mb-5 flex flex-wrap items-center gap-1.5 text-sm text-muted">
           <Link href="/" className="hover:text-fg">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Badge } from './ui';
 import { COMUNICATI } from '../lib/data';
 
@@ -9,6 +9,17 @@ const FILTRI = ['Tutti', 'Ordinanza', 'Allerta', 'Comunicato'];
 
 export function NotizieList() {
   const [f, setF] = useState('Tutti');
+  const [hl, setHl] = useState(null);
+
+  // Arrivo da un link tipo /notizie#c3: evidenzia e porta in vista il comunicato.
+  useEffect(() => {
+    const m = window.location.hash.match(/^#c(\d+)$/);
+    if (!m) return;
+    setHl(Number(m[1]));
+    const t = setTimeout(() => document.getElementById('c' + m[1])?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 350);
+    return () => clearTimeout(t);
+  }, []);
+
   const list = COMUNICATI.filter((c) => f === 'Tutti' || c.tipo === f);
   return (
     <div>
@@ -27,7 +38,7 @@ export function NotizieList() {
       </div>
       <div className="mt-6 grid gap-5 md:grid-cols-2">
         {list.map((c) => (
-          <article key={c.id} className="flex flex-col rounded-2xl border border-line bg-surface p-6 ">
+          <article id={`c${c.id}`} key={c.id} className={`flex scroll-mt-40 flex-col rounded-2xl border bg-surface p-6 transition-colors duration-700 ${hl === c.id ? 'border-primary' : 'border-line'}`}>
             <div className="flex items-center justify-between gap-3">
               <Badge tone={TONE[c.tipo]}>{c.tipo}</Badge>
               <time className="text-xs text-muted" dateTime={c.data}>
