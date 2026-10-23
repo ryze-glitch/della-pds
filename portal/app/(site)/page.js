@@ -42,9 +42,9 @@ export default function HomePage() {
             </Btn>
           </div>
 
-          <div className="mt-16 grid border border-t-[3px] border-line border-t-gold bg-surface md:grid-cols-2 lg:mt-24 lg:grid-cols-4">
+          <div className="mt-16 grid gap-px overflow-hidden rounded-[20px] border border-line bg-line md:grid-cols-2 lg:mt-24 lg:grid-cols-4">
             {dock.map((s) => (
-              <Link key={s.href} href={s.href} className="group flex flex-col gap-2 border-b border-line p-7 transition hover:bg-surface2 lg:border-b-0 lg:border-r">
+              <Link key={s.href} href={s.href} className="group flex flex-col gap-2 bg-surface p-7 transition hover:bg-surface2">
                 <Icon name={s.icon} size={28} strokeWidth={1.5} className="text-link" />
                 <h2 className="mt-3 text-lg font-semibold leading-snug">{s.title.replace(' Online', '')}</h2>
                 <p className="flex-1 text-sm text-muted">{s.text.split('.')[0]}.</p>
@@ -71,9 +71,9 @@ export default function HomePage() {
             <p className="mt-4 max-w-md text-muted">
               Lo sportello online ti permette di rivolgerti alla Questura senza recarti in sede, a qualsiasi ora.
             </p>
-            <ol className="mt-8 border-t border-line">
+            <ol className="mt-8 overflow-hidden rounded-[20px] border border-line bg-surface">
               {PASSI.map(([n, t, d]) => (
-                <li key={n} className="flex gap-5 border-b border-line py-5">
+                <li key={n} className="flex gap-5 border-b border-line p-5 last:border-b-0">
                   <span className="font-mono text-sm text-gold-ink">{n}</span>
                   <div>
                     <div className="font-semibold">{t}</div>
@@ -85,8 +85,8 @@ export default function HomePage() {
           </Reveal>
           <Reveal delay={100}>
             <div className="relative">
-              <img src="/assets/hero-slide-2.jpg" alt="Sede della Questura con le volanti nel piazzale" className="aspect-[4/3] w-full object-cover" style={{ objectPosition: '40% 55%' }} />
-              <span className="absolute -bottom-3 -left-3 h-28 w-28 border-b-[3px] border-l-[3px] border-gold" />
+              <img src="/assets/hero-slide-2.jpg" alt="Sede della Questura con le volanti nel piazzale" className="aspect-[4/3] w-full rounded-[20px] object-cover" style={{ objectPosition: '40% 55%' }} />
+              
             </div>
           </Reveal>
         </div>
@@ -101,10 +101,10 @@ export default function HomePage() {
               Tutti i comunicati
             </Btn>
           </Reveal>
-          <div className="mt-8 border-t border-line">
+          <div className="mt-8 overflow-hidden rounded-[20px] border border-line bg-surface">
             {COMUNICATI.slice(0, 4).map((c) => (
               <Reveal key={c.id}>
-                <Link href="/notizie" className="group grid items-center gap-x-6 gap-y-1 border-b border-line py-6 transition hover:bg-surface sm:grid-cols-[130px_130px_1fr_24px] sm:px-2">
+                <Link href="/notizie" className="group grid items-center gap-x-6 gap-y-1 border-b border-line px-6 py-5 transition last:border-b-0 hover:bg-surface2 sm:grid-cols-[130px_130px_1fr_24px]">
                   <time dateTime={c.data} className="font-mono text-[13px] text-muted">
                     {fmtData(c.data)}
                   </time>
@@ -127,10 +127,10 @@ export default function HomePage() {
               Organigramma
             </Btn>
           </Reveal>
-          <div className="mt-8 grid border-l border-t border-line sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-px overflow-hidden rounded-[20px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
             {DEPTS.map((d, i) => (
               <Reveal key={d.name} delay={(i % 3) * 60}>
-                <div className="flex h-full min-h-[190px] flex-col justify-between border-b border-r border-line p-7">
+                <div className="flex h-full min-h-[190px] flex-col justify-between bg-surface p-7">
                   <span className="font-mono text-[13px] text-gold-ink">{String(i + 1).padStart(2, '0')}</span>
                   <div>
                     <h3 className="text-xl font-semibold leading-snug">{d.name}</h3>

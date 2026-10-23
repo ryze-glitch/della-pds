@@ -55,7 +55,7 @@ function Dot({ ok }) {
 function TopBar() {
   const st = useQuesturaStatus();
   return (
-    <div className="border-b border-white/10 text-[12.5px] text-white/85">
+    <div className="border-b border-line text-[12.5px] text-muted">
       <div className="mx-auto flex max-w-page flex-wrap items-center justify-between gap-x-6 gap-y-1 px-4 py-2 sm:px-6 lg:px-8">
         <span className="flex flex-wrap items-center gap-x-5 gap-y-1">
           <span className="flex items-center gap-2">
@@ -91,12 +91,12 @@ export function Header() {
 
   const isActive = (item) => (item.href === '/' ? pathname === '/' : pathname === item.href || pathname.startsWith(item.href + '/'));
   const linkCls = (item) =>
-    `flex items-center gap-1 whitespace-nowrap border-b-2 px-3 py-2 text-[14px] font-medium transition-colors hover:text-white ${
-      isActive(item) ? 'border-gold text-white' : 'border-transparent text-white/80'
+    `flex h-10 items-center gap-1 whitespace-nowrap rounded-full px-3.5 text-[14px] font-medium transition-colors ${
+      isActive(item) ? 'bg-[#0f3947] text-[#17a8bd]' : 'text-fg hover:bg-white/5'
     }`;
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${scrolled || open ? 'border-b border-line bg-bg/90 backdrop-blur-md' : 'bg-transparent'}`}>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-surface/95 backdrop-blur-md">
       <TopBar />
       <div className="mx-auto flex max-w-page items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3" aria-label="Polizia di Stato — Questura IPRP, vai alla home">
@@ -107,7 +107,7 @@ export function Header() {
           </span>
         </Link>
 
-        <nav aria-label="Navigazione principale" className="ml-8 hidden items-center gap-1 xl:flex">
+        <nav aria-label="Navigazione principale" className="ml-4 hidden items-center gap-0.5 xl:flex">
           {NAV.map((item) =>
             item.children ? (
               <div key={item.href} className="group relative">
@@ -115,7 +115,7 @@ export function Header() {
                   {item.label} <Icon name="chevron-down" size={15} />
                 </Link>
                 <div className="invisible absolute left-0 top-full z-50 w-80 pt-2 opacity-0 transition duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-                  <div className="overflow-hidden rounded-sm border border-line border-t-gold bg-surface">
+                  <div className="overflow-hidden rounded-[20px] border border-line bg-surface">
                     {item.children.map((c) => (
                       <Link key={c.href} href={c.href} className="flex items-start gap-3 px-4 py-3 hover:bg-surface2">
                         <Icon name={c.icon} size={19} className="mt-0.5 text-link" />
@@ -139,7 +139,7 @@ export function Header() {
         <div className="ml-auto flex items-center gap-2">
           <Link
             href={AREA.href}
-            className="hidden items-center gap-2 whitespace-nowrap rounded-sm border border-white/40 px-4 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-white/10 sm:inline-flex"
+            className="hidden items-center gap-2 whitespace-nowrap rounded-full bg-primary px-5 py-3 text-[13.5px] font-medium text-primary-fg transition hover:brightness-110 sm:inline-flex"
           >
             <Icon name="lock" size={15} /> {AREA.label}
           </Link>
@@ -148,7 +148,7 @@ export function Header() {
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-label={open ? 'Chiudi il menu' : 'Apri il menu di navigazione'}
-            className="flex h-10 w-10 items-center justify-center rounded-sm border border-white/30 text-white xl:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-white xl:hidden"
           >
             <Icon name={open ? 'x' : 'menu'} size={20} />
           </button>
@@ -156,7 +156,7 @@ export function Header() {
       </div>
 
       {open ? (
-        <nav aria-label="Menu mobile" className="max-h-[70vh] overflow-y-auto border-t border-line px-4 pb-6 pt-2 xl:hidden">
+        <nav aria-label="Menu mobile" className="max-h-[70vh] overflow-y-auto border-t border-line bg-surface px-4 pb-6 pt-2 xl:hidden">
           {NAV.map((item) =>
             item.children ? (
               <div key={item.href} className="border-b border-line">
@@ -184,7 +184,7 @@ export function Header() {
               </Link>
             )
           )}
-          <Link href={AREA.href} className="mt-5 flex h-12 items-center justify-center gap-2 rounded-sm border border-white/40 font-medium">
+          <Link href={AREA.href} className="mt-5 flex h-12 items-center justify-center gap-2 rounded-full bg-primary font-medium text-primary-fg">
             <Icon name="lock" size={17} /> {AREA.label}
           </Link>
         </nav>

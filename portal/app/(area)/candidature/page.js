@@ -219,7 +219,7 @@ export default function CandidaturePage() {
       </Card>
 
       <section className="mt-6">
-        <label className="flex h-12 items-center gap-3 rounded-sm border border-line bg-surface px-4 focus-within:border-link focus-within:ring-2 focus-within:ring-link/25">
+        <label className="flex h-12 items-center gap-3 rounded-2xl border border-line bg-surface px-4 focus-within:border-link focus-within:ring-2 focus-within:ring-link/25">
           <Icon name="search" size={17} className="text-muted" />
           <span className="sr-only">Cerca una candidatura</span>
           <input

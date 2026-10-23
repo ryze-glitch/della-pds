@@ -123,7 +123,7 @@ export default function PratichePage() {
       </Card>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-        <label className="flex h-11 flex-1 items-center gap-3 rounded-sm border border-line bg-surface px-4 focus-within:border-link focus-within:ring-2 focus-within:ring-link/25">
+        <label className="flex h-11 flex-1 items-center gap-3 rounded-2xl border border-line bg-surface px-4 focus-within:border-link focus-within:ring-2 focus-within:ring-link/25">
           <Icon name="search" size={17} className="text-muted" />
           <span className="sr-only">Cerca per codice</span>
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Cerca per codice (es. K7M2QX)" className="w-full bg-transparent font-mono text-sm uppercase outline-none placeholder:normal-case placeholder:text-muted" />

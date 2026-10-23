@@ -27,7 +27,7 @@ export function NotizieList() {
       </div>
       <div className="mt-6 grid gap-5 md:grid-cols-2">
         {list.map((c) => (
-          <article key={c.id} className="flex flex-col rounded-sm border border-line bg-surface p-6 ">
+          <article key={c.id} className="flex flex-col rounded-2xl border border-line bg-surface p-6 ">
             <div className="flex items-center justify-between gap-3">
               <Badge tone={TONE[c.tipo]}>{c.tipo}</Badge>
               <time className="text-xs text-muted" dateTime={c.data}>

@@ -32,7 +32,7 @@ function Field({ field, value, error, onChange, onBlur }) {
   if (field.type === 'checkbox') {
     return (
       <div className="sm:col-span-2">
-        <label className={`flex cursor-pointer items-start gap-3 rounded-sm border p-3.5 text-[15px] leading-snug transition ${error ? 'border-bad bg-bad/5' : 'border-line hover:bg-surface2'}`}>
+        <label className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-3.5 text-[15px] leading-snug transition ${error ? 'border-bad bg-bad/5' : 'border-line hover:bg-surface2'}`}>
           <input
             {...common}
             type="checkbox"
@@ -148,7 +148,7 @@ function Receipt({ form, code, onReset }) {
           La tua pratica ({form.title.toLowerCase()}) è stata trasmessa alla Questura. Conserva il codice: ti serve per
           verificarne lo stato.
         </p>
-        <div className="mx-auto mt-7 max-w-md rounded-sm border-2 border-dashed border-gold bg-gold-soft px-4 py-5">
+        <div className="mx-auto mt-7 max-w-md rounded-2xl border-2 border-dashed border-gold bg-gold-soft px-4 py-5">
           <div className="text-xs font-semibold uppercase tracking-[0.14em] text-gold-ink">Codice pratica</div>
           <div className="mt-1 select-all break-all text-2xl font-semibold tracking-wider text-primary sm:text-3xl">#{code}</div>
         </div>

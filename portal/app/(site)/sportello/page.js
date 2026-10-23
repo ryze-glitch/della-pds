@@ -17,7 +17,7 @@ export default function SportelloPage() {
       <Section>
         <div className="grid gap-5 md:grid-cols-2">
           {SERVIZI.map((s) => (
-            <Link key={s.href} href={s.href} className="group flex gap-5 rounded-sm border border-line bg-surface p-6  transition duration-200 hover:-translate-y-0.5 hover:border-primary hover:">
+            <Link key={s.href} href={s.href} className="group flex gap-5 rounded-2xl border border-line bg-surface p-6  transition duration-200 hover:-translate-y-0.5 hover:border-primary hover:">
               <IconTile name={s.icon} className="!h-14 !w-14" />
               <div>
                 <h2 className="text-xl font-semibold">{s.title}</h2>

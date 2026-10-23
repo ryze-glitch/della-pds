@@ -37,7 +37,7 @@ export function SectionHead({ eyebrow, title, text, action, className = '' }) {
 }
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-sm border text-sm font-semibold transition-colors duration-200 select-none whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link disabled:cursor-not-allowed disabled:opacity-60';
+  'inline-flex items-center justify-center gap-2 rounded-full border text-sm font-semibold transition-colors duration-200 select-none whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link disabled:cursor-not-allowed disabled:opacity-60';
 const sizes = { sm: 'h-9 px-3.5', md: 'h-11 px-5', lg: 'h-12 px-6 text-[15px]' };
 const variants = {
   primary: 'border-primary bg-primary text-primary-fg hover:bg-primary/90',
@@ -75,7 +75,7 @@ export function Badge({ children, tone = 'neutral', className = '' }) {
 }
 
 export function Card({ children, className = '' }) {
-  return <div className={`rounded-sm border border-line bg-surface  ${className}`}>{children}</div>;
+  return <div className={`rounded-[20px] border border-line bg-surface  ${className}`}>{children}</div>;
 }
 
 export function IconTile({ name, tone = 'primary', className = '' }) {
@@ -85,7 +85,7 @@ export function IconTile({ name, tone = 'primary', className = '' }) {
     soft: 'bg-line text-fg',
   };
   return (
-    <span className={`inline-flex h-11 w-11 flex-none items-center justify-center rounded-sm ${tones[tone]} ${className}`}>
+    <span className={`inline-flex h-11 w-11 flex-none items-center justify-center rounded-2xl ${tones[tone]} ${className}`}>
       <Icon name={name} size={21} />
     </span>
   );
@@ -132,7 +132,7 @@ export function Notice({ tone = 'info', title, children, className = '' }) {
   };
   const icons = { info: 'info', warn: 'alert', gold: 'info', bad: 'alert' };
   return (
-    <div role="note" className={`flex gap-3 rounded-sm border p-4 text-sm leading-relaxed ${tones[tone]} ${className}`}>
+    <div role="note" className={`flex gap-3 rounded-2xl border p-4 text-sm leading-relaxed ${tones[tone]} ${className}`}>
       <Icon name={icons[tone]} size={19} className="mt-0.5 flex-none" />
       <div>
         {title ? <div className="font-semibold">{title}</div> : null}
