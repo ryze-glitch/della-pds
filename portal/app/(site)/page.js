@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { Btn, Container, Eyebrow } from '../../components/ui';
 import { Icon } from '../../components/icons';
 import { Reveal } from '../../components/Reveal';
-import { Parallax } from '../../components/Parallax';
 import { HeroTrack } from '../../components/forms/HeroTrack';
 import { COMUNICATI, DEPTS, SERVIZI } from '../../lib/data';
 
@@ -24,15 +23,13 @@ export default function HomePage() {
     <>
       <section className="relative">
         <div className="absolute inset-0 overflow-hidden">
-          <Parallax speed={0.22}>
-            <img src="/assets/hero-slide-1.jpg" alt="" className="kb h-full w-full object-cover" style={{ objectPosition: '62% 62%' }} />
-          </Parallax>
+          <img src="/assets/hero-slide-1.jpg" alt="" className="kb h-full w-full object-cover" style={{ objectPosition: '55% 70%' }} />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-bg/80 via-bg/20 to-bg" />
-        <div className="absolute inset-0 bg-gradient-to-r from-bg/90 via-bg/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-bg/70 via-transparent to-bg" />
+        <div className="absolute inset-0 bg-gradient-to-r from-bg/80 via-bg/10 to-transparent" style={{ backgroundSize: '70% 100%', backgroundRepeat: 'no-repeat' }} />
         <Container className="relative pt-48 lg:pt-52">
           <Eyebrow className="hero-in">Italian Paradise XI · Questura</Eyebrow>
-          <h1 style={{ '--d': '140ms' }} className="hero-in mt-4 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-[4rem]">
+          <h1 style={{ '--d': '140ms' }} className="hero-in mt-4 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem]">
             Lo sportello della Polizia di Stato, online.
           </h1>
           <p style={{ '--d': '300ms' }} className="hero-in mt-5 max-w-xl text-lg leading-relaxed text-white/80">
@@ -47,7 +44,7 @@ export default function HomePage() {
             </Btn>
           </div>
 
-          <div className="mt-16 grid gap-px overflow-hidden rounded-[20px] border border-line bg-line md:grid-cols-2 lg:mt-24 lg:grid-cols-4">
+          <div className="mt-16 grid gap-px overflow-hidden rounded-[20px] border border-line bg-line md:grid-cols-2 lg:mt-56 lg:grid-cols-4">
             {dock.map((s, i) => (
               <Link key={s.href} href={s.href} style={{ '--d': `${640 + i * 110}ms` }} className="hero-in group flex flex-col gap-2 bg-surface p-7 transition hover:bg-surface2">
                 <Icon name={s.icon} size={28} strokeWidth={1.5} className="text-link transition-transform duration-300 group-hover:scale-110" />
@@ -109,7 +106,7 @@ export default function HomePage() {
           <div className="mt-8 overflow-hidden rounded-[20px] border border-line bg-surface">
             {COMUNICATI.slice(0, 4).map((c) => (
               <Reveal key={c.id}>
-                <Link href="/notizie" className="group grid items-center gap-x-6 gap-y-1 border-b border-line px-6 py-5 transition last:border-b-0 hover:bg-surface2 sm:grid-cols-[130px_130px_1fr_24px]">
+                <Link href={`/notizie#c${c.id}`} className="group grid items-center gap-x-6 gap-y-1 border-b border-line px-6 py-5 transition last:border-b-0 hover:bg-surface2 sm:grid-cols-[130px_130px_1fr_24px]">
                   <time dateTime={c.data} className="font-mono text-[13px] text-muted">
                     {fmtData(c.data)}
                   </time>
@@ -135,11 +132,17 @@ export default function HomePage() {
           <div className="mt-8 grid gap-px overflow-hidden rounded-[20px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
             {DEPTS.map((d, i) => (
               <Reveal key={d.name} delay={(i % 3) * 60}>
-                <div className="flex h-full min-h-[190px] flex-col justify-between bg-surface p-7">
-                  <span className="font-mono text-[13px] text-gold-ink">{String(i + 1).padStart(2, '0')}</span>
+                <div className="flex h-full min-h-[210px] flex-col justify-between bg-surface p-7">
+                  <div className="flex items-start justify-between">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gold-soft text-gold-ink">
+                      <Icon name={d.icon} size={22} strokeWidth={1.6} />
+                    </span>
+                    <span className="font-mono text-[13px] text-muted">{String(i + 1).padStart(2, '0')}</span>
+                  </div>
                   <div>
-                    <h3 className="text-xl font-semibold leading-snug">{d.name}</h3>
-                    <p className="mt-1.5 text-sm text-muted">{d.tag}</p>
+                    <div className="text-xs font-medium uppercase tracking-[0.14em] text-gold-ink">{d.tag}</div>
+                    <h3 className="mt-1 text-xl font-semibold leading-snug">{d.name}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted">{d.text.split('. ')[0].replace(/\.$/, '')}.</p>
                   </div>
                 </div>
               </Reveal>

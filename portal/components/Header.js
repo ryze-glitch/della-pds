@@ -156,7 +156,7 @@ export function Header() {
       </div>
 
       {open ? (
-        <nav aria-label="Menu mobile" className="max-h-[70vh] overflow-y-auto border-t border-line bg-surface px-4 pb-6 pt-2 xl:hidden">
+        <nav aria-label="Menu mobile" data-lenis-prevent className="max-h-[70vh] overflow-y-auto border-t border-line bg-surface px-4 pb-6 pt-2 xl:hidden">
           {NAV.map((item) =>
             item.children ? (
               <div key={item.href} className="border-b border-line">

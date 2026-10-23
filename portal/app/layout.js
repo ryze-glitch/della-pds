@@ -1,7 +1,9 @@
 import '@fontsource/poppins/latin-400.css';
 import '@fontsource/poppins/latin-500.css';
 import '@fontsource/poppins/latin-600.css';
+import 'lenis/dist/lenis.css';
 import './globals.css';
+import { SmoothScroll } from '../components/SmoothScroll';
 
 export const metadata = {
   title: 'Polizia di Stato — Questura IPRP · Italian Paradise XI',
@@ -26,6 +28,7 @@ export default function RootLayout({ children }) {
         >
           Vai al contenuto
         </a>
+        <SmoothScroll />
         {children}
       </body>
     </html>
