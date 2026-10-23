@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Btn, Container, Eyebrow } from '../../components/ui';
 import { Icon } from '../../components/icons';
 import { Reveal } from '../../components/Reveal';
-import { Parallax, Siren } from '../../components/Parallax';
+import { Parallax } from '../../components/Parallax';
 import { HeroTrack } from '../../components/forms/HeroTrack';
 import { COMUNICATI, DEPTS, SERVIZI } from '../../lib/data';
 
@@ -28,7 +28,6 @@ export default function HomePage() {
             <img src="/assets/hero-slide-1.jpg" alt="" className="kb h-full w-full object-cover" style={{ objectPosition: '62% 62%' }} />
           </Parallax>
         </div>
-        <Siren />
         <div className="absolute inset-0 bg-gradient-to-b from-bg/80 via-bg/20 to-bg" />
         <div className="absolute inset-0 bg-gradient-to-r from-bg/90 via-bg/30 to-transparent" />
         <Container className="relative pt-48 lg:pt-52">

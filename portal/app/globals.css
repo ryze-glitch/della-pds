@@ -84,18 +84,6 @@ body {
 }
 .kb { animation: kenburns 2.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 
-@keyframes siren-a {
-  0%, 46%, 100% { opacity: 0; }
-  8%, 38% { opacity: 1; }
-}
-@keyframes siren-b {
-  0%, 50%, 100% { opacity: 0; }
-  58%, 88% { opacity: 1; }
-}
-.siren { position: absolute; bottom: -10%; width: 60%; height: 80%; filter: blur(30px); mix-blend-mode: screen; opacity: 0; }
-.siren-blue { left: -10%; background: radial-gradient(closest-side, rgb(40 110 255 / 0.55), transparent); animation: siren-a 2.8s ease-in-out infinite; }
-.siren-red { right: -10%; background: radial-gradient(closest-side, rgb(255 45 70 / 0.45), transparent); animation: siren-b 2.8s ease-in-out infinite; }
-
 @keyframes line-grow {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
