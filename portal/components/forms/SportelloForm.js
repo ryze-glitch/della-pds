@@ -352,7 +352,7 @@ export function SportelloForm({ formId }) {
 
   if (code) {
     return (
-      <div ref={topRef} className="scroll-mt-32">
+      <div ref={topRef} className="scroll-mt-28">
         <Receipt
           form={form}
           code={code}
@@ -374,7 +374,7 @@ export function SportelloForm({ formId }) {
 
   return (
     <form ref={formRef} onSubmit={onSubmit} noValidate>
-      <div ref={topRef} className="scroll-mt-32" />
+      <div ref={topRef} className="scroll-mt-28" />
       <div className="mb-7">
         <div className="mb-3 flex items-baseline justify-between text-sm">
           <span className="font-medium">

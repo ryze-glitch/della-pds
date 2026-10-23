@@ -6,71 +6,6 @@ import { usePathname } from 'next/navigation';
 import { Icon } from './icons';
 import { NAV, AREA } from './nav';
 
-// Stato della Questura: se esiste il documento Firestore config/status lo
-// usa (gestibile da console), altrimenti ricava l'orario dello sportello.
-function useQuesturaStatus() {
-  const [remote, setRemote] = useState(null);
-  const [hour, setHour] = useState(null);
-
-  useEffect(() => {
-    const fmt = new Intl.DateTimeFormat('it-IT', { timeZone: 'Europe/Rome', hour: 'numeric', hour12: false });
-    const tick = () => setHour(parseInt(fmt.format(new Date()), 10) % 24);
-    tick();
-    const id = setInterval(tick, 60000);
-    let unsub = () => {};
-    let cancelled = false;
-    import('../lib/firebase')
-      .then(async ({ db }) => {
-        const { doc, onSnapshot } = await import('firebase/firestore');
-        if (cancelled) return;
-        unsub = onSnapshot(
-          doc(db, 'config', 'status'),
-          (snap) => setRemote(snap.exists() ? snap.data() : null),
-          () => setRemote(null)
-        );
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-      clearInterval(id);
-      unsub();
-    };
-  }, []);
-
-  const apertoOra = hour === null ? true : hour >= 8 && hour < 23;
-  const centrale = (remote && remote.centrale) || 'ATTIVA';
-  const sportello = (remote && remote.sportello) || (apertoOra ? 'APERTO AL PUBBLICO' : 'CHIUSO');
-  return { centrale, sportello, centraleOk: centrale.toUpperCase().startsWith('ATTIV'), sportelloOk: sportello.toUpperCase().startsWith('APERT') };
-}
-
-function Dot({ ok }) {
-  return (
-    <span className="relative flex h-2 w-2 flex-none">
-      {ok ? <span className="ping-soft absolute inset-0 rounded-full bg-[#4ade80]" /> : null}
-      <span className={`relative h-2 w-2 rounded-full ${ok ? 'bg-[#4ade80]' : 'bg-[#f87171]'}`} />
-    </span>
-  );
-}
-
-function TopBar() {
-  const st = useQuesturaStatus();
-  return (
-    <div className="border-b border-line text-[12.5px] text-muted">
-      <div className="mx-auto flex max-w-page flex-wrap items-center justify-between gap-x-6 gap-y-1 px-4 py-2 sm:px-6 lg:px-8">
-        <span className="flex flex-wrap items-center gap-x-5 gap-y-1">
-          <span className="flex items-center gap-2">
-            <Dot ok={st.centraleOk} /> Centrale Operativa: <strong className="font-medium">{st.centrale}</strong>
-          </span>
-          <span className="flex items-center gap-2">
-            <Dot ok={st.sportelloOk} /> Sportello: <strong className="font-medium">{st.sportello}</strong>
-          </span>
-        </span>
-        <span className="hidden md:block">Repubblica Italiana · Emergenze reali: 112</span>
-      </div>
-    </div>
-  );
-}
-
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -97,7 +32,6 @@ export function Header() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-surface/95 backdrop-blur-md">
-      <TopBar />
       <div className="mx-auto flex max-w-page items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3" aria-label="Polizia di Stato — Questura IPRP, vai alla home">
           <img src="/assets/crest-md.png" width="60" height="95" alt="" className="h-12 w-auto" />

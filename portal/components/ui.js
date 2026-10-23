@@ -94,7 +94,7 @@ export function IconTile({ name, tone = 'primary', className = '' }) {
 export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
   return (
     <section className="border-b border-line bg-gradient-to-b from-surface to-bg">
-      <Container className="pb-9 pt-36 md:pb-11 md:pt-40">
+      <Container className="pb-9 pt-28 md:pb-11 md:pt-32">
         <nav aria-label="Percorso" className="hero-in mb-4 flex flex-wrap items-center gap-1.5 text-sm text-muted">
           <Link href="/" className="hover:text-fg">
             Home

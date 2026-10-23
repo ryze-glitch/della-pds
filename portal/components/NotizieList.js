@@ -38,7 +38,7 @@ export function NotizieList() {
       </div>
       <div className="mt-6 grid gap-5 md:grid-cols-2">
         {list.map((c) => (
-          <article id={`c${c.id}`} key={c.id} className={`flex scroll-mt-40 flex-col rounded-2xl border bg-surface p-6 transition-colors duration-700 ${hl === c.id ? 'border-primary' : 'border-line'}`}>
+          <article id={`c${c.id}`} key={c.id} className={`flex scroll-mt-28 flex-col rounded-2xl border bg-surface p-6 transition-colors duration-700 ${hl === c.id ? 'border-primary' : 'border-line'}`}>
             <div className="flex items-center justify-between gap-3">
               <Badge tone={TONE[c.tipo]}>{c.tipo}</Badge>
               <time className="text-xs text-muted" dateTime={c.data}>

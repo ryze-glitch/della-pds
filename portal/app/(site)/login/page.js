@@ -68,7 +68,7 @@ export default function LoginPage() {
   }
 
   return (
-    <Container className="flex min-h-[70vh] items-center justify-center pb-14 pt-44">
+    <Container className="flex min-h-[70vh] items-center justify-center pb-14 pt-32">
       <div className="w-full max-w-md overflow-hidden rounded-2xl border border-line bg-surface ">
         <div className="gold-rule" />
         <div className="p-7 text-center sm:p-9">
