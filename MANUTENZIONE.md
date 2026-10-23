@@ -5,9 +5,11 @@ Il sito online è servito da una sola cartella, scelta da `hosting.public` in `f
 | Cartella       | Contenuto                                              |
 | -------------- | ------------------------------------------------------ |
 | `maintenance/` | schermata "IPRP XI — Sito in manutenzione" (Next.js)   |
+| `coming-soon/` | pagina semplice "Sito in Arrivo a Breve..." (file caricato dal proprietario) |
 | `site/`        | export statico del sito completo (da `portal/out`)     |
 
-Ora è attiva la **manutenzione** (`"public": "maintenance"`, con rewrite di ogni URL su `/index.html`).
+Ora è attiva la pagina **"Sito in Arrivo a Breve..."** (`"public": "coming-soon"`, con rewrite di ogni URL su `/index.html`).
+Per tornare alla schermata di manutenzione Next imposta `"public": "maintenance"`.
 
 ## Rimettere online il sito completo
 
