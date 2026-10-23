@@ -8,13 +8,13 @@ import { COMUNICATI, DEPTS, SERVIZI } from '../../lib/data';
 const TIPO_COLOR = { Ordinanza: 'text-link', Allerta: 'text-bad', Comunicato: 'text-gold-ink' };
 
 const PASSI = [
-  ['01', 'Compila il modulo', 'Scegli il servizio e inserisci i dati richiesti: i controlli ti guidano passo dopo passo.'],
-  ['02', 'Ricevi il codice', 'All’invio ottieni il codice pratica, ad esempio #POL-2026-K7M2QX, e la ricevuta stampabile.'],
-  ['03', 'Segui la pratica', 'Verifica lo stato quando vuoi. Per le comunicazioni urgenti ti contatta lo staff su Discord.'],
+  ['1', 'Compila il modulo', 'Scegli il servizio e inserisci i dati richiesti.'],
+  ['2', 'Ricevi il codice', 'Ottieni un codice pratica e la ricevuta stampabile.'],
+  ['3', 'Segui la pratica', 'Controlla lo stato quando vuoi, anche da qui.'],
 ];
 
 function fmtData(iso) {
-  return new Date(iso + 'T12:00:00').toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }).replaceAll('/', '.');
+  return new Date(iso + 'T12:00:00').toLocaleDateString('it-IT', { day: '2-digit', month: 'short' }).replace('.', '');
 }
 
 export default function HomePage() {
@@ -27,7 +27,7 @@ export default function HomePage() {
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-bg/70 via-transparent to-bg" />
         <div className="absolute inset-0 bg-gradient-to-r from-bg/80 via-bg/10 to-transparent" style={{ backgroundSize: '70% 100%', backgroundRepeat: 'no-repeat' }} />
-        <Container className="relative pt-48 lg:pt-52">
+        <Container className="relative pt-44 lg:pt-48">
           <Eyebrow className="hero-in">Italian Paradise XI · Questura</Eyebrow>
           <h1 style={{ '--d': '140ms' }} className="hero-in mt-4 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem]">
             Lo sportello della Polizia di Stato, online.
@@ -44,7 +44,7 @@ export default function HomePage() {
             </Btn>
           </div>
 
-          <div className="mt-16 grid gap-px overflow-hidden rounded-[20px] border border-line bg-line md:grid-cols-2 lg:mt-56 lg:grid-cols-4">
+          <div className="mt-14 grid gap-px overflow-hidden rounded-[20px] border border-line bg-line md:grid-cols-2 lg:mt-44 lg:grid-cols-4">
             {dock.map((s, i) => (
               <Link key={s.href} href={s.href} style={{ '--d': `${640 + i * 110}ms` }} className="hero-in group flex flex-col gap-2 bg-surface p-7 transition hover:bg-surface2">
                 <Icon name={s.icon} size={28} strokeWidth={1.5} className="text-link transition-transform duration-300 group-hover:scale-110" />
@@ -65,106 +65,85 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <Container>
-        <div className="grid items-center gap-14 pt-28 lg:grid-cols-[1fr_1.15fr]">
-          <Reveal>
-            <Eyebrow>Come funziona</Eyebrow>
-            <h2 className="h2 mt-4 max-w-md">Tre passi, nessuna coda.</h2>
-            <p className="mt-4 max-w-md text-muted">
-              Lo sportello online ti permette di rivolgerti alla Questura senza recarti in sede, a qualsiasi ora.
-            </p>
-            <ol className="mt-8 overflow-hidden rounded-[20px] border border-line bg-surface">
-              {PASSI.map(([n, t, d]) => (
-                <li key={n} className="flex gap-5 border-b border-line p-5 last:border-b-0">
-                  <span className="font-mono text-sm text-gold-ink">{n}</span>
-                  <div>
-                    <div className="font-semibold">{t}</div>
-                    <p className="mt-1 text-sm text-muted">{d}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </Reveal>
-          <Reveal delay={100}>
-            <div className="relative">
-              <img src="/assets/hero-slide-2.jpg" alt="Sede della Questura con le volanti nel piazzale" className="aspect-[4/3] w-full rounded-[20px] object-cover" style={{ objectPosition: '40% 55%' }} />
-              
-            </div>
-          </Reveal>
-        </div>
+      <Container className="pt-6">
+        <Reveal>
+          <ol className="grid gap-px overflow-hidden rounded-[20px] border border-line bg-line md:grid-cols-3">
+            {PASSI.map(([n, t, d]) => (
+              <li key={n} className="flex items-center gap-4 bg-surface px-6 py-5">
+                <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-gold-soft font-semibold text-gold-ink">{n}</span>
+                <div>
+                  <div className="font-semibold">{t}</div>
+                  <p className="text-sm text-muted">{d}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Reveal>
 
-        <div className="pt-28">
-          <Reveal className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <Eyebrow>Comunicati</Eyebrow>
-              <h2 className="h2 mt-4">Ordinanze, allerte e avvisi.</h2>
+        <div className="grid gap-6 pt-20 lg:grid-cols-[1.5fr_1fr]">
+          <Reveal>
+            <div className="flex items-end justify-between gap-4">
+              <h2 className="text-2xl font-semibold tracking-tight">Ultimi comunicati</h2>
+              <Link href="/notizie" className="inline-flex items-center gap-1.5 text-sm font-medium text-link hover:underline">
+                Vedi tutti <Icon name="arrow-right" size={15} />
+              </Link>
             </div>
-            <Btn as={Link} href="/notizie" variant="outline" icon="arrow-right">
-              Tutti i comunicati
-            </Btn>
-          </Reveal>
-          <div className="mt-8 overflow-hidden rounded-[20px] border border-line bg-surface">
-            {COMUNICATI.slice(0, 4).map((c) => (
-              <Reveal key={c.id}>
-                <Link href={`/notizie#c${c.id}`} className="group grid items-center gap-x-6 gap-y-1 border-b border-line px-6 py-5 transition last:border-b-0 hover:bg-surface2 sm:grid-cols-[130px_130px_1fr_24px]">
-                  <time dateTime={c.data} className="font-mono text-[13px] text-muted">
+            <div className="mt-5 overflow-hidden rounded-[20px] border border-line bg-surface">
+              {COMUNICATI.slice(0, 4).map((c) => (
+                <Link key={c.id} href={`/notizie#c${c.id}`} className="group flex items-center gap-5 border-b border-line px-6 py-5 transition last:border-b-0 hover:bg-surface2">
+                  <time dateTime={c.data} className="w-14 flex-none text-center font-mono text-[13px] uppercase leading-tight text-muted">
                     {fmtData(c.data)}
                   </time>
-                  <span className={`text-xs font-medium uppercase tracking-[0.16em] ${TIPO_COLOR[c.tipo]}`}>{c.tipo}</span>
-                  <h3 className="text-lg font-medium leading-snug">{c.titolo}</h3>
-                  <Icon name="arrow-right" size={18} className="hidden text-muted transition-transform group-hover:translate-x-1 sm:block" />
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-
-        <div className="pt-28">
-          <Reveal className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <Eyebrow>La Questura</Eyebrow>
-              <h2 className="h2 mt-4">Reparti operativi.</h2>
-            </div>
-            <Btn as={Link} href="/organigramma" variant="outline" icon="arrow-right">
-              Organigramma
-            </Btn>
-          </Reveal>
-          <div className="mt-8 grid gap-px overflow-hidden rounded-[20px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-            {DEPTS.map((d, i) => (
-              <Reveal key={d.name} delay={(i % 3) * 60}>
-                <div className="flex h-full min-h-[210px] flex-col justify-between bg-surface p-7">
-                  <div className="flex items-start justify-between">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gold-soft text-gold-ink">
-                      <Icon name={d.icon} size={22} strokeWidth={1.6} />
-                    </span>
-                    <span className="font-mono text-[13px] text-muted">{String(i + 1).padStart(2, '0')}</span>
+                  <div className="min-w-0 flex-1">
+                    <span className={`text-[11px] font-medium uppercase tracking-[0.16em] ${TIPO_COLOR[c.tipo]}`}>{c.tipo}</span>
+                    <h3 className="mt-0.5 font-medium leading-snug">{c.titolo}</h3>
                   </div>
-                  <div>
-                    <div className="text-xs font-medium uppercase tracking-[0.14em] text-gold-ink">{d.tag}</div>
-                    <h3 className="mt-1 text-xl font-semibold leading-snug">{d.name}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted">{d.text.split('. ')[0].replace(/\.$/, '')}.</p>
+                  <Icon name="arrow-right" size={18} className="flex-none text-muted transition-transform group-hover:translate-x-1" />
+                </Link>
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal delay={100}>
+            <div className="flex items-end justify-between gap-4">
+              <h2 className="text-2xl font-semibold tracking-tight">Reparti</h2>
+              <Link href="/organigramma" className="inline-flex items-center gap-1.5 text-sm font-medium text-link hover:underline">
+                Organigramma <Icon name="arrow-right" size={15} />
+              </Link>
+            </div>
+            <div className="mt-5 overflow-hidden rounded-[20px] border border-line bg-surface">
+              {DEPTS.map((d) => (
+                <div key={d.name} className="flex items-center gap-4 border-b border-line px-5 py-3.5 last:border-b-0">
+                  <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-gold-soft text-gold-ink">
+                    <Icon name={d.icon} size={19} strokeWidth={1.6} />
+                  </span>
+                  <div className="min-w-0">
+                    <div className="truncate text-[15px] font-medium">{d.name}</div>
+                    <div className="truncate text-xs text-muted">{d.tag}</div>
                   </div>
                 </div>
-              </Reveal>
-            ))}
-          </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
-      </Container>
 
-      <section className="relative mt-28 overflow-hidden">
-        <img src="/assets/hero-slide-2.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '30% 60%' }} />
-        <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/90 to-bg/40" />
-        <Container className="relative py-20">
-          <Eyebrow>Bandi &amp; Reclutamento</Eyebrow>
-          <h2 className="h2 mt-4 max-w-xl">Entra nella Polizia di Stato.</h2>
-          <p className="mt-4 max-w-lg text-lg text-white/75">Le selezioni per Agente sono aperte tutto l’anno: candidati, supera il colloquio e completa l’accademia.</p>
-          <div className="mt-8">
-            <Btn as={Link} href="/reclutamento" variant="light" size="lg" icon="arrow-right">
-              Scopri i bandi
-            </Btn>
+        <Reveal className="pt-20">
+          <div className="relative overflow-hidden rounded-[24px] border border-line">
+            <img src="/assets/hero-slide-2.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '30% 60%' }} />
+            <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/90 to-bg/30" />
+            <div className="relative flex flex-col items-start gap-6 p-8 sm:p-12 md:flex-row md:items-center md:justify-between">
+              <div className="max-w-xl">
+                <Eyebrow>Bandi &amp; Reclutamento</Eyebrow>
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight">Entra nella Polizia di Stato.</h2>
+                <p className="mt-3 text-white/75">Selezioni sempre aperte: candidati, supera il colloquio e completa l’accademia.</p>
+              </div>
+              <Btn as={Link} href="/reclutamento" variant="light" size="lg" icon="arrow-right">
+                Scopri i bandi
+              </Btn>
+            </div>
           </div>
-        </Container>
-      </section>
+        </Reveal>
+      </Container>
     </>
   );
 }
