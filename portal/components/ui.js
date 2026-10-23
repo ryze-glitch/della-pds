@@ -80,9 +80,9 @@ export function Card({ children, className = '' }) {
 
 export function IconTile({ name, tone = 'primary', className = '' }) {
   const tones = {
-    primary: 'bg-primary text-primary-fg',
-    gold: 'bg-gold-soft text-gold-ink',
-    soft: 'bg-line text-fg',
+    primary: 'bg-surface2 text-link',
+    gold: 'bg-surface2 text-link',
+    soft: 'bg-surface2 text-muted',
   };
   return (
     <span className={`inline-flex h-11 w-11 flex-none items-center justify-center rounded-2xl ${tones[tone]} ${className}`}>
@@ -93,13 +93,9 @@ export function IconTile({ name, tone = 'primary', className = '' }) {
 
 export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
   return (
-    <section className="relative overflow-hidden border-b border-line">
-      <div className="absolute inset-0 overflow-hidden">
-        <img src="/assets/hero-slide-1.jpg" alt="" className="kb h-full w-full object-cover" style={{ objectPosition: '50% 60%' }} />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-bg/80 via-bg/55 to-bg" />
-      <Container className="relative pb-10 pt-40 md:pb-14">
-        <nav aria-label="Percorso" className="mb-5 flex flex-wrap items-center gap-1.5 text-sm text-muted">
+    <section className="border-b border-line bg-gradient-to-b from-surface to-bg">
+      <Container className="pb-9 pt-36 md:pb-11 md:pt-40">
+        <nav aria-label="Percorso" className="hero-in mb-4 flex flex-wrap items-center gap-1.5 text-sm text-muted">
           <Link href="/" className="hover:text-fg">
             Home
           </Link>
@@ -111,33 +107,40 @@ export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
                   {c.label}
                 </Link>
               ) : (
-                <span className="font-medium text-fg">{c.label}</span>
+                <span className="text-fg">{c.label}</span>
               )}
             </span>
           ))}
         </nav>
-        {eyebrow ? <Eyebrow className="hero-in">{eyebrow}</Eyebrow> : null}
-        <h1 className="h1 hero-in mt-2 max-w-3xl" style={{ '--d': '120ms' }}>{title}</h1>
-        {text ? <p className="hero-in mt-4 max-w-2xl text-lg leading-relaxed text-muted" style={{ '--d': '260ms' }}>{text}</p> : null}
+        <h1 className="hero-in text-3xl font-semibold leading-tight tracking-tight sm:text-4xl" style={{ '--d': '100ms' }}>
+          {title}
+        </h1>
+        {text ? (
+          <p className="hero-in mt-3 max-w-2xl text-[17px] leading-relaxed text-muted" style={{ '--d': '220ms' }}>
+            {text}
+          </p>
+        ) : null}
         {children}
       </Container>
     </section>
   );
 }
 
+// Avviso discreto: filo colorato a sinistra, niente blocchi pieni.
 export function Notice({ tone = 'info', title, children, className = '' }) {
   const tones = {
-    info: 'border-link/30 bg-link/10',
-    warn: 'border-warn/40 bg-warn/10',
-    gold: 'border-gold/40 bg-gold-soft',
-    bad: 'border-bad/40 bg-bad/10',
+    info: 'border-l-link',
+    warn: 'border-l-warn',
+    gold: 'border-l-gold',
+    bad: 'border-l-bad bg-bad/5',
   };
   const icons = { info: 'info', warn: 'alert', gold: 'info', bad: 'alert' };
+  const iconTone = { info: 'text-link', warn: 'text-warn', gold: 'text-gold-ink', bad: 'text-bad' };
   return (
-    <div role="note" className={`flex gap-3 rounded-2xl border p-4 text-sm leading-relaxed ${tones[tone]} ${className}`}>
-      <Icon name={icons[tone]} size={19} className="mt-0.5 flex-none" />
+    <div role="note" className={`flex gap-3 rounded-r-2xl border-l-[3px] bg-surface/60 py-3.5 pl-4 pr-4 text-sm leading-relaxed text-muted ${tones[tone]} ${className}`}>
+      <Icon name={icons[tone]} size={18} className={`mt-0.5 flex-none ${iconTone[tone]}`} />
       <div>
-        {title ? <div className="font-semibold">{title}</div> : null}
+        {title ? <div className="font-medium text-fg">{title}</div> : null}
         <div className={title ? 'mt-0.5' : ''}>{children}</div>
       </div>
     </div>

@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { Icon } from '../icons';
-import { Btn, Card, Notice } from '../ui';
+import { Btn, Notice } from '../ui';
 import { FORMS, emptyValues, isVisible, validate, validateField } from '../../lib/forms';
 import { inviaPratica, SubmitError } from '../../lib/sportello';
 
@@ -55,7 +55,31 @@ function Field({ field, value, error, onChange, onBlur }) {
   }
 
   let control;
-  if (field.type === 'select') {
+  if (field.type === 'select' && field.options.length <= 5) {
+    control = (
+      <div role="radiogroup" aria-labelledby={`${id}-label`} className="flex flex-wrap gap-2.5">
+        {field.options.map((o) => {
+          const on = value === o;
+          return (
+            <button
+              key={o}
+              type="button"
+              role="radio"
+              aria-checked={on}
+              name={field.name}
+              onClick={() => {
+                onChange(field, o);
+                onBlur(field, o);
+              }}
+              className={`rounded-full border px-5 py-2.5 text-[14.5px] font-medium transition ${on ? 'border-primary bg-primary/15 text-link' : 'border-line text-fg hover:border-white/40'}`}
+            >
+              {o}
+            </button>
+          );
+        })}
+      </div>
+    );
+  } else if (field.type === 'select') {
     control = (
       <select {...common} value={value} onChange={(e) => onChange(field, e.target.value)} className="input">
         <option value="">Seleziona…</option>
@@ -97,7 +121,7 @@ function Field({ field, value, error, onChange, onBlur }) {
 
   return (
     <div className={field.width === 'half' ? '' : 'sm:col-span-2'}>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-semibold">
+      <label htmlFor={id} id={`${id}-label`} className="mb-2 block text-sm font-medium text-fg/90">
         {field.label}
         {field.required ? <span className="text-bad"> *</span> : null}
       </label>
@@ -127,6 +151,7 @@ function Field({ field, value, error, onChange, onBlur }) {
 
 function Receipt({ form, code, onReset }) {
   const [copied, setCopied] = useState(false);
+  const when = new Date().toLocaleString('it-IT', { dateStyle: 'long', timeStyle: 'short' });
   async function copy() {
     try {
       await navigator.clipboard.writeText(code);
@@ -137,42 +162,84 @@ function Receipt({ form, code, onReset }) {
     }
   }
   return (
-    <Card className="overflow-hidden">
-      <div className="gold-rule" />
-      <div className="p-6 text-center sm:p-10">
-        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-ok/15 text-ok">
-          <Icon name="check-circle" size={30} />
-        </span>
-        <h2 className="h2 mt-5">Richiesta inviata</h2>
-        <p className="mx-auto mt-2 max-w-md text-muted">
-          La tua pratica ({form.title.toLowerCase()}) è stata trasmessa alla Questura. Conserva il codice: ti serve per
-          verificarne lo stato.
-        </p>
-        <div className="mx-auto mt-7 max-w-md rounded-2xl border-2 border-dashed border-gold bg-gold-soft px-4 py-5">
-          <div className="text-xs font-semibold uppercase tracking-[0.14em] text-gold-ink">Codice pratica</div>
-          <div className="mt-1 select-all break-all text-2xl font-semibold tracking-wider text-primary sm:text-3xl">#{code}</div>
+    <div className="mx-auto max-w-xl">
+      <div className="hero-in rounded-[24px] border border-line bg-surface p-7 sm:p-9">
+        <div className="flex items-center gap-4 border-b border-line pb-5">
+          <img src="/assets/crest-md.png" alt="" className="h-14 w-auto" />
+          <div className="leading-tight">
+            <div className="text-[13px] font-semibold uppercase tracking-[0.14em]">Questura IPRP</div>
+            <div className="text-xs text-muted">Ricevuta di presentazione</div>
+          </div>
+          <span className="ml-auto flex h-10 w-10 items-center justify-center rounded-full bg-ok/15 text-ok">
+            <Icon name="check" size={20} />
+          </span>
         </div>
-        <div className="no-print mt-7 flex flex-wrap justify-center gap-3">
+        <div className="pt-6 text-sm text-muted">Codice pratica</div>
+        <div className="mt-1 select-all break-all font-mono text-3xl font-semibold tracking-wider text-fg sm:text-4xl">#{code}</div>
+        <dl className="mt-6 divide-y divide-line border-y border-line text-[15px]">
+          <div className="flex justify-between gap-4 py-3">
+            <dt className="text-muted">Pratica</dt>
+            <dd className="font-medium">{form.title}</dd>
+          </div>
+          <div className="flex justify-between gap-4 py-3">
+            <dt className="text-muted">Presentata il</dt>
+            <dd className="font-medium">{when}</dd>
+          </div>
+          <div className="flex justify-between gap-4 py-3">
+            <dt className="text-muted">Stato</dt>
+            <dd className="font-medium text-link">Ricevuta</dd>
+          </div>
+        </dl>
+        <p className="mt-5 text-sm leading-relaxed text-muted">Conserva questo codice: ti serve per verificare lo stato della pratica in qualsiasi momento.</p>
+        <div className="no-print mt-6 flex flex-wrap gap-3">
           <Btn as="button" type="button" variant="outline" iconStart="copy" onClick={copy}>
             {copied ? 'Copiato' : 'Copia codice'}
           </Btn>
           <Btn as="button" type="button" variant="outline" iconStart="printer" onClick={() => window.print()}>
-            Stampa ricevuta
+            Stampa
           </Btn>
           <Btn as={Link} href={`/sportello/pratica?codice=${code}`} icon="arrow-right">
             Verifica lo stato
           </Btn>
         </div>
-        <button type="button" onClick={onReset} className="no-print mt-6 text-sm font-medium text-link hover:underline">
-          Invia un’altra richiesta
-        </button>
       </div>
-    </Card>
+      <button type="button" onClick={onReset} className="no-print mt-5 block w-full text-center text-sm font-medium text-link hover:underline">
+        Invia un’altra richiesta
+      </button>
+    </div>
   );
+}
+
+// Passi del modulo: ogni passo raggruppa una o più sezioni della definizione.
+const STEP_DEFS = {
+  denuncia: [
+    { title: 'Il personaggio', sections: ['Dati del querelante'] },
+    { title: 'I fatti', sections: ['I fatti', 'Testimoni e prove'] },
+    { title: 'Conferma', sections: ['Dichiarazioni'], summary: true },
+  ],
+  pda: [
+    { title: 'Richiesta e dati', sections: ['Tipo di richiesta', 'Dati anagrafici'] },
+    { title: 'Motivazione', sections: ['Motivazione'] },
+    { title: 'Conferma', sections: ['Dichiarazioni'], summary: true },
+  ],
+  colloquio: [
+    { title: 'I tuoi dati', sections: ['Dati del richiedente'] },
+    { title: 'Appuntamento', sections: ["L'appuntamento"] },
+    { title: 'Conferma', sections: [], summary: true },
+  ],
+};
+
+function fmtValue(field, v) {
+  if (field.type === 'checkbox') return v ? 'Sì' : 'No';
+  if (field.type === 'datetime' && v) return new Date(v).toLocaleString('it-IT', { dateStyle: 'medium', timeStyle: 'short' });
+  if (field.type === 'date' && v) return new Date(v + 'T12:00:00').toLocaleDateString('it-IT', { dateStyle: 'medium' });
+  return String(v || '').trim() || '—';
 }
 
 export function SportelloForm({ formId }) {
   const form = FORMS[formId];
+  const steps = STEP_DEFS[formId];
+  const [step, setStep] = useState(0);
   const [values, setValues] = useState(() => emptyValues(formId));
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
@@ -180,6 +247,12 @@ export function SportelloForm({ formId }) {
   const [serverError, setServerError] = useState('');
   const [code, setCode] = useState(null);
   const formRef = useRef(null);
+  const topRef = useRef(null);
+
+  const sectionsOf = (i) => form.sections.filter((sec) => steps[i].sections.includes(sec.title));
+  const fieldsOf = (i) => sectionsOf(i).flatMap((sec) => sec.fields);
+  const cur = steps[step];
+  const last = step === steps.length - 1;
 
   function setError(name, msg) {
     setErrors((e) => {
@@ -195,33 +268,74 @@ export function SportelloForm({ formId }) {
     setValues(next);
     if (touched[field.name] || errors[field.name]) setError(field.name, validateField(field, v, next));
     // un campo che ne mostra un altro (es. "Altro") può invalidare i dipendenti
-    for (const s of form.sections) for (const f of s.fields) if (f.showWhen && f.showWhen.field === field.name && !isVisible(f, next)) setError(f.name, null);
+    for (const sec of form.sections) for (const f of sec.fields) if (f.showWhen && f.showWhen.field === field.name && !isVisible(f, next)) setError(f.name, null);
   }
 
-  function onBlur(field) {
+  function onBlur(field, v) {
     setTouched((t) => ({ ...t, [field.name]: true }));
-    setError(field.name, validateField(field, values[field.name], values));
+    setError(field.name, validateField(field, v !== undefined ? v : values[field.name], v !== undefined ? { ...values, [field.name]: v } : values));
   }
 
-  async function onSubmit(e) {
-    e.preventDefault();
+  function focusTop() {
+    topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function focusField(name) {
+    const el = formRef.current && formRef.current.querySelector(`[name="${name}"]`);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.focus({ preventScroll: true });
+    }
+  }
+
+  // Controlla i campi di un passo; ritorna il primo errore (se c'è).
+  function checkStep(i) {
+    const errs = {};
+    for (const f of fieldsOf(i)) {
+      if (!isVisible(f, values)) continue;
+      const e = validateField(f, values[f.name], values);
+      if (e) errs[f.name] = e;
+    }
+    setErrors((prev) => {
+      const next = { ...prev };
+      for (const f of fieldsOf(i)) delete next[f.name];
+      return { ...next, ...errs };
+    });
+    return Object.keys(errs)[0] || null;
+  }
+
+  function next() {
+    const bad = checkStep(step);
+    if (bad) {
+      setTimeout(() => focusField(bad), 30);
+      return;
+    }
+    setStep((x) => x + 1);
+    setTimeout(focusTop, 30);
+  }
+
+  function back() {
+    setStep((x) => Math.max(0, x - 1));
+    setTimeout(focusTop, 30);
+  }
+
+  async function submit() {
     setServerError('');
     const { errors: errs } = validate(formId, values);
     setErrors(errs);
     const first = Object.keys(errs)[0];
     if (first) {
-      const el = formRef.current && formRef.current.querySelector(`[name="${first}"]`);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        el.focus({ preventScroll: true });
-      }
+      // torna al passo che contiene il primo errore
+      const idx = steps.findIndex((_, i) => fieldsOf(i).some((f) => f.name === first));
+      if (idx !== step) setStep(idx);
+      setTimeout(() => focusField(first), 120);
       return;
     }
     setSending(true);
     try {
       const data = await inviaPratica(formId, { ...values, website: formRef.current.elements.website.value });
       setCode(data.code);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(focusTop, 30);
     } catch (err) {
       if (err instanceof SubmitError && err.fields) setErrors(err.fields);
       setServerError(err.message || 'Invio non riuscito.');
@@ -230,63 +344,120 @@ export function SportelloForm({ formId }) {
     }
   }
 
+  function onSubmit(e) {
+    e.preventDefault();
+    if (last) submit();
+    else next();
+  }
+
   if (code) {
     return (
-      <Receipt
-        form={form}
-        code={code}
-        onReset={() => {
-          setCode(null);
-          setValues(emptyValues(formId));
-          setTouched({});
-          setErrors({});
-        }}
-      />
+      <div ref={topRef} className="scroll-mt-32">
+        <Receipt
+          form={form}
+          code={code}
+          onReset={() => {
+            setCode(null);
+            setStep(0);
+            setValues(emptyValues(formId));
+            setTouched({});
+            setErrors({});
+          }}
+        />
+      </div>
     );
   }
 
-  return (
-    <form ref={formRef} onSubmit={onSubmit} noValidate className="space-y-6">
-      {form.sections.map((section, i) => (
-        <Card key={section.title} className="p-5 sm:p-7">
-          <h2 className="flex items-center gap-3 text-lg font-semibold">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-[13px] text-primary-fg">{i + 1}</span>
-            {section.title}
-          </h2>
-          <div className="mt-5 grid gap-x-5 gap-y-5 sm:grid-cols-2">
-            {section.fields
-              .filter((f) => isVisible(f, values))
-              .map((f) => (
-                <Field key={f.name} field={f} value={values[f.name]} error={errors[f.name]} onChange={onChange} onBlur={onBlur} />
-              ))}
-          </div>
-        </Card>
-      ))}
+  const recap = form.sections
+    .flatMap((sec) => sec.fields)
+    .filter((f) => f.type !== 'checkbox' && f.embed !== false && isVisible(f, values));
 
-      {/* honeypot anti-bot: invisibile agli utenti */}
-      <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
-        <label>
-          Sito web
-          <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
-        </label>
+  return (
+    <form ref={formRef} onSubmit={onSubmit} noValidate>
+      <div ref={topRef} className="scroll-mt-32" />
+      <div className="mb-7">
+        <div className="mb-3 flex items-baseline justify-between text-sm">
+          <span className="font-medium">
+            Passo {step + 1} di {steps.length} <span className="text-muted">· {cur.title}</span>
+          </span>
+          <span className="text-muted">{form.title}</span>
+        </div>
+        <div className="flex gap-2" aria-hidden="true">
+          {steps.map((st, i) => (
+            <span key={st.title} className={`h-1.5 flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-primary' : 'bg-line'}`} />
+          ))}
+        </div>
       </div>
 
-      {serverError ? <Notice tone="bad" title="Non è stato possibile inviare la richiesta">{serverError}</Notice> : null}
-      {Object.keys(errors).length > 0 && !serverError ? (
-        <Notice tone="warn">Controlla i campi evidenziati prima di inviare.</Notice>
-      ) : null}
+      <div key={step} className="hero-in rounded-[20px] border border-line bg-surface p-6 sm:p-8" style={{ '--d': '0ms' }}>
+        {cur.summary ? (
+          <div>
+            <h2 className="text-xl font-semibold tracking-tight">Riepilogo</h2>
+            <p className="mt-1 text-sm text-muted">Controlla i dati prima di inviare. Puoi tornare indietro per correggerli.</p>
+            <dl className="mt-5 divide-y divide-line border-y border-line">
+              {recap.map((f) => (
+                <div key={f.name} className="grid gap-1 py-3 sm:grid-cols-[220px_1fr] sm:gap-5">
+                  <dt className="text-sm text-muted">{f.label.replace(/ — facoltativo| \(facoltativo\)/, '')}</dt>
+                  <dd className="whitespace-pre-line break-words text-[15px]">{fmtValue(f, values[f.name])}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ) : null}
 
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <p className="text-sm text-muted">I campi contrassegnati con * sono obbligatori.</p>
-        <Btn as="button" type="submit" size="lg" disabled={sending} icon={sending ? undefined : 'arrow-right'}>
-          {sending ? (
-            <>
-              <Icon name="loader" size={18} className="animate-spin" /> Invio in corso…
-            </>
+        {sectionsOf(step).map((section, i) => (
+          <div key={section.title} className={i > 0 || cur.summary ? 'mt-9 border-t border-line pt-8' : ''}>
+            <h2 className="text-xl font-semibold tracking-tight">{section.title}</h2>
+            <div className="mt-5 grid gap-x-5 gap-y-5 sm:grid-cols-2">
+              {section.fields
+                .filter((f) => f.type !== 'checkbox' || cur.summary)
+                .filter((f) => isVisible(f, values))
+                .map((f) => (
+                  <Field key={f.name} field={f} value={values[f.name]} error={errors[f.name]} onChange={onChange} onBlur={onBlur} />
+                ))}
+            </div>
+          </div>
+        ))}
+
+        {/* honeypot anti-bot: invisibile agli utenti */}
+        <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+          <label>
+            Sito web
+            <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
+          </label>
+        </div>
+
+        {serverError ? (
+          <Notice tone="bad" title="Non è stato possibile inviare la richiesta" className="mt-6">
+            {serverError}
+          </Notice>
+        ) : null}
+        {Object.keys(errors).length > 0 && !serverError ? (
+          <Notice tone="warn" className="mt-6">
+            Controlla i campi evidenziati.
+          </Notice>
+        ) : null}
+
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
+          {step > 0 ? (
+            <Btn as="button" type="button" variant="outline" iconStart="arrow-left" onClick={back}>
+              Indietro
+            </Btn>
           ) : (
-            form.submitLabel
+            <p className="text-sm text-muted">I campi con * sono obbligatori.</p>
           )}
-        </Btn>
+          <Btn as="button" type="submit" size="lg" disabled={sending} icon={sending ? undefined : 'arrow-right'}>
+            {sending ? (
+              <>
+                <Icon name="loader" size={18} className="animate-spin" /> Invio in corso…
+              </>
+            ) : last ? (
+              form.submitLabel
+            ) : (
+              'Continua'
+            )}
+          </Btn>
+        </div>
       </div>
     </form>
   );

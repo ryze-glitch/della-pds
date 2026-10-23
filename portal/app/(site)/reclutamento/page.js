@@ -1,4 +1,4 @@
-import { Badge, Btn, Card, Container, IconTile, Notice, PageHeader, Section, SectionHead } from '../../../components/ui';
+import { Badge, Btn, Container, Notice, PageHeader } from '../../../components/ui';
 import { Icon } from '../../../components/icons';
 import { Reveal } from '../../../components/Reveal';
 import { BANDI, FORM_URL } from '../../../lib/data';
@@ -22,73 +22,64 @@ export default function ReclutamentoPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Bandi & Reclutamento"
         title="Entra nella Polizia di Stato"
         text="Selezioni aperte tutto l’anno. Scegli il bando, candidati online e inizia il tuo percorso in Questura."
         crumbs={[{ label: 'Bandi & Reclutamento' }]}
       />
-
-      <Section>
-        <SectionHead eyebrow="Bandi" title="Selezioni in corso" />
-        <div className="grid gap-5 md:grid-cols-3">
+      <Container className="py-10 md:py-14">
+        <h2 className="text-2xl font-semibold tracking-tight">Selezioni in corso</h2>
+        <div className="mt-5 divide-y divide-line border-y border-line">
           {BANDI.map((b, i) => (
-            <Reveal key={b.titolo} delay={i * 80}>
-              <Card className="flex h-full flex-col p-6">
-                <div className="flex items-center justify-between gap-3">
-                  <Badge tone={b.tone}>{b.stato}</Badge>
-                  <span className="text-xs text-muted">{b.scadenza}</span>
+            <Reveal key={b.titolo} delay={i * 60}>
+              <div className="grid items-center gap-x-8 gap-y-3 py-6 md:grid-cols-[1fr_auto]">
+                <div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Badge tone={b.tone}>{b.stato}</Badge>
+                    <span className="text-sm text-muted">{b.scadenza}</span>
+                  </div>
+                  <h3 className="mt-2 text-lg font-semibold leading-snug">{b.titolo}</h3>
+                  <p className="mt-1 max-w-3xl text-[15px] leading-relaxed text-muted">{b.testo}</p>
                 </div>
-                <h3 className="mt-4 text-lg font-semibold leading-snug">{b.titolo}</h3>
-                <p className="mt-2 flex-1 text-[15px] leading-relaxed text-muted">{b.testo}</p>
                 {b.stato === 'Aperto' ? (
-                  <Btn href={FORM_URL} target="_blank" rel="noopener" variant="primary" icon="external" className="mt-5">
+                  <Btn href={FORM_URL} target="_blank" rel="noopener" variant="primary" icon="external">
                     Candidati
                   </Btn>
                 ) : (
-                  <span className="mt-5 text-sm font-semibold text-muted">Non ancora disponibile</span>
+                  <span className="text-sm font-medium text-muted">Non ancora disponibile</span>
                 )}
-              </Card>
-            </Reveal>
-          ))}
-        </div>
-        <p className="mt-4 text-sm text-muted">Il modulo si apre in una nuova scheda, su Google Forms.</p>
-      </Section>
-
-      <Section tone="surface">
-        <SectionHead eyebrow="Il percorso" title="Come funziona la selezione" />
-        <div className="grid gap-5 md:grid-cols-3">
-          {STEPS.map(([icon, t, d], i) => (
-            <Reveal key={t} delay={i * 80}>
-              <div className="h-full rounded-2xl border border-line bg-surface p-6">
-                <div className="flex items-center gap-3">
-                  <IconTile name={icon} />
-                  <span className="text-3xl font-semibold text-gold">0{i + 1}</span>
-                </div>
-                <h3 className="mt-4 text-lg font-semibold">{t}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted">{d}</p>
               </div>
             </Reveal>
           ))}
         </div>
-      </Section>
+        <p className="mt-3 text-sm text-muted">Il modulo di candidatura si apre in una nuova scheda (Google Forms).</p>
 
-      <Section>
-        <SectionHead eyebrow="Requisiti" title="Cosa cerchiamo" />
-        <div className="grid gap-4 sm:grid-cols-2">
+        <h2 className="mt-16 text-2xl font-semibold tracking-tight">Come funziona</h2>
+        <ol className="mt-5 grid gap-px overflow-hidden rounded-[20px] border border-line bg-line md:grid-cols-3">
+          {STEPS.map(([icon, t, d], i) => (
+            <li key={t} className="bg-surface p-6">
+              <span className="font-mono text-sm text-gold-ink">0{i + 1}</span>
+              <h3 className="mt-3 text-lg font-semibold">{t}</h3>
+              <p className="mt-1.5 text-[15px] leading-relaxed text-muted">{d}</p>
+            </li>
+          ))}
+        </ol>
+
+        <h2 className="mt-16 text-2xl font-semibold tracking-tight">Cosa cerchiamo</h2>
+        <ul className="mt-5 grid gap-x-14 border-t border-line md:grid-cols-2">
           {REQ.map(([t, d]) => (
-            <div key={t} className="flex gap-3 rounded-2xl border border-line p-5">
-              <Icon name="check-circle" size={22} className="mt-0.5 flex-none text-ok" />
+            <li key={t} className="flex gap-3 border-b border-line py-5">
+              <Icon name="check" size={18} className="mt-1 flex-none text-link" />
               <div>
                 <h3 className="font-semibold">{t}</h3>
                 <p className="mt-1 text-[15px] leading-relaxed text-muted">{d}</p>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
         <Notice tone="gold" title="Servizio in-character" className="mt-8">
           Le selezioni riguardano il ruolo di gioco nel server Italian Paradise XI.
         </Notice>
-      </Section>
+      </Container>
     </>
   );
 }

@@ -40,7 +40,7 @@ body {
     @apply text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl;
   }
   .h2 {
-    @apply text-2xl font-semibold leading-tight tracking-tight sm:text-4xl;
+    @apply text-2xl font-semibold leading-tight tracking-tight sm:text-3xl;
   }
   .input {
     @apply block w-full rounded-[14px] border border-line bg-surface px-4 py-3 text-[15px] text-fg outline-none transition placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/25;
