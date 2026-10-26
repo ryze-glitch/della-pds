@@ -32,6 +32,10 @@ jobs:
         run: |
           rm -rf site
           cp -r portal/out site
+          # Interfaccia IPRP-XI (prototipo statico) come pagina iniziale; la vecchia home resta in /vecchia-home/.
+          mkdir -p site/vecchia-home
+          cp site/index.html site/vecchia-home/index.html
+          cp prototipi/IPRP-XI-DidUP-Fedele/index.html prototipi/IPRP-XI-DidUP-Fedele/styles.css prototipi/IPRP-XI-DidUP-Fedele/app.js site/
 
       - name: Write service account credentials
         run: echo "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/firebase-sa.json"
