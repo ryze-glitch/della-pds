@@ -21,6 +21,7 @@ export function saveCredential(credential) {
   } catch (e) {
     /* storage non disponibile */
   }
+  if (typeof window !== 'undefined') window.dispatchEvent(new Event('pds-google'));
   return user;
 }
 
@@ -40,6 +41,7 @@ export function clearGoogleUser() {
   } catch (e) {
     /* ignora */
   }
+  if (typeof window !== 'undefined') window.dispatchEvent(new Event('pds-google'));
   if (typeof window !== 'undefined' && window.google && window.google.accounts && window.google.accounts.id) {
     window.google.accounts.id.disableAutoSelect();
   }

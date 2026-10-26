@@ -10,7 +10,8 @@ import { savePratica } from '../../lib/miePratiche';
 import { TurnstileWidget } from './Turnstile';
 import { useSportelloConfig } from './useSportelloConfig';
 import { GoogleGate } from './GoogleGate';
-import { clearGoogleUser, getGoogleUser } from '../../lib/googleAuth';
+import { clearGoogleUser } from '../../lib/googleAuth';
+import { useGoogleUser } from './useGoogleUser';
 
 function pad(n) {
   return String(n).padStart(2, '0');
@@ -256,8 +257,7 @@ export function SportelloForm({ formId }) {
   const cfg = useSportelloConfig();
   const siteKey = cfg && cfg.turnstileSiteKey;
   const googleId = cfg && cfg.googleClientId;
-  const [gUser, setGUser] = useState(null);
-  useEffect(() => setGUser(getGoogleUser()), []);
+  const gUser = useGoogleUser();
   const [tsToken, setTsToken] = useState('');
 
   const sectionsOf = (i) => form.sections.filter((sec) => steps[i].sections.includes(sec.title));
@@ -355,7 +355,6 @@ export function SportelloForm({ formId }) {
     } catch (err) {
       if (err instanceof SubmitError && err.needLogin) {
         clearGoogleUser();
-        setGUser(null);
       }
       if (err instanceof SubmitError && err.fields) setErrors(err.fields);
       setServerError(err.message || 'Invio non riuscito.');
@@ -389,7 +388,7 @@ export function SportelloForm({ formId }) {
   }
 
   if (cfg === null) return <p className="py-10 text-sm text-muted">Caricamento…</p>;
-  if (googleId && !gUser) return <GoogleGate clientId={googleId} onLogin={setGUser} />;
+  if (googleId && !gUser) return <GoogleGate clientId={googleId} onLogin={() => {}} />;
 
   const recap = form.sections
     .flatMap((sec) => sec.fields)
@@ -408,10 +407,7 @@ export function SportelloForm({ formId }) {
           </span>
           <button
             type="button"
-            onClick={() => {
-              clearGoogleUser();
-              setGUser(null);
-            }}
+            onClick={() => clearGoogleUser()}
             className="text-muted transition hover:text-fg"
           >
             Esci
