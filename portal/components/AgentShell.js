@@ -1,14 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Icon } from './icons';
 import { useAgentProfile } from './useAgentProfile';
 
 const ITEMS = [
-  { href: '/dashboard', label: 'Dashboard', icon: 'dashboard' },
-  { href: '/pratiche', label: 'Gestione pratiche', icon: 'file-text' },
+  { href: '/dashboard', label: 'Home', icon: 'dashboard' },
+  { href: '/pratiche', label: 'Pratiche', icon: 'file-text' },
   { href: '/candidature', label: 'Candidature', icon: 'clipboard' },
 ];
 
@@ -18,13 +18,40 @@ const SITE = [
   { href: '/', label: 'Torna al sito', icon: 'landmark' },
 ];
 
-// Guscio dell'area riservata: sidebar + barra superiore, stile registro.
-export function AgentShell({ children }) {
+const KEY = 'pds-sidebar';
+
+// Guscio dell'area riservata: sidebar comprimibile + barra superiore, stile registro.
+export function AgentShell({ children, preview = false }) {
   const pathname = usePathname();
-  const { profile, logout } = useAgentProfile();
-  const [open, setOpen] = useState(false);
+  const { profile: realProfile, logout } = useAgentProfile(preview);
+  const profile = preview ? { nome: 'Marco', cognome: 'Ferrari', grado: 'Ispettore' } : realProfile;
+  const [open, setOpen] = useState(false); // drawer mobile
+  const [collapsed, setCollapsed] = useState(false); // sidebar solo icone (desktop)
   const nome = profile ? `${profile.nome || ''} ${profile.cognome || ''}`.trim() || 'Agente' : '…';
   const initials = profile ? (((profile.nome || '')[0] || '') + ((profile.cognome || '')[0] || '')).toUpperCase() || '?' : '';
+
+  useEffect(() => {
+    try {
+      setCollapsed(localStorage.getItem(KEY) === '1');
+    } catch (e) {
+      /* storage non disponibile */
+    }
+  }, []);
+
+  function toggle() {
+    if (window.matchMedia('(min-width: 1024px)').matches) {
+      setCollapsed((c) => {
+        try {
+          localStorage.setItem(KEY, c ? '0' : '1');
+        } catch (e) {
+          /* ignora */
+        }
+        return !c;
+      });
+    } else {
+      setOpen((o) => !o);
+    }
+  }
 
   const item = (it) => {
     const on = pathname === it.href || pathname.startsWith(it.href + '/');
@@ -32,49 +59,59 @@ export function AgentShell({ children }) {
       <Link
         key={it.href}
         href={it.href}
+        title={collapsed ? it.label : undefined}
+        aria-label={it.label}
         onClick={() => setOpen(false)}
-        className={`flex h-12 items-center gap-4 rounded-full px-4 text-[15px] transition-colors ${on ? 'bg-[#0f3947] text-[#17a8bd]' : 'text-fg hover:bg-white/5'}`}
+        className={`flex h-12 items-center gap-4 rounded-full text-[15px] transition-colors ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''} px-4 ${on ? 'bg-[#0f3947] text-[#17a8bd]' : 'text-fg hover:bg-white/5'}`}
       >
-        <Icon name={it.icon} size={22} strokeWidth={1.5} /> {it.label}
+        <Icon name={it.icon} size={22} strokeWidth={1.5} className="flex-none" />
+        <span className={collapsed ? 'lg:hidden' : ''}>{it.label}</span>
       </Link>
     );
   };
 
   return (
     <div className="flex min-h-screen bg-[#141a24] text-fg">
-      <aside className={`${open ? 'flex' : 'hidden'} fixed inset-y-0 left-0 z-40 w-[262px] flex-col border-r border-[#242d3b] bg-[#121821] lg:static lg:flex`}>
-        <Link href="/" className="flex h-[88px] items-center gap-3 px-5">
-          <img src="/assets/crest-md.png" alt="" className="h-11 w-auto" />
-          <span className="leading-tight">
+      <aside
+        className={`${open ? 'flex' : 'hidden'} fixed inset-y-0 left-0 z-40 w-[262px] flex-col border-r border-[#242d3b] bg-[#121821] transition-[width] duration-300 lg:static lg:flex ${collapsed ? 'lg:w-[92px]' : 'lg:w-[262px]'}`}
+      >
+        <Link href="/" className={`flex h-[88px] items-center gap-3 px-5 ${collapsed ? 'lg:justify-center lg:px-0' : ''}`} aria-label="Questura IPRP, torna al sito">
+          <img src="/assets/crest-md.png" alt="" className="h-11 w-auto flex-none" />
+          <span className={`leading-tight ${collapsed ? 'lg:hidden' : ''}`}>
             <span className="block text-[15px] font-semibold uppercase tracking-[0.14em]">Questura</span>
             <span className="block text-[11px] uppercase tracking-[0.2em] text-muted">Area agenti</span>
           </span>
         </Link>
-        <div className="mx-[18px] flex items-center gap-3.5 border-b border-[#242d3b] pb-4 pt-3">
-          <span className="flex h-[42px] w-[42px] items-center justify-center rounded-full bg-[#2c3441] text-[13px] font-semibold">{initials || <Icon name="user" size={18} />}</span>
-          <span className="min-w-0 leading-snug">
+        <div className={`mx-[18px] flex items-center gap-3.5 border-b border-[#242d3b] pb-4 pt-3 ${collapsed ? 'lg:justify-center' : ''}`}>
+          <span className="flex h-[42px] w-[42px] flex-none items-center justify-center rounded-full bg-[#2c3441] text-[13px] font-semibold" title={collapsed ? nome : undefined}>
+            {initials || <Icon name="user" size={18} />}
+          </span>
+          <span className={`min-w-0 leading-snug ${collapsed ? 'lg:hidden' : ''}`}>
             <span className="block truncate text-[13.5px] font-semibold uppercase">{nome}</span>
             <span className="block truncate text-[13px] text-[#c9d2e0]">{profile?.grado || 'Agente'}</span>
           </span>
         </div>
-        <nav className="flex flex-1 flex-col gap-0.5 px-4 pt-4" aria-label="Area riservata">
+        <nav className={`flex flex-1 flex-col gap-0.5 px-4 pt-4 ${collapsed ? 'lg:items-center lg:px-0' : ''}`} aria-label="Area riservata">
           {ITEMS.map(item)}
-          <hr className="my-2 border-[#242d3b]" />
+          <hr className={`my-2 border-[#242d3b] ${collapsed ? 'lg:w-10' : ''}`} />
           {SITE.map(item)}
         </nav>
         <button
           type="button"
           onClick={logout}
-          className="m-3 flex h-12 items-center justify-center gap-2.5 rounded-full bg-[#17a8bd] text-[13px] font-medium text-white transition hover:brightness-110"
+          title={collapsed ? 'Esci' : undefined}
+          aria-label="Esci"
+          className={`m-3 flex h-12 items-center justify-center gap-2.5 rounded-full bg-[#17a8bd] text-[13px] font-medium text-white transition hover:brightness-110 ${collapsed ? 'lg:mx-auto lg:w-12' : ''}`}
         >
-          <Icon name="logout" size={17} /> Esci
+          <Icon name="logout" size={18} />
+          <span className={collapsed ? 'lg:hidden' : ''}>Esci</span>
         </button>
       </aside>
       {open ? <button aria-label="Chiudi il menu" className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setOpen(false)} /> : null}
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-[88px] flex-none items-center gap-5 border-b border-[#242d3b] bg-[#121821] px-5 sm:px-6">
-          <button type="button" onClick={() => setOpen((o) => !o)} aria-label="Apri il menu" className="lg:hidden">
+          <button type="button" onClick={toggle} aria-label="Mostra o nascondi il menu" className="text-fg/90 transition hover:text-white">
             <Icon name="menu" size={24} />
           </button>
           <span className="text-[14.5px] font-medium">Area Riservata Agenti</span>
