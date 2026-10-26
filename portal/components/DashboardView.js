@@ -4,7 +4,8 @@ import { useMemo } from 'react';
 import Link from 'next/link';
 import { Icon } from './icons';
 import { Widget } from './Widget';
-import { COMUNICATI, STATI, TIPI_PRATICA } from '../lib/data';
+import { STATI, TIPI_PRATICA } from '../lib/data';
+import { Bacheca } from './Bacheca';
 
 const BORDER = 'border-[#242d3b]';
 
@@ -82,7 +83,7 @@ export function DashboardView({ profile, pratiche }) {
       <h1 className="text-[25px] font-normal">Home</h1>
       <p className="mt-0.5 text-sm text-[#c9d2e0]">{profile ? `${nome || 'Agente'} · ${profile.grado || 'Agente'}` : 'Caricamento…'}</p>
 
-      <div className="mt-6 grid items-start gap-5 xl:grid-cols-[1fr_1.05fr_0.85fr]">
+      <div className="mt-6 grid items-start gap-5 md:grid-cols-[repeat(auto-fit,minmax(340px,1fr))]">
         {/* colonna 1: riepilogo + da prendere in carico */}
         <div className="space-y-5">
           <section className={`rounded-[20px] border ${BORDER} p-6`}>
@@ -140,26 +141,7 @@ export function DashboardView({ profile, pratiche }) {
         </div>
 
         {/* colonna 2: bacheca (comunicati) */}
-        <Widget icon="news" title="Bacheca" href="/notizie">
-          <ul className="divide-y divide-[#1e2735]">
-            {COMUNICATI.slice(0, 5).map((c) => (
-              <li key={c.id}>
-                <Link href={`/notizie#c${c.id}`} className="block py-4 transition hover:opacity-90">
-                  <div className="flex items-center justify-between text-[13.5px] text-[#c9d2e0]">
-                    <span className="flex items-center gap-2">
-                      <Icon name="user" size={15} /> Questura
-                    </span>
-                    <span>{new Date(c.data + 'T12:00:00').toLocaleDateString('it-IT', { day: '2-digit', month: 'short' })}</span>
-                  </div>
-                  <div className="mt-1.5 text-[17px] leading-snug">{c.titolo}</div>
-                  <div className={`mt-1.5 flex items-center gap-2 text-xs font-medium uppercase tracking-wide ${c.tipo === 'Allerta' ? 'text-[#ff6b7d]' : 'text-[#3fc4d6]'}`}>
-                    <Icon name="clipboard" size={14} /> {c.tipo}
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Widget>
+        <Bacheca />
 
         {/* colonna 3: promemoria + attività */}
         <div className="space-y-5">

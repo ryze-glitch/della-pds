@@ -42,6 +42,17 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // Comunicati pubblici (bacheca del sito): lettura libera, scrittura solo agenti.
+    match /comunicati/{id} {
+      allow read: if true;
+      allow create, update: if isAgent() &&
+        request.resource.data.keys().hasOnly(['tipo', 'titolo', 'testo', 'data', 'creatoDa', 'creatoIl']) &&
+        request.resource.data.tipo in ['Ordinanza', 'Allerta', 'Comunicato'] &&
+        request.resource.data.titolo is string && request.resource.data.titolo.size() > 0 && request.resource.data.titolo.size() <= 140 &&
+        request.resource.data.testo is string && request.resource.data.testo.size() <= 2000;
+      allow delete: if isAgent();
+    }
+
     // Pratiche dello Sportello Telematico. Il documento contiene SOLO lo stato
     // (nessun dato personale: i dettagli vanno solo su Discord). Si legge solo
     // conoscendo il codice univoco (get), non si può elencare dal pubblico.

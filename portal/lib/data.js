@@ -31,15 +31,6 @@ export const TARIFFE_PDA = [
   ['Rinnovo', '$ 800', 'Con PDA ancora valido o scaduto da meno di 60 giorni'],
 ];
 
-export const COMUNICATI = [
-  { id: 1, tipo: 'Ordinanza', data: '2026-10-18', titolo: 'Divieto di stazionamento nell’area del Porto Vecchio', testo: 'Dalle 22:00 alle 06:00 è vietato lo stazionamento dei veicoli nell’area portuale. Previsti controlli a campione e rimozione forzata.' },
-  { id: 2, tipo: 'Allerta', data: '2026-10-15', titolo: 'Truffe telefoniche: come riconoscerle', testo: 'La Questura invita i cittadini a diffidare di chi chiede dati personali o pagamenti per telefono. In caso di dubbio, contattare lo Sportello.' },
-  { id: 3, tipo: 'Comunicato', data: '2026-10-12', titolo: 'Al via il nuovo corso per le reclute', testo: 'È partito il ciclo di formazione in accademia: otto settimane tra teoria, addestramento e affiancamento sul campo.' },
-  { id: 4, tipo: 'Comunicato', data: '2026-10-05', titolo: 'Nuovi turni per la Polizia Stradale', testo: 'Dal mese corrente nuova turnazione per una copertura più costante delle arterie principali, in particolare nelle ore serali.' },
-  { id: 5, tipo: 'Ordinanza', data: '2026-09-29', titolo: 'Controlli rafforzati nel weekend', testo: 'Pattuglie aggiuntive nelle zone della movida e posti di blocco mirati al contrasto della guida in stato di ebbrezza.' },
-  { id: 6, tipo: 'Allerta', data: '2026-09-21', titolo: 'Scippi nelle zone affollate', testo: 'Aumentano le segnalazioni nel centro città. Si raccomanda attenzione a borse e telefoni; denunce disponibili online.' },
-];
-
 export const BANDI = [
   { stato: 'Aperto', tone: 'ok', titolo: 'Concorso Agente — selezione permanente', scadenza: 'Sempre aperto', testo: 'Candidatura tramite modulo online, quiz di ingresso e colloquio in-character. Percorso: accademia e assegnazione a un reparto.' },
   { stato: 'Aperto', tone: 'ok', titolo: 'Nucleo Operativo Speciale — selezione interna', scadenza: 'Fino a esaurimento posti', testo: 'Riservata ad Agenti con almeno due mesi di servizio. Prova fisica e colloquio tattico con i responsabili di reparto.' },
