@@ -4,7 +4,7 @@ import { CODE_REGEX, normalizzaCodice } from './forms';
 
 // URL pubblico del Cloudflare Worker che inoltra le pratiche su Discord.
 // Il webhook Discord NON è mai nel client: sta nei secret del Worker.
-export const SPORTELLO_API = process.env.NEXT_PUBLIC_SPORTELLO_API || 'https://iprp-sportello.ryzedev63131.workers.dev';
+export const SPORTELLO_API = process.env.NEXT_PUBLIC_SPORTELLO_API || 'https://iprp-sportello.ryze63131.workers.dev';
 
 export class SubmitError extends Error {
   constructor(message, fields) {
