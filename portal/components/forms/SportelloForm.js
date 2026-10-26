@@ -1,12 +1,17 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Icon } from '../icons';
 import { Btn, Notice } from '../ui';
 import { FORMS, emptyValues, isVisible, validate, validateField } from '../../lib/forms';
 import { inviaPratica, SubmitError } from '../../lib/sportello';
 import { savePratica } from '../../lib/miePratiche';
+import { TurnstileWidget } from './Turnstile';
+import { useSportelloConfig } from './useSportelloConfig';
+import { GoogleGate } from './GoogleGate';
+import { clearGoogleUser } from '../../lib/googleAuth';
+import { useGoogleUser } from './useGoogleUser';
 
 function pad(n) {
   return String(n).padStart(2, '0');
@@ -249,6 +254,11 @@ export function SportelloForm({ formId }) {
   const [code, setCode] = useState(null);
   const formRef = useRef(null);
   const topRef = useRef(null);
+  const cfg = useSportelloConfig();
+  const siteKey = cfg && cfg.turnstileSiteKey;
+  const googleId = cfg && cfg.googleClientId;
+  const gUser = useGoogleUser();
+  const [tsToken, setTsToken] = useState('');
 
   const sectionsOf = (i) => form.sections.filter((sec) => steps[i].sections.includes(sec.title));
   const fieldsOf = (i) => sectionsOf(i).flatMap((sec) => sec.fields);
@@ -332,13 +342,20 @@ export function SportelloForm({ formId }) {
       setTimeout(() => focusField(first), 120);
       return;
     }
+    if (siteKey && !tsToken) {
+      setServerError('Completa la verifica anti-bot qui sopra prima di inviare.');
+      return;
+    }
     setSending(true);
     try {
-      const data = await inviaPratica(formId, { ...values, website: formRef.current.elements.website.value });
+      const data = await inviaPratica(formId, { ...values, website: formRef.current.elements.website.value, turnstile: tsToken, googleToken: gUser ? gUser.token : undefined });
       savePratica(data.code, formId);
       setCode(data.code);
       setTimeout(focusTop, 30);
     } catch (err) {
+      if (err instanceof SubmitError && err.needLogin) {
+        clearGoogleUser();
+      }
       if (err instanceof SubmitError && err.fields) setErrors(err.fields);
       setServerError(err.message || 'Invio non riuscito.');
     } finally {
@@ -370,6 +387,9 @@ export function SportelloForm({ formId }) {
     );
   }
 
+  if (cfg === null) return <p className="py-10 text-sm text-muted">Caricamento…</p>;
+  if (googleId && !gUser) return <GoogleGate clientId={googleId} onLogin={() => {}} />;
+
   const recap = form.sections
     .flatMap((sec) => sec.fields)
     .filter((f) => f.type !== 'checkbox' && f.embed !== false && isVisible(f, values));
@@ -377,6 +397,23 @@ export function SportelloForm({ formId }) {
   return (
     <form ref={formRef} onSubmit={onSubmit} noValidate>
       <div ref={topRef} className="scroll-mt-28" />
+      {googleId && gUser ? (
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-full border border-[#242d3b] py-2 pl-3 pr-4 text-sm">
+          <span className="flex min-w-0 items-center gap-2.5">
+            {gUser.picture ? <img src={gUser.picture} alt="" referrerPolicy="no-referrer" className="h-7 w-7 rounded-full" /> : <Icon name="user" size={18} />}
+            <span className="truncate">
+              Accesso come <strong className="font-medium">{gUser.name || gUser.email}</strong> <span className="text-muted">· {gUser.email}</span>
+            </span>
+          </span>
+          <button
+            type="button"
+            onClick={() => clearGoogleUser()}
+            className="text-muted transition hover:text-fg"
+          >
+            Esci
+          </button>
+        </div>
+      ) : null}
       <div className="mb-7">
         <div className="mb-3 flex items-baseline justify-between text-sm">
           <span className="font-medium">
@@ -428,6 +465,8 @@ export function SportelloForm({ formId }) {
             <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
           </label>
         </div>
+
+        {last && siteKey ? <TurnstileWidget siteKey={siteKey} onToken={setTsToken} /> : null}
 
         {serverError ? (
           <Notice tone="bad" title="Non è stato possibile inviare la richiesta" className="mt-6">

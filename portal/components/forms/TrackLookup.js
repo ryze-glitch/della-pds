@@ -36,6 +36,7 @@ function Result({ code, pratica }) {
             <div className="mt-1 text-sm text-muted">
               {TIPI_PRATICA[pratica.tipo] || pratica.tipo} · inviata il {fmt(pratica.creatoIl) || '—'}
             </div>
+            {pratica.assegnataA ? <div className="mt-1 text-sm text-muted">In carico a {pratica.assegnataA}</div> : null}
           </div>
           <Badge tone={st.tone} className="!px-3 !py-1 !text-sm">
             {st.label}

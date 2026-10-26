@@ -5,6 +5,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Icon } from './icons';
 import { useQuesturaStatus } from './useQuesturaStatus';
+import { useSportelloConfig } from './forms/useSportelloConfig';
+import { useGoogleUser } from './forms/useGoogleUser';
+import { clearGoogleUser } from '../lib/googleAuth';
+import { LoginModal } from './LoginModal';
 
 const ITEMS = [
   { href: '/', label: 'Home', icon: 'dashboard' },
@@ -25,6 +29,12 @@ const KEY = 'pds-sidebar';
 export function CitizenShell({ children }) {
   const pathname = usePathname();
   const st = useQuesturaStatus();
+  const cfg = useSportelloConfig();
+  const user = useGoogleUser();
+  const [loginOpen, setLoginOpen] = useState(false);
+  useEffect(() => {
+    if (user) setLoginOpen(false);
+  }, [user]);
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
 
@@ -61,7 +71,7 @@ export function CitizenShell({ children }) {
       title={collapsed ? it.label : undefined}
       aria-label={it.label}
       aria-current={isOn(it.href) ? 'page' : undefined}
-      className={`flex h-12 items-center gap-4 rounded-full px-4 text-[13.5px] transition-colors ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''} ${isOn(it.href) ? 'bg-[#0f3947] text-[#17a8bd]' : 'text-fg hover:bg-white/5'}`}
+      className={`flex h-12 items-center gap-4 rounded-full px-4 text-[13.5px] transition-colors ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''} ${isOn(it.href) ? 'bg-[#0f3947] text-[#3fc4d6]' : 'text-fg hover:bg-white/5'}`}
     >
       <Icon name={it.icon} size={22} strokeWidth={1.5} className="flex-none" />
       <span className={collapsed ? 'lg:hidden' : ''}>{it.label}</span>
@@ -71,6 +81,7 @@ export function CitizenShell({ children }) {
   return (
     <div className="flex min-h-screen bg-[#141a24] text-fg">
       <aside
+        aria-label="Menu principale"
         className={`${open ? 'flex' : 'hidden'} fixed inset-y-0 left-0 z-40 w-[243px] flex-col overflow-y-auto border-r border-[#242d3b] bg-[#121821] transition-[width] duration-300 lg:sticky lg:top-0 lg:flex lg:h-screen ${collapsed ? 'lg:w-[82.8px]' : 'lg:w-[243px]'}`}
       >
         <Link href="/" className={`flex h-[79.2px] flex-none items-center gap-3 px-5 ${collapsed ? 'lg:justify-center lg:px-0' : ''}`} aria-label="Polizia di Stato, Questura IPRP: home">
@@ -80,14 +91,38 @@ export function CitizenShell({ children }) {
             <span className="block text-[9.9px] uppercase tracking-[0.2em] text-muted">Questura IPRP</span>
           </span>
         </Link>
-        <div className={`mx-[18px] flex items-center gap-3.5 border-b border-[#242d3b] pb-4 pt-3 ${collapsed ? 'lg:justify-center' : ''}`}>
-          <span className="flex h-[37.8px] w-[37.8px] flex-none items-center justify-center rounded-full bg-[#2c3441]" title={collapsed ? 'Cittadino' : undefined}>
-            <Icon name="user" size={19} />
-          </span>
-          <span className={`min-w-0 leading-snug ${collapsed ? 'lg:hidden' : ''}`}>
-            <span className="block truncate text-[12.2px] font-semibold uppercase">Cittadino</span>
-            <span className="block truncate text-[11.7px] text-[#c9d2e0]">Accesso pubblico</span>
-          </span>
+        <div className={`mx-[18px] border-b border-[#242d3b] pb-4 pt-3 ${collapsed ? 'lg:flex lg:justify-center' : ''}`}>
+          {user ? (
+            <>
+              <div className={`flex items-center gap-3.5 ${collapsed ? 'lg:justify-center' : ''}`}>
+                {user.picture ? (
+                  <img src={user.picture} alt="" referrerPolicy="no-referrer" className="h-[37.8px] w-[37.8px] flex-none rounded-full" title={collapsed ? user.name || user.email : undefined} />
+                ) : (
+                  <span className="flex h-[37.8px] w-[37.8px] flex-none items-center justify-center rounded-full bg-[#2c3441] text-[12px] font-semibold" title={collapsed ? user.name || user.email : undefined}>
+                    {(user.name || user.email || '?').slice(0, 1).toUpperCase()}
+                  </span>
+                )}
+                <span className={`min-w-0 leading-snug ${collapsed ? 'lg:hidden' : ''}`}>
+                  <span className="block truncate text-[12.2px] font-semibold">{user.name || 'Account Google'}</span>
+                  <span className="block truncate text-[11.7px] text-[#c9d2e0]">{user.email}</span>
+                </span>
+              </div>
+              <button type="button" onClick={() => clearGoogleUser()} className={`mt-2.5 text-[12px] text-muted transition hover:text-fg ${collapsed ? 'lg:hidden' : ''}`}>
+                Esci dall'account
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setLoginOpen(true)}
+              title={collapsed ? 'Accedi' : undefined}
+              aria-label="Accedi con Google"
+              className={`flex h-11 w-full items-center justify-center gap-2.5 rounded-full border border-[#2f5d68] bg-[#0f3947] text-[13px] font-medium text-[#3fc4d6] transition hover:brightness-125 ${collapsed ? 'lg:w-11' : ''}`}
+            >
+              <Icon name="user" size={18} className="flex-none" />
+              <span className={collapsed ? 'lg:hidden' : ''}>Accedi</span>
+            </button>
+          )}
         </div>
         <nav className={`flex flex-1 flex-col gap-0.5 px-4 pt-4 ${collapsed ? 'lg:items-center lg:px-0' : ''}`} aria-label="Navigazione principale">
           {ITEMS.map(item)}
@@ -104,6 +139,7 @@ export function CitizenShell({ children }) {
             <span className={collapsed ? 'lg:hidden' : ''}>Centrale · {st.centrale || '—'}</span>
           </div>
       </aside>
+      {loginOpen ? <LoginModal clientId={cfg && cfg.googleClientId} onClose={() => setLoginOpen(false)} /> : null}
       {open ? <button aria-label="Chiudi il menu" className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setOpen(false)} /> : null}
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -122,9 +158,15 @@ export function CitizenShell({ children }) {
               <span className={`h-2 w-2 rounded-full ${st.sportello ? (st.sportelloOk ? 'bg-[#34d17f]' : 'bg-[#ff6b7d]') : 'bg-[#4b5668]'}`} /> Sportello: {st.sportello ? st.sportello.toLowerCase() : '—'}
             </div>
           </div>
-          <Link href="/sportello/pratica" aria-label="Le mie pratiche" className="flex h-[41.4px] w-[41.4px] flex-none items-center justify-center rounded-full bg-[#12b3c4] text-[#04222a] transition hover:brightness-110">
-            <Icon name="user" size={22} />
-          </Link>
+          {user ? (
+            <Link href="/sportello/pratica" aria-label="Le mie pratiche" title={user.email} className="flex h-[41.4px] w-[41.4px] flex-none items-center justify-center overflow-hidden rounded-full bg-[#12b3c4] text-[#04222a] transition hover:brightness-110">
+              {user.picture ? <img src={user.picture} alt="" referrerPolicy="no-referrer" className="h-full w-full object-cover" /> : <span className="text-sm font-semibold">{(user.name || user.email || '?').slice(0, 1).toUpperCase()}</span>}
+            </Link>
+          ) : (
+            <button type="button" onClick={() => setLoginOpen(true)} className="flex h-[41.4px] flex-none items-center gap-2 rounded-full bg-[#12b3c4] px-4 text-[13px] font-semibold text-[#04222a] transition hover:brightness-110">
+              <Icon name="user" size={17} /> Accedi
+            </button>
+          )}
         </header>
 
         <main id="main" className="flex-1">

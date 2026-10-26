@@ -66,16 +66,18 @@ service cloud.firestore {
         request.resource.data.creatoIl == request.time &&
         request.resource.data.aggiornamenti.size() == 0;
       allow update: if isAgent() &&
-        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['stato', 'aggiornamenti', 'aggiornatoIl']) &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['stato', 'aggiornamenti', 'aggiornatoIl', 'assegnataA']) &&
         request.resource.data.stato in ['ricevuta', 'in_lavorazione', 'in_attesa', 'conclusa', 'respinta'];
       allow delete: if false;
     }
 
-    // Stato pubblico della Questura (badge in header). Opzionale: se manca, il
-    // sito ricava l'orario dello sportello. Si modifica dalla console.
+    // Impostazioni pubbliche gestite dagli agenti:
+    //   config/status  -> { centrale, sportello }  (stato mostrato nel sito)
+    //   config/tariffe -> { items: [{ nome, importo, note }] }  (tariffe del porto d'armi)
     match /config/{docId} {
       allow read: if true;
-      allow write: if false;
+      allow write: if isAgent() && docId in ['status', 'tariffe'] &&
+        request.resource.data.keys().hasOnly(['centrale', 'sportello', 'items', 'aggiornatoIl']);
     }
 
     match /{document=**} {

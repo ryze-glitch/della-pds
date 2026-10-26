@@ -6,7 +6,7 @@ export function FormPage({ children, aside }) {
   return (
     <Container className="grid gap-10 py-10 lg:grid-cols-[1fr_320px] lg:gap-14 lg:py-14">
       <div>{children}</div>
-      <aside className="space-y-5 lg:sticky lg:top-28 lg:self-start">
+      <aside aria-label="Informazioni utili" className="space-y-5 lg:sticky lg:top-28 lg:self-start">
         {aside}
         <Notice tone="gold" title="Servizio in-character">
           Questo modulo è parte del gioco di ruolo. Per emergenze reali chiama il <strong>112</strong>.

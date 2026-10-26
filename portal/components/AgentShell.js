@@ -11,6 +11,7 @@ const ITEMS = [
   { href: '/pratiche', label: 'Pratiche', icon: 'file-text' },
   { href: '/candidature', label: 'Candidature', icon: 'clipboard' },
   { href: '/comunicati', label: 'Comunicati', icon: 'megaphone' },
+  { href: '/impostazioni', label: 'Impostazioni', icon: 'shield' },
 ];
 
 const SITE = [
@@ -62,7 +63,7 @@ export function AgentShell({ children, preview = false }) {
         title={collapsed ? it.label : undefined}
         aria-label={it.label}
         onClick={() => setOpen(false)}
-        className={`flex h-12 items-center gap-4 rounded-full text-[13.5px] transition-colors ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''} px-4 ${on ? 'bg-[#0f3947] text-[#17a8bd]' : 'text-fg hover:bg-white/5'}`}
+        className={`flex h-12 items-center gap-4 rounded-full text-[13.5px] transition-colors ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''} px-4 ${on ? 'bg-[#0f3947] text-[#3fc4d6]' : 'text-fg hover:bg-white/5'}`}
       >
         <Icon name={it.icon} size={22} strokeWidth={1.5} className="flex-none" />
         <span className={collapsed ? 'lg:hidden' : ''}>{it.label}</span>
@@ -73,6 +74,7 @@ export function AgentShell({ children, preview = false }) {
   return (
     <div className="flex min-h-screen bg-[#141a24] text-fg">
       <aside
+        aria-label="Menu area riservata"
         className={`${open ? 'flex' : 'hidden'} fixed inset-y-0 left-0 z-40 w-[235.8px] flex-col border-r border-[#242d3b] bg-[#121821] transition-[width] duration-300 lg:static lg:flex ${collapsed ? 'lg:w-[82.8px]' : 'lg:w-[235.8px]'}`}
       >
         <Link href="/" className={`flex h-[79.2px] items-center gap-3 px-5 ${collapsed ? 'lg:justify-center lg:px-0' : ''}`} aria-label="Questura IPRP, torna al sito">

@@ -25,12 +25,6 @@ export const SERVIZI = [
   { href: '/sportello/pratica', icon: 'search', title: 'Tracciamento pratica', text: 'Inserisci il codice univoco (es. POL-2026-K7M2QX) e verifica lo stato.', cta: 'Verifica lo stato' },
 ];
 
-export const TARIFFE_PDA = [
-  ['Difesa personale', '$ 2.500', 'Validità 12 mesi'],
-  ['Uso sportivo', '$ 1.500', 'Validità 12 mesi'],
-  ['Rinnovo', '$ 800', 'Con PDA ancora valido o scaduto da meno di 60 giorni'],
-];
-
 export const BANDI = [
   { stato: 'Aperto', tone: 'ok', titolo: 'Concorso Agente — selezione permanente', scadenza: 'Sempre aperto', testo: 'Candidatura tramite modulo online, quiz di ingresso e colloquio in-character. Percorso: accademia e assegnazione a un reparto.' },
   { stato: 'Aperto', tone: 'ok', titolo: 'Nucleo Operativo Speciale — selezione interna', scadenza: 'Fino a esaurimento posti', testo: 'Riservata ad Agenti con almeno due mesi di servizio. Prova fisica e colloquio tattico con i responsabili di reparto.' },

@@ -1,0 +1,46 @@
+name: Deploy Worker Sportello (Cloudflare)
+
+# Si avvia a mano (Actions → Run workflow) oppure quando cambia il Worker.
+# Richiede nei Secrets del repository: CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID.
+# I segreti del Worker (webhook, token Telegram, ecc.) restano su Cloudflare e NON passano da qui.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'workers/sportello/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Controlla i secret
+        id: check
+        run: |
+          if [ -z "$CF_TOKEN" ]; then echo "skip=true" >> "$GITHUB_OUTPUT"; echo "Secret CLOUDFLARE_API_TOKEN non impostato: deploy saltato."; fi
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - uses: actions/checkout@v4
+        if: steps.check.outputs.skip != 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.check.outputs.skip != 'true'
+        with:
+          node-version: 20
+
+      - name: Test
+        if: steps.check.outputs.skip != 'true'
+        working-directory: workers/sportello
+        run: node --test test/handler.test.mjs
+
+      - name: Deploy
+        if: steps.check.outputs.skip != 'true'
+        working-directory: workers/sportello
+        run: |
+          npm ci || npm install
+          npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

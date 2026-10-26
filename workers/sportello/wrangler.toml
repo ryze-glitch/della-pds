@@ -16,3 +16,12 @@ ALLOWED_ORIGINS = "https://polizia-iprp.web.app,https://polizia-iprp.firebaseapp
 # Telegram (facoltativo): le pratiche vengono inoltrate anche al bot @sitepdsbot.
 #   TELEGRAM_BOT_TOKEN   token del bot (da @BotFather)
 #   TELEGRAM_CHAT_ID     ID della chat/gruppo/canale che riceve le pratiche
+
+# Accesso con Google (facoltativo ma consigliato): rende obbligatorio il login da accounts.google.com
+# per inviare le richieste. GOOGLE_CLIENT_ID è un ID pubblico (OAuth "Applicazione web").
+#   npx wrangler secret put GOOGLE_CLIENT_ID
+# Anti-bot Cloudflare Turnstile (facoltativo):
+#   npx wrangler secret put TURNSTILE_SITEKEY   (chiave pubblica del widget)
+#   npx wrangler secret put TURNSTILE_SECRET    (chiave segreta)
+# Canale Discord per i log degli aggiornamenti di stato (se manca usa quello delle denunce):
+#   npx wrangler secret put DISCORD_WEBHOOK_LOG
