@@ -10,8 +10,7 @@ import { savePratica } from '../../lib/miePratiche';
 import { TurnstileWidget } from './Turnstile';
 import { useSportelloConfig } from './useSportelloConfig';
 import { GoogleGate } from './GoogleGate';
-import { clearGoogleUser } from '../../lib/googleAuth';
-import { useGoogleUser } from './useGoogleUser';
+import { clearGoogleUser, getGoogleUser } from '../../lib/googleAuth';
 
 function pad(n) {
   return String(n).padStart(2, '0');
@@ -257,7 +256,8 @@ export function SportelloForm({ formId }) {
   const cfg = useSportelloConfig();
   const siteKey = cfg && cfg.turnstileSiteKey;
   const googleId = cfg && cfg.googleClientId;
-  const gUser = useGoogleUser();
+  const [gUser, setGUser] = useState(null);
+  useEffect(() => setGUser(getGoogleUser()), []);
   const [tsToken, setTsToken] = useState('');
 
   const sectionsOf = (i) => form.sections.filter((sec) => steps[i].sections.includes(sec.title));
@@ -355,6 +355,7 @@ export function SportelloForm({ formId }) {
     } catch (err) {
       if (err instanceof SubmitError && err.needLogin) {
         clearGoogleUser();
+        setGUser(null);
       }
       if (err instanceof SubmitError && err.fields) setErrors(err.fields);
       setServerError(err.message || 'Invio non riuscito.');
@@ -388,7 +389,7 @@ export function SportelloForm({ formId }) {
   }
 
   if (cfg === null) return <p className="py-10 text-sm text-muted">Caricamento…</p>;
-  if (googleId && !gUser) return <GoogleGate clientId={googleId} onLogin={() => {}} />;
+  if (googleId && !gUser) return <GoogleGate clientId={googleId} onLogin={setGUser} />;
 
   const recap = form.sections
     .flatMap((sec) => sec.fields)
@@ -398,7 +399,7 @@ export function SportelloForm({ formId }) {
     <form ref={formRef} onSubmit={onSubmit} noValidate>
       <div ref={topRef} className="scroll-mt-28" />
       {googleId && gUser ? (
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-full border border-[color:var(--sh-line)] py-2 pl-3 pr-4 text-sm">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-full border border-[#242d3b] py-2 pl-3 pr-4 text-sm">
           <span className="flex min-w-0 items-center gap-2.5">
             {gUser.picture ? <img src={gUser.picture} alt="" referrerPolicy="no-referrer" className="h-7 w-7 rounded-full" /> : <Icon name="user" size={18} />}
             <span className="truncate">
@@ -407,7 +408,10 @@ export function SportelloForm({ formId }) {
           </span>
           <button
             type="button"
-            onClick={() => clearGoogleUser()}
+            onClick={() => {
+              clearGoogleUser();
+              setGUser(null);
+            }}
             className="text-muted transition hover:text-fg"
           >
             Esci

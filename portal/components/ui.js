@@ -93,7 +93,7 @@ export function IconTile({ name, tone = 'primary', className = '' }) {
 
 export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
   return (
-    <section className="border-b border-[color:var(--sh-line)]">
+    <section className="border-b border-[#242d3b]">
       <Container className="pb-8 pt-9 md:pt-11">
         {crumbs.length ? (
           <nav aria-label="Percorso" className="hero-in mb-3 flex flex-wrap items-center gap-1.5 text-sm text-muted">
@@ -118,7 +118,7 @@ export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
           {title}
         </h1>
         {text ? (
-          <p className="hero-in mt-2 max-w-2xl text-[14px] leading-relaxed text-[color:var(--sh-sec)]" style={{ '--d': '180ms' }}>
+          <p className="hero-in mt-2 max-w-2xl text-[14px] leading-relaxed text-[#c9d2e0]" style={{ '--d': '180ms' }}>
             {text}
           </p>
         ) : null}

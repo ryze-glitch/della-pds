@@ -12,7 +12,7 @@ export function HeroTrack() {
         e.preventDefault();
         router.push(`/sportello/pratica?codice=${encodeURIComponent(v.trim())}`);
       }}
-      className="flex overflow-hidden rounded-full border border-[color:var(--sh-in)]"
+      className="flex overflow-hidden rounded-full border border-[#2a3341]"
     >
       <label htmlFor="hero-code" className="sr-only">
         Codice pratica

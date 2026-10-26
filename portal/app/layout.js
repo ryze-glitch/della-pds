@@ -19,22 +19,17 @@ export const metadata = {
     siteName: 'Questura IPRP',
     title: TITLE,
     description: DESC,
-    images: [{ url: '/assets/og.png', width: 1200, height: 630, alt: 'Sportello Telematico della Questura IPRP, tema scuro e chiaro' }],
+    images: [{ url: '/assets/hero-slide-1.jpg', width: 2000, height: 920, alt: 'La Questura IPRP con le volanti' }],
   },
-  twitter: { card: 'summary_large_image', title: TITLE, description: DESC, images: ['/assets/og.png'] },
+  twitter: { card: 'summary_large_image', title: TITLE, description: DESC, images: ['/assets/hero-slide-1.jpg'] },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="it" suppressHydrationWarning>
+    <html lang="it">
       <head>
         <meta name="color-scheme" content="dark" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "document.documentElement.classList.add('js');try{var t=localStorage.getItem('pds-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;else document.documentElement.dataset.theme='dark'}catch(e){document.documentElement.dataset.theme='dark'}",
-          }}
-        />
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <meta name="theme-color" content="#09111f" />
         <link rel="icon" href="/favicon.ico?v=2" />
         <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />

@@ -49,14 +49,14 @@ export function MiePratiche({ compact = false }) {
     return (
       <div className="py-8 text-center">
         <p className="text-sm text-muted">Non hai ancora pratiche su questo dispositivo.</p>
-        <Link href="/sportello/denuncia" className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--sh-acc)] hover:underline">
+        <Link href="/sportello/denuncia" className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[#3fc4d6] hover:underline">
           Presenta una richiesta <Icon name="arrow-right" size={15} />
         </Link>
       </div>
     );
   }
   return (
-    <ul className="divide-y divide-[color:var(--sh-div)]">
+    <ul className="divide-y divide-[#1e2735]">
       {items.slice(0, compact ? 4 : 20).map((p) => {
         const st = p.stato ? STATI[p.stato] : null;
         return (

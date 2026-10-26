@@ -203,13 +203,13 @@ export default function CandidaturePage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-[22.5px] font-normal">Gestione candidature</h1>
-          <p className="mt-1 text-sm text-[color:var(--sh-sec)]">Valuta le candidature al reclutamento.</p>
+          <p className="mt-1 text-sm text-[#c9d2e0]">Valuta le candidature al reclutamento.</p>
         </div>
         <Badge tone="blue">{loaded ? `${candidates.length} ${candidates.length === 1 ? 'candidatura' : 'candidature'}` : 'Caricamento…'}</Badge>
       </div>
 
       <section className="mt-7">
-        <label className="flex h-12 items-center gap-3 rounded-full border border-[color:var(--sh-in)] px-5 focus-within:border-link focus-within:ring-2 focus-within:ring-link/25">
+        <label className="flex h-12 items-center gap-3 rounded-full border border-[#2a3341] px-5 focus-within:border-link focus-within:ring-2 focus-within:ring-link/25">
           <Icon name="search" size={17} className="text-muted" />
           <span className="sr-only">Cerca una candidatura</span>
           <input

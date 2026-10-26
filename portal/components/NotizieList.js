@@ -43,7 +43,7 @@ export function NotizieList() {
             type="button"
             onClick={() => setF(t)}
             aria-pressed={f === t}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition ${f === t ? 'bg-[color:var(--sh-soft)] text-[color:var(--sh-acc)]' : 'text-muted hover:bg-white/5 hover:text-fg'}`}
+            className={`rounded-full px-4 py-2 text-sm font-medium transition ${f === t ? 'bg-[#0f3947] text-[#3fc4d6]' : 'text-muted hover:bg-white/5 hover:text-fg'}`}
           >
             {LABEL[t]}
           </button>
