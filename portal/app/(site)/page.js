@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Icon } from '../../components/icons';
 import { MiePratiche } from '../../components/MiePratiche';
+import { Crest3D } from '../../components/Crest3D';
 import { Widget } from '../../components/Widget';
 import { HeroTrack } from '../../components/forms/HeroTrack';
 import { DEPTS } from '../../lib/data';
@@ -26,10 +27,13 @@ export default function HomePage() {
 
       {/* banner con la foto della Questura */}
       <section className="hero-in relative mt-5 overflow-hidden rounded-[20px] border border-[#242d3b]">
-        <img src="/assets/hero-slide-1.jpg" alt="" className="kb absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '55% 62%' }} />
+        <img src="/assets/hero-slide-1.webp" alt="" className="kb absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '55% 62%' }} />
         <div className="absolute inset-0 bg-gradient-to-r from-[#141a24] via-[#141a24]/80 to-[#141a24]/10" />
+        <div className="pointer-events-none absolute right-[5%] top-1/2 hidden h-[280px] w-[220px] -translate-y-1/2 lg:block">
+          <Crest3D className="hero-in relative h-full w-full" fallbackClass="h-[210px] w-auto" />
+        </div>
         <div className="relative px-7 py-9 sm:px-10 sm:py-12">
-          <div className="text-xs font-medium uppercase tracking-[0.2em] text-[#17a8bd]">Italian Paradise XI · Questura</div>
+          <div className="text-xs font-medium uppercase tracking-[0.2em] text-[#3fc4d6]">Italian Paradise XI · Questura</div>
           <h2 className="mt-3 max-w-xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">Lo sportello della Polizia di Stato, online.</h2>
           <p className="mt-3 max-w-lg text-[14.4px] text-white/80">Denunce, porto d’armi e colloqui con i dirigenti. Ogni pratica ha un codice e uno stato sempre consultabile.</p>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -50,7 +54,7 @@ export default function HomePage() {
               {SERVIZI.map(([icon, title, text, href]) => (
                 <li key={href}>
                   <Link href={href} className="group flex items-center gap-4 py-4">
-                    <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-[#0f3947] text-[#17a8bd]">
+                    <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-[#0f3947] text-[#3fc4d6]">
                       <Icon name={icon} size={21} strokeWidth={1.5} />
                     </span>
                     <span className="flex-1">
@@ -80,7 +84,7 @@ export default function HomePage() {
             <ol className="divide-y divide-[#1e2735]">
               {PASSI.map(([n, t, d]) => (
                 <li key={n} className="flex items-start gap-4 py-4">
-                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#0f3947] font-semibold text-[#17a8bd]">{n}</span>
+                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#0f3947] font-semibold text-[#3fc4d6]">{n}</span>
                   <div>
                     <div className="font-medium">{t}</div>
                     <p className="text-[12.2px] text-muted">{d}</p>
@@ -94,7 +98,7 @@ export default function HomePage() {
             <ul className="divide-y divide-[#1e2735]">
               {DEPTS.map((d) => (
                 <li key={d.name} className="flex items-center gap-3.5 py-3">
-                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#0f3947] text-[#17a8bd]">
+                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#0f3947] text-[#3fc4d6]">
                     <Icon name={d.icon} size={17} strokeWidth={1.6} />
                   </span>
                   <span className="min-w-0">
@@ -107,10 +111,10 @@ export default function HomePage() {
           </Widget>
 
           <Link href="/reclutamento" className="group relative block overflow-hidden rounded-[20px] border border-[#242d3b]">
-            <img src="/assets/hero-slide-2.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '30% 60%' }} />
+            <img src="/assets/hero-slide-2.webp" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '30% 60%' }} />
             <div className="absolute inset-0 bg-gradient-to-r from-[#141a24] via-[#141a24]/85 to-[#141a24]/30" />
             <div className="relative p-6">
-              <div className="text-xs font-medium uppercase tracking-[0.18em] text-[#17a8bd]">Reclutamento</div>
+              <div className="text-xs font-medium uppercase tracking-[0.18em] text-[#3fc4d6]">Reclutamento</div>
               <div className="mt-2 text-xl font-semibold">Entra nella Polizia di Stato</div>
               <p className="mt-1 text-sm text-white/75">Selezioni sempre aperte.</p>
               <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#3fc4d6]">

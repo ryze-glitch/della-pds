@@ -95,10 +95,10 @@ export function DashboardView({ profile, pratiche }) {
               </div>
               <div className={`flex flex-col items-center justify-center gap-3 border-t pt-6 text-center sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0 ${BORDER}`}>
                 <div className="text-sm font-semibold uppercase tracking-wide">Sportello oggi</div>
-                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#0f3947] text-[#17a8bd]">
+                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#0f3947] text-[#3fc4d6]">
                   <Icon name="radio" size={30} strokeWidth={1.4} />
                 </span>
-                <div className="text-sm leading-snug text-[#17a8bd]">
+                <div className="text-sm leading-snug text-[#3fc4d6]">
                   {pratiche === null ? 'Caricamento…' : daPrendere ? `${daPrendere} richieste in attesa di presa in carico` : 'Nessuna richiesta in attesa'}
                 </div>
               </div>

@@ -75,3 +75,26 @@ npx wrangler deploy
 Per ottenere il `TELEGRAM_CHAT_ID`: scrivi al bot (o aggiungilo a un gruppo) e apri
 `https://api.telegram.org/bot<TOKEN>/getUpdates`: il valore è `message.chat.id`.
 Se Telegram non risponde ma Discord sì, la pratica viene comunque accettata.
+
+
+## Accesso con Google (accounts.google.com)
+
+Se imposti `GOOGLE_CLIENT_ID`, il sito chiede di accedere con Google prima di inviare una richiesta.
+L'accesso usa *Google Identity Services* (pagina `accounts.google.com`), **non Firebase**: il Worker
+verifica la firma dell'ID token con le chiavi pubbliche di Google e inserisce nome ed e-mail nel log Discord/Telegram.
+
+1. Console Google Cloud → *API e servizi* → *Credenziali* → *Crea credenziali* → *ID client OAuth* → tipo **Applicazione web**.
+2. In *Origini JavaScript autorizzate* aggiungi `https://polizia-iprp.web.app` (e `https://polizia-iprp.firebaseapp.com`).
+3. Copia l'ID client (finisce con `.apps.googleusercontent.com`), poi:
+   ```
+   npx wrangler secret put GOOGLE_CLIENT_ID
+   ```
+4. Schermata di consenso OAuth: nome app, e-mail di supporto; stato "In produzione" per far accedere chiunque.
+
+Senza `GOOGLE_CLIENT_ID` l'accesso non è richiesto.
+
+## Log degli aggiornamenti di stato
+
+Quando un agente cambia lo stato di una pratica dall'area riservata, il sito chiama `POST /log` con il suo
+token Firebase. Il Worker verifica il token e che l'utente sia un agente (leggendo `auth-sito` con il suo token),
+poi scrive il log su Discord (`DISCORD_WEBHOOK_LOG`, altrimenti `DISCORD_WEBHOOK_DENUNCE`) e Telegram.

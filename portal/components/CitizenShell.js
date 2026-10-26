@@ -61,7 +61,7 @@ export function CitizenShell({ children }) {
       title={collapsed ? it.label : undefined}
       aria-label={it.label}
       aria-current={isOn(it.href) ? 'page' : undefined}
-      className={`flex h-12 items-center gap-4 rounded-full px-4 text-[13.5px] transition-colors ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''} ${isOn(it.href) ? 'bg-[#0f3947] text-[#17a8bd]' : 'text-fg hover:bg-white/5'}`}
+      className={`flex h-12 items-center gap-4 rounded-full px-4 text-[13.5px] transition-colors ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''} ${isOn(it.href) ? 'bg-[#0f3947] text-[#3fc4d6]' : 'text-fg hover:bg-white/5'}`}
     >
       <Icon name={it.icon} size={22} strokeWidth={1.5} className="flex-none" />
       <span className={collapsed ? 'lg:hidden' : ''}>{it.label}</span>
@@ -71,6 +71,7 @@ export function CitizenShell({ children }) {
   return (
     <div className="flex min-h-screen bg-[#141a24] text-fg">
       <aside
+        aria-label="Menu principale"
         className={`${open ? 'flex' : 'hidden'} fixed inset-y-0 left-0 z-40 w-[243px] flex-col overflow-y-auto border-r border-[#242d3b] bg-[#121821] transition-[width] duration-300 lg:sticky lg:top-0 lg:flex lg:h-screen ${collapsed ? 'lg:w-[82.8px]' : 'lg:w-[243px]'}`}
       >
         <Link href="/" className={`flex h-[79.2px] flex-none items-center gap-3 px-5 ${collapsed ? 'lg:justify-center lg:px-0' : ''}`} aria-label="Polizia di Stato, Questura IPRP: home">

@@ -7,9 +7,10 @@ import { CODE_REGEX, normalizzaCodice } from './forms';
 export const SPORTELLO_API = process.env.NEXT_PUBLIC_SPORTELLO_API || 'https://iprp-sportello.ryze63131.workers.dev';
 
 export class SubmitError extends Error {
-  constructor(message, fields) {
+  constructor(message, fields, needLogin = false) {
     super(message);
     this.fields = fields || null;
+    this.needLogin = needLogin;
   }
 }
 
@@ -26,7 +27,7 @@ export async function inviaPratica(formId, values) {
   }
   const data = await res.json().catch(() => ({}));
   if (!res.ok || !data.code) {
-    throw new SubmitError(data.error || 'Lo Sportello non ha accettato la richiesta. Riprova tra poco.', data.fields);
+    throw new SubmitError(data.error || 'Lo Sportello non ha accettato la richiesta. Riprova tra poco.', data.fields, !!data.needLogin);
   }
 
   // Registra lo stato (senza dati personali) per il tracciamento pubblico.

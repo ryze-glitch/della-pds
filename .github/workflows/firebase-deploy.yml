@@ -12,6 +12,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Il sito (Next.js, export statico) viene costruito qui e pubblicato in site/.
+      # Se la cartella `public` di firebase.json non è "site" (es. pagina di manutenzione),
+      # questo passo è comunque innocuo.
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: portal/package-lock.json
+
+      - name: Build del sito
+        working-directory: portal
+        run: |
+          npm ci
+          npm run build
+
+      - name: Prepara la cartella pubblicata
+        run: |
+          rm -rf site
+          cp -r portal/out site
+
       - name: Write service account credentials
         run: echo "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/firebase-sa.json"
         env:
