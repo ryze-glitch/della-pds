@@ -38,7 +38,7 @@ export default function ReclutamentoPage() {
                     <span className="text-sm text-muted">{b.scadenza}</span>
                   </div>
                   <h3 className="mt-2 text-lg font-semibold leading-snug">{b.titolo}</h3>
-                  <p className="mt-1 max-w-3xl text-[15px] leading-relaxed text-muted">{b.testo}</p>
+                  <p className="mt-1 max-w-3xl text-[13.5px] leading-relaxed text-muted">{b.testo}</p>
                 </div>
                 {b.stato === 'Aperto' ? (
                   <Btn href={FORM_URL} target="_blank" rel="noopener" variant="primary" icon="external">
@@ -59,7 +59,7 @@ export default function ReclutamentoPage() {
             <li key={t} className="bg-surface p-6">
               <span className="font-mono text-sm text-gold-ink">0{i + 1}</span>
               <h3 className="mt-3 text-lg font-semibold">{t}</h3>
-              <p className="mt-1.5 text-[15px] leading-relaxed text-muted">{d}</p>
+              <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">{d}</p>
             </li>
           ))}
         </ol>
@@ -71,7 +71,7 @@ export default function ReclutamentoPage() {
               <Icon name="check" size={18} className="mt-1 flex-none text-link" />
               <div>
                 <h3 className="font-semibold">{t}</h3>
-                <p className="mt-1 text-[15px] leading-relaxed text-muted">{d}</p>
+                <p className="mt-1 text-[13.5px] leading-relaxed text-muted">{d}</p>
               </div>
             </li>
           ))}

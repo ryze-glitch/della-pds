@@ -62,7 +62,7 @@ export function AgentShell({ children, preview = false }) {
         title={collapsed ? it.label : undefined}
         aria-label={it.label}
         onClick={() => setOpen(false)}
-        className={`flex h-12 items-center gap-4 rounded-full text-[15px] transition-colors ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''} px-4 ${on ? 'bg-[#0f3947] text-[#17a8bd]' : 'text-fg hover:bg-white/5'}`}
+        className={`flex h-12 items-center gap-4 rounded-full text-[13.5px] transition-colors ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''} px-4 ${on ? 'bg-[#0f3947] text-[#17a8bd]' : 'text-fg hover:bg-white/5'}`}
       >
         <Icon name={it.icon} size={22} strokeWidth={1.5} className="flex-none" />
         <span className={collapsed ? 'lg:hidden' : ''}>{it.label}</span>
@@ -73,22 +73,22 @@ export function AgentShell({ children, preview = false }) {
   return (
     <div className="flex min-h-screen bg-[#141a24] text-fg">
       <aside
-        className={`${open ? 'flex' : 'hidden'} fixed inset-y-0 left-0 z-40 w-[262px] flex-col border-r border-[#242d3b] bg-[#121821] transition-[width] duration-300 lg:static lg:flex ${collapsed ? 'lg:w-[92px]' : 'lg:w-[262px]'}`}
+        className={`${open ? 'flex' : 'hidden'} fixed inset-y-0 left-0 z-40 w-[235.8px] flex-col border-r border-[#242d3b] bg-[#121821] transition-[width] duration-300 lg:static lg:flex ${collapsed ? 'lg:w-[82.8px]' : 'lg:w-[235.8px]'}`}
       >
-        <Link href="/" className={`flex h-[88px] items-center gap-3 px-5 ${collapsed ? 'lg:justify-center lg:px-0' : ''}`} aria-label="Questura IPRP, torna al sito">
+        <Link href="/" className={`flex h-[79.2px] items-center gap-3 px-5 ${collapsed ? 'lg:justify-center lg:px-0' : ''}`} aria-label="Questura IPRP, torna al sito">
           <img src="/assets/crest-md.png" alt="" className="h-11 w-auto flex-none" />
           <span className={`leading-tight ${collapsed ? 'lg:hidden' : ''}`}>
-            <span className="block text-[15px] font-semibold uppercase tracking-[0.14em]">Questura</span>
-            <span className="block text-[11px] uppercase tracking-[0.2em] text-muted">Area agenti</span>
+            <span className="block text-[13.5px] font-semibold uppercase tracking-[0.14em]">Questura</span>
+            <span className="block text-[9.9px] uppercase tracking-[0.2em] text-muted">Area agenti</span>
           </span>
         </Link>
         <div className={`mx-[18px] flex items-center gap-3.5 border-b border-[#242d3b] pb-4 pt-3 ${collapsed ? 'lg:justify-center' : ''}`}>
-          <span className="flex h-[42px] w-[42px] flex-none items-center justify-center rounded-full bg-[#2c3441] text-[13px] font-semibold" title={collapsed ? nome : undefined}>
+          <span className="flex h-[37.8px] w-[37.8px] flex-none items-center justify-center rounded-full bg-[#2c3441] text-[11.7px] font-semibold" title={collapsed ? nome : undefined}>
             {initials || <Icon name="user" size={18} />}
           </span>
           <span className={`min-w-0 leading-snug ${collapsed ? 'lg:hidden' : ''}`}>
-            <span className="block truncate text-[13.5px] font-semibold uppercase">{nome}</span>
-            <span className="block truncate text-[13px] text-[#c9d2e0]">{profile?.grado || 'Agente'}</span>
+            <span className="block truncate text-[12.2px] font-semibold uppercase">{nome}</span>
+            <span className="block truncate text-[11.7px] text-[#c9d2e0]">{profile?.grado || 'Agente'}</span>
           </span>
         </div>
         <nav className={`flex flex-1 flex-col gap-0.5 px-4 pt-4 ${collapsed ? 'lg:items-center lg:px-0' : ''}`} aria-label="Area riservata">
@@ -101,7 +101,7 @@ export function AgentShell({ children, preview = false }) {
           onClick={logout}
           title={collapsed ? 'Esci' : undefined}
           aria-label="Esci"
-          className={`m-3 flex h-12 items-center justify-center gap-2.5 rounded-full bg-[#17a8bd] text-[13px] font-medium text-white transition hover:brightness-110 ${collapsed ? 'lg:mx-auto lg:w-12' : ''}`}
+          className={`m-3 flex h-12 items-center justify-center gap-2.5 rounded-full bg-[#17a8bd] text-[11.7px] font-medium text-white transition hover:brightness-110 ${collapsed ? 'lg:mx-auto lg:w-12' : ''}`}
         >
           <Icon name="logout" size={18} />
           <span className={collapsed ? 'lg:hidden' : ''}>Esci</span>
@@ -110,18 +110,18 @@ export function AgentShell({ children, preview = false }) {
       {open ? <button aria-label="Chiudi il menu" className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setOpen(false)} /> : null}
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-[88px] flex-none items-center gap-5 border-b border-[#242d3b] bg-[#121821] px-5 sm:px-6">
+        <header className="flex h-[79.2px] flex-none items-center gap-5 border-b border-[#242d3b] bg-[#121821] px-5 sm:px-6">
           <button type="button" onClick={toggle} aria-label="Mostra o nascondi il menu" className="text-fg/90 transition hover:text-white">
             <Icon name="menu" size={24} />
           </button>
-          <span className="text-[14.5px] font-medium">Area Riservata Agenti</span>
+          <span className="text-[13.1px] font-medium">Area Riservata Agenti</span>
           <span className="flex-1" />
-          <span className="hidden text-right text-[13px] leading-snug text-[#c9d2e0] sm:block">
+          <span className="hidden text-right text-[11.7px] leading-snug text-[#c9d2e0] sm:block">
             Questura IPRP
             <br />
             Italian Paradise XI
           </span>
-          <span className="flex h-[46px] w-[46px] items-center justify-center rounded-full bg-[#12b3c4] text-white">
+          <span className="flex h-[41.4px] w-[41.4px] items-center justify-center rounded-full bg-[#12b3c4] text-white">
             <Icon name="user" size={22} />
           </span>
         </header>

@@ -23,6 +23,10 @@
   --warn: 245 180 70;
 }
 
+html {
+  font-size: 90%;
+}
+
 body {
   background: rgb(var(--bg));
   color: rgb(var(--fg));

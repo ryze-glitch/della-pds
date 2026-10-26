@@ -13,14 +13,14 @@ function Ring({ value, label }) {
   const r = 52;
   const c = 2 * Math.PI * r;
   return (
-    <div className="relative flex h-[132px] w-[132px] items-center justify-center">
+    <div className="relative flex h-[118.8px] w-[118.8px] items-center justify-center">
       <svg viewBox="0 0 120 120" className="absolute inset-0 -rotate-90">
         <circle cx="60" cy="60" r={r} fill="none" stroke="#1f2836" strokeWidth="9" />
         <circle cx="60" cy="60" r={r} fill="none" stroke="#17a8bd" strokeWidth="9" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c * (1 - value / 100)} style={{ transition: 'stroke-dashoffset 1s ease' }} />
       </svg>
       <div className="text-center">
-        <div className="text-[28px] font-semibold tabular-nums">{value}%</div>
-        <div className="text-[11px] uppercase tracking-wider text-muted">{label}</div>
+        <div className="text-[25.2px] font-semibold tabular-nums">{value}%</div>
+        <div className="text-[9.9px] uppercase tracking-wider text-muted">{label}</div>
       </div>
     </div>
   );
@@ -29,10 +29,10 @@ function Ring({ value, label }) {
 function Counter({ n, label, color }) {
   return (
     <div className="flex flex-col items-center gap-2 text-center">
-      <span className="flex h-[62px] w-[62px] items-center justify-center rounded-full text-[22px] font-semibold tabular-nums" style={{ color, background: `${color}26` }}>
+      <span className="flex h-[55.8px] w-[55.8px] items-center justify-center rounded-full text-[19.8px] font-semibold tabular-nums" style={{ color, background: `${color}26` }}>
         {n}
       </span>
-      <span className="text-[14px] font-medium leading-tight" style={{ color }}>
+      <span className="text-[12.6px] font-medium leading-tight" style={{ color }}>
         {label}
       </span>
     </div>
@@ -80,7 +80,7 @@ export function DashboardView({ profile, pratiche }) {
 
   return (
     <div className="px-5 py-7 sm:px-8">
-      <h1 className="text-[25px] font-normal">Home</h1>
+      <h1 className="text-[22.5px] font-normal">Home</h1>
       <p className="mt-0.5 text-sm text-[#c9d2e0]">{profile ? `${nome || 'Agente'} · ${profile.grado || 'Agente'}` : 'Caricamento…'}</p>
 
       <div className="mt-6 grid items-start gap-5 md:grid-cols-[repeat(auto-fit,minmax(340px,1fr))]">
@@ -115,7 +115,7 @@ export function DashboardView({ profile, pratiche }) {
               <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#3fc4d6] text-[#04222a]">
                 <Icon name="info" size={20} />
               </span>
-              <span className="text-[15px] leading-snug">{daPrendere ? `${daPrendere} pratiche da prendere in carico.` : 'Tutte le pratiche sono state prese in carico.'} Apri la gestione.</span>
+              <span className="text-[13.5px] leading-snug">{daPrendere ? `${daPrendere} pratiche da prendere in carico.` : 'Tutte le pratiche sono state prese in carico.'} Apri la gestione.</span>
             </Link>
           </section>
 
@@ -129,7 +129,7 @@ export function DashboardView({ profile, pratiche }) {
                 {ricevute.map((p) => (
                   <li key={p.id} className="flex items-center justify-between gap-4 py-3.5">
                     <div>
-                      <div className="font-mono text-[15px]">#{p.id}</div>
+                      <div className="font-mono text-[13.5px]">#{p.id}</div>
                       <div className="text-xs text-muted">{TIPI_PRATICA[p.tipo] || p.tipo}</div>
                     </div>
                     <span className="text-sm text-muted">{fmtDay(p.creatoIl)}</span>
@@ -154,7 +154,7 @@ export function DashboardView({ profile, pratiche }) {
               <ul className="divide-y divide-[#1e2735]">
                 {inAttesa.map((p) => (
                   <li key={p.id} className="py-3.5">
-                    <div className="flex items-center gap-2 text-[15px]">
+                    <div className="flex items-center gap-2 text-[13.5px]">
                       <Icon name="user" size={15} /> {TIPI_PRATICA[p.tipo] || p.tipo}
                     </div>
                     <div className="mt-1 flex items-center gap-4 text-sm">
@@ -185,7 +185,7 @@ export function DashboardView({ profile, pratiche }) {
                         <Icon name="user" size={14} /> {a.agente || 'Agente'}
                       </span>
                     </div>
-                    <div className="mt-1 text-[14px]">{a.nota || `Pratica #${a.code}`}</div>
+                    <div className="mt-1 text-[12.6px]">{a.nota || `Pratica #${a.code}`}</div>
                     <div className="mt-1 text-xs text-fg/70">
                       {fmtDay(a.data)} · #{a.code}
                     </div>

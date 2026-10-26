@@ -29,7 +29,7 @@ export function SectionHead({ eyebrow, title, text, action, className = '' }) {
       <div className="max-w-2xl">
         {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
         <h2 className="h2 mt-2">{title}</h2>
-        {text ? <p className="mt-3 text-[17px] leading-relaxed text-muted">{text}</p> : null}
+        {text ? <p className="mt-3 text-[15.3px] leading-relaxed text-muted">{text}</p> : null}
       </div>
       {action}
     </Reveal>
@@ -38,7 +38,7 @@ export function SectionHead({ eyebrow, title, text, action, className = '' }) {
 
 const base =
   'inline-flex items-center justify-center gap-2 rounded-full border text-sm font-semibold transition duration-200 select-none hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link disabled:cursor-not-allowed disabled:opacity-60';
-const sizes = { sm: 'h-9 px-3.5', md: 'h-11 px-5', lg: 'h-12 px-6 text-[15px]' };
+const sizes = { sm: 'h-9 px-3.5', md: 'h-11 px-5', lg: 'h-12 px-6 text-[13.5px]' };
 const variants = {
   primary: 'border-primary bg-primary text-primary-fg hover:bg-primary/90',
   gold: 'border-gold bg-gold text-[#1a1405] hover:brightness-105',
@@ -114,11 +114,11 @@ export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
             ))}
           </nav>
         ) : null}
-        <h1 className="hero-in text-[25px] font-normal leading-tight sm:text-[28px]" style={{ '--d': '80ms' }}>
+        <h1 className="hero-in text-[22.5px] font-normal leading-tight sm:text-[25.2px]" style={{ '--d': '80ms' }}>
           {title}
         </h1>
         {text ? (
-          <p className="hero-in mt-2 max-w-2xl text-[15.5px] leading-relaxed text-[#c9d2e0]" style={{ '--d': '180ms' }}>
+          <p className="hero-in mt-2 max-w-2xl text-[14px] leading-relaxed text-[#c9d2e0]" style={{ '--d': '180ms' }}>
             {text}
           </p>
         ) : null}

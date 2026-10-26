@@ -21,5 +21,5 @@ const MAP = {
 export function Icon({ name, size = 20, className = '', strokeWidth = 2 }) {
   const Cmp = MAP[name];
   if (!Cmp) return null;
-  return <Cmp size={size} strokeWidth={strokeWidth} className={className} aria-hidden="true" />;
+  return <Cmp size={Math.round(size * 0.9)} strokeWidth={strokeWidth} className={className} aria-hidden="true" />;
 }

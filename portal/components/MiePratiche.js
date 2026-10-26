@@ -56,7 +56,7 @@ export function MiePratiche({ compact = false }) {
         return (
           <li key={p.code} className="flex items-center gap-3 py-3.5">
             <Link href={`/sportello/pratica?codice=${p.code}`} className="min-w-0 flex-1">
-              <div className="font-mono text-[15px]">#{p.code}</div>
+              <div className="font-mono text-[13.5px]">#{p.code}</div>
               <div className="text-xs text-muted">{TIPI_PRATICA[p.tipo] || 'Pratica'}</div>
             </Link>
             {st ? <Badge tone={st.tone}>{st.label}</Badge> : <span className="text-xs text-muted">{p.stato === null ? '…' : 'Non trovata'}</span>}

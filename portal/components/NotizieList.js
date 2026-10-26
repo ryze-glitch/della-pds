@@ -32,7 +32,7 @@ export function NotizieList() {
   }, [all]);
 
   if (all === null) return <p className="py-10 text-sm text-muted">Caricamento…</p>;
-  if (all.length === 0) return <p className="py-10 text-[15px] text-muted">Al momento non ci sono comunicati pubblicati.</p>;
+  if (all.length === 0) return <p className="py-10 text-[13.5px] text-muted">Al momento non ci sono comunicati pubblicati.</p>;
 
   return (
     <div>
@@ -62,14 +62,14 @@ export function NotizieList() {
               <div>
                 <div className={`text-xs font-medium uppercase tracking-[0.16em] ${COLOR[c.tipo]}`}>{c.tipo}</div>
                 {dt ? (
-                  <time className="mt-1 block font-mono text-[13px] text-muted" dateTime={dt.toISOString()}>
+                  <time className="mt-1 block font-mono text-[11.7px] text-muted" dateTime={dt.toISOString()}>
                     {dt.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
                   </time>
                 ) : null}
               </div>
               <div>
                 <h2 className="text-xl font-semibold leading-snug">{c.titolo}</h2>
-                <p className="mt-2 max-w-3xl whitespace-pre-line text-[15px] leading-relaxed text-muted">{c.testo}</p>
+                <p className="mt-2 max-w-3xl whitespace-pre-line text-[13.5px] leading-relaxed text-muted">{c.testo}</p>
               </div>
             </article>
           );
