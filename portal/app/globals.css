@@ -63,7 +63,7 @@ body {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }
 }
-.page-enter { animation: page-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.page-enter { animation: page-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
 
 .rv { transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms); }
 .js .rv:not(.is-in) { opacity: 0; transform: translateY(34px); }
@@ -80,13 +80,13 @@ body {
   from { opacity: 0; transform: translateY(28px); }
   to { opacity: 1; transform: none; }
 }
-.hero-in { animation: rise 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: var(--d, 0ms); }
+.hero-in { animation: rise 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; animation-delay: var(--d, 0ms); }
 
 @keyframes kenburns {
   from { transform: scale(1.07); }
   to { transform: scale(1); }
 }
-.kb { animation: kenburns 2s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.kb { animation: kenburns 2s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
 
 @keyframes line-grow {
   from { transform: scaleX(0); }

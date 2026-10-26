@@ -12,9 +12,9 @@ export function LoginModal({ clientId, onClose }) {
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Accedi">
+    <div className="fixed inset-0 z-[70] flex items-center justify-center overflow-y-auto p-4" role="dialog" aria-modal="true" aria-label="Accedi">
       <button type="button" aria-label="Chiudi" className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative w-full max-w-md rounded-[20px] bg-[#141a24]">
+      <div className="relative my-auto w-full max-w-md rounded-[20px] bg-[#141a24] shadow-[0_30px_80px_rgba(0,0,0,0.6)]">
         <button type="button" onClick={onClose} aria-label="Chiudi" className="absolute right-3 top-3 z-10 rounded-full p-2 text-muted transition hover:bg-white/5 hover:text-fg">
           <Icon name="x" size={18} />
         </button>
