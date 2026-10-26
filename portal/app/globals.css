@@ -25,8 +25,9 @@
   /* Guscio dei portali (sidebar + barra): variabili dedicate, cambiano col tema */
   --sh-page: #141a24;
   --sh-bar: #121821;
-  --sh-side: #0e3347;
-  --sh-side-line: #1d5266;
+  --sh-side: #0f1722;
+  --sh-side-line: #1d2735;
+  --sh-active: #17505e;
   --sh-line: #242d3b;
   --sh-div: #1e2735;
   --sh-in: #2a3341;
@@ -66,6 +67,7 @@ html {
   --sh-bar: #ffffff;
   --sh-side: #2d5394;
   --sh-side-line: #27487f;
+  --sh-active: rgb(255 255 255 / 0.2);
   --sh-line: #e1e7ef;
   --sh-div: #edf1f6;
   --sh-in: #cfd8e4;
