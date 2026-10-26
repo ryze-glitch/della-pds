@@ -23,7 +23,7 @@ export function GoogleGate({ clientId, onLogin }) {
         auto_select: false,
         cancel_on_tap_outside: true,
       });
-      window.google.accounts.id.renderButton(ref.current, { theme: 'filled_black', size: 'large', shape: 'pill', text: 'continue_with', locale: 'it', width: 280 });
+      window.google.accounts.id.renderButton(ref.current, { theme: 'outline', size: 'large', shape: 'pill', text: 'continue_with', locale: 'it', width: 280 });
     }
     if (window.google && window.google.accounts) init();
     else {
@@ -45,15 +45,15 @@ export function GoogleGate({ clientId, onLogin }) {
   }, [clientId, onLogin]);
 
   return (
-    <div className="rounded-[20px] border border-[#242d3b] p-7 text-center sm:p-10">
-      <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#0f3947] text-[#3fc4d6]">
+    <div className="sh-card rounded-[20px] border border-[color:var(--sh-line)] p-7 text-center sm:p-10">
+      <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[color:var(--sh-soft)] text-[color:var(--sh-acc)]">
         <Icon name="user" size={26} strokeWidth={1.5} />
       </span>
       <h2 className="mt-5 text-xl font-medium">Accedi per continuare</h2>
       <p className="mx-auto mt-2 max-w-md text-[15px] leading-relaxed text-muted">
         Per presentare una richiesta devi accedere con il tuo account Google. L’accesso avviene direttamente su <strong className="font-medium text-fg">accounts.google.com</strong>: il sito non vede la tua password.
       </p>
-      <div ref={ref} className="mt-6 flex min-h-[44px] justify-center" />
+      <div ref={ref} style={{ colorScheme: 'light' }} className="mt-6 flex min-h-[44px] justify-center" />
       {err ? <p className="mt-4 text-sm text-bad">{err}</p> : null}
       <p className="mx-auto mt-6 max-w-md text-xs leading-relaxed text-muted">Nome ed e-mail dell’account vengono inviati alla Questura insieme alla richiesta, per identificare chi la presenta.</p>
     </div>

@@ -21,11 +21,74 @@
   --ok: 52 209 127;
   --bad: 255 107 125;
   --warn: 245 180 70;
+
+  /* Guscio dei portali (sidebar + barra): variabili dedicate, cambiano col tema */
+  --sh-page: #141a24;
+  --sh-bar: #121821;
+  --sh-side: #0f1722;
+  --sh-side-line: #1d2735;
+  --sh-active: #17505e;
+  --sh-line: #242d3b;
+  --sh-div: #1e2735;
+  --sh-in: #2a3341;
+  --sh-soft: #0f3947;
+  --sh-acc: #3fc4d6;
+  --sh-sec: #c9d2e0;
+  --sh-card: transparent;
+  --sh-shadow: none;
+  --tn-blue: #1c3158; --tn-amber: #3a3016; --tn-violet: #2b2550; --tn-green: #173a28; --tn-red: #3d1d24;
+  --tt-blue: #7ea4ee; --tt-amber: #f5b946; --tt-violet: #b7a0ff; --tt-green: #4ade80; --tt-red: #ff8a98;
 }
 
 html {
   font-size: 90%;
 }
+
+
+/* Tema chiaro (stile registro): barra bianca, sidebar blu, sfondo grigio chiaro, card bianche */
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: 241 244 249;
+  --surface: 255 255 255;
+  --surface2: 236 241 247;
+  --fg: 22 33 52;
+  --muted: 92 108 130;
+  --line: 224 230 238;
+  --primary: 21 130 152;
+  --primary-fg: 255 255 255;
+  --link: 14 130 152;
+  --gold: 21 130 152;
+  --gold-soft: 223 243 246;
+  --gold-ink: 14 120 140;
+  --ok: 22 120 70;
+  --bad: 200 40 55;
+  --warn: 170 100 10;
+  --sh-page: #f1f4f9;
+  --sh-bar: #ffffff;
+  --sh-side: #2d5394;
+  --sh-side-line: #27487f;
+  --sh-active: rgb(255 255 255 / 0.2);
+  --sh-line: #e1e7ef;
+  --sh-div: #edf1f6;
+  --sh-in: #cfd8e4;
+  --sh-soft: #dff3f6;
+  --sh-acc: #0e8199;
+  --sh-sec: #566a82;
+  --sh-card: #ffffff;
+  --sh-shadow: 0 1px 2px rgba(20, 45, 90, 0.06), 0 8px 24px -10px rgba(20, 45, 90, 0.14);
+  --tn-blue: #dbeafe; --tn-amber: #fdf1d3; --tn-violet: #ece7ff; --tn-green: #dcf5e6; --tn-red: #fde1e5;
+  --tt-blue: #1d58b8; --tt-amber: #946000; --tt-violet: #5a3fc0; --tt-green: #15803d; --tt-red: #c02840;
+}
+.sh-card { background: var(--sh-card); box-shadow: var(--sh-shadow); }
+:root[data-theme='light'] body { background: var(--sh-page); }
+/* nel tema chiaro i velature "bianche" del contenuto diventano scure */
+:root[data-theme='light'] .shell-main .hover\:bg-white\/5:hover { background: rgb(15 40 80 / 0.06); }
+:root[data-theme='light'] .shell-main .hover\:bg-white\/10:hover { background: rgb(15 40 80 / 0.09); }
+:root[data-theme='light'] .shell-main .border-white\/25 { border-color: rgb(15 40 80 / 0.22); }
+:root[data-theme='light'] .shell-main .hover\:border-white\/60:hover { border-color: rgb(15 40 80 / 0.5); }
+:root[data-theme='light'] .shell-main .hover\:border-white\/40:hover { border-color: rgb(15 40 80 / 0.4); }
+:root[data-theme='light'] .shell-main .bg-white\/5 { background: rgb(15 40 80 / 0.05); }
+:root[data-theme='light'] .shell-main .text-white\/75 { color: rgb(var(--fg) / 0.75); }
 
 body {
   background: rgb(var(--bg));
@@ -63,7 +126,7 @@ body {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }
 }
-.page-enter { animation: page-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.page-enter { animation: page-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
 
 .rv { transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms); }
 .js .rv:not(.is-in) { opacity: 0; transform: translateY(34px); }
@@ -80,13 +143,13 @@ body {
   from { opacity: 0; transform: translateY(28px); }
   to { opacity: 1; transform: none; }
 }
-.hero-in { animation: rise 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: var(--d, 0ms); }
+.hero-in { animation: rise 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; animation-delay: var(--d, 0ms); }
 
 @keyframes kenburns {
   from { transform: scale(1.07); }
   to { transform: scale(1); }
 }
-.kb { animation: kenburns 2s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.kb { animation: kenburns 2s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
 
 @keyframes line-grow {
   from { transform: scaleX(0); }
