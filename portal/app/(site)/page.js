@@ -128,17 +128,6 @@ export default function HomePage() {
             </ul>
           </Widget>
 
-          <a href="https://t.me/sitepdsbot" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 rounded-[20px] border border-[#242d3b] p-5 transition hover:bg-white/[0.03]">
-            <span className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-[#0f3947] text-[#17a8bd]">
-              <Icon name="send" size={22} strokeWidth={1.5} />
-            </span>
-            <span className="flex-1">
-              <span className="block text-[17px] font-medium">Bot Telegram</span>
-              <span className="block text-[13px] text-muted">Apri @sitepdsbot su Telegram</span>
-            </span>
-            <Icon name="external" size={17} className="text-muted transition group-hover:text-fg" />
-          </a>
-
           <Link href="/reclutamento" className="group relative block overflow-hidden rounded-[20px] border border-[#242d3b]">
             <img src="/assets/hero-slide-2.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '30% 60%' }} />
             <div className="absolute inset-0 bg-gradient-to-r from-[#141a24] via-[#141a24]/85 to-[#141a24]/30" />
