@@ -10,11 +10,11 @@ const ITEMS = [
   { href: '/dashboard', label: 'Home', icon: 'dashboard' },
   { href: '/pratiche', label: 'Pratiche', icon: 'file-text' },
   { href: '/candidature', label: 'Candidature', icon: 'clipboard' },
+  { href: '/comunicati', label: 'Comunicati', icon: 'megaphone' },
 ];
 
 const SITE = [
   { href: '/organigramma', label: 'Organigramma', icon: 'users' },
-  { href: '/notizie', label: 'Comunicati', icon: 'news' },
   { href: '/', label: 'Torna al sito', icon: 'landmark' },
 ];
 

@@ -96,13 +96,15 @@ export function CitizenShell({ children }) {
           <hr className={`my-2 border-[#242d3b] ${collapsed ? 'lg:w-10' : ''}`} />
           {item(AREA)}
         </nav>
-        <div
-          title={collapsed ? `Centrale Operativa: ${st.centrale}` : undefined}
-          className={`m-3 flex h-12 flex-none items-center justify-center gap-2.5 whitespace-nowrap rounded-full bg-[#17a8bd] text-[13px] font-medium text-[#04222a] ${collapsed ? 'lg:mx-auto lg:w-12' : ''}`}
-        >
-          <Icon name="radio" size={18} />
-          <span className={collapsed ? 'lg:hidden' : ''}>Centrale · {st.centrale}</span>
-        </div>
+        {st.centrale ? (
+          <div
+            title={collapsed ? `Centrale Operativa: ${st.centrale}` : undefined}
+            className={`m-3 flex h-12 flex-none items-center justify-center gap-2.5 whitespace-nowrap rounded-full bg-[#17a8bd] text-[13px] font-medium text-[#04222a] ${collapsed ? 'lg:mx-auto lg:w-12' : ''}`}
+          >
+            <Icon name="radio" size={18} />
+            <span className={collapsed ? 'lg:hidden' : ''}>Centrale · {st.centrale}</span>
+          </div>
+        ) : null}
       </aside>
       {open ? <button aria-label="Chiudi il menu" className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setOpen(false)} /> : null}
 
@@ -113,19 +115,21 @@ export function CitizenShell({ children }) {
           </button>
           <span className="truncate text-[14.5px] font-medium">Sportello Telematico</span>
           <span className="flex-1" />
-          <div className="hidden text-[13px] leading-snug text-[#c9d2e0] md:block">
-            <div>Questura IPRP</div>
-            <div className="flex items-center gap-2">
-              <span className={`h-2 w-2 rounded-full ${st.centraleOk ? 'bg-[#34d17f]' : 'bg-[#ff6b7d]'}`} /> Centrale Operativa: {st.centrale}
+          {st.centrale || st.sportello ? (
+            <div className="hidden text-[13px] leading-snug text-[#c9d2e0] md:block">
+              <div>Questura IPRP</div>
+              {st.centrale ? (
+                <div className="flex items-center gap-2">
+                  <span className={`h-2 w-2 rounded-full ${st.centraleOk ? 'bg-[#34d17f]' : 'bg-[#ff6b7d]'}`} /> Centrale Operativa: {st.centrale}
+                </div>
+              ) : null}
+              {st.sportello ? (
+                <div className="flex items-center gap-2">
+                  <span className={`h-2 w-2 rounded-full ${st.sportelloOk ? 'bg-[#34d17f]' : 'bg-[#ff6b7d]'}`} /> Sportello: {st.sportello.toLowerCase()}
+                </div>
+              ) : null}
             </div>
-          </div>
-          <span className="hidden h-10 w-px bg-[#242d3b] md:block" />
-          <div className="hidden text-[13px] leading-snug text-[#c9d2e0] lg:block">
-            <div>Cittadino (ospite)</div>
-            <div className="flex items-center gap-2">
-              <span className={`h-2 w-2 rounded-full ${st.sportelloOk ? 'bg-[#34d17f]' : 'bg-[#ff6b7d]'}`} /> Sportello {st.sportello.toLowerCase()}
-            </div>
-          </div>
+          ) : null}
           <Link href="/sportello/pratica" aria-label="Le mie pratiche" className="flex h-[46px] w-[46px] flex-none items-center justify-center rounded-full bg-[#12b3c4] text-[#04222a] transition hover:brightness-110">
             <Icon name="user" size={22} />
           </Link>
