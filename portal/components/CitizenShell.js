@@ -19,6 +19,7 @@ const INFO = [
   { href: '/organigramma', label: 'Organigramma', icon: 'users' },
 ];
 const AREA = { href: '/login', label: 'Area Agenti', icon: 'lock' };
+const TELEGRAM = 'https://t.me/sitepdsbot';
 const KEY = 'pds-sidebar';
 
 // Guscio del sito per i cittadini: sidebar comprimibile + barra superiore, stile registro.
@@ -94,6 +95,17 @@ export function CitizenShell({ children }) {
           <hr className={`my-2 border-[#242d3b] ${collapsed ? 'lg:w-10' : ''}`} />
           {INFO.map(item)}
           <hr className={`my-2 border-[#242d3b] ${collapsed ? 'lg:w-10' : ''}`} />
+          <a
+            href={TELEGRAM}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={collapsed ? 'Bot Telegram' : undefined}
+            aria-label="Bot Telegram (si apre in una nuova scheda)"
+            className={`flex h-12 items-center gap-4 rounded-full px-4 text-[15px] text-fg transition-colors hover:bg-white/5 ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''}`}
+          >
+            <Icon name="send" size={22} strokeWidth={1.5} className="flex-none" />
+            <span className={collapsed ? 'lg:hidden' : ''}>Bot Telegram</span>
+          </a>
           {item(AREA)}
         </nav>
         <div

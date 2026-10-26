@@ -8,8 +8,9 @@ Il sito online è servito da una sola cartella, scelta da `hosting.public` in `f
 | `coming-soon/` | pagina semplice "Sito in Arrivo a Breve..." (file caricato dal proprietario) |
 | `site/`        | export statico del sito completo (da `portal/out`)     |
 
-Ora è attiva la pagina **"Sito in Arrivo a Breve..."** (`"public": "coming-soon"`, con rewrite di ogni URL su `/index.html`).
-Per tornare alla schermata di manutenzione Next imposta `"public": "maintenance"`.
+Ora è online il **sito completo** (`"public": "site"`).
+Per metterlo in pausa imposta `"public": "coming-soon"` (o `"maintenance"`) e aggiungi sotto `hosting` il blocco
+`"rewrites": [{ "source": "**", "destination": "/index.html" }]`, togliendo i `redirects`.
 
 ## Rimettere online il sito completo
 

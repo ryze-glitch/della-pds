@@ -12,3 +12,7 @@ ALLOWED_ORIGINS = "https://polizia-iprp.web.app,https://polizia-iprp.firebaseapp
 #   DISCORD_WEBHOOK_COLLOQUI  URL webhook del canale colloqui
 # Facoltativi (ID ruolo da taggare nell'embed):
 #   DISCORD_ROLE_DENUNCE, DISCORD_ROLE_PDA, DISCORD_ROLE_COLLOQUI
+
+# Telegram (facoltativo): le pratiche vengono inoltrate anche al bot @sitepdsbot.
+#   TELEGRAM_BOT_TOKEN   token del bot (da @BotFather)
+#   TELEGRAM_CHAT_ID     ID della chat/gruppo/canale che riceve le pratiche
