@@ -202,7 +202,7 @@ export default function CandidaturePage() {
     <Container className="py-10 md:py-14">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-[25px] font-normal">Gestione candidature</h1>
+          <h1 className="text-[22.5px] font-normal">Gestione candidature</h1>
           <p className="mt-1 text-sm text-[#c9d2e0]">Valuta le candidature al reclutamento.</p>
         </div>
         <Badge tone="blue">{loaded ? `${candidates.length} ${candidates.length === 1 ? 'candidatura' : 'candidature'}` : 'Caricamento…'}</Badge>
@@ -218,7 +218,7 @@ export default function CandidaturePage() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Cerca per nome, cognome o ID Discord..."
             autoComplete="off"
-            className="w-full bg-transparent text-[15px] outline-none placeholder:text-muted"
+            className="w-full bg-transparent text-[13.5px] outline-none placeholder:text-muted"
           />
         </label>
 

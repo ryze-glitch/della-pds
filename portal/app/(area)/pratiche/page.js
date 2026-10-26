@@ -48,7 +48,7 @@ function Row({ p, agent, onSaved }) {
     <li className="px-5 py-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <div className="font-mono text-[15px] font-semibold tracking-wide text-primary">#{p.id}</div>
+          <div className="font-mono text-[13.5px] font-semibold tracking-wide text-primary">#{p.id}</div>
           <div className="text-xs text-muted">
             {TIPI_PRATICA[p.tipo] || p.tipo} · {fmt(p.creatoIl)}
           </div>
@@ -106,7 +106,7 @@ export default function PratichePage() {
 
   return (
     <Container className="py-10 md:py-14">
-      <h1 className="text-[25px] font-normal">Gestione pratiche</h1>
+      <h1 className="text-[22.5px] font-normal">Gestione pratiche</h1>
       <p className="mt-1 max-w-2xl text-sm text-[#c9d2e0]">Aggiorna lo stato delle pratiche dello Sportello. I dettagli di ogni richiesta sono nei canali Discord della fazione.</p>
 
       <div className="mt-7 flex flex-col gap-3 sm:flex-row">

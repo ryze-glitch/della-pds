@@ -20,7 +20,7 @@ export function Checklist({ title, items, icon = 'check-circle' }) {
   return (
     <div className="px-1">
       <h2 className="text-sm font-medium uppercase tracking-[0.14em] text-muted">{title}</h2>
-      <ul className="mt-3 space-y-2.5 text-[15px] text-fg/90">
+      <ul className="mt-3 space-y-2.5 text-[13.5px] text-fg/90">
         {items.map((t) => (
           <li key={t} className="flex gap-2.5">
             <Icon name={icon} size={17} className="mt-1 flex-none text-link" />

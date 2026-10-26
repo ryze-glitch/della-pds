@@ -33,7 +33,7 @@ function Field({ field, value, error, onChange, onBlur }) {
   if (field.type === 'checkbox') {
     return (
       <div className="sm:col-span-2">
-        <label className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-3.5 text-[15px] leading-snug transition ${error ? 'border-bad bg-bad/5' : 'border-line hover:bg-surface2'}`}>
+        <label className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-3.5 text-[13.5px] leading-snug transition ${error ? 'border-bad bg-bad/5' : 'border-line hover:bg-surface2'}`}>
           <input
             {...common}
             type="checkbox"
@@ -72,7 +72,7 @@ function Field({ field, value, error, onChange, onBlur }) {
                 onChange(field, o);
                 onBlur(field, o);
               }}
-              className={`rounded-full border px-5 py-2.5 text-[14.5px] font-medium transition ${on ? 'border-primary bg-primary/15 text-link' : 'border-line text-fg hover:border-white/40'}`}
+              className={`rounded-full border px-5 py-2.5 text-[13.1px] font-medium transition ${on ? 'border-primary bg-primary/15 text-link' : 'border-line text-fg hover:border-white/40'}`}
             >
               {o}
             </button>
@@ -130,7 +130,7 @@ function Field({ field, value, error, onChange, onBlur }) {
       <div className="mt-1.5 flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           {field.hint ? (
-            <p id={`${id}-hint`} className="text-[13px] leading-snug text-muted">
+            <p id={`${id}-hint`} className="text-[11.7px] leading-snug text-muted">
               {field.hint}
             </p>
           ) : null}
@@ -168,7 +168,7 @@ function Receipt({ form, code, onReset }) {
         <div className="flex items-center gap-4 border-b border-line pb-5">
           <img src="/assets/crest-md.png" alt="" className="h-14 w-auto" />
           <div className="leading-tight">
-            <div className="text-[13px] font-semibold uppercase tracking-[0.14em]">Questura IPRP</div>
+            <div className="text-[11.7px] font-semibold uppercase tracking-[0.14em]">Questura IPRP</div>
             <div className="text-xs text-muted">Ricevuta di presentazione</div>
           </div>
           <span className="ml-auto flex h-10 w-10 items-center justify-center rounded-full bg-ok/15 text-ok">
@@ -177,7 +177,7 @@ function Receipt({ form, code, onReset }) {
         </div>
         <div className="pt-6 text-sm text-muted">Codice pratica</div>
         <div className="mt-1 select-all break-all font-mono text-3xl font-semibold tracking-wider text-fg sm:text-4xl">#{code}</div>
-        <dl className="mt-6 divide-y divide-line border-y border-line text-[15px]">
+        <dl className="mt-6 divide-y divide-line border-y border-line text-[13.5px]">
           <div className="flex justify-between gap-4 py-3">
             <dt className="text-muted">Pratica</dt>
             <dd className="font-medium">{form.title}</dd>
@@ -400,7 +400,7 @@ export function SportelloForm({ formId }) {
               {recap.map((f) => (
                 <div key={f.name} className="grid gap-1 py-3 sm:grid-cols-[220px_1fr] sm:gap-5">
                   <dt className="text-sm text-muted">{f.label.replace(/ — facoltativo| \(facoltativo\)/, '')}</dt>
-                  <dd className="whitespace-pre-line break-words text-[15px]">{fmtValue(f, values[f.name])}</dd>
+                  <dd className="whitespace-pre-line break-words text-[13.5px]">{fmtValue(f, values[f.name])}</dd>
                 </div>
               ))}
             </dl>

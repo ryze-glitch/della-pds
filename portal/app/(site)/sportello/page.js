@@ -29,11 +29,11 @@ export default function SportelloPage() {
                 <IconTile name={s.icon} className="!h-12 !w-12" />
                 <div>
                   <h2 className="text-xl font-semibold">{s.title}</h2>
-                  <p className="mt-1 text-[15px] text-muted">{s.text}</p>
+                  <p className="mt-1 text-[13.5px] text-muted">{s.text}</p>
                 </div>
                 <div>
                   <div className="text-xs font-medium uppercase tracking-[0.14em] text-muted">Cosa serve</div>
-                  <p className="mt-1 text-[14.5px] leading-relaxed text-fg/85">{SERVE[s.href]}</p>
+                  <p className="mt-1 text-[13.1px] leading-relaxed text-fg/85">{SERVE[s.href]}</p>
                 </div>
                 <Icon name="arrow-right" size={20} className="hidden text-muted transition-transform group-hover:translate-x-1 md:block" />
               </Link>

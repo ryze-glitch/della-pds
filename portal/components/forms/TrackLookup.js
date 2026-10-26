@@ -54,7 +54,7 @@ function Result({ code, pratica }) {
           })}
         </ol>
 
-        <p className="mt-6 flex items-start gap-2 text-[15px] leading-relaxed">
+        <p className="mt-6 flex items-start gap-2 text-[13.5px] leading-relaxed">
           <Icon name="info" size={18} className="mt-0.5 flex-none text-link" /> {st.text}
         </p>
 

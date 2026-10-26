@@ -20,7 +20,7 @@ export default function OrganigrammaPage() {
             <Icon name="crown" size={30} className="flex-none text-gold-ink" />
             <div>
               <div className="text-xl font-semibold">Questore</div>
-              <p className="text-[15px] text-muted">Al vertice della Questura: definisce le strategie e coordina i sei reparti operativi.</p>
+              <p className="text-[13.5px] text-muted">Al vertice della Questura: definisce le strategie e coordina i sei reparti operativi.</p>
             </div>
           </div>
         </Reveal>
@@ -34,7 +34,7 @@ export default function OrganigrammaPage() {
                 <div>
                   <div className="text-xs font-medium uppercase tracking-[0.14em] text-gold-ink">{d.tag}</div>
                   <h3 className="mt-0.5 text-lg font-semibold leading-snug">{d.name}</h3>
-                  <p className="mt-1.5 text-[15px] leading-relaxed text-muted">{d.text}</p>
+                  <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">{d.text}</p>
                 </div>
               </div>
             </Reveal>
@@ -54,7 +54,7 @@ export default function OrganigrammaPage() {
                     <h3 className="font-semibold">{name}</h3>
                     {n === GRADI.length ? <Badge tone="gold">Vertice</Badge> : null}
                   </div>
-                  <p className="mt-0.5 text-[15px] leading-relaxed text-muted">{text}</p>
+                  <p className="mt-0.5 text-[13.5px] leading-relaxed text-muted">{text}</p>
                 </div>
               </li>
             );

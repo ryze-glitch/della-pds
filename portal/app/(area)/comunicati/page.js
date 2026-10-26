@@ -80,7 +80,7 @@ export default function ComunicatiAgentiPage() {
 
   return (
     <div className="px-5 py-7 sm:px-8">
-      <h1 className="text-[25px] font-normal">Comunicati</h1>
+      <h1 className="text-[22.5px] font-normal">Comunicati</h1>
       <p className="mt-1 max-w-2xl text-sm text-[#c9d2e0]">I comunicati pubblicati compaiono nella bacheca e nella pagina Comunicati del sito. Se non ce n'è nessuno, il sito non mostra nulla.</p>
 
       <div className="mt-7 grid items-start gap-6 lg:grid-cols-[1fr_1.2fr]">

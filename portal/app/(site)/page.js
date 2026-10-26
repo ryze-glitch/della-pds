@@ -22,7 +22,7 @@ const PASSI = [
 export default function HomePage() {
   return (
     <div className="px-5 py-7 sm:px-8">
-      <h1 className="text-[25px] font-normal">Home</h1>
+      <h1 className="text-[22.5px] font-normal">Home</h1>
 
       {/* banner con la foto della Questura */}
       <section className="hero-in relative mt-5 overflow-hidden rounded-[20px] border border-[#242d3b]">
@@ -31,12 +31,12 @@ export default function HomePage() {
         <div className="relative px-7 py-9 sm:px-10 sm:py-12">
           <div className="text-xs font-medium uppercase tracking-[0.2em] text-[#17a8bd]">Italian Paradise XI · Questura</div>
           <h2 className="mt-3 max-w-xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">Lo sportello della Polizia di Stato, online.</h2>
-          <p className="mt-3 max-w-lg text-[16px] text-white/80">Denunce, porto d’armi e colloqui con i dirigenti. Ogni pratica ha un codice e uno stato sempre consultabile.</p>
+          <p className="mt-3 max-w-lg text-[14.4px] text-white/80">Denunce, porto d’armi e colloqui con i dirigenti. Ogni pratica ha un codice e uno stato sempre consultabile.</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/sportello/denuncia" className="inline-flex h-12 items-center gap-2 rounded-full bg-[#17a8bd] px-6 text-[15px] font-semibold text-[#04222a] transition hover:brightness-110">
+            <Link href="/sportello/denuncia" className="inline-flex h-12 items-center gap-2 rounded-full bg-[#17a8bd] px-6 text-[13.5px] font-semibold text-[#04222a] transition hover:brightness-110">
               Presenta una denuncia <Icon name="arrow-right" size={17} />
             </Link>
-            <Link href="/sportello/porto-darmi" className="inline-flex h-12 items-center rounded-full border border-white/40 bg-[#141a24]/40 px-6 text-[15px] font-medium backdrop-blur-sm transition hover:bg-white/10">
+            <Link href="/sportello/porto-darmi" className="inline-flex h-12 items-center rounded-full border border-white/40 bg-[#141a24]/40 px-6 text-[13.5px] font-medium backdrop-blur-sm transition hover:bg-white/10">
               Richiedi porto d’armi
             </Link>
           </div>
@@ -54,8 +54,8 @@ export default function HomePage() {
                       <Icon name={icon} size={21} strokeWidth={1.5} />
                     </span>
                     <span className="flex-1">
-                      <span className="block text-[16px] font-medium">{title}</span>
-                      <span className="block text-[13px] text-muted">{text}</span>
+                      <span className="block text-[14.4px] font-medium">{title}</span>
+                      <span className="block text-[11.7px] text-muted">{text}</span>
                     </span>
                     <Icon name="chevron" size={18} className="text-muted transition-transform group-hover:translate-x-0.5" />
                   </Link>
@@ -83,7 +83,7 @@ export default function HomePage() {
                   <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#0f3947] font-semibold text-[#17a8bd]">{n}</span>
                   <div>
                     <div className="font-medium">{t}</div>
-                    <p className="text-[13.5px] text-muted">{d}</p>
+                    <p className="text-[12.2px] text-muted">{d}</p>
                   </div>
                 </li>
               ))}
@@ -98,7 +98,7 @@ export default function HomePage() {
                     <Icon name={d.icon} size={17} strokeWidth={1.6} />
                   </span>
                   <span className="min-w-0">
-                    <span className="block truncate text-[15px]">{d.name}</span>
+                    <span className="block truncate text-[13.5px]">{d.name}</span>
                     <span className="block truncate text-xs text-muted">{d.tag}</span>
                   </span>
                 </li>
