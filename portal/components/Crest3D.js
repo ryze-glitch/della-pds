@@ -178,12 +178,7 @@ export function Crest3D({ className = '', fallbackClass = 'h-full w-auto', glow 
 
   return (
     <div ref={host} className={className}>
-      {glow ? (
-        <>
-          <div aria-hidden="true" className="absolute -inset-[18%] rounded-full bg-[radial-gradient(closest-side,rgba(12,18,28,0.82),transparent)]" />
-          <div aria-hidden="true" className="absolute inset-[10%] rounded-full bg-[radial-gradient(closest-side,rgba(23,168,189,0.22),transparent)] blur-2xl" />
-        </>
-      ) : null}
+
       <img
         src="/assets/crest.png"
         alt="Stemma della Polizia di Stato"

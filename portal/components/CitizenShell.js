@@ -118,7 +118,7 @@ export function CitizenShell({ children }) {
               onClick={() => setLoginOpen(true)}
               title={collapsed ? 'Accedi' : undefined}
               aria-label="Accedi con Google"
-              className={`flex h-12 w-full items-center justify-center gap-2.5 rounded-full bg-[#17a8bd] text-[14px] font-semibold text-[#04222a] shadow-[0_0_24px_rgba(23,168,189,0.45)] transition hover:brightness-110 ${collapsed ? 'lg:w-12' : ''}`}
+              className={`flex h-12 w-full items-center justify-center gap-2.5 rounded-full bg-[#17a8bd] text-[14px] font-semibold text-[#04222a] transition hover:brightness-110 ${collapsed ? 'lg:w-12' : ''}`}
             >
               <Icon name="user" size={19} className="flex-none" />
               <span className={collapsed ? 'lg:hidden' : ''}>Accedi con Google</span>
@@ -165,7 +165,7 @@ export function CitizenShell({ children }) {
               {user.picture ? <img src={user.picture} alt="" referrerPolicy="no-referrer" className="h-full w-full object-cover" /> : <span className="text-sm font-semibold">{(user.name || user.email || '?').slice(0, 1).toUpperCase()}</span>}
             </Link>
           ) : (
-            <button type="button" onClick={() => setLoginOpen(true)} className="flex h-[43px] flex-none items-center gap-2 rounded-full bg-[#17a8bd] px-6 text-[14px] font-semibold text-[#04222a] shadow-[0_0_24px_rgba(23,168,189,0.45)] transition hover:brightness-110">
+            <button type="button" onClick={() => setLoginOpen(true)} className="flex h-[43px] flex-none items-center gap-2 rounded-full bg-[#17a8bd] px-6 text-[14px] font-semibold text-[#04222a] transition hover:brightness-110">
               <Icon name="user" size={18} /> Accedi
             </button>
           )}

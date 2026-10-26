@@ -79,7 +79,21 @@ export default function HomePage() {
       <div className="mt-5 grid items-start gap-5 md:grid-cols-[repeat(auto-fit,minmax(340px,1fr))]">
         <HomePratiche />
 
-        <Bacheca />
+        <div className="space-y-5">
+          <Bacheca />
+          <Link href="/reclutamento" className="group relative block overflow-hidden sh-card rounded-[20px] border border-[color:var(--sh-line)]">
+            <img src="/assets/hero-slide-2.webp" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '30% 60%' }} />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#141a24] via-[#141a24]/85 to-[#141a24]/30" />
+            <div className="relative p-6">
+              <div className="text-xs font-medium uppercase tracking-[0.18em] text-[#3fc4d6]">Reclutamento</div>
+              <div className="mt-2 text-xl font-semibold text-white">Entra nella Polizia di Stato</div>
+              <p className="mt-1 text-sm text-white/75">Selezioni sempre aperte.</p>
+              <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#3fc4d6]">
+                Scopri i bandi <Icon name="arrow-right" size={15} className="transition-transform group-hover:translate-x-1" />
+              </span>
+            </div>
+          </Link>
+        </div>
 
         <div className="space-y-5">
           <Widget icon="clipboard" title="Come funziona">
@@ -111,19 +125,6 @@ export default function HomePage() {
               ))}
             </ul>
           </Widget>
-
-          <Link href="/reclutamento" className="group relative block overflow-hidden sh-card rounded-[20px] border border-[color:var(--sh-line)]">
-            <img src="/assets/hero-slide-2.webp" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '30% 60%' }} />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#141a24] via-[#141a24]/85 to-[#141a24]/30" />
-            <div className="relative p-6">
-              <div className="text-xs font-medium uppercase tracking-[0.18em] text-[#3fc4d6]">Reclutamento</div>
-              <div className="mt-2 text-xl font-semibold text-white">Entra nella Polizia di Stato</div>
-              <p className="mt-1 text-sm text-white/75">Selezioni sempre aperte.</p>
-              <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#3fc4d6]">
-                Scopri i bandi <Icon name="arrow-right" size={15} className="transition-transform group-hover:translate-x-1" />
-              </span>
-            </div>
-          </Link>
         </div>
       </div>
     </div>
