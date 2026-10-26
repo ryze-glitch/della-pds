@@ -3,27 +3,10 @@
 import { useMemo } from 'react';
 import Link from 'next/link';
 import { Icon } from './icons';
+import { Widget } from './Widget';
 import { COMUNICATI, STATI, TIPI_PRATICA } from '../lib/data';
 
 const BORDER = 'border-[#242d3b]';
-
-function Widget({ icon, title, href, children, className = '' }) {
-  return (
-    <section className={`rounded-[20px] border ${BORDER} p-6 ${className}`}>
-      <div className={`flex items-center justify-between border-b ${BORDER} pb-4`}>
-        <h2 className="flex items-center gap-3.5 text-[21px] font-medium">
-          <Icon name={icon} size={28} strokeWidth={1.3} className="text-[#17a8bd]" /> {title}
-        </h2>
-        {href ? (
-          <Link href={href} aria-label={`Apri ${title}`} className="text-fg transition hover:text-[#17a8bd]">
-            <Icon name="chevron" size={22} />
-          </Link>
-        ) : null}
-      </div>
-      {children}
-    </section>
-  );
-}
 
 function Ring({ value, label }) {
   const r = 52;

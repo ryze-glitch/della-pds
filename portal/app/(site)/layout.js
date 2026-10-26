@@ -1,12 +1,5 @@
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
+import { CitizenShell } from '../../components/CitizenShell';
 
 export default function SiteLayout({ children }) {
-  return (
-    <>
-      <Header />
-      <main id="main">{children}</main>
-      <Footer />
-    </>
-  );
+  return <CitizenShell>{children}</CitizenShell>;
 }

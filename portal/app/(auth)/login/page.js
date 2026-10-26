@@ -69,7 +69,10 @@ export default function LoginPage() {
   }
 
   return (
-    <Container className="flex min-h-[70vh] items-center justify-center pb-14 pt-32">
+    <Container className="relative flex min-h-screen items-center justify-center py-14">
+      <a href="/" className="absolute left-4 top-6 inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm text-muted transition hover:text-fg sm:left-8">
+        ← Torna al sito
+      </a>
       <div className="w-full max-w-md overflow-hidden rounded-2xl border border-line bg-surface ">
         <div className="gold-rule" />
         <div className="p-7 text-center sm:p-9">

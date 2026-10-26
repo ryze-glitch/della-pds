@@ -6,6 +6,7 @@ import { Icon } from '../icons';
 import { Btn, Notice } from '../ui';
 import { FORMS, emptyValues, isVisible, validate, validateField } from '../../lib/forms';
 import { inviaPratica, SubmitError } from '../../lib/sportello';
+import { savePratica } from '../../lib/miePratiche';
 
 function pad(n) {
   return String(n).padStart(2, '0');
@@ -334,6 +335,7 @@ export function SportelloForm({ formId }) {
     setSending(true);
     try {
       const data = await inviaPratica(formId, { ...values, website: formRef.current.elements.website.value });
+      savePratica(data.code, formId);
       setCode(data.code);
       setTimeout(focusTop, 30);
     } catch (err) {

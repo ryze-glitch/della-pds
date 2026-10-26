@@ -1,157 +1,147 @@
 import Link from 'next/link';
-import { Btn, Container, Eyebrow } from '../../components/ui';
 import { Icon } from '../../components/icons';
-import { Reveal } from '../../components/Reveal';
-import { Crest3D } from '../../components/Crest3D';
+import { MiePratiche } from '../../components/MiePratiche';
+import { Widget } from '../../components/Widget';
 import { HeroTrack } from '../../components/forms/HeroTrack';
-import { COMUNICATI, DEPTS, SERVIZI } from '../../lib/data';
+import { COMUNICATI, DEPTS } from '../../lib/data';
 
-const TIPO_COLOR = { Ordinanza: 'text-link', Allerta: 'text-bad', Comunicato: 'text-gold-ink' };
+const SERVIZI = [
+  ['file-text', 'Denuncia online', 'Furto, rapina, aggressione, truffa', '/sportello/denuncia'],
+  ['shield-check', "Porto d'armi (PDA)", 'Nuovo, rinnovo, uso sportivo', '/sportello/porto-darmi'],
+  ['calendar-check', 'Colloquio con i dirigenti', 'Prenota un appuntamento', '/sportello/colloquio'],
+  ['search', 'Stato della pratica', 'Verifica con il codice', '/sportello/pratica'],
+];
 
 const PASSI = [
   ['1', 'Compila il modulo', 'Scegli il servizio e inserisci i dati richiesti.'],
-  ['2', 'Ricevi il codice', 'Ottieni un codice pratica e la ricevuta stampabile.'],
-  ['3', 'Segui la pratica', 'Controlla lo stato quando vuoi, anche da qui.'],
+  ['2', 'Ricevi il codice', 'Ottieni un codice pratica e la ricevuta.'],
+  ['3', 'Segui la pratica', 'Controlla lo stato quando vuoi.'],
 ];
 
-function fmtData(iso) {
-  return new Date(iso + 'T12:00:00').toLocaleDateString('it-IT', { day: '2-digit', month: 'short' }).replace('.', '');
+function fmt(iso) {
+  return new Date(iso + 'T12:00:00').toLocaleDateString('it-IT', { day: '2-digit', month: 'short' });
 }
 
 export default function HomePage() {
-  const dock = SERVIZI.slice(0, 3);
   return (
-    <>
-      <section className="relative">
-        <div className="absolute inset-0 overflow-hidden">
-          <img src="/assets/hero-slide-1.jpg" alt="" className="kb h-full w-full object-cover" style={{ objectPosition: '55% 70%' }} />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-bg/70 via-transparent to-bg" />
-        <div className="absolute inset-0 bg-gradient-to-r from-bg/80 via-bg/10 to-transparent" style={{ backgroundSize: '70% 100%', backgroundRepeat: 'no-repeat' }} />
-        <div className="pointer-events-none absolute inset-0 z-[1] hidden lg:block">
-          <div className="mx-auto h-full max-w-page px-8">
-            <div className="relative h-full">
-              <Crest3D className="hero-in absolute right-[3%] top-[19%] h-[400px] w-[320px]" fallbackClass="h-[330px] w-auto" />
-            </div>
-          </div>
-        </div>
-        <Container className="relative z-10 pt-32 lg:pt-36">
-          <Eyebrow className="hero-in">Italian Paradise XI · Questura</Eyebrow>
-          <h1 style={{ '--d': '140ms' }} className="hero-in mt-4 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem]">
-            Lo sportello della Polizia di Stato, online.
-          </h1>
-          <p style={{ '--d': '300ms' }} className="hero-in mt-5 max-w-xl text-lg leading-relaxed text-white/80">
-            Denunce, porto d’armi e colloqui con i dirigenti. Ogni pratica ha un codice e uno stato sempre consultabile.
-          </p>
-          <div style={{ '--d': '460ms' }} className="hero-in mt-8 flex flex-wrap gap-3">
-            <Btn as={Link} href="/sportello/denuncia" variant="light" size="lg" icon="arrow-right">
-              Presenta una denuncia
-            </Btn>
-            <Btn as={Link} href="/sportello/porto-darmi" variant="outline-light" size="lg">
-              Richiedi porto d’armi
-            </Btn>
-          </div>
+    <div className="px-5 py-7 sm:px-8">
+      <h1 className="text-[25px] font-normal">Home</h1>
 
-          <div className="mt-14 grid gap-px overflow-hidden rounded-[20px] border border-line bg-line md:grid-cols-2 lg:mt-44 lg:grid-cols-4">
-            {dock.map((s, i) => (
-              <Link key={s.href} href={s.href} style={{ '--d': `${640 + i * 110}ms` }} className="hero-in group flex flex-col gap-2 bg-surface p-7 transition hover:bg-surface2">
-                <Icon name={s.icon} size={28} strokeWidth={1.5} className="text-link transition-transform duration-300 group-hover:scale-110" />
-                <h2 className="mt-3 text-lg font-semibold leading-snug">{s.title.replace(' Online', '')}</h2>
-                <p className="flex-1 text-sm text-muted">{s.text.split('.')[0]}.</p>
-                <span className="mt-2 inline-flex items-center gap-2 text-sm font-medium">
-                  Vai al servizio <Icon name="arrow-right" size={15} className="transition-transform group-hover:translate-x-1" />
-                </span>
-              </Link>
-            ))}
-            <div style={{ '--d': '970ms' }} className="hero-in flex flex-col gap-2 bg-surface2 p-7">
-              <Icon name="search" size={28} strokeWidth={1.5} className="text-link" />
-              <h2 className="mt-3 text-lg font-semibold">Traccia la pratica</h2>
-              <p className="flex-1 text-sm text-muted">Inserisci il codice che hai ricevuto.</p>
-              <HeroTrack />
-            </div>
+      {/* banner con la foto della Questura */}
+      <section className="hero-in relative mt-5 overflow-hidden rounded-[20px] border border-[#242d3b]">
+        <img src="/assets/hero-slide-1.jpg" alt="" className="kb absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '55% 62%' }} />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#141a24] via-[#141a24]/80 to-[#141a24]/10" />
+        <div className="relative px-7 py-9 sm:px-10 sm:py-12">
+          <div className="text-xs font-medium uppercase tracking-[0.2em] text-[#17a8bd]">Italian Paradise XI · Questura</div>
+          <h2 className="mt-3 max-w-xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">Lo sportello della Polizia di Stato, online.</h2>
+          <p className="mt-3 max-w-lg text-[16px] text-white/80">Denunce, porto d’armi e colloqui con i dirigenti. Ogni pratica ha un codice e uno stato sempre consultabile.</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/sportello/denuncia" className="inline-flex h-12 items-center gap-2 rounded-full bg-[#17a8bd] px-6 text-[15px] font-semibold text-[#04222a] transition hover:brightness-110">
+              Presenta una denuncia <Icon name="arrow-right" size={17} />
+            </Link>
+            <Link href="/sportello/porto-darmi" className="inline-flex h-12 items-center rounded-full border border-white/40 bg-[#141a24]/40 px-6 text-[15px] font-medium backdrop-blur-sm transition hover:bg-white/10">
+              Richiedi porto d’armi
+            </Link>
           </div>
-        </Container>
+        </div>
       </section>
 
-      <Container className="pt-6">
-        <Reveal>
-          <ol className="grid gap-px overflow-hidden rounded-[20px] border border-line bg-line md:grid-cols-3">
-            {PASSI.map(([n, t, d]) => (
-              <li key={n} className="flex items-center gap-4 bg-surface px-6 py-5">
-                <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-gold-soft font-semibold text-gold-ink">{n}</span>
-                <div>
-                  <div className="font-semibold">{t}</div>
-                  <p className="text-sm text-muted">{d}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </Reveal>
-
-        <div className="grid gap-6 pt-20 lg:grid-cols-[1.5fr_1fr]">
-          <Reveal>
-            <div className="flex items-end justify-between gap-4">
-              <h2 className="text-2xl font-semibold tracking-tight">Ultimi comunicati</h2>
-              <Link href="/notizie" className="inline-flex items-center gap-1.5 text-sm font-medium text-link hover:underline">
-                Vedi tutti <Icon name="arrow-right" size={15} />
-              </Link>
-            </div>
-            <div className="mt-5 overflow-hidden rounded-[20px] border border-line bg-surface">
-              {COMUNICATI.slice(0, 4).map((c) => (
-                <Link key={c.id} href={`/notizie#c${c.id}`} className="group flex items-center gap-5 border-b border-line px-6 py-5 transition last:border-b-0 hover:bg-surface2">
-                  <time dateTime={c.data} className="w-14 flex-none text-center font-mono text-[13px] uppercase leading-tight text-muted">
-                    {fmtData(c.data)}
-                  </time>
-                  <div className="min-w-0 flex-1">
-                    <span className={`text-[11px] font-medium uppercase tracking-[0.16em] ${TIPO_COLOR[c.tipo]}`}>{c.tipo}</span>
-                    <h3 className="mt-0.5 font-medium leading-snug">{c.titolo}</h3>
-                  </div>
-                  <Icon name="arrow-right" size={18} className="flex-none text-muted transition-transform group-hover:translate-x-1" />
-                </Link>
+      <div className="mt-5 grid items-start gap-5 xl:grid-cols-[1fr_1.05fr_0.85fr]">
+        <div className="space-y-5">
+          <Widget icon="landmark" title="Servizi" href="/sportello/denuncia">
+            <ul className="divide-y divide-[#1e2735]">
+              {SERVIZI.map(([icon, title, text, href]) => (
+                <li key={href}>
+                  <Link href={href} className="group flex items-center gap-4 py-4">
+                    <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-[#0f3947] text-[#17a8bd]">
+                      <Icon name={icon} size={21} strokeWidth={1.5} />
+                    </span>
+                    <span className="flex-1">
+                      <span className="block text-[16px] font-medium">{title}</span>
+                      <span className="block text-[13px] text-muted">{text}</span>
+                    </span>
+                    <Icon name="chevron" size={18} className="text-muted transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                </li>
               ))}
-            </div>
-          </Reveal>
+            </ul>
+          </Widget>
 
-          <Reveal delay={100}>
-            <div className="flex items-end justify-between gap-4">
-              <h2 className="text-2xl font-semibold tracking-tight">Reparti</h2>
-              <Link href="/organigramma" className="inline-flex items-center gap-1.5 text-sm font-medium text-link hover:underline">
-                Organigramma <Icon name="arrow-right" size={15} />
-              </Link>
+          <Widget icon="file-text" title="Le tue pratiche" href="/sportello/pratica">
+            <MiePratiche compact />
+            <div className="mt-4 border-t border-[#242d3b] pt-4">
+              <p className="mb-2 text-sm text-muted">Hai un codice? Inseriscilo qui.</p>
+              <HeroTrack />
             </div>
-            <div className="mt-5 overflow-hidden rounded-[20px] border border-line bg-surface">
-              {DEPTS.map((d) => (
-                <div key={d.name} className="flex items-center gap-4 border-b border-line px-5 py-3.5 last:border-b-0">
-                  <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-gold-soft text-gold-ink">
-                    <Icon name={d.icon} size={19} strokeWidth={1.6} />
-                  </span>
-                  <div className="min-w-0">
-                    <div className="truncate text-[15px] font-medium">{d.name}</div>
-                    <div className="truncate text-xs text-muted">{d.tag}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Reveal>
+          </Widget>
         </div>
 
-        <Reveal className="pt-20">
-          <div className="relative overflow-hidden rounded-[24px] border border-line">
+        <Widget icon="news" title="Bacheca" href="/notizie">
+          <ul className="divide-y divide-[#1e2735]">
+            {COMUNICATI.slice(0, 5).map((c) => (
+              <li key={c.id}>
+                <Link href={`/notizie#c${c.id}`} className="block py-4 transition hover:opacity-90">
+                  <div className="flex items-center justify-between text-[13.5px] text-[#c9d2e0]">
+                    <span className="flex items-center gap-2">
+                      <Icon name="user" size={15} /> Questura
+                    </span>
+                    <time dateTime={c.data}>{fmt(c.data)}</time>
+                  </div>
+                  <div className="mt-1.5 text-[17px] leading-snug">{c.titolo}</div>
+                  <div className={`mt-1.5 flex items-center gap-2 text-xs font-medium uppercase tracking-wide ${c.tipo === 'Allerta' ? 'text-[#ff6b7d]' : 'text-[#3fc4d6]'}`}>
+                    <Icon name="clipboard" size={14} /> {c.tipo}
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Widget>
+
+        <div className="space-y-5">
+          <Widget icon="clipboard" title="Come funziona">
+            <ol className="divide-y divide-[#1e2735]">
+              {PASSI.map(([n, t, d]) => (
+                <li key={n} className="flex items-start gap-4 py-4">
+                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#0f3947] font-semibold text-[#17a8bd]">{n}</span>
+                  <div>
+                    <div className="font-medium">{t}</div>
+                    <p className="text-[13.5px] text-muted">{d}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </Widget>
+
+          <Widget icon="users" title="Reparti" href="/organigramma">
+            <ul className="divide-y divide-[#1e2735]">
+              {DEPTS.map((d) => (
+                <li key={d.name} className="flex items-center gap-3.5 py-3">
+                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#0f3947] text-[#17a8bd]">
+                    <Icon name={d.icon} size={17} strokeWidth={1.6} />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block truncate text-[15px]">{d.name}</span>
+                    <span className="block truncate text-xs text-muted">{d.tag}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </Widget>
+
+          <Link href="/reclutamento" className="group relative block overflow-hidden rounded-[20px] border border-[#242d3b]">
             <img src="/assets/hero-slide-2.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '30% 60%' }} />
-            <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/90 to-bg/30" />
-            <div className="relative flex flex-col items-start gap-6 p-8 sm:p-12 md:flex-row md:items-center md:justify-between">
-              <div className="max-w-xl">
-                <Eyebrow>Bandi &amp; Reclutamento</Eyebrow>
-                <h2 className="mt-3 text-3xl font-semibold tracking-tight">Entra nella Polizia di Stato.</h2>
-                <p className="mt-3 text-white/75">Selezioni sempre aperte: candidati, supera il colloquio e completa l’accademia.</p>
-              </div>
-              <Btn as={Link} href="/reclutamento" variant="light" size="lg" icon="arrow-right">
-                Scopri i bandi
-              </Btn>
+            <div className="absolute inset-0 bg-gradient-to-r from-[#141a24] via-[#141a24]/85 to-[#141a24]/30" />
+            <div className="relative p-6">
+              <div className="text-xs font-medium uppercase tracking-[0.18em] text-[#17a8bd]">Reclutamento</div>
+              <div className="mt-2 text-xl font-semibold">Entra nella Polizia di Stato</div>
+              <p className="mt-1 text-sm text-white/75">Selezioni sempre aperte.</p>
+              <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#3fc4d6]">
+                Scopri i bandi <Icon name="arrow-right" size={15} className="transition-transform group-hover:translate-x-1" />
+              </span>
             </div>
-          </div>
-        </Reveal>
-      </Container>
-    </>
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
