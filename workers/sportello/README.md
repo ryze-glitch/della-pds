@@ -60,3 +60,18 @@ export const OPTIONS = POST;
 
 (Con `output: 'export'`, come oggi su Firebase Hosting, le route API non sono
 supportate: per questo il Worker.)
+
+
+## Telegram (facoltativo)
+
+Le pratiche possono essere inoltrate anche a un bot Telegram (es. `@sitepdsbot`), da solo o insieme a Discord:
+
+```
+npx wrangler secret put TELEGRAM_BOT_TOKEN   # token da @BotFather (NON metterlo in chat o nel repo)
+npx wrangler secret put TELEGRAM_CHAT_ID     # ID della chat/gruppo che riceve le pratiche
+npx wrangler deploy
+```
+
+Per ottenere il `TELEGRAM_CHAT_ID`: scrivi al bot (o aggiungilo a un gruppo) e apri
+`https://api.telegram.org/bot<TOKEN>/getUpdates`: il valore è `message.chat.id`.
+Se Telegram non risponde ma Discord sì, la pratica viene comunque accettata.

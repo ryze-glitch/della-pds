@@ -93,30 +93,32 @@ export function IconTile({ name, tone = 'primary', className = '' }) {
 
 export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
   return (
-    <section className="border-b border-line bg-gradient-to-b from-surface to-bg">
-      <Container className="pb-9 pt-28 md:pb-11 md:pt-32">
-        <nav aria-label="Percorso" className="hero-in mb-4 flex flex-wrap items-center gap-1.5 text-sm text-muted">
-          <Link href="/" className="hover:text-fg">
-            Home
-          </Link>
-          {crumbs.map((c) => (
-            <span key={c.label} className="flex items-center gap-1.5">
-              <Icon name="chevron" size={14} />
-              {c.href ? (
-                <Link href={c.href} className="hover:text-fg">
-                  {c.label}
-                </Link>
-              ) : (
-                <span className="text-fg">{c.label}</span>
-              )}
-            </span>
-          ))}
-        </nav>
-        <h1 className="hero-in text-3xl font-semibold leading-tight tracking-tight sm:text-4xl" style={{ '--d': '100ms' }}>
+    <section className="border-b border-[#242d3b]">
+      <Container className="pb-8 pt-9 md:pt-11">
+        {crumbs.length ? (
+          <nav aria-label="Percorso" className="hero-in mb-3 flex flex-wrap items-center gap-1.5 text-sm text-muted">
+            <Link href="/" className="hover:text-fg">
+              Home
+            </Link>
+            {crumbs.map((c) => (
+              <span key={c.label} className="flex items-center gap-1.5">
+                <Icon name="chevron" size={14} />
+                {c.href ? (
+                  <Link href={c.href} className="hover:text-fg">
+                    {c.label}
+                  </Link>
+                ) : (
+                  <span className="text-fg">{c.label}</span>
+                )}
+              </span>
+            ))}
+          </nav>
+        ) : null}
+        <h1 className="hero-in text-[25px] font-normal leading-tight sm:text-[28px]" style={{ '--d': '80ms' }}>
           {title}
         </h1>
         {text ? (
-          <p className="hero-in mt-3 max-w-2xl text-[17px] leading-relaxed text-muted" style={{ '--d': '220ms' }}>
+          <p className="hero-in mt-2 max-w-2xl text-[15.5px] leading-relaxed text-[#c9d2e0]" style={{ '--d': '180ms' }}>
             {text}
           </p>
         ) : null}

@@ -12,6 +12,8 @@ const DEFAULT_ORIGINS = [
 const MAX_BODY = 32 * 1024;
 const RATE_WINDOW_MS = 10 * 60 * 1000;
 const RATE_MAX = 6;
+const TG_TOKEN_RE = /^\d{6,12}:[\w-]{30,}$/;
+const TG_CHAT_RE = /^(-?\d{5,20}|@\w{4,})$/;
 const WEBHOOK_RE = /^https:\/\/(?:canary\.|ptb\.)?discord(?:app)?\.com\/api\/webhooks\/\d+\/[\w-]+$/;
 
 // Rate limit "best effort" per isolate: basta contro abusi banali. Per un
@@ -74,6 +76,31 @@ export function buildEmbed(form, clean, code) {
   };
 }
 
+export function telegramConfigured(env) {
+  return TG_TOKEN_RE.test(env.TELEGRAM_BOT_TOKEN || '') && TG_CHAT_RE.test(String(env.TELEGRAM_CHAT_ID || ''));
+}
+
+// Testo semplice (niente formattazione: i dati dei cittadini non devono essere interpretati).
+export function buildTelegramText(form, clean, code) {
+  const embed = buildEmbed(form, clean, code);
+  const lines = [`Nuova pratica ${code} — ${form.title}`, ''];
+  for (const f of embed.fields) {
+    if (f.name === 'Codice pratica' || f.name === 'Tipo') continue;
+    lines.push(`${f.name}: ${String(f.value).replace(/`/g, '')}`);
+  }
+  lines.push('', 'Sportello Telematico — Questura IPRP');
+  return lines.join('\n').slice(0, 3900);
+}
+
+async function sendTelegram(env, text) {
+  const res = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text, disable_web_page_preview: true }),
+  });
+  if (!res.ok) throw new Error(`telegram ${res.status}`);
+}
+
 export async function handleRequest(request, env = {}) {
   const url = new URL(request.url);
   const origin = request.headers.get('Origin');
@@ -91,6 +118,7 @@ export async function handleRequest(request, env = {}) {
   if (url.pathname === '/health') {
     const configured = {};
     for (const f of Object.values(FORMS)) configured[f.id] = WEBHOOK_RE.test(env[`DISCORD_WEBHOOK_${f.discord.channel}`] || '');
+    configured.telegram = telegramConfigured(env);
     return json({ ok: true, configured }, 200, cors);
   }
 
@@ -124,28 +152,36 @@ export async function handleRequest(request, env = {}) {
 
   const channel = form.discord.channel;
   const webhook = env[`DISCORD_WEBHOOK_${channel}`];
-  if (!webhook || !WEBHOOK_RE.test(webhook)) {
-    return json({ error: 'Lo Sportello non è ancora collegato a Discord. Contatta un amministratore del server.' }, 503, cors);
+  const discordOk = !!webhook && WEBHOOK_RE.test(webhook);
+  const telegramOk = telegramConfigured(env);
+  if (!discordOk && !telegramOk) {
+    return json({ error: 'Lo Sportello non è ancora collegato. Contatta un amministratore del server.' }, 503, cors);
   }
 
   const code = genCode();
-  const role = /^\d{5,25}$/.test(env[`DISCORD_ROLE_${channel}`] || '') ? env[`DISCORD_ROLE_${channel}`] : null;
-  const payload = {
-    username: 'Sportello Telematico IPRP',
-    content: `${role ? `<@&${role}> ` : ''}Nuova pratica **${code}** — ${form.title}`,
-    embeds: [buildEmbed(form, clean, code)],
-    allowed_mentions: role ? { parse: [], roles: [role] } : { parse: [] },
-  };
+  const tasks = [];
 
-  let res;
-  try {
-    res = await fetch(webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-  } catch (e) {
-    return json({ error: 'Invio non riuscito, riprova tra poco.' }, 502, cors);
+  if (discordOk) {
+    const role = /^\d{5,25}$/.test(env[`DISCORD_ROLE_${channel}`] || '') ? env[`DISCORD_ROLE_${channel}`] : null;
+    const payload = {
+      username: 'Sportello Telematico IPRP',
+      content: `${role ? `<@&${role}> ` : ''}Nuova pratica **${code}** — ${form.title}`,
+      embeds: [buildEmbed(form, clean, code)],
+      allowed_mentions: role ? { parse: [], roles: [role] } : { parse: [] },
+    };
+    tasks.push(
+      fetch(webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then((res) => {
+        if (!res.ok) throw new Error(`discord ${res.status}`);
+      })
+    );
   }
-  if (!res.ok) {
-    console.error('Discord webhook error', res.status);
-    return json({ error: 'Invio non riuscito, riprova tra poco.' }, 502, cors);
-  }
+  if (telegramOk) tasks.push(sendTelegram(env, buildTelegramText(form, clean, code)));
+
+  // La pratica è accettata se almeno un canale l'ha ricevuta.
+  const results = await Promise.allSettled(tasks);
+  results.forEach((r) => {
+    if (r.status === 'rejected') console.error('Inoltro pratica non riuscito:', r.reason && r.reason.message);
+  });
+  if (!results.some((r) => r.status === 'fulfilled')) return json({ error: 'Invio non riuscito, riprova tra poco.' }, 502, cors);
   return json({ ok: true, code }, 200, cors);
 }

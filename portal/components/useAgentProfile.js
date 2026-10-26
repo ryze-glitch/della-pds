@@ -10,10 +10,11 @@ import { auth, db } from '../lib/firebase';
 // Firestore "auth-sito" (documento con ID uguale all'ID Discord). Il
 // Worker di login assegna come uid Firebase "discord:<ID>", quindi il
 // prefisso va tolto prima di cercare il documento.
-export function useAgentProfile() {
+export function useAgentProfile(disabled = false) {
   const [state, setState] = useState({ loading: true, profile: null, discordId: null });
 
   useEffect(() => {
+    if (disabled) return undefined;
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         window.location.href = '/login';

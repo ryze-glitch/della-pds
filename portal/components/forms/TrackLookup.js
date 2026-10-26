@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Icon } from '../icons';
 import { Badge, Btn, Card, Notice } from '../ui';
 import { cercaPratica } from '../../lib/sportello';
+import { savePratica } from '../../lib/miePratiche';
 import { STATI, TIPI_PRATICA } from '../../lib/data';
 
 const STEPS = [
@@ -27,7 +28,6 @@ function Result({ code, pratica }) {
   const bad = pratica.stato === 'respinta';
   return (
     <Card className="mt-6 overflow-hidden">
-      <div className="gold-rule" />
       <div className="p-5 sm:p-7">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -87,7 +87,10 @@ export function TrackLookup() {
     try {
       const r = await cercaPratica(value);
       if (r.error) setState({ loading: false, error: r.error, result: null });
-      else setState({ loading: false, error: '', result: r });
+      else {
+        savePratica(r.code, r.pratica.tipo);
+        setState({ loading: false, error: '', result: r });
+      }
     } catch (e) {
       setState({ loading: false, error: 'Servizio momentaneamente non disponibile. Riprova tra poco.', result: null });
     }

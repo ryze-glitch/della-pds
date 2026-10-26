@@ -4,7 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "coming-soon",
+    "public": "site",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -50,10 +50,31 @@
         ]
       }
     ],
-    "rewrites": [
+    "redirects": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "source": "/chi-siamo",
+        "destination": "/organigramma",
+        "type": 301
+      },
+      {
+        "source": "/reparti",
+        "destination": "/organigramma",
+        "type": 301
+      },
+      {
+        "source": "/qualifiche",
+        "destination": "/organigramma",
+        "type": 301
+      },
+      {
+        "source": "/concorso",
+        "destination": "/reclutamento",
+        "type": 301
+      },
+      {
+        "source": "/prenota",
+        "destination": "/sportello",
+        "type": 301
       }
     ]
   }

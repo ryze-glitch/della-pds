@@ -119,3 +119,39 @@ test('PDA rinnovo richiede il numero precedente; colloquio con data passata resp
   assert.equal(r2.status, 422);
   assert.ok((await r2.json()).fields.data_preferita);
 });
+
+const TG = { TELEGRAM_BOT_TOKEN: '123456789:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw_abc', TELEGRAM_CHAT_ID: '-1001234567890' };
+
+test('Telegram: inoltro su Discord e Telegram insieme, senza menzioni e senza backtick', async () => {
+  const calls = mockDiscord();
+  const res = await handleRequest(req('/submit/denuncia', { body: denunciaOk, ip: '8.8.8.1' }), { ...env, ...TG });
+  assert.equal(res.status, 200);
+  const tg = calls.find((c) => c.url.startsWith('https://api.telegram.org/bot'));
+  assert.ok(tg, 'chiamata a Telegram');
+  const body = JSON.parse(tg.init.body);
+  assert.equal(body.chat_id, '-1001234567890');
+  assert.match(body.text, /Nuova pratica POL-\d{4}-[A-Z0-9]{6}/);
+  assert.match(body.text, /Luogo dei fatti: Via del Corso 12/);
+  assert.ok(!body.text.includes('`'));
+  assert.ok(calls.some((c) => c.url === WEBHOOK), 'chiamata a Discord');
+});
+
+test('Telegram: funziona anche da solo (Discord non configurato)', async () => {
+  const calls = mockDiscord();
+  const res = await handleRequest(req('/submit/denuncia', { body: denunciaOk, ip: '8.8.8.2' }), TG);
+  assert.equal(res.status, 200);
+  assert.equal(calls.length, 1);
+  assert.ok(calls[0].url.startsWith('https://api.telegram.org/bot'));
+});
+
+test('Telegram in errore ma Discord ok: la pratica è accettata', async () => {
+  globalThis.fetch = async (url) => new Response(null, { status: String(url).includes('telegram') ? 500 : 204 });
+  const res = await handleRequest(req('/submit/denuncia', { body: denunciaOk, ip: '8.8.8.3' }), { ...env, ...TG });
+  assert.equal(res.status, 200);
+});
+
+test('Telegram: token non valido ignorato (503 se Discord manca)', async () => {
+  mockDiscord();
+  const res = await handleRequest(req('/submit/denuncia', { body: denunciaOk, ip: '8.8.8.4' }), { TELEGRAM_BOT_TOKEN: 'x', TELEGRAM_CHAT_ID: '1' });
+  assert.equal(res.status, 503);
+});
