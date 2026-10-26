@@ -6,6 +6,14 @@ import { Widget } from '../../components/Widget';
 import { HeroTrack } from '../../components/forms/HeroTrack';
 import { DEPTS } from '../../lib/data';
 import { Bacheca } from '../../components/Bacheca';
+import { HomePratiche } from '../../components/HomeDashboard';
+
+const TILE = [
+  ['file-text', 'Denuncia online', 'Furto, rapina, aggressione, truffa. Compilazione guidata.', '/sportello/denuncia', '--tt-blue', '--tn-blue', 'Presenta'],
+  ['shield-check', "Porto d'armi (PDA)", 'Nuovo, rinnovo e uso sportivo, con tariffe e visita medica.', '/sportello/porto-darmi', '--tt-amber', '--tn-amber', 'Richiedi'],
+  ['calendar-check', 'Colloquio con i dirigenti', 'Prenota un appuntamento con la dirigenza.', '/sportello/colloquio', '--tt-green', '--tn-green', 'Prenota'],
+  ['briefcase', 'Bandi e reclutamento', 'Selezioni sempre aperte per entrare nei reparti.', '/reclutamento', '--tt-violet', '--tn-violet', 'Scopri'],
+];
 
 const SERVIZI = [
   ['file-text', 'Denuncia online', 'Furto, rapina, aggressione, truffa', '/sportello/denuncia'],
@@ -47,35 +55,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="mt-5 grid items-start gap-5 md:grid-cols-[repeat(auto-fit,minmax(340px,1fr))]">
-        <div className="space-y-5">
-          <Widget icon="landmark" title="Servizi" href="/sportello/denuncia">
-            <ul className="divide-y divide-[color:var(--sh-div)]">
-              {SERVIZI.map(([icon, title, text, href]) => (
-                <li key={href}>
-                  <Link href={href} className="group flex items-center gap-4 py-4">
-                    <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-[color:var(--sh-soft)] text-[color:var(--sh-acc)]">
-                      <Icon name={icon} size={21} strokeWidth={1.5} />
-                    </span>
-                    <span className="flex-1">
-                      <span className="block text-[14.4px] font-medium">{title}</span>
-                      <span className="block text-[11.7px] text-muted">{text}</span>
-                    </span>
-                    <Icon name="chevron" size={18} className="text-muted transition-transform group-hover:translate-x-0.5" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </Widget>
+      {/* servizi: blocchi colorati */}
+      <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {TILE.map(([icon, title, text, href, tt, tn, cta], i) => (
+          <Link
+            key={href}
+            href={href}
+            style={{ background: `var(${tn})`, borderLeftColor: `var(${tt})`, '--d': `${i * 80}ms` }}
+            className="hero-in group flex min-h-[170px] flex-col rounded-[20px] border-l-[4px] p-6 transition hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20" style={{ color: `var(${tt})` }}>
+              <Icon name={icon} size={24} strokeWidth={1.5} />
+            </span>
+            <span className="mt-4 text-[17px] font-semibold leading-snug" style={{ color: `var(${tt})` }}>{title}</span>
+            <span className="mt-1 flex-1 text-[13px] leading-snug text-fg/80">{text}</span>
+            <span className="mt-3 inline-flex items-center gap-2 text-[13px] font-semibold" style={{ color: `var(${tt})` }}>
+              {cta} <Icon name="arrow-right" size={15} className="transition-transform group-hover:translate-x-1" />
+            </span>
+          </Link>
+        ))}
+      </div>
 
-          <Widget icon="file-text" title="Le tue pratiche" href="/sportello/pratica">
-            <MiePratiche compact />
-            <div className="mt-4 border-t border-[color:var(--sh-line)] pt-4">
-              <p className="mb-2 text-sm text-muted">Hai un codice? Inseriscilo qui.</p>
-              <HeroTrack />
-            </div>
-          </Widget>
-        </div>
+      <div className="mt-5 grid items-start gap-5 md:grid-cols-[repeat(auto-fit,minmax(340px,1fr))]">
+        <HomePratiche />
 
         <Bacheca />
 
