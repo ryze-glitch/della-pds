@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Icon } from './icons';
+import { ThemeToggle } from './ThemeToggle';
 import { useQuesturaStatus } from './useQuesturaStatus';
 import { useSportelloConfig } from './forms/useSportelloConfig';
 import { useGoogleUser } from './forms/useGoogleUser';
@@ -79,16 +80,16 @@ export function CitizenShell({ children }) {
   );
 
   return (
-    <div className="flex min-h-screen bg-[#141a24] text-fg">
+    <div className="flex min-h-screen bg-[color:var(--sh-page)] text-fg">
       <aside
         aria-label="Menu principale"
-        className={`${open ? 'flex' : 'hidden'} fixed inset-y-0 left-0 z-40 w-[243px] flex-col overflow-y-auto border-r border-[#1d5266] bg-[#0e3347] transition-[width] duration-300 lg:sticky lg:top-0 lg:flex lg:h-screen ${collapsed ? 'lg:w-[82.8px]' : 'lg:w-[243px]'}`}
+        className={`${open ? 'flex' : 'hidden'} fixed inset-y-0 left-0 z-40 w-[243px] flex-col overflow-y-auto border-r border-[color:var(--sh-side-line)] bg-[color:var(--sh-side)] transition-[width] duration-300 lg:sticky lg:top-0 lg:flex lg:h-screen ${collapsed ? 'lg:w-[82.8px]' : 'lg:w-[243px]'}`}
       >
         <Link href="/" className={`flex h-[79.2px] flex-none items-center gap-3 px-5 ${collapsed ? 'lg:justify-center lg:px-0' : ''}`} aria-label="Polizia di Stato, Questura IPRP: home">
           <img src="/assets/crest-md.png" alt="" className="h-11 w-auto flex-none" />
-          <span className={`leading-tight ${collapsed ? 'lg:hidden' : ''}`}>
+          <span className={`leading-tight text-white ${collapsed ? 'lg:hidden' : ''}`}>
             <span className="block whitespace-nowrap text-[13.5px] font-semibold uppercase tracking-[0.14em]">Polizia di Stato</span>
-            <span className="block text-[9.9px] uppercase tracking-[0.2em] text-muted">Questura IPRP</span>
+            <span className="block text-[9.9px] uppercase tracking-[0.2em] text-white/70">Questura IPRP</span>
           </span>
         </Link>
         <div className={`mx-[18px] border-b border-white/15 pb-4 pt-3 ${collapsed ? 'lg:flex lg:justify-center' : ''}`}>
@@ -98,12 +99,12 @@ export function CitizenShell({ children }) {
                 {user.picture ? (
                   <img src={user.picture} alt="" referrerPolicy="no-referrer" className="h-[37.8px] w-[37.8px] flex-none rounded-full" title={collapsed ? user.name || user.email : undefined} />
                 ) : (
-                  <span className="flex h-[37.8px] w-[37.8px] flex-none items-center justify-center rounded-full bg-[#2c3441] text-[12px] font-semibold" title={collapsed ? user.name || user.email : undefined}>
+                  <span className="flex h-[37.8px] w-[37.8px] flex-none items-center justify-center rounded-full bg-white/15 text-[12px] font-semibold" title={collapsed ? user.name || user.email : undefined}>
                     {(user.name || user.email || '?').slice(0, 1).toUpperCase()}
                   </span>
                 )}
                 <span className={`min-w-0 leading-snug ${collapsed ? 'lg:hidden' : ''}`}>
-                  <span className="block truncate text-[12.2px] font-semibold">{user.name || 'Account Google'}</span>
+                  <span className="block truncate text-[12.2px] font-semibold text-white">{user.name || 'Account Google'}</span>
                   <span className="block truncate text-[11.7px] text-white/75">{user.email}</span>
                 </span>
               </div>
@@ -142,14 +143,14 @@ export function CitizenShell({ children }) {
       {loginOpen ? <LoginModal clientId={cfg && cfg.googleClientId} onClose={() => setLoginOpen(false)} /> : null}
       {open ? <button aria-label="Chiudi il menu" className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setOpen(false)} /> : null}
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-20 flex h-[79.2px] flex-none items-center gap-4 border-b border-[#242d3b] bg-[#121821]/95 px-5 backdrop-blur sm:gap-5 sm:px-6">
-          <button type="button" onClick={toggle} aria-label="Mostra o nascondi il menu" className="flex h-[41px] w-[41px] flex-none items-center justify-center rounded-full border border-[#2a3341] bg-white/5 text-fg transition hover:bg-white/10">
+      <div className="shell-main flex min-w-0 flex-1 flex-col">
+        <header className="sticky top-0 z-20 flex h-[79.2px] flex-none items-center gap-4 border-b border-[color:var(--sh-line)] bg-[color:var(--sh-bar)] px-5 backdrop-blur sm:gap-5 sm:px-6">
+          <button type="button" onClick={toggle} aria-label="Mostra o nascondi il menu" className="flex h-[41px] w-[41px] flex-none items-center justify-center rounded-full border border-[color:var(--sh-in)] bg-white/5 text-fg transition hover:bg-white/10">
             <Icon name="menu" size={22} />
           </button>
           <span className="truncate text-[13.1px] font-medium">Sportello Telematico</span>
           <span className="flex-1" />
-          <div className="hidden text-[13px] leading-snug text-[#c9d2e0] md:block">
+          <div className="hidden text-[13px] leading-snug text-[color:var(--sh-sec)] md:block">
             <div>Questura IPRP</div>
             <div className="flex items-center gap-2">
               <span className={`h-2 w-2 rounded-full ${st.centrale ? (st.centraleOk ? 'bg-[#34d17f]' : 'bg-[#ff6b7d]') : 'bg-[#4b5668]'}`} /> Centrale Operativa: {st.centrale || '—'}
@@ -158,6 +159,7 @@ export function CitizenShell({ children }) {
               <span className={`h-2 w-2 rounded-full ${st.sportello ? (st.sportelloOk ? 'bg-[#34d17f]' : 'bg-[#ff6b7d]') : 'bg-[#4b5668]'}`} /> Sportello: {st.sportello ? st.sportello.toLowerCase() : '—'}
             </div>
           </div>
+          <ThemeToggle />
           {user ? (
             <Link href="/sportello/pratica" aria-label="Le mie pratiche" title={user.email} className="flex h-[41.4px] w-[41.4px] flex-none items-center justify-center overflow-hidden rounded-full bg-[#12b3c4] text-[#04222a] transition hover:brightness-110">
               {user.picture ? <img src={user.picture} alt="" referrerPolicy="no-referrer" className="h-full w-full object-cover" /> : <span className="text-sm font-semibold">{(user.name || user.email || '?').slice(0, 1).toUpperCase()}</span>}
@@ -173,7 +175,7 @@ export function CitizenShell({ children }) {
           {children}
         </main>
 
-        <footer className="border-t border-[#242d3b] px-5 py-6 text-[11.7px] leading-relaxed text-muted sm:px-8">
+        <footer className="border-t border-[color:var(--sh-line)] px-5 py-6 text-[11.7px] leading-relaxed text-muted sm:px-8">
           Questo sito è un progetto di gioco di ruolo (FiveM) e non è affiliato alla Polizia di Stato né ad alcuna istituzione reale. Nomi, cariche e procedure sono fittizi.{' '}
           <strong className="font-medium text-fg">In caso di emergenza reale chiama il 112.</strong>
           <span className="mt-1 block text-xs">© 2026 Questura IPRP — Italian Paradise XI.</span>

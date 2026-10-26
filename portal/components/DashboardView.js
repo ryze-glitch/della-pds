@@ -7,7 +7,7 @@ import { Widget } from './Widget';
 import { STATI, TIPI_PRATICA } from '../lib/data';
 import { Bacheca } from './Bacheca';
 
-const BORDER = 'border-[#242d3b]';
+const BORDER = 'border-[color:var(--sh-line)]';
 
 function Ring({ value, label }) {
   const r = 52;
@@ -29,7 +29,7 @@ function Ring({ value, label }) {
 function Counter({ n, label, color }) {
   return (
     <div className="flex flex-col items-center gap-2 text-center">
-      <span className="flex h-[55.8px] w-[55.8px] items-center justify-center rounded-full text-[19.8px] font-semibold tabular-nums" style={{ color, background: `${color}26` }}>
+      <span className="flex h-[55.8px] w-[55.8px] items-center justify-center rounded-full text-[19.8px] font-semibold tabular-nums" style={{ color, background: `color-mix(in srgb, ${color} 16%, transparent)` }}>
         {n}
       </span>
       <span className="text-[12.6px] font-medium leading-tight" style={{ color }}>
@@ -48,13 +48,19 @@ function fmtDay(ts) {
 }
 
 const TONE = {
-  ricevuta: 'border-l-[#3b82f6] bg-[#1c3158]',
-  in_lavorazione: 'border-l-[#f5b946] bg-[#3a3016]',
-  in_attesa: 'border-l-[#9a7bf0] bg-[#2b2550]',
-  conclusa: 'border-l-[#34d17f] bg-[#173a28]',
-  respinta: 'border-l-[#ff6b7d] bg-[#3d1d24]',
+  ricevuta: 'border-l-[#3b82f6] bg-[color:var(--tn-blue)]',
+  in_lavorazione: 'border-l-[#f5b946] bg-[color:var(--tn-amber)]',
+  in_attesa: 'border-l-[#9a7bf0] bg-[color:var(--tn-violet)]',
+  conclusa: 'border-l-[#34d17f] bg-[color:var(--tn-green)]',
+  respinta: 'border-l-[#ff6b7d] bg-[color:var(--tn-red)]',
 };
-const TEXT = { ricevuta: '#7ea4ee', in_lavorazione: '#f5b946', in_attesa: '#b7a0ff', conclusa: '#4ade80', respinta: '#ff8a98' };
+const TEXT = {
+  ricevuta: 'var(--tt-blue)',
+  in_lavorazione: 'var(--tt-amber)',
+  in_attesa: 'var(--tt-violet)',
+  conclusa: 'var(--tt-green)',
+  respinta: 'var(--tt-red)',
+};
 
 export function DashboardView({ profile, pratiche }) {
   const nome = profile ? `${profile.nome || ''} ${profile.cognome || ''}`.trim() : '';
@@ -81,7 +87,7 @@ export function DashboardView({ profile, pratiche }) {
   return (
     <div className="px-5 py-7 sm:px-8">
       <h1 className="text-[22.5px] font-normal">Home</h1>
-      <p className="mt-0.5 text-sm text-[#c9d2e0]">{profile ? `${nome || 'Agente'} · ${profile.grado || 'Agente'}` : 'Caricamento…'}</p>
+      <p className="mt-0.5 text-sm text-[color:var(--sh-sec)]">{profile ? `${nome || 'Agente'} · ${profile.grado || 'Agente'}` : 'Caricamento…'}</p>
 
       <div className="mt-6 grid items-start gap-5 md:grid-cols-[repeat(auto-fit,minmax(340px,1fr))]">
         {/* colonna 1: riepilogo + da prendere in carico */}
@@ -91,27 +97,27 @@ export function DashboardView({ profile, pratiche }) {
               <div className="flex flex-col items-center gap-2 text-center">
                 <div className="text-sm font-semibold uppercase tracking-wide">Concluse</div>
                 <Ring value={pct} label={`${done} su ${total}`} />
-                <div className="text-sm text-[#c9d2e0]">Pratiche chiuse sulle ultime {total || 0}</div>
+                <div className="text-sm text-[color:var(--sh-sec)]">Pratiche chiuse sulle ultime {total || 0}</div>
               </div>
               <div className={`flex flex-col items-center justify-center gap-3 border-t pt-6 text-center sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0 ${BORDER}`}>
                 <div className="text-sm font-semibold uppercase tracking-wide">Sportello oggi</div>
-                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#0f3947] text-[#3fc4d6]">
+                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[color:var(--sh-soft)] text-[color:var(--sh-acc)]">
                   <Icon name="radio" size={30} strokeWidth={1.4} />
                 </span>
-                <div className="text-sm leading-snug text-[#3fc4d6]">
+                <div className="text-sm leading-snug text-[color:var(--sh-acc)]">
                   {pratiche === null ? 'Caricamento…' : daPrendere ? `${daPrendere} richieste in attesa di presa in carico` : 'Nessuna richiesta in attesa'}
                 </div>
               </div>
             </div>
 
             <div className={`mt-6 grid grid-cols-4 gap-2 border-t pt-6 ${BORDER}`}>
-              <Counter n={n('ricevuta')} label="Ricevute" color="#7ea4ee" />
-              <Counter n={n('in_lavorazione')} label="In lavorazione" color="#f5b946" />
-              <Counter n={n('in_attesa')} label="In attesa" color="#b7a0ff" />
-              <Counter n={n('respinta')} label="Respinte" color="#ff8a98" />
+              <Counter n={n('ricevuta')} label="Ricevute" color="var(--tt-blue)" />
+              <Counter n={n('in_lavorazione')} label="In lavorazione" color="var(--tt-amber)" />
+              <Counter n={n('in_attesa')} label="In attesa" color="var(--tt-violet)" />
+              <Counter n={n('respinta')} label="Respinte" color="var(--tt-red)" />
             </div>
 
-            <Link href="/pratiche" className="mt-6 flex items-center gap-4 rounded-2xl bg-[#17a8bd]/10 px-5 py-4 text-[#3fc4d6] transition hover:bg-[#17a8bd]/15">
+            <Link href="/pratiche" className="mt-6 flex items-center gap-4 rounded-2xl bg-[#17a8bd]/10 px-5 py-4 text-[color:var(--sh-acc)] transition hover:bg-[#17a8bd]/15">
               <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#3fc4d6] text-[#04222a]">
                 <Icon name="info" size={20} />
               </span>
@@ -125,7 +131,7 @@ export function DashboardView({ profile, pratiche }) {
             ) : ricevute.length === 0 ? (
               <p className="py-8 text-center text-sm text-muted">Nessuna pratica in attesa.</p>
             ) : (
-              <ul className="divide-y divide-[#1e2735]">
+              <ul className="divide-y divide-[color:var(--sh-div)]">
                 {ricevute.map((p) => (
                   <li key={p.id} className="flex items-center justify-between gap-4 py-3.5">
                     <div>
@@ -151,7 +157,7 @@ export function DashboardView({ profile, pratiche }) {
             ) : inAttesa.length === 0 ? (
               <p className="py-6 text-center text-sm text-muted">Nessuna pratica in attesa di documenti.</p>
             ) : (
-              <ul className="divide-y divide-[#1e2735]">
+              <ul className="divide-y divide-[color:var(--sh-div)]">
                 {inAttesa.map((p) => (
                   <li key={p.id} className="py-3.5">
                     <div className="flex items-center gap-2 text-[13.5px]">
@@ -159,7 +165,7 @@ export function DashboardView({ profile, pratiche }) {
                     </div>
                     <div className="mt-1 flex items-center gap-4 text-sm">
                       <span className="font-mono text-[#ff8a98]">#{p.id}</span>
-                      <span className="flex items-center gap-1.5 text-[#c9d2e0]">
+                      <span className="flex items-center gap-1.5 text-[color:var(--sh-sec)]">
                         <Icon name="clock" size={14} /> da {fmtDay(p.creatoIl)}
                       </span>
                     </div>

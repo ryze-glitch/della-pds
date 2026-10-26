@@ -45,8 +45,8 @@ export function GoogleGate({ clientId, onLogin }) {
   }, [clientId, onLogin]);
 
   return (
-    <div className="rounded-[20px] border border-[#242d3b] p-7 text-center sm:p-10">
-      <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#0f3947] text-[#3fc4d6]">
+    <div className="sh-card rounded-[20px] border border-[color:var(--sh-line)] p-7 text-center sm:p-10">
+      <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[color:var(--sh-soft)] text-[color:var(--sh-acc)]">
         <Icon name="user" size={26} strokeWidth={1.5} />
       </span>
       <h2 className="mt-5 text-xl font-medium">Accedi per continuare</h2>

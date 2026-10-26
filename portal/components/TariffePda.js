@@ -24,21 +24,21 @@ export function TariffePda() {
   }, []);
 
   return (
-    <div className="overflow-hidden rounded-[20px] border border-[#242d3b]">
-      <div className="flex items-center gap-2.5 border-b border-[#242d3b] px-5 py-3.5 font-medium">
-        <Icon name="wallet" size={18} className="text-[#3fc4d6]" /> Tariffe (IC)
+    <div className="overflow-hidden sh-card rounded-[20px] border border-[color:var(--sh-line)]">
+      <div className="flex items-center gap-2.5 border-b border-[color:var(--sh-line)] px-5 py-3.5 font-medium">
+        <Icon name="wallet" size={18} className="text-[color:var(--sh-acc)]" /> Tariffe (IC)
       </div>
       {items === null ? (
         <p className="px-5 py-6 text-sm text-muted">Caricamento…</p>
       ) : items.length === 0 ? (
         <p className="px-5 py-6 text-sm text-muted">Le tariffe non sono ancora state pubblicate.</p>
       ) : (
-        <ul className="divide-y divide-[#1e2735]">
+        <ul className="divide-y divide-[color:var(--sh-div)]">
           {items.map((t, i) => (
             <li key={i} className="px-5 py-3.5">
               <div className="flex items-baseline justify-between gap-3">
                 <span className="font-medium">{t.nome}</span>
-                <span className="font-semibold text-[#3fc4d6]">{t.importo}</span>
+                <span className="font-semibold text-[color:var(--sh-acc)]">{t.importo}</span>
               </div>
               {t.note ? <div className="mt-0.5 text-xs text-muted">{t.note}</div> : null}
             </li>

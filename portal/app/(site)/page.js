@@ -26,7 +26,7 @@ export default function HomePage() {
       <h1 className="text-[22.5px] font-normal">Home</h1>
 
       {/* banner con la foto della Questura */}
-      <section className="hero-in relative mt-5 overflow-hidden rounded-[20px] border border-[#242d3b]">
+      <section className="hero-in relative mt-5 overflow-hidden sh-card rounded-[20px] border border-[color:var(--sh-line)]">
         <img src="/assets/hero-slide-1.webp" alt="" className="kb absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '55% 62%' }} />
         <div className="absolute inset-0 bg-gradient-to-r from-[#141a24] via-[#141a24]/80 to-[#141a24]/10" />
         <div className="pointer-events-none absolute right-[5%] top-1/2 hidden h-[280px] w-[220px] -translate-y-1/2 lg:block">
@@ -34,13 +34,13 @@ export default function HomePage() {
         </div>
         <div className="relative px-7 py-9 sm:px-10 sm:py-12">
           <div className="text-xs font-medium uppercase tracking-[0.2em] text-[#3fc4d6]">Italian Paradise XI · Questura</div>
-          <h2 className="mt-3 max-w-xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">Lo sportello della Polizia di Stato, online.</h2>
+          <h2 className="mt-3 max-w-xl text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl">Lo sportello della Polizia di Stato, online.</h2>
           <p className="mt-3 max-w-lg text-[14.4px] text-white/80">Denunce, porto d’armi e colloqui con i dirigenti. Ogni pratica ha un codice e uno stato sempre consultabile.</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/sportello/denuncia" className="inline-flex h-12 items-center gap-2 rounded-full bg-[#17a8bd] px-6 text-[13.5px] font-semibold text-[#04222a] transition hover:brightness-110">
               Presenta una denuncia <Icon name="arrow-right" size={17} />
             </Link>
-            <Link href="/sportello/porto-darmi" className="inline-flex h-12 items-center rounded-full border border-white/40 bg-[#141a24]/40 px-6 text-[13.5px] font-medium backdrop-blur-sm transition hover:bg-white/10">
+            <Link href="/sportello/porto-darmi" className="inline-flex h-12 items-center rounded-full border border-white/40 bg-[#141a24]/40 px-6 text-white text-[13.5px] font-medium backdrop-blur-sm transition hover:bg-white/10">
               Richiedi porto d’armi
             </Link>
           </div>
@@ -50,11 +50,11 @@ export default function HomePage() {
       <div className="mt-5 grid items-start gap-5 md:grid-cols-[repeat(auto-fit,minmax(340px,1fr))]">
         <div className="space-y-5">
           <Widget icon="landmark" title="Servizi" href="/sportello/denuncia">
-            <ul className="divide-y divide-[#1e2735]">
+            <ul className="divide-y divide-[color:var(--sh-div)]">
               {SERVIZI.map(([icon, title, text, href]) => (
                 <li key={href}>
                   <Link href={href} className="group flex items-center gap-4 py-4">
-                    <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-[#0f3947] text-[#3fc4d6]">
+                    <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-[color:var(--sh-soft)] text-[color:var(--sh-acc)]">
                       <Icon name={icon} size={21} strokeWidth={1.5} />
                     </span>
                     <span className="flex-1">
@@ -70,7 +70,7 @@ export default function HomePage() {
 
           <Widget icon="file-text" title="Le tue pratiche" href="/sportello/pratica">
             <MiePratiche compact />
-            <div className="mt-4 border-t border-[#242d3b] pt-4">
+            <div className="mt-4 border-t border-[color:var(--sh-line)] pt-4">
               <p className="mb-2 text-sm text-muted">Hai un codice? Inseriscilo qui.</p>
               <HeroTrack />
             </div>
@@ -81,10 +81,10 @@ export default function HomePage() {
 
         <div className="space-y-5">
           <Widget icon="clipboard" title="Come funziona">
-            <ol className="divide-y divide-[#1e2735]">
+            <ol className="divide-y divide-[color:var(--sh-div)]">
               {PASSI.map(([n, t, d]) => (
                 <li key={n} className="flex items-start gap-4 py-4">
-                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#0f3947] font-semibold text-[#3fc4d6]">{n}</span>
+                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[color:var(--sh-soft)] font-semibold text-[color:var(--sh-acc)]">{n}</span>
                   <div>
                     <div className="font-medium">{t}</div>
                     <p className="text-[12.2px] text-muted">{d}</p>
@@ -95,10 +95,10 @@ export default function HomePage() {
           </Widget>
 
           <Widget icon="users" title="Reparti" href="/organigramma">
-            <ul className="divide-y divide-[#1e2735]">
+            <ul className="divide-y divide-[color:var(--sh-div)]">
               {DEPTS.map((d) => (
                 <li key={d.name} className="flex items-center gap-3.5 py-3">
-                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#0f3947] text-[#3fc4d6]">
+                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[color:var(--sh-soft)] text-[color:var(--sh-acc)]">
                     <Icon name={d.icon} size={17} strokeWidth={1.6} />
                   </span>
                   <span className="min-w-0">
@@ -110,12 +110,12 @@ export default function HomePage() {
             </ul>
           </Widget>
 
-          <Link href="/reclutamento" className="group relative block overflow-hidden rounded-[20px] border border-[#242d3b]">
+          <Link href="/reclutamento" className="group relative block overflow-hidden sh-card rounded-[20px] border border-[color:var(--sh-line)]">
             <img src="/assets/hero-slide-2.webp" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '30% 60%' }} />
             <div className="absolute inset-0 bg-gradient-to-r from-[#141a24] via-[#141a24]/85 to-[#141a24]/30" />
             <div className="relative p-6">
               <div className="text-xs font-medium uppercase tracking-[0.18em] text-[#3fc4d6]">Reclutamento</div>
-              <div className="mt-2 text-xl font-semibold">Entra nella Polizia di Stato</div>
+              <div className="mt-2 text-xl font-semibold text-white">Entra nella Polizia di Stato</div>
               <p className="mt-1 text-sm text-white/75">Selezioni sempre aperte.</p>
               <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#3fc4d6]">
                 Scopri i bandi <Icon name="arrow-right" size={15} className="transition-transform group-hover:translate-x-1" />
