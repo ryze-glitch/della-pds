@@ -98,7 +98,15 @@ async function sendTelegram(env, text) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text, disable_web_page_preview: true }),
   });
-  if (!res.ok) throw new Error(`telegram ${res.status}`);
+  if (!res.ok) {
+    let why = '';
+    try {
+      why = (await res.json()).description || '';
+    } catch (e) {
+      /* corpo non JSON */
+    }
+    throw new Error(`telegram ${res.status} ${why}`.trim());
+  }
 }
 
 export async function handleRequest(request, env = {}) {
