@@ -17,8 +17,8 @@ export function Section({ children, className = '', tone = 'plain', id }) {
 
 export function Eyebrow({ children, className = '' }) {
   return (
-    <span className={`inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-gold ${className}`}>
-      <span className="h-px w-6 bg-gold" /> {children}
+    <span className={`chip ${className}`}>
+      {children}
     </span>
   );
 }
@@ -37,15 +37,15 @@ export function SectionHead({ eyebrow, title, text, action, className = '' }) {
 }
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-full border text-sm font-semibold transition duration-200 select-none hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link disabled:cursor-not-allowed disabled:opacity-60';
-const sizes = { sm: 'h-9 px-3.5', md: 'h-11 px-5', lg: 'h-12 px-6 text-[13.5px]' };
+  'inline-flex items-center justify-center gap-2 rounded-lg border text-[15px] font-normal transition-colors duration-200 select-none whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-link disabled:cursor-not-allowed disabled:opacity-60';
+const sizes = { sm: 'h-9 px-3.5 text-sm', md: 'h-11 px-[18px]', lg: 'h-12 px-[18px]' };
 const variants = {
-  primary: 'border-primary bg-primary text-primary-fg hover:bg-primary/90',
-  gold: 'border-gold bg-gold text-[#1a1405] hover:brightness-105',
-  outline: 'border-white/25 bg-transparent text-fg hover:border-white/60 hover:bg-white/5',
-  light: 'border-white bg-white text-[#0a1426] hover:bg-white/90',
-  'outline-light': 'border-white/40 bg-bg/40 text-white backdrop-blur-sm hover:bg-white/10',
-  ghost: 'border-transparent text-link hover:bg-surface2',
+  primary: 'border-white bg-white text-black hover:bg-white/85',
+  gold: 'border-white bg-white text-black hover:bg-white/85',
+  outline: 'border-white bg-transparent text-white hover:bg-white/10',
+  light: 'border-white bg-white text-black hover:bg-white/90',
+  'outline-light': 'border-white bg-transparent text-white hover:bg-white/10',
+  ghost: 'border-transparent text-white hover:bg-white/10',
 };
 
 export function Btn({ as: As = 'a', variant = 'primary', size = 'md', icon, iconStart, className = '', children, ...props }) {
@@ -68,14 +68,14 @@ export function Badge({ children, tone = 'neutral', className = '' }) {
     blue: 'border-link/30 bg-link/10 text-link',
   };
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${tones[tone]} ${className}`}>
+    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-[11px] font-normal uppercase tracking-[0.08em] ${tones[tone]} ${className}`}>
       {children}
     </span>
   );
 }
 
 export function Card({ children, className = '' }) {
-  return <div className={`rounded-[20px] border border-line bg-surface  ${className}`}>{children}</div>;
+  return <div className={`rounded-2xl border border-line bg-surface${className}`}>{children}</div>;
 }
 
 export function IconTile({ name, tone = 'primary', className = '' }) {
@@ -93,8 +93,8 @@ export function IconTile({ name, tone = 'primary', className = '' }) {
 
 export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
   return (
-    <section className="border-b border-[#242d3b]">
-      <Container className="pb-8 pt-9 md:pt-11">
+    <section className="border-b border-line">
+      <Container className="pb-10 pt-12 md:pt-16">
         {crumbs.length ? (
           <nav aria-label="Percorso" className="hero-in mb-3 flex flex-wrap items-center gap-1.5 text-sm text-muted">
             <Link href="/" className="hover:text-fg">
@@ -114,11 +114,11 @@ export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
             ))}
           </nav>
         ) : null}
-        <h1 className="hero-in text-[22.5px] font-normal leading-tight sm:text-[25.2px]" style={{ '--d': '80ms' }}>
+        <h1 className="hero-in font-display text-4xl font-normal leading-[1.02] sm:text-5xl" style={{ '--d': '80ms' }}>
           {title}
         </h1>
         {text ? (
-          <p className="hero-in mt-2 max-w-2xl text-[14px] leading-relaxed text-[#c9d2e0]" style={{ '--d': '180ms' }}>
+          <p className="hero-in mt-4 max-w-xl text-lg font-light leading-relaxed text-muted" style={{ '--d': '180ms' }}>
             {text}
           </p>
         ) : null}

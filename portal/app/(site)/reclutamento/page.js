@@ -54,7 +54,7 @@ export default function ReclutamentoPage() {
         <p className="mt-3 text-sm text-muted">Il modulo di candidatura si apre in una nuova scheda (Google Forms).</p>
 
         <h2 className="mt-16 text-2xl font-semibold tracking-tight">Come funziona</h2>
-        <ol className="mt-5 grid gap-px overflow-hidden rounded-[20px] border border-line bg-line md:grid-cols-3">
+        <ol className="mt-5 grid gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-3">
           {STEPS.map(([icon, t, d], i) => (
             <li key={t} className="bg-surface p-6">
               <span className="font-mono text-sm text-gold-ink">0{i + 1}</span>

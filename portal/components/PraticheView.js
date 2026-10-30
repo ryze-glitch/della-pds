@@ -127,10 +127,10 @@ export function PraticheView({ authLoading, profile, discordId, demoItems }) {
   return (
     <Container className="py-10 md:py-14">
       <h1 className="text-[22.5px] font-normal">Gestione pratiche</h1>
-      <p className="mt-1 max-w-2xl text-sm text-[#c9d2e0]">Aggiorna lo stato delle pratiche dello Sportello. I dettagli di ogni richiesta sono nei canali Discord della fazione.</p>
+      <p className="mt-1 max-w-2xl text-sm text-muted">Aggiorna lo stato delle pratiche dello Sportello. I dettagli di ogni richiesta sono nei canali Discord della fazione.</p>
 
       <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-        <label className="flex h-12 flex-1 items-center gap-3 rounded-full border border-[#2a3341] px-5 focus-within:border-link focus-within:ring-2 focus-within:ring-link/25">
+        <label className="flex h-12 flex-1 items-center gap-3 rounded-full border border-line px-5 focus-within:border-link focus-within:ring-2 focus-within:ring-link/25">
           <Icon name="search" size={17} className="text-muted" />
           <span className="sr-only">Cerca per codice</span>
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Cerca per codice (es. K7M2QX)" className="w-full bg-transparent font-mono text-sm uppercase outline-none placeholder:normal-case placeholder:text-muted" />
@@ -147,14 +147,14 @@ export function PraticheView({ authLoading, profile, discordId, demoItems }) {
 
       <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Filtra per stato">
         {[['tutti', 'Tutte'], ...Object.entries(STATI).map(([k, v]) => [k, v.label])].map(([k, label]) => (
-          <button key={k} type="button" aria-pressed={filtroStato === k} onClick={() => setFiltroStato(k)} className={`rounded-full px-4 py-2 text-sm font-medium transition ${filtroStato === k ? 'bg-[#0f3947] text-[#3fc4d6]' : 'text-muted hover:bg-white/5 hover:text-fg'}`}>
+          <button key={k} type="button" aria-pressed={filtroStato === k} onClick={() => setFiltroStato(k)} className={`rounded-full px-4 py-2 text-sm font-medium transition ${filtroStato === k ? 'bg-surface2 text-link' : 'text-muted hover:bg-white/5 hover:text-fg'}`}>
             {label}
             {items.length ? <span className="ml-1.5 text-xs opacity-70">{k === 'tutti' ? items.length : items.filter((p) => p.stato === k).length}</span> : null}
           </button>
         ))}
       </div>
 
-      <div className="mt-5 overflow-hidden rounded-[20px] border border-[#242d3b]">
+      <div className="mt-5 overflow-hidden rounded-2xl border border-line">
         {!state.loaded ? (
           <div className={`p-6 text-sm ${state.error ? 'text-bad' : 'text-muted'}`} role="status">
             {state.error || 'Caricamento pratiche…'}
@@ -162,7 +162,7 @@ export function PraticheView({ authLoading, profile, discordId, demoItems }) {
         ) : filtered.length === 0 ? (
           <div className="p-6 text-sm text-muted">Nessuna pratica trovata.</div>
         ) : (
-          <ul className="divide-y divide-[#1e2735]">
+          <ul className="divide-y divide-line">
             {filtered.map((p) => (
               <Row key={p.id} p={p} agent={agent} onSaved={onSaved} />
             ))}

@@ -12,9 +12,9 @@ const SPORTELLO = ['APERTO AL PUBBLICO', 'CHIUSO'];
 
 function Card({ icon, title, children }) {
   return (
-    <section className="rounded-[20px] border border-[#242d3b] p-6">
-      <h2 className="flex items-center gap-3 border-b border-[#242d3b] pb-4 text-xl font-medium">
-        <Icon name={icon} size={26} strokeWidth={1.4} className="text-[#3fc4d6]" /> {title}
+    <section className="rounded-2xl border border-line p-6">
+      <h2 className="flex items-center gap-3 border-b border-line pb-4 text-xl font-medium">
+        <Icon name={icon} size={26} strokeWidth={1.4} className="text-link" /> {title}
       </h2>
       <div className="mt-5">{children}</div>
     </section>
@@ -86,17 +86,17 @@ export default function ImpostazioniPage() {
   return (
     <div className="px-5 py-7 sm:px-8">
       <h1 className="text-[25px] font-normal">Impostazioni del sito</h1>
-      <p className="mt-1 max-w-2xl text-sm text-[#c9d2e0]">Quello che imposti qui compare nel sito pubblico. Se un campo è vuoto, il sito non mostra nulla.</p>
+      <p className="mt-1 max-w-2xl text-sm text-muted">Quello che imposti qui compare nel sito pubblico. Se un campo è vuoto, il sito non mostra nulla.</p>
 
       <div className="mt-7 grid items-start gap-6 lg:grid-cols-2">
         <Card icon="radio" title="Stato della Questura">
           <div className="space-y-5">
             <div>
-              <div className="mb-2 text-sm text-[#c9d2e0]">Centrale Operativa</div>
+              <div className="mb-2 text-sm text-muted">Centrale Operativa</div>
               <Pills value={centrale} options={CENTRALE} onChange={setCentrale} label="Centrale Operativa" />
             </div>
             <div>
-              <div className="mb-2 text-sm text-[#c9d2e0]">Sportello</div>
+              <div className="mb-2 text-sm text-muted">Sportello</div>
               <Pills value={sportello} options={SPORTELLO} onChange={setSportello} label="Sportello" />
             </div>
             <div className="flex items-center gap-4">
@@ -112,7 +112,7 @@ export default function ImpostazioniPage() {
           <div className="space-y-3">
             {tariffe.length === 0 ? <p className="text-sm text-muted">Nessuna tariffa impostata: nel sito la sezione resta vuota.</p> : null}
             {tariffe.map((t, i) => (
-              <div key={i} className="grid gap-2 rounded-2xl border border-[#242d3b] p-3 sm:grid-cols-[1fr_120px_auto]">
+              <div key={i} className="grid gap-2 rounded-2xl border border-line p-3 sm:grid-cols-[1fr_120px_auto]">
                 <input aria-label="Nome" placeholder="Es. Difesa personale" value={t.nome || ''} maxLength={60} onChange={(e) => upd(i, 'nome', e.target.value)} className="input" />
                 <input aria-label="Importo" placeholder="Es. $ 2.500" value={t.importo || ''} maxLength={30} onChange={(e) => upd(i, 'importo', e.target.value)} className="input" />
                 <button type="button" aria-label="Rimuovi" onClick={() => setTariffe((l) => l.filter((_, j) => j !== i))} className="rounded-full p-2 text-muted hover:bg-white/5 hover:text-bad">
