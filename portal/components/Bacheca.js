@@ -15,10 +15,10 @@ function fmtData(d) {
 }
 
 // Bacheca dei comunicati reali: la sezione resta, vuota se non ce ne sono.
-export function Bacheca({ max = 5, href = '/notizie', tone }) {
+export function Bacheca({ max = 5, href = '/notizie' }) {
   const list = useComunicati(max);
   return (
-    <Widget icon="news" title="Bacheca" href={href} tone={tone}>
+    <Widget icon="news" title="Bacheca" href={href}>
       {!list || list.length === 0 ? (
         <p className="py-10 text-center text-sm text-muted">{list === null ? 'Caricamento…' : 'Nessun comunicato al momento.'}</p>
       ) : (

@@ -37,15 +37,15 @@ export function SectionHead({ eyebrow, title, text, action, className = '' }) {
 }
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-full border text-[15px] font-normal transition-colors duration-200 select-none whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-60';
-const sizes = { sm: 'h-8 px-4 text-[13px]', md: 'h-11 px-6', lg: 'h-12 px-7 text-[17px]' };
+  'inline-flex items-center justify-center gap-2 rounded-[18px] border text-[14px] font-medium transition-colors duration-200 select-none whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg disabled:cursor-not-allowed disabled:opacity-60';
+const sizes = { sm: 'h-8 px-3 text-[13px]', md: 'h-10 px-4', lg: 'h-11 px-5 text-[14px]' };
 const variants = {
-  primary: 'border-primary bg-primary text-primary-fg hover:bg-[#0077ed]',
-  gold: 'border-primary bg-primary text-primary-fg hover:bg-[#0077ed]',
-  outline: 'border-fog bg-transparent text-fg hover:bg-black/5',
-  light: 'border-white bg-white text-fg hover:bg-white/90',
-  'outline-light': 'border-fog bg-transparent text-fg hover:bg-black/5',
-  ghost: 'border-transparent text-link hover:underline',
+  primary: 'border-transparent bg-primary text-primary-fg hover:bg-primary/90',
+  gold: 'border-transparent bg-primary text-primary-fg hover:bg-primary/90',
+  outline: 'border-line bg-transparent text-fg hover:bg-black/5',
+  light: 'border-transparent bg-surface2 text-fg hover:bg-black/5',
+  'outline-light': 'border-line bg-surface text-fg hover:bg-black/5',
+  ghost: 'border-transparent text-fg hover:bg-black/5',
 };
 
 export function Btn({ as: As = 'a', variant = 'primary', size = 'md', icon, iconStart, className = '', children, ...props }) {
@@ -68,14 +68,14 @@ export function Badge({ children, tone = 'neutral', className = '' }) {
     blue: 'border-link/30 bg-link/10 text-link',
   };
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-0.5 text-[12px] font-semibold ${tones[tone]} ${className}`}>
+    <span className={`inline-flex items-center gap-1.5 rounded-[18px] border px-2 py-0.5 text-[12px] font-medium ${tones[tone]} ${className}`}>
       {children}
     </span>
   );
 }
 
 export function Card({ children, className = '' }) {
-  return <div className={`rounded-tile bg-surface${className}`}>{children}</div>;
+  return <div className={`rounded-[24px] border border-line bg-surface shadow-card${className}`}>{children}</div>;
 }
 
 export function IconTile({ name, tone = 'primary', className = '' }) {
@@ -85,7 +85,7 @@ export function IconTile({ name, tone = 'primary', className = '' }) {
     soft: 'bg-surface2 text-muted',
   };
   return (
-    <span className={`inline-flex h-11 w-11 flex-none items-center justify-center rounded-2xl ${tones[tone]} ${className}`}>
+    <span className={`inline-flex h-11 w-11 flex-none items-center justify-center rounded-[14px] ${tones[tone]} ${className}`}>
       <Icon name={name} size={21} />
     </span>
   );
@@ -114,11 +114,11 @@ export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
             ))}
           </nav>
         ) : null}
-        <h1 className="hero-in text-[36px] font-semibold leading-[1.08] tracking-[-0.003em] sm:text-5xl" style={{ '--d': '80ms' }}>
+        <h1 className="hero-in text-[30px] font-semibold leading-[1.1] tracking-[-0.05em] sm:text-[40px]" style={{ '--d': '80ms' }}>
           {title}
         </h1>
         {text ? (
-          <p className="hero-in mt-4 max-w-xl text-[19px] leading-snug text-muted" style={{ '--d': '180ms' }}>
+          <p className="hero-in mt-3 max-w-xl text-[16px] leading-relaxed text-muted" style={{ '--d': '180ms' }}>
             {text}
           </p>
         ) : null}

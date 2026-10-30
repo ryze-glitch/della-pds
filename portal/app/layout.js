@@ -1,6 +1,6 @@
-import '@fontsource/inter/latin-400.css';
-import '@fontsource/inter/latin-500.css';
-import '@fontsource/inter/latin-600.css';
+import '@fontsource/geist/latin-400.css';
+import '@fontsource/geist/latin-500.css';
+import '@fontsource/geist/latin-600.css';
 import 'lenis/dist/lenis.css';
 import './globals.css';
 import { SmoothScroll } from '../components/SmoothScroll';
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="color-scheme" content="light" />
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#f5f5f5" />
         <link rel="icon" href="/favicon.ico?v=2" />
         <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
       </head>
