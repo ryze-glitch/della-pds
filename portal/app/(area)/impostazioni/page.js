@@ -115,7 +115,7 @@ export default function ImpostazioniPage() {
               <div key={i} className="grid gap-2 rounded-2xl border border-line p-3 sm:grid-cols-[1fr_120px_auto]">
                 <input aria-label="Nome" placeholder="Es. Difesa personale" value={t.nome || ''} maxLength={60} onChange={(e) => upd(i, 'nome', e.target.value)} className="input" />
                 <input aria-label="Importo" placeholder="Es. $ 2.500" value={t.importo || ''} maxLength={30} onChange={(e) => upd(i, 'importo', e.target.value)} className="input" />
-                <button type="button" aria-label="Rimuovi" onClick={() => setTariffe((l) => l.filter((_, j) => j !== i))} className="rounded-full p-2 text-muted hover:bg-white/5 hover:text-bad">
+                <button type="button" aria-label="Rimuovi" onClick={() => setTariffe((l) => l.filter((_, j) => j !== i))} className="rounded-full p-2 text-muted hover:bg-black/5 hover:text-bad">
                   <Icon name="x" size={16} />
                 </button>
                 <input aria-label="Nota" placeholder="Nota (facoltativa)" value={t.note || ''} maxLength={120} onChange={(e) => upd(i, 'note', e.target.value)} className="input sm:col-span-3" />

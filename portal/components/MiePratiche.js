@@ -70,7 +70,7 @@ export function MiePratiche({ compact = false }) {
             </Link>
             {st ? <Badge tone={st.tone}>{st.label}</Badge> : <span className="text-xs text-muted">{p.stato === null ? '…' : 'Non trovata'}</span>}
             <CopiaLink code={p.code} />
-            <button type="button" onClick={() => removePratica(p.code)} aria-label={`Rimuovi ${p.code} dall'elenco`} className="rounded-full p-1.5 text-muted transition hover:bg-white/5 hover:text-fg">
+            <button type="button" onClick={() => removePratica(p.code)} aria-label={`Rimuovi ${p.code} dall'elenco`} className="rounded-full p-1.5 text-muted transition hover:bg-black/5 hover:text-fg">
               <Icon name="x" size={15} />
             </button>
           </li>

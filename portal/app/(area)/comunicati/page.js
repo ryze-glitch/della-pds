@@ -129,7 +129,7 @@ export default function ComunicatiAgentiPage() {
                     </div>
                     <div className="mt-1.5 font-medium">{c.titolo}</div>
                   </div>
-                  <button type="button" onClick={() => remove(c.id)} aria-label={`Elimina ${c.titolo}`} className="rounded-full p-2 text-muted transition hover:bg-white/5 hover:text-bad">
+                  <button type="button" onClick={() => remove(c.id)} aria-label={`Elimina ${c.titolo}`} className="rounded-full p-2 text-muted transition hover:bg-black/5 hover:text-bad">
                     <Icon name="x" size={16} />
                   </button>
                 </li>

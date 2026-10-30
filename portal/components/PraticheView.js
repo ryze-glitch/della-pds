@@ -147,7 +147,7 @@ export function PraticheView({ authLoading, profile, discordId, demoItems }) {
 
       <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Filtra per stato">
         {[['tutti', 'Tutte'], ...Object.entries(STATI).map(([k, v]) => [k, v.label])].map(([k, label]) => (
-          <button key={k} type="button" aria-pressed={filtroStato === k} onClick={() => setFiltroStato(k)} className={`rounded-full px-4 py-2 text-sm font-medium transition ${filtroStato === k ? 'bg-surface2 text-link' : 'text-muted hover:bg-white/5 hover:text-fg'}`}>
+          <button key={k} type="button" aria-pressed={filtroStato === k} onClick={() => setFiltroStato(k)} className={`rounded-full px-4 py-2 text-sm font-medium transition ${filtroStato === k ? 'bg-surface2 text-link' : 'text-muted hover:bg-black/5 hover:text-fg'}`}>
             {label}
             {items.length ? <span className="ml-1.5 text-xs opacity-70">{k === 'tutti' ? items.length : items.filter((p) => p.stato === k).length}</span> : null}
           </button>

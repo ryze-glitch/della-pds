@@ -48,11 +48,11 @@ function fmtDay(ts) {
 }
 
 const TONE = {
-  ricevuta: 'border-l-[#3b82f6] bg-[#1c3158]',
-  in_lavorazione: 'border-l-[#f5b946] bg-[#3a3016]',
-  in_attesa: 'border-l-[#9a7bf0] bg-[#2b2550]',
-  conclusa: 'border-l-[#34d17f] bg-[#173a28]',
-  respinta: 'border-l-[#ff6b7d] bg-[#3d1d24]',
+  ricevuta: 'border-l-[#0071e3] bg-[#eaf3fd]',
+  in_lavorazione: 'border-l-[#d98a00] bg-[#fdf3e0]',
+  in_attesa: 'border-l-[#7a5af5] bg-[#f0ecfe]',
+  conclusa: 'border-l-[#1f9d63] bg-[#e5f6ed]',
+  respinta: 'border-l-[#d70015] bg-[#fdeaec]',
 };
 const TEXT = { ricevuta: '#7ea4ee', in_lavorazione: '#f5b946', in_attesa: '#b7a0ff', conclusa: '#4ade80', respinta: '#ff8a98' };
 
@@ -158,7 +158,7 @@ export function DashboardView({ profile, pratiche }) {
                       <Icon name="user" size={15} /> {TIPI_PRATICA[p.tipo] || p.tipo}
                     </div>
                     <div className="mt-1 flex items-center gap-4 text-sm">
-                      <span className="font-mono text-[#ff8a98]">#{p.id}</span>
+                      <span className="font-mono text-bad">#{p.id}</span>
                       <span className="flex items-center gap-1.5 text-muted">
                         <Icon name="clock" size={14} /> da {fmtDay(p.creatoIl)}
                       </span>

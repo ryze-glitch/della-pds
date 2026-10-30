@@ -5,23 +5,23 @@
 /* Portale della Questura: tema scuro, token come canali RGB per supportare
    le opacità di Tailwind. */
 :root {
-  color-scheme: dark;
-  --bg: 15 16 17;        /* Obsidian */
-  --surface: 9 10 11;    /* Abyss */
-  --surface2: 46 46 46;  /* Graphite */
-  --fg: 255 255 255;
-  --muted: 159 159 160;  /* Ash */
-  --fog: 106 107 107;
-  --line: 44 45 46;
-  --primary: 255 255 255;
-  --primary-fg: 0 0 0;
-  --link: 245 245 247;   /* Cloud */
-  --gold: 255 255 255;
-  --gold-soft: 46 46 46;
-  --gold-ink: 245 245 247;
-  --ok: 52 209 127;
-  --bad: 255 107 125;
-  --warn: 245 180 70;
+  color-scheme: light;
+  --bg: 255 255 255;        /* Gallery White */
+  --surface: 245 245 247;   /* Studio Mist */
+  --surface2: 230 230 232;  /* Control Gray */
+  --fg: 29 29 31;           /* Ink */
+  --muted: 112 112 112;     /* Slate */
+  --fog: 134 134 139;       /* Steel */
+  --line: 214 214 214;      /* Hairline Silver */
+  --primary: 0 113 227;     /* Pricing Blue */
+  --primary-fg: 255 255 255;
+  --link: 0 102 204;        /* Apple Blue */
+  --gold: 0 102 204;
+  --gold-soft: 245 245 247;
+  --gold-ink: 0 102 204;
+  --ok: 25 135 84;
+  --bad: 215 0 21;
+  --warn: 182 68 0;         /* Launch Orange */
 }
 
 html {
@@ -31,33 +31,35 @@ html {
 body {
   background: rgb(var(--bg));
   color: rgb(var(--fg));
-  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  font-weight: 300;
+  font-family: 'Inter', 'Helvetica Neue', Arial, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.022em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-body strong, body b { font-weight: 500; }
+body strong, body b { font-weight: 600; }
 
 ::selection {
-  background: rgb(255 255 255 / 0.28);
+  background: rgb(0 113 227 / 0.22);
 }
 
 @layer components {
   .h1 {
-    @apply font-display text-5xl font-normal leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-[80px];
+    @apply text-[44px] font-semibold leading-[1.05] tracking-[-0.015em] sm:text-6xl lg:text-[80px];
   }
   .h2 {
-    @apply font-display text-3xl font-normal leading-[1.05] tracking-[-0.005em] sm:text-[38px];
+    @apply text-[30px] font-semibold leading-[1.05] tracking-[-0.01em] sm:text-[40px];
   }
   .label {
-    @apply font-mono text-[11px] font-normal uppercase tracking-[0.12em] text-muted;
+    @apply text-[12px] font-semibold uppercase tracking-[0.06em] text-muted;
   }
   .chip {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-5 py-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[#fafafa];
+    @apply inline-flex items-center gap-2 text-[17px] font-semibold tracking-[0.01em] text-fg;
   }
   .input {
-    @apply block w-full rounded-lg border border-white/10 bg-black px-4 py-3 text-[15px] font-normal text-[#fafafa] outline-none transition placeholder:text-muted focus:border-white/50 focus:ring-2 focus:ring-white/15;
+    @apply block w-full rounded-full border border-fog bg-white px-6 py-3 text-[15px] text-fg outline-none transition placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/25;
   }
+  textarea.input { @apply rounded-[20px]; }
   .input[aria-invalid='true'] {
     @apply border-bad focus:border-bad focus:ring-bad/25;
   }
