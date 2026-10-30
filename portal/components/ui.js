@@ -7,7 +7,7 @@ export function Container({ children, className = '' }) {
 }
 
 export function Section({ children, className = '', tone = 'plain', id }) {
-  const tones = { plain: '', surface: 'bg-surface2', primary: 'bg-primary text-primary-fg' };
+  const tones = { plain: '', surface: 'bg-surface2', primary: 'bg-dark text-white' };
   return (
     <section id={id} className={`${tones[tone]} ${className}`}>
       <Container className="py-14 md:py-20">{children}</Container>
@@ -37,15 +37,15 @@ export function SectionHead({ eyebrow, title, text, action, className = '' }) {
 }
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-[18px] border text-[14px] font-medium transition-colors duration-200 select-none whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg disabled:cursor-not-allowed disabled:opacity-60';
-const sizes = { sm: 'h-8 px-3 text-[13px]', md: 'h-10 px-4', lg: 'h-11 px-5 text-[14px]' };
+  'inline-flex items-center justify-center gap-2 rounded-[26px] border text-[14px] font-normal transition-colors duration-200 select-none whitespace-nowrap focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-60';
+const sizes = { sm: 'h-8 px-4 text-[13px]', md: 'h-11 px-6', lg: 'h-12 px-7 text-[15px]' };
 const variants = {
-  primary: 'border-transparent bg-primary text-primary-fg hover:bg-primary/90',
-  gold: 'border-transparent bg-primary text-primary-fg hover:bg-primary/90',
+  primary: 'border-primary bg-transparent text-primary hover:bg-primary/5',
+  gold: 'border-primary bg-transparent text-primary hover:bg-primary/5',
   outline: 'border-line bg-transparent text-fg hover:bg-black/5',
-  light: 'border-transparent bg-surface2 text-fg hover:bg-black/5',
+  light: 'border-transparent bg-fg/5 text-fg hover:bg-fg/10',
   'outline-light': 'border-line bg-surface text-fg hover:bg-black/5',
-  ghost: 'border-transparent text-fg hover:bg-black/5',
+  ghost: 'border-transparent text-primary hover:underline',
 };
 
 export function Btn({ as: As = 'a', variant = 'primary', size = 'md', icon, iconStart, className = '', children, ...props }) {
@@ -68,14 +68,14 @@ export function Badge({ children, tone = 'neutral', className = '' }) {
     blue: 'border-link/30 bg-link/10 text-link',
   };
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-[18px] border px-2 py-0.5 text-[12px] font-medium ${tones[tone]} ${className}`}>
+    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-[2px] text-[12px] font-normal ${tones[tone]} ${className}`}>
       {children}
     </span>
   );
 }
 
 export function Card({ children, className = '' }) {
-  return <div className={`rounded-[24px] border border-line bg-surface shadow-card${className}`}>{children}</div>;
+  return <div className={`rounded-[40px] border border-line bg-surface${className}`}>{children}</div>;
 }
 
 export function IconTile({ name, tone = 'primary', className = '' }) {
@@ -85,7 +85,7 @@ export function IconTile({ name, tone = 'primary', className = '' }) {
     soft: 'bg-surface2 text-muted',
   };
   return (
-    <span className={`inline-flex h-11 w-11 flex-none items-center justify-center rounded-[14px] ${tones[tone]} ${className}`}>
+    <span className={`inline-flex h-11 w-11 flex-none items-center justify-center rounded-full ${tones[tone]} ${className}`}>
       <Icon name={name} size={21} />
     </span>
   );
@@ -114,7 +114,7 @@ export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
             ))}
           </nav>
         ) : null}
-        <h1 className="hero-in text-[30px] font-semibold leading-[1.1] tracking-[-0.05em] sm:text-[40px]" style={{ '--d': '80ms' }}>
+        <h1 className="hero-in text-[30px] font-normal leading-[1.12] tracking-[-0.03em] sm:text-[40px]" style={{ '--d': '80ms' }}>
           {title}
         </h1>
         {text ? (

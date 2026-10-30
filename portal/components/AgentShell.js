@@ -103,7 +103,7 @@ export function AgentShell({ children, preview = false }) {
           onClick={logout}
           title={collapsed ? 'Esci' : undefined}
           aria-label="Esci"
-          className={`m-3 flex h-12 items-center justify-center gap-2.5 rounded-full bg-primary text-[11.7px] font-medium text-primary-fg transition hover:bg-white/85 ${collapsed ? 'lg:mx-auto lg:w-12' : ''}`}
+          className={`m-3 flex h-12 items-center justify-center gap-2.5 rounded-full border border-primary bg-transparent text-[11.7px] font-medium text-primary transition hover:bg-primary/5 ${collapsed ? 'lg:mx-auto lg:w-12' : ''}`}
         >
           <Icon name="logout" size={18} />
           <span className={collapsed ? 'lg:hidden' : ''}>Esci</span>
@@ -123,7 +123,7 @@ export function AgentShell({ children, preview = false }) {
             <br />
             Italian Paradise XI
           </span>
-          <span className="flex h-[41.4px] w-[41.4px] items-center justify-center rounded-full bg-primary text-primary-fg">
+          <span className="flex h-[41.4px] w-[41.4px] items-center justify-center rounded-full border border-primary bg-transparent text-primary">
             <Icon name="user" size={22} />
           </span>
         </header>

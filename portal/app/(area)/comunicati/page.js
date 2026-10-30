@@ -89,7 +89,7 @@ export default function ComunicatiAgentiPage() {
           <div className="mt-5 space-y-4">
             <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Tipo">
               {TIPI.map((t) => (
-                <button key={t} type="button" role="radio" aria-checked={tipo === t} onClick={() => setTipo(t)} className={`rounded-full border px-4 py-2 text-sm font-medium transition ${tipo === t ? 'border-primary bg-primary/15 text-link' : 'border-line hover:border-white/40'}`}>
+                <button key={t} type="button" role="radio" aria-checked={tipo === t} onClick={() => setTipo(t)} className={`rounded-full border px-4 py-2 text-sm font-medium transition ${tipo === t ? 'border-primary bg-primary/5 text-link' : 'border-line hover:border-white/40'}`}>
                   {t}
                 </button>
               ))}

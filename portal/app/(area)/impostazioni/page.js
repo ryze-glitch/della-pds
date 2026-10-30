@@ -25,7 +25,7 @@ function Pills({ value, options, onChange, label }) {
   return (
     <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-2">
       {options.map((o) => (
-        <button key={o} type="button" role="radio" aria-checked={value === o} onClick={() => onChange(o)} className={`rounded-full border px-4 py-2 text-sm font-medium transition ${value === o ? 'border-primary bg-primary/15 text-link' : 'border-line hover:border-white/40'}`}>
+        <button key={o} type="button" role="radio" aria-checked={value === o} onClick={() => onChange(o)} className={`rounded-full border px-4 py-2 text-sm font-medium transition ${value === o ? 'border-primary bg-primary/5 text-link' : 'border-line hover:border-white/40'}`}>
           {o}
         </button>
       ))}

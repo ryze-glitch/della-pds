@@ -57,7 +57,7 @@ export function NotizieList() {
             <article
               id={`c-${c.id}`}
               key={c.id}
-              className={`grid scroll-mt-28 gap-x-8 gap-y-2 border-b border-line px-2 py-7 transition-colors duration-700 md:grid-cols-[170px_1fr] ${hl === c.id ? 'bg-primary/10' : ''}`}
+              className={`grid scroll-mt-28 gap-x-8 gap-y-2 border-b border-line px-2 py-7 transition-colors duration-700 md:grid-cols-[170px_1fr] ${hl === c.id ? 'bg-primary/5' : ''}`}
             >
               <div>
                 <div className={`text-xs font-medium uppercase tracking-[0.16em] ${COLOR[c.tipo]}`}>{c.tipo}</div>

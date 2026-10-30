@@ -76,7 +76,7 @@ function Field({ field, value, error, onChange, onBlur }) {
                 onChange(field, o);
                 onBlur(field, o);
               }}
-              className={`rounded-full border px-5 py-2.5 text-[13.1px] font-medium transition ${on ? 'border-primary bg-primary/15 text-link' : 'border-line text-fg hover:border-white/40'}`}
+              className={`rounded-full border px-5 py-2.5 text-[13.1px] font-medium transition ${on ? 'border-primary bg-primary/5 text-link' : 'border-line text-fg hover:border-white/40'}`}
             >
               {o}
             </button>
@@ -427,7 +427,7 @@ export function SportelloForm({ formId }) {
         </div>
         <div className="flex gap-2" aria-hidden="true">
           {steps.map((st, i) => (
-            <span key={st.title} className={`h-1.5 flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-primary' : 'bg-line'}`} />
+            <span key={st.title} className={`h-1.5 flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-fg' : 'bg-line'}`} />
           ))}
         </div>
       </div>
