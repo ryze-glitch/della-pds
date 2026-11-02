@@ -1,7 +1,7 @@
 import { Demo } from './demo';
 
 export function generateStaticParams() {
-  return ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'].map((v) => ({ v }));
+  return ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o'].map((v) => ({ v }));
 }
 
 export default function Page({ params }) {

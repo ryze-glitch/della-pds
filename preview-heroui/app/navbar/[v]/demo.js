@@ -2,15 +2,16 @@
 
 import { NOMI, VARIANTI } from '../variants';
 import { NOMI2, VARIANTI2 } from '../variants2';
+import { NOMI3, VARIANTI3 } from '../variants3';
 
 export function Demo({ v }) {
-  const Nav = VARIANTI[v] || VARIANTI2[v];
-  const nome = NOMI[v] || NOMI2[v];
+  const Nav = VARIANTI[v] || VARIANTI2[v] || VARIANTI3[v];
+  const nome = NOMI[v] || NOMI2[v] || NOMI3[v];
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className={`relative overflow-hidden ${v === 'k' || v === 'o' ? 'min-h-[200vh]' : 'min-h-screen'}`}>
       <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_0%,rgba(37,99,235,0.35),transparent_55%),radial-gradient(ellipse_at_10%_60%,rgba(37,99,235,0.15),transparent_50%)]" />
       <Nav />
-      <main className={`relative mx-auto flex max-w-5xl flex-col items-center px-6 pb-24 pt-44 text-center ${v === 'i' ? 'md:pl-24' : ''}`}>
+      <main className={`relative mx-auto flex max-w-5xl flex-col items-center px-6 pb-24 pt-44 text-center ${v === 'i' ? 'md:pl-24' : v === 'n' ? 'md:pl-72' : ''}`}>
         <img src="/crest.png" alt="" className="h-28 w-auto drop-shadow-2xl" />
         <h1 className="mt-6 text-5xl font-extrabold uppercase tracking-wide sm:text-7xl">Polizia di Stato</h1>
         <p className="mt-4 text-default-500">Via dei Peccatori N°761 · Tel. 113</p>
