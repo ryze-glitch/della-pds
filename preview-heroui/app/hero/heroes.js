@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { Button, Card, CardBody, Chip, Divider, Input, Kbd, Listbox, ListboxItem, Tab, Tabs } from '@heroui/react';
 import { VARIANTI3 } from '../navbar/variants3';
 
-const Ic = ({ d, s = 20 }) => (
+export const Ic = ({ d, s = 20 }) => (
   <svg viewBox="0 0 24 24" width={s} height={s} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={d} /></svg>
 );
-const P = {
+export const P = {
   file: 'M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6',
   shield: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z',
   cal: 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4',
@@ -20,16 +20,16 @@ const P = {
   down: 'M12 5v14M6 13l6 6 6-6',
 };
 
-const SERVIZI = [
+export const SERVIZI = [
   { k: 'den', t: 'Denuncia online', s: 'Segnala un fatto senza venire in sede', i: P.file },
   { k: 'arm', t: "Porto d'armi", s: 'Richiedi o rinnova il porto', i: P.shield },
   { k: 'col', t: 'Prenota un colloquio', s: 'Scegli giorno e orario', i: P.cal },
   { k: 'con', t: 'Concorso pubblico', s: 'Entra nella Polizia di Stato', i: P.trophy },
 ];
 
-const glass = 'border border-white/10 bg-content1/60 shadow-xl shadow-black/40 backdrop-blur-2xl';
+export const glass = 'border border-white/10 bg-content1/60 shadow-xl shadow-black/40 backdrop-blur-2xl';
 
-function Sfondo({ children, v }) {
+export function Sfondo({ children, v }) {
   const Nav = VARIANTI3.m;
   return (
     <div className="relative min-h-screen overflow-hidden">
