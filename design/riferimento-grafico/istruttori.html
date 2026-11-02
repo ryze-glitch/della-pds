@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Istruttori: valutazione dell'esame pratico</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+a.top:hover{text-decoration:underline;text-underline-offset:6px}
+a.q:hover{background:#f4f6ff}
+label.seg{position:relative;cursor:pointer}
+label.seg input{position:absolute;opacity:0;inset:0;margin:0;width:100%;height:100%;cursor:pointer}
+label.seg:focus-within{outline:3px solid #0a0a0a;outline-offset:2px}
+textarea:focus{outline:3px solid #0a0a0a;outline-offset:2px}
+button.ok:hover{background:#0a0a0a}
+button.ko:hover{background:#f1f2f6}
+</style>
+</helmet>
+<div style="min-height: 1100px; box-sizing: border-box; background: #ffffff; color: #0a0a0a; font-family: Archivo, system-ui, sans-serif;">
+
+  <header style="max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 0 48px; min-height: 76px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <svg width="32" height="32" viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 3l12 4.5v9.2c0 8.1-5 13.6-12 16.3-7-2.7-12-8.2-12-16.3V7.5L18 3z" fill="#1f3bff"/></svg>
+      <span style="font-weight: 800; font-size: 18px; letter-spacing: -0.02em;">Accademia</span>
+    </div>
+    <nav aria-label="Principale" style="display: flex; flex-wrap: wrap; gap: 4px 28px;">
+      <a class="top" href="#" style="display: inline-flex; align-items: center; height: 44px; font-size: 15px; font-weight: 600;">Corsi</a>
+      <a class="top" href="#" style="display: inline-flex; align-items: center; height: 44px; font-size: 15px; font-weight: 600;">Il mio percorso</a>
+      <a class="top" href="#" style="display: inline-flex; align-items: center; height: 44px; font-size: 15px; font-weight: 600;">Abilitazioni</a>
+      <a class="top" href="#" style="display: inline-flex; align-items: center; height: 44px; font-size: 15px; font-weight: 600;">Pratiche</a>
+      <a class="top" href="#" aria-current="page" style="display: inline-flex; align-items: center; height: 44px; font-size: 15px; font-weight: 800; color: #1f3bff;">Istruttori</a>
+    </nav>
+    <span style="font-size: 14px; font-weight: 600;">[Nome Istruttore] <span style="color: #52565f; font-weight: 500;">· Istruttore</span></span>
+  </header>
+
+  <section style="background: #1f3bff; color: #ffffff;">
+    <div style="max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 40px 48px 44px; display: flex; flex-direction: column; gap: 12px;">
+      <span style="font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #dbe2ff;">Area istruttori</span>
+      <h1 style="margin: 0; font-size: 56px; line-height: 1; font-weight: 800; letter-spacing: -0.04em; font-stretch: 90%;">Valutazione dell'esame pratico</h1>
+    </div>
+  </section>
+
+  <div style="max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 40px 48px 72px; display: flex; flex-wrap: wrap; gap: 56px;">
+
+    <aside aria-labelledby="coda" style="flex: 1 1 280px; max-width: 340px; display: flex; flex-direction: column; gap: 12px;">
+      <h2 id="coda" style="margin: 0 0 8px; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #52565f;">Da valutare</h2>
+      <a class="q" href="#" aria-current="true" style="display: flex; flex-direction: column; gap: 2px; padding: 18px 20px; border-radius: 14px; border: 2px solid #1f3bff; background: #f4f6ff;">
+        <span style="font-size: 18px; font-weight: 800;">[Allievo 1]</span>
+        <span style="font-size: 14px; color: #3d414a;">Posto di blocco e fermo veicolo</span>
+        <span style="font-size: 14px; color: #52565f;">[Data] · [Ora]</span>
+      </a>
+      <a class="q" href="#" style="display: flex; flex-direction: column; gap: 2px; padding: 18px 20px; border-radius: 14px; border: 2px solid #d5d8e0;">
+        <span style="font-size: 18px; font-weight: 800;">[Allievo 2]</span>
+        <span style="font-size: 14px; color: #3d414a;">Comunicazioni radio e codici</span>
+        <span style="font-size: 14px; color: #52565f;">[Data] · [Ora]</span>
+      </a>
+      <a class="q" href="#" style="display: flex; flex-direction: column; gap: 2px; padding: 18px 20px; border-radius: 14px; border: 2px solid #d5d8e0;">
+        <span style="font-size: 18px; font-weight: 800;">[Allievo 3]</span>
+        <span style="font-size: 14px; color: #3d414a;">Posto di blocco e fermo veicolo</span>
+        <span style="font-size: 14px; color: #52565f;">[Data] · [Ora]</span>
+      </a>
+    </aside>
+
+    <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 32px;">
+      <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <h2 style="margin: 0; font-size: 36px; line-height: 1.05; font-weight: 800; letter-spacing: -0.03em;">[Allievo 1]</h2>
+          <span style="font-size: 16px; color: #3d414a;">Posto di blocco e fermo veicolo · [Data] · [Ora]</span>
+        </div>
+        <span style="font-size: 18px; font-weight: 800; color: #1f3bff;">{{summary}}</span>
+      </div>
+
+      <form style="margin: 0; display: flex; flex-direction: column; gap: 32px;">
+        <div style="display: flex; flex-direction: column;">
+          <sc-for list="{{criteria}}" as="c" hint-placeholder-count="4">
+            <fieldset style="margin: 0; padding: 22px 0; border: 0; border-top: 1px solid #d5d8e0; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px;">
+              <legend style="float: left; width: 100%; padding: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 14px;"><span style="color: #1f3bff; margin-right: 12px;">{{c.n}}</span>{{c.label}}</legend>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px; clear: both;">
+                <sc-for list="{{c.opts}}" as="o" hint-placeholder-count="3">
+                  <label class="seg" style="display: inline-flex; align-items: center; justify-content: center; min-width: 120px; height: 48px; padding: 0 20px; border-radius: 999px; border: 2px solid {{o.border}}; background: {{o.bg}}; color: {{o.fg}}; font-size: 15px; font-weight: 800;">
+                    <input type="radio" name="{{c.name}}" value="{{o.id}}" checked="{{o.checked}}" onChange="{{o.pick}}">
+                    {{o.text}}
+                  </label>
+                </sc-for>
+              </div>
+            </fieldset>
+          </sc-for>
+          <div style="border-top: 1px solid #d5d8e0;"></div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <label for="note" style="font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #52565f;">Note per l'allievo</label>
+          <textarea id="note" rows="4" style="box-sizing: border-box; width: 100%; padding: 16px 18px; border-radius: 14px; border: 2px solid #d5d8e0; font-family: inherit; font-size: 17px; line-height: 1.45; resize: vertical;"></textarea>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <button class="ok" type="button" style="display: inline-flex; align-items: center; justify-content: center; height: 60px; padding: 0 36px; border: 0; border-radius: 999px; background: #1f3bff; color: #ffffff; font-family: inherit; font-weight: 800; font-size: 17px; cursor: pointer;">Esame superato</button>
+          <button class="ko" type="button" style="display: inline-flex; align-items: center; justify-content: center; height: 60px; padding: 0 36px; border: 2px solid #0a0a0a; border-radius: 999px; background: #ffffff; color: #0a0a0a; font-family: inherit; font-weight: 800; font-size: 17px; cursor: pointer;">Da ripetere</button>
+        </div>
+      </form>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { r: { c1: 'ok', c2: 'ok', c3: 'part', c4: null } };
+  }
+  renderVals() {
+    const r = this.state.r;
+    const defs = [
+      { id: 'c1', n: '01', label: 'Si presenta e saluta la persona fermata' },
+      { id: 'c2', n: '02', label: 'Comunica il motivo del fermo' },
+      { id: 'c3', n: '03', label: 'Usa correttamente la radio e i codici' },
+      { id: 'c4', n: '04', label: 'Rispetta i diritti della persona fermata' }
+    ];
+    const choices = [
+      { id: 'no', text: 'Non svolto' },
+      { id: 'part', text: 'Parziale' },
+      { id: 'ok', text: 'Corretto' }
+    ];
+    const criteria = defs.map((d) => ({
+      ...d,
+      name: d.id,
+      opts: choices.map((o) => {
+        const on = r[d.id] === o.id;
+        return {
+          ...o,
+          checked: on,
+          border: on ? '#1f3bff' : '#d5d8e0',
+          bg: on ? '#1f3bff' : '#ffffff',
+          fg: on ? '#ffffff' : '#0a0a0a',
+          pick: () => this.setState({ r: { ...r, [d.id]: o.id } })
+        };
+      })
+    }));
+    const okCount = defs.filter((d) => r[d.id] === 'ok').length;
+    return { criteria, summary: okCount + ' criteri corretti su ' + defs.length };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Quiz di verifica: domanda 4 di 10</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+a.exit:hover{text-decoration:underline;text-underline-offset:6px}
+label.opt{cursor:pointer}
+label.opt:hover{background:#f4f6ff}
+input[type=radio]{accent-color:#1f3bff;width:24px;height:24px;margin:0;flex:0 0 24px}
+button.confirm:not([disabled]):hover{background:#0a0a0a}
+</style>
+</helmet>
+<div style="min-height: 1000px; box-sizing: border-box; background: #ffffff; color: #0a0a0a; font-family: Archivo, system-ui, sans-serif;">
+
+  <header style="max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 0 48px; min-height: 76px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <svg width="32" height="32" viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 3l12 4.5v9.2c0 8.1-5 13.6-12 16.3-7-2.7-12-8.2-12-16.3V7.5L18 3z" fill="#1f3bff"/></svg>
+      <span style="font-weight: 800; font-size: 18px; letter-spacing: -0.02em;">Accademia</span>
+    </div>
+    <span style="font-size: 15px; font-weight: 600; color: #3d414a;">Quiz · Posto di blocco e fermo veicolo</span>
+    <a class="exit" href="#" style="display: inline-flex; align-items: center; height: 44px; font-size: 15px; font-weight: 700;">Esci dal quiz</a>
+  </header>
+
+  <div style="height: 6px; background: #e6e9f2;"><div style="width: 30%; height: 6px; background: #1f3bff;"></div></div>
+
+  <div style="max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 56px 48px 72px; display: flex; flex-wrap: wrap; gap: 64px;">
+
+    <main style="flex: 999 1 560px; min-width: 0; max-width: 860px; display: flex; flex-direction: column; gap: 32px;">
+      <span style="font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #1f3bff;">Domanda 4 di 10</span>
+
+      <form style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 32px;">
+        <fieldset style="margin: 0; padding: 0; border: 0; min-width: 0; display: flex; flex-direction: column; gap: 28px;">
+          <legend style="padding: 0; margin-bottom: 28px; font-size: 40px; line-height: 1.1; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance;">Durante un posto di blocco, il conducente rifiuta di sottoporsi all'alcoltest. Cosa fai?</legend>
+
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <sc-for list="{{options}}" as="o" hint-placeholder-count="4">
+              <label class="opt" style="display: flex; align-items: flex-start; gap: 16px; padding: 20px 22px; border-radius: 16px; border: 2px solid {{o.border}}; background: {{o.bg}};">
+                <input type="radio" name="risposta" value="{{o.id}}" checked="{{o.checked}}" onChange="{{o.pick}}">
+                <span style="display: flex; flex-direction: column; gap: 2px;">
+                  <span style="font-size: 13px; font-weight: 800; letter-spacing: 0.06em; color: #52565f;">{{o.letter}}</span>
+                  <span style="font-size: 19px; line-height: 1.35; font-weight: 600;">{{o.text}}</span>
+                </span>
+              </label>
+            </sc-for>
+          </div>
+        </fieldset>
+
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+          <a href="#" style="display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 4px; font-size: 15px; font-weight: 700; color: #3d414a;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+            Domanda precedente
+          </a>
+          <button class="confirm" type="button" disabled="{{noSel}}" style="display: inline-flex; align-items: center; gap: 12px; height: 60px; padding: 0 32px; border: 0; border-radius: 999px; background: {{btnBg}}; color: {{btnFg}}; font-family: inherit; font-weight: 800; font-size: 17px; cursor: pointer;">
+            Conferma e continua
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <aside aria-label="Avanzamento del quiz" style="flex: 1 1 280px; max-width: 360px; display: flex; flex-direction: column; gap: 24px;">
+      <h2 style="margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #52565f;">Le tue risposte</h2>
+      <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px;">
+        <li aria-label="Domanda 1, risposta data" style="height: 52px; border-radius: 12px; background: #1f3bff; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 800;">1</li>
+        <li aria-label="Domanda 2, risposta data" style="height: 52px; border-radius: 12px; background: #1f3bff; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 800;">2</li>
+        <li aria-label="Domanda 3, risposta data" style="height: 52px; border-radius: 12px; background: #1f3bff; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 800;">3</li>
+        <li aria-current="step" aria-label="Domanda 4, in corso" style="height: 52px; border-radius: 12px; border: 3px solid #1f3bff; box-sizing: border-box; color: #1f3bff; display: flex; align-items: center; justify-content: center; font-weight: 800;">4</li>
+        <li aria-label="Domanda 5, da fare" style="height: 52px; border-radius: 12px; background: #eceef2; color: #3d414a; display: flex; align-items: center; justify-content: center; font-weight: 700;">5</li>
+        <li aria-label="Domanda 6, da fare" style="height: 52px; border-radius: 12px; background: #eceef2; color: #3d414a; display: flex; align-items: center; justify-content: center; font-weight: 700;">6</li>
+        <li aria-label="Domanda 7, da fare" style="height: 52px; border-radius: 12px; background: #eceef2; color: #3d414a; display: flex; align-items: center; justify-content: center; font-weight: 700;">7</li>
+        <li aria-label="Domanda 8, da fare" style="height: 52px; border-radius: 12px; background: #eceef2; color: #3d414a; display: flex; align-items: center; justify-content: center; font-weight: 700;">8</li>
+        <li aria-label="Domanda 9, da fare" style="height: 52px; border-radius: 12px; background: #eceef2; color: #3d414a; display: flex; align-items: center; justify-content: center; font-weight: 700;">9</li>
+        <li aria-label="Domanda 10, da fare" style="height: 52px; border-radius: 12px; background: #eceef2; color: #3d414a; display: flex; align-items: center; justify-content: center; font-weight: 700;">10</li>
+      </ol>
+      <p style="margin: 0; padding-top: 20px; border-top: 1px solid #d5d8e0; font-size: 15px; line-height: 1.5; color: #3d414a;">Tentativo 1 di [N]. Per superare il quiz serve almeno il [soglia]% di risposte corrette.</p>
+    </aside>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: 'b' };
+  }
+  renderVals() {
+    const sel = this.state.sel;
+    const raw = [
+      { id: 'a', letter: 'A', text: 'Gli intimo di collaborare e proseguo il controllo senza altre azioni.' },
+      { id: 'b', letter: 'B', text: 'Lo informo delle conseguenze del rifiuto, lo comunico alla centrale e procedo secondo la procedura.' },
+      { id: 'c', letter: 'C', text: 'Lo lascio ripartire per evitare tensioni con il cittadino.' },
+      { id: 'd', letter: 'D', text: 'Sequestro subito il veicolo senza dare spiegazioni.' }
+    ];
+    const options = raw.map((o) => ({
+      ...o,
+      checked: sel === o.id,
+      border: sel === o.id ? '#1f3bff' : '#d5d8e0',
+      bg: sel === o.id ? '#f4f6ff' : '#ffffff',
+      pick: () => this.setState({ sel: o.id })
+    }));
+    const noSel = sel == null;
+    return {
+      options,
+      noSel,
+      btnBg: noSel ? '#d5d8e0' : '#1f3bff',
+      btnFg: noSel ? '#3d414a' : '#ffffff'
+    };
+  }
+}
+</script>
+</body>
+</html>
