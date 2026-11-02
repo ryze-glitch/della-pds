@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Direzione D, Elettrico: I miei corsi</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+a.top:hover{text-decoration:underline;text-underline-offset:6px}
+a.line:hover{background:#f4f6ff}
+a.line:hover .arrow{transform:translateX(6px)}
+.arrow{transition:transform .18s ease}
+a.big:hover{background:#0a0a0a;color:#ffffff}
+</style>
+</helmet>
+<div style="min-height: 1020px; box-sizing: border-box; background: #ffffff; color: #0a0a0a; font-family: Archivo, system-ui, sans-serif;">
+
+  <header style="max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 0 48px; min-height: 76px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <svg width="32" height="32" viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 3l12 4.5v9.2c0 8.1-5 13.6-12 16.3-7-2.7-12-8.2-12-16.3V7.5L18 3z" fill="{{accent}}"/></svg>
+      <span style="font-weight: 800; font-size: 18px; letter-spacing: -0.02em;">Accademia</span>
+    </div>
+    <nav aria-label="Principale" style="display: flex; flex-wrap: wrap; gap: 4px 28px;">
+      <a class="top" href="#" style="display: inline-flex; align-items: center; height: 44px; font-size: 15px; font-weight: 800; color: {{accent}};">Corsi</a>
+      <a class="top" href="#" style="display: inline-flex; align-items: center; height: 44px; font-size: 15px; font-weight: 600;">Il mio percorso</a>
+      <a class="top" href="#" style="display: inline-flex; align-items: center; height: 44px; font-size: 15px; font-weight: 600;">Abilitazioni</a>
+      <a class="top" href="#" style="display: inline-flex; align-items: center; height: 44px; font-size: 15px; font-weight: 600;">Pratiche</a>
+      <a class="top" href="#" style="display: inline-flex; align-items: center; height: 44px; font-size: 15px; font-weight: 600;">Istruttori</a>
+    </nav>
+    <span style="font-size: 14px; font-weight: 600;">[Nome Cognome] <span style="color: #52565f; font-weight: 500;">· [Grado]</span></span>
+  </header>
+
+  <section aria-labelledby="prossimo" style="background: {{accent}}; color: #ffffff;">
+    <div style="max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 56px 48px 48px; display: flex; flex-direction: column; gap: 44px;">
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px;">
+        <div style="flex: 1 1 520px; display: flex; flex-direction: column; gap: 20px;">
+          <span id="prossimo" style="font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #dbe2ff;">Prossimo passo</span>
+          <h1 style="margin: 0; font-size: 76px; line-height: 0.98; font-weight: 800; letter-spacing: -0.04em; font-stretch: 90%; text-wrap: balance;">Posto di blocco e fermo veicolo</h1>
+          <p style="margin: 0; font-size: 19px; color: #dbe2ff;">Modulo 2 di 3 · Controllo dei documenti</p>
+        </div>
+        <a class="big" href="#" style="display: inline-flex; align-items: center; gap: 12px; height: 60px; padding: 0 32px; border-radius: 999px; background: #ffffff; color: {{accent}}; font-weight: 800; font-size: 17px;">
+          Continua il modulo
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 20px;">
+        <li style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="height: 6px; background: #ffffff;"></div>
+          <span style="font-size: 20px; font-weight: 800; letter-spacing: -0.01em;">01 Moduli</span>
+          <span style="font-size: 14px; color: #dbe2ff;">In corso</span>
+        </li>
+        <li style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="height: 6px; background: #6f84ff;"></div>
+          <span style="font-size: 20px; font-weight: 700; color: #dbe2ff;">02 Quiz</span>
+          <span style="font-size: 14px; color: #dbe2ff;">Da fare</span>
+        </li>
+        <li style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="height: 6px; background: #6f84ff;"></div>
+          <span style="font-size: 20px; font-weight: 700; color: #dbe2ff;">03 Pratica</span>
+          <span style="font-size: 14px; color: #dbe2ff;">Da fare</span>
+        </li>
+        <li style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="height: 6px; background: #6f84ff;"></div>
+          <span style="font-size: 20px; font-weight: 700; color: #dbe2ff;">04 Abilitazione</span>
+          <span style="font-size: 14px; color: #dbe2ff;">Da fare</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <main style="max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 56px 48px 72px; display: flex; flex-direction: column; gap: 8px;">
+    <h2 style="margin: 0 0 16px; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #52565f;">Tutti i corsi</h2>
+
+    <a class="line" href="#" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: 28px 8px; border-top: 2px solid #0a0a0a;">
+      <span style="flex: 0 0 72px; font-size: 40px; font-weight: 800; letter-spacing: -0.03em; color: {{accent}};">01</span>
+      <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-size: 28px; font-weight: 800; letter-spacing: -0.02em;">Posto di blocco e fermo veicolo</span>
+        <span style="font-size: 15px; color: #52565f;">2 moduli su 3 completati</span>
+      </div>
+      <span style="padding: 7px 14px; border-radius: 999px; background: #eaeeff; color: #1a2fc7; font-size: 14px; font-weight: 700;">In corso</span>
+      <svg class="arrow" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+
+    <a class="line" href="#" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: 28px 8px; border-top: 1px solid #d5d8e0;">
+      <span style="flex: 0 0 72px; font-size: 40px; font-weight: 800; letter-spacing: -0.03em; color: {{accent}};">02</span>
+      <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-size: 28px; font-weight: 800; letter-spacing: -0.02em;">Comunicazioni radio e codici</span>
+        <span style="font-size: 15px; color: #52565f;">Quiz superati · prenota l'esame pratico</span>
+      </div>
+      <span style="padding: 7px 14px; border-radius: 999px; background: #fff0cc; color: #7a4e00; font-size: 14px; font-weight: 700;">Pratica da prenotare</span>
+      <svg class="arrow" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+
+    <a class="line" href="#" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: 28px 8px; border-top: 1px solid #d5d8e0;">
+      <span style="flex: 0 0 72px; font-size: 40px; font-weight: 800; letter-spacing: -0.03em; color: {{accent}};">03</span>
+      <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-size: 28px; font-weight: 800; letter-spacing: -0.02em;">Procedure di base</span>
+        <span style="font-size: 15px; color: #52565f;">Abilitazione ottenuta</span>
+      </div>
+      <span style="padding: 7px 14px; border-radius: 999px; background: #dcf5e9; color: #0c5f43; font-size: 14px; font-weight: 700;">Completato</span>
+      <svg class="arrow" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+
+    <a class="line" href="#" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: 28px 8px; border-top: 1px solid #d5d8e0; border-bottom: 1px solid #d5d8e0;">
+      <span style="flex: 0 0 72px; font-size: 40px; font-weight: 800; letter-spacing: -0.03em; color: #8a8f9a;">04</span>
+      <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: #52565f;">Arresto e perquisizione</span>
+        <span style="font-size: 15px; color: #52565f;">Richiede il grado [Grado minimo]</span>
+      </div>
+      <span style="padding: 7px 14px; border-radius: 999px; background: #eceef2; color: #3d414a; font-size: 14px; font-weight: 700;">Bloccato</span>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8a8f9a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    </a>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1f3bff","options":["#1f3bff","#0a7a4f","#d4380d"]},"$preview":{"width":1440,"height":1020}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#1f3bff' };
+  }
+}
+</script>
+</body>
+</html>

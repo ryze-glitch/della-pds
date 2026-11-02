@@ -111,7 +111,7 @@ export function DashboardView({ profile, pratiche }) {
               <Counter n={n('respinta')} label="Respinte" color="#ff8a98" />
             </div>
 
-            <Link href="/pratiche" className="mt-6 flex items-center gap-4 rounded-2xl bg-primary/5 px-5 py-4 text-link transition hover:bg-primary/5">
+            <Link href="/gestione/pratiche" className="mt-6 flex items-center gap-4 rounded-2xl bg-primary/5 px-5 py-4 text-link transition hover:bg-primary/5">
               <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-primary bg-transparent text-primary">
                 <Icon name="info" size={20} />
               </span>
@@ -119,7 +119,7 @@ export function DashboardView({ profile, pratiche }) {
             </Link>
           </section>
 
-          <Widget icon="clipboard" title="Da prendere in carico" href="/pratiche">
+          <Widget icon="clipboard" title="Da prendere in carico" href="/gestione/pratiche">
             {pratiche === null ? (
               <p className="py-8 text-center text-sm text-muted">Caricamento…</p>
             ) : ricevute.length === 0 ? (
@@ -145,7 +145,7 @@ export function DashboardView({ profile, pratiche }) {
 
         {/* colonna 3: promemoria + attività */}
         <div className="space-y-5">
-          <Widget icon="bell" title="Promemoria" href="/pratiche">
+          <Widget icon="bell" title="Promemoria" href="/gestione/pratiche">
             {pratiche === null ? (
               <p className="py-6 text-center text-sm text-muted">Caricamento…</p>
             ) : inAttesa.length === 0 ? (
@@ -170,7 +170,7 @@ export function DashboardView({ profile, pratiche }) {
             )}
           </Widget>
 
-          <Widget icon="clock" title="Attività recenti" href="/pratiche">
+          <Widget icon="clock" title="Attività recenti" href="/gestione/pratiche">
             {pratiche === null ? (
               <p className="py-6 text-center text-sm text-muted">Caricamento…</p>
             ) : attivita.length === 0 ? (

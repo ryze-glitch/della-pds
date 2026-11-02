@@ -2,11 +2,11 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
-import { Badge, Container } from '../../../components/ui';
-import { Icon } from '../../../components/icons';
-import { CandidateItem } from '../../../components/CandidateItem';
-import { useAgentProfile } from '../../../components/useAgentProfile';
-import { db } from '../../../lib/firebase';
+import { Badge, Container } from '../../../../components/ui';
+import { Icon } from '../../../../components/icons';
+import { CandidateItem } from '../../../../components/CandidateItem';
+import { useAgentProfile } from '../../../../components/useAgentProfile';
+import { db } from '../../../../lib/firebase';
 
 // Lettura delle risposte dal modulo Google (via Google Sheets). Il
 // foglio deve essere condiviso come "chiunque abbia il link -

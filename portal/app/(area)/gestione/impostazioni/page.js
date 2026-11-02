@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
-import { Btn, Notice } from '../../../components/ui';
-import { Icon } from '../../../components/icons';
-import { useAgentProfile } from '../../../components/useAgentProfile';
-import { db } from '../../../lib/firebase';
+import { Btn, Notice } from '../../../../components/ui';
+import { Icon } from '../../../../components/icons';
+import { useAgentProfile } from '../../../../components/useAgentProfile';
+import { db } from '../../../../lib/firebase';
 
 const CENTRALE = ['ATTIVA', 'NON ATTIVA'];
 const SPORTELLO = ['APERTO AL PUBBLICO', 'CHIUSO'];

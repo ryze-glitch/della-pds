@@ -75,6 +75,26 @@
         "source": "/prenota",
         "destination": "/sportello",
         "type": 301
+      },
+      {
+        "source": "/pratiche",
+        "destination": "/gestione/pratiche",
+        "type": 301
+      },
+      {
+        "source": "/candidature",
+        "destination": "/gestione/candidature",
+        "type": 301
+      },
+      {
+        "source": "/comunicati",
+        "destination": "/gestione/comunicati",
+        "type": 301
+      },
+      {
+        "source": "/impostazioni",
+        "destination": "/gestione/impostazioni",
+        "type": 301
       }
     ]
   }

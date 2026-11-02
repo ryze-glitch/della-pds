@@ -71,3 +71,6 @@ node_modules/
 # Next.js build output (portal/out is copied to the repo root and deployed from there)
 portal/.next/
 portal/out/
+backup/
+*.service-account.json
+chiave-servizio*.json
