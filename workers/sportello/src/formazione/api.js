@@ -1,6 +1,6 @@
 // Rotte /formazione/* del Worker. Ogni rotta verifica il token e il ruolo lato server.
 // Le risposte corrette dei quiz non escono mai prima della consegna.
-import { gradoIndex, LIVELLI } from '../../../../portal/lib/formazione.js';
+import { gradoIndex, LIVELLI, GRADI, STATI_PRATICA_LABEL, QUIZ_DEFAULT } from '../../../../portal/lib/formazione.js';
 import { ruoloDi, puo } from './ruoli.js';
 import { configQuiz, estrai, perIlBrowser, puoTentare, correggi } from './quiz.js';
 import { statoModuli, tuttiIQuizSuperati, praticaSbloccata, corsoVisibile } from './percorso.js';
@@ -91,6 +91,7 @@ export async function handleFormazione(request, env, { cors, url, verify, store,
 
   // ---------- allievo ----------
   if (path === '/me' && m === 'GET') return risposta({ me: io }, 200, cors);
+  if (path === '/config' && m === 'GET') return risposta({ gradi: GRADI, statiPratica: STATI_PRATICA_LABEL, livelli: Object.fromEntries(Object.entries(LIVELLI).map(([k, v]) => [k, v.label])), quiz: QUIZ_DEFAULT }, 200, cors);
 
   if (path === '/corsi' && m === 'GET') {
     const abil = await abilitazioniValide(store, uid, ora);

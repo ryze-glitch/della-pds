@@ -422,3 +422,21 @@ test('API admin: crea corso, modulo e domanda; validazione dei contenuti', async
   const lista = await chiama(store, ID_ADMIN, 'GET', '/admin/corsi/nuovo/domande', undefined, ora);
   assert.equal(lista.body.domande[0].corretta, 'a');
 });
+
+test('API config: gradi in ordine e livelli della griglia', async () => {
+  const store = seedStore();
+  const r = await chiama(store, ID_ALLIEVO, 'GET', '/config', undefined, { t: 1_000_000 });
+  assert.equal(r.status, 200);
+  assert.equal(r.body.gradi[0], 'Agente');
+  assert.deepEqual(Object.keys(r.body.livelli), ['non_svolto', 'parziale', 'corretto']);
+});
+
+test('regole Firestore: i contenuti del sito statico sono in sola lettura', () => {
+  const rules = readFileSync(new URL('../../../firestore.rules', import.meta.url), 'utf8');
+  const blocchi = [...rules.matchAll(/match \/\{col\}\/\{id\} \{([\s\S]*?)\n    \}/g)].map((m) => m[1]);
+  const sito = blocchi.find((b) => b.includes("'NOTIZIE'"));
+  assert.ok(sito);
+  for (const c of ['NOTIZIE', 'REPARTI', 'VEICOLI', 'FOTOPDS']) assert.ok(sito.includes(`'${c}'`), c);
+  assert.match(sito, /allow write: if false;/);
+  assert.ok(!sito.includes('auth-sito') && !sito.includes('domande'));
+});

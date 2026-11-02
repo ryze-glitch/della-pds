@@ -90,6 +90,13 @@ service cloud.firestore {
         request.resource.data.keys().hasOnly(['centrale', 'sportello', 'items', 'aggiornatoIl']);
     }
 
+    // Contenuti del sito pubblico statico (notizie, reparti, mezzi, foto): lettura libera,
+    // nessuna scrittura da client (si modificano dalla console Firebase).
+    match /{col}/{id} {
+      allow read: if col in ['NOTIZIE', 'REPARTI', 'VEICOLI', 'FOTOPDS'];
+      allow write: if false;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
