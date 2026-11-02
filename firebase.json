@@ -81,6 +81,12 @@
         "destination": "/gestione/impostazioni",
         "type": 301
       }
+    ],
+    "rewrites": [
+      {
+        "source": "/sisfor",
+        "destination": "/sisfor.html"
+      }
     ]
   }
 }

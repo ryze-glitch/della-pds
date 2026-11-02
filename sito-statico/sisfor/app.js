@@ -659,7 +659,12 @@ onAuthStateChanged(auth, async (u) => {
     document.title = 'Area Personale · SISFOR+ IPRP';
     route();
   } catch (e) {
-    mostraGate(e.status === 403 ? 'negato' : '');
-    if (e.status !== 403 && e.status !== 401) $app.insertAdjacentHTML('beforeend', `<div style="margin-top:20px">${avviso(esc(e.message), 'err', 'fa-triangle-exclamation')}</div>`);
+    if (e.status === 403 || e.status === 401) return mostraGate(e.status === 403 ? 'negato' : '');
+    // errore del server o di rete: l'accesso è riuscito, quindi non rimandare al login
+    const motivo = e.status === 503 ? 'Il portale di formazione non è ancora attivo: manca la configurazione sul server.' : e.message || 'Impossibile contattare il server.';
+    $app.innerHTML = `<div class="hero-gate"><h1 class="titolo">Area <span>Personale</span></h1>
+      ${avviso(esc(motivo), 'err', 'fa-triangle-exclamation')}
+      <p class="sottotitolo" style="margin:14px auto 0">Hai effettuato l’accesso, ma il servizio non risponde. Riprova tra poco.</p>
+      <button class="btn" type="button" onclick="location.reload()" style="margin-top:22px"><i class="fas fa-rotate" aria-hidden="true"></i> Riprova</button></div>`;
   }
 });
