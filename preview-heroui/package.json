@@ -1,0 +1,16 @@
+{
+  "name": "preview-heroui",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Anteprima della grafica con HeroUI (non fa parte del sito pubblicato)",
+  "scripts": { "dev": "next dev", "build": "next build" },
+  "dependencies": {
+    "@fontsource/lexend": "^5.1.0",
+    "@heroui/react": "^2.8.10",
+    "framer-motion": "^11.0.0",
+    "next": "14.2.35",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": { "autoprefixer": "10.4.19", "postcss": "8.4.38", "tailwindcss": "3.4.4" }
+}
