@@ -49,4 +49,4 @@
   .navbar-wrapper .nav-area .nav-area-t{display:none}
   .navbar-wrapper .nav-area .icon-circle{display:flex;background:none;width:auto;height:auto}
 }
-@media (max-width:400px){.navbar-wrapper .nav-logo img{display:none}.navbar-wrapper .nav-logo{padding-left:18px}}
+@media (max-width:360px){.navbar-wrapper .nav-logo{font-size:.78rem;padding-right:12px;gap:8px}}

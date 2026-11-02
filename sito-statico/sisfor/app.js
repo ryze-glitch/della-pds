@@ -127,7 +127,7 @@ function mostraGate(motivo) {
     motivo === 'negato'
       ? avviso('Il tuo account Discord non risulta abilitato. Chiedi a un amministratore di registrarti.', 'err', 'fa-lock')
       : '';
-  $app.innerHTML = `<div class="hero-gate"><img src="https://i.imgur.com/gRzOXM3.png" alt="Stemma della Polizia di Stato IPRP">
+  $app.innerHTML = `<div class="hero-gate"><img src="/logo-polizia.png" alt="Stemma della Polizia di Stato IPRP">
     <h1 class="titolo">Area <span>Personale</span></h1>
     <p class="sottotitolo">Accedi con il tuo account Discord per studiare i corsi, fare i quiz di verifica e prenotare gli esami pratici.</p>
     ${msg}
