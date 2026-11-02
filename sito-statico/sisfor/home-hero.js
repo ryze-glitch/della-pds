@@ -23,12 +23,12 @@
   function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
   function cerca(q) {
     q = norm(q.trim());
-    if (!q) return VOCI.slice(0, 6);
+    if (!q) return VOCI.slice(0, 5);
     var parole = q.split(/\s+/);
     return VOCI.filter(function (v) {
       var t = norm(v.join(' '));
       return parole.every(function (p) { return t.indexOf(p) !== -1; });
-    }).slice(0, 6);
+    }).slice(0, 5);
   }
   function disegna() {
     mostrati = cerca(input.value);
