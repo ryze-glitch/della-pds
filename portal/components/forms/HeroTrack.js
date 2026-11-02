@@ -12,7 +12,7 @@ export function HeroTrack() {
         e.preventDefault();
         router.push(`/sportello/pratica?codice=${encodeURIComponent(v.trim())}`);
       }}
-      className="flex items-center gap-2 rounded-[26px] border border-line bg-surface py-1.5 pl-5 pr-1.5 focus-within:border-primary"
+      className="flex items-center gap-2 rounded-full border-2 border-fg bg-white py-1.5 pl-5 pr-1.5 focus-within:border-primary"
     >
       <label htmlFor="hero-code" className="sr-only">
         Codice pratica
@@ -24,11 +24,11 @@ export function HeroTrack() {
         placeholder="#POL-2026-"
         autoComplete="off"
         spellCheck="false"
-        className="min-w-0 flex-1 bg-transparent py-1.5 font-mono text-[14px] uppercase tracking-[0.04em] text-fg outline-none placeholder:text-muted"
+        className="min-w-0 flex-1 bg-transparent py-1.5 font-mono text-[15px] font-semibold uppercase tracking-[0.04em] text-fg outline-none placeholder:text-fog"
       />
-      <button type="submit" className="flex h-9 w-9 items-center justify-center rounded-full border border-primary text-primary transition-colors hover:bg-primary/5">
+      <button type="submit" className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-fg transition-colors hover:bg-fg">
         <span className="sr-only">Cerca</span>
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
       </button>
     </form>
   );

@@ -1,4 +1,4 @@
-import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/archivo/wdth.css';
 import 'lenis/dist/lenis.css';
 import './globals.css';
 import { SmoothScroll } from '../components/SmoothScroll';
@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="color-scheme" content="light" />
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
-        <meta name="theme-color" content="#f2f2f4" />
+        <meta name="theme-color" content="#ffffff" />
         <link rel="icon" href="/favicon.ico?v=2" />
         <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
       </head>

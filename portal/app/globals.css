@@ -6,23 +6,27 @@
    le opacità di Tailwind. */
 :root {
   color-scheme: light;
-  --bg: 242 242 244;        /* Off-White: tela */
-  --surface: 253 253 253;   /* Pure White: pannelli */
-  --surface2: 242 242 244;
-  --fg: 15 16 18;           /* Off-Black */
-  --muted: 94 94 94;        /* Steel Gray */
-  --fog: 143 143 143;       /* Ash Gray */
-  --line: 226 226 229;      /* filo sottile */
-  --primary: 0 113 227;     /* Signal Blue: solo bordo e testo */
-  --primary-fg: 253 253 253;
-  --link: 0 113 227;
-  --gold: 0 113 227;
-  --gold-soft: 242 242 244;
-  --gold-ink: 0 113 227;
-  --ok: 22 128 74;
-  --bad: 200 30 40;
-  --warn: 180 83 9;
-  --dark: 15 16 18;
+  /* Colore principale: si cambia qui, in un solo punto (canali RGB). */
+  --accent: 31 59 255;       /* #1f3bff */
+  --accent-soft: 244 246 255; /* azzurro tenue */
+  --on-accent: 219 226 255;   /* testo secondario sulla banda blu */
+  --bg: 255 255 255;
+  --surface: 255 255 255;
+  --surface2: 244 246 255;
+  --fg: 10 10 10;
+  --muted: 82 86 95;         /* #52565f */
+  --fog: 138 143 154;
+  --line: 213 216 224;       /* #d5d8e0 */
+  --primary: var(--accent);
+  --primary-fg: 255 255 255;
+  --link: var(--accent);
+  --gold: var(--accent);
+  --gold-soft: 244 246 255;
+  --gold-ink: var(--accent);
+  --ok: 12 95 67;
+  --bad: 178 24 43;
+  --warn: 122 78 0;
+  --dark: 10 10 10;
 }
 
 html {
@@ -32,51 +36,71 @@ html {
 body {
   background: rgb(var(--bg));
   color: rgb(var(--fg));
-  font-family: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  font-weight: 350;
-  letter-spacing: -0.02em;
-  font-feature-settings: 'ss01' on, 'cv01' on, 'cv11' on;
+  font-family: 'Archivo Variable', 'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-body strong, body b { font-weight: 400; }
-a:not([class]) { color: rgb(var(--link)); }
+body strong, body b { font-weight: 700; }
 
 ::selection {
-  background: rgb(0 113 227 / 0.18);
+  background: rgb(var(--accent) / 0.22);
 }
 
 @layer components {
   .h1 {
-    @apply text-[38px] font-normal leading-[1.08] tracking-[-0.04em] sm:text-[52px] lg:text-[64px];
+    @apply text-[44px] font-extrabold leading-[0.98] tracking-[-0.04em] sm:text-[60px] lg:text-[76px];
+    font-stretch: 90%;
+    text-wrap: balance;
   }
   .h2 {
-    @apply text-[27px] font-normal leading-[1.2] tracking-[-0.02em];
+    @apply text-[30px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px];
+    font-stretch: 92%;
+    text-wrap: balance;
   }
   .label {
-    @apply text-[12px] font-normal tracking-[-0.02em] text-fog;
+    @apply text-[14px] font-extrabold uppercase tracking-[0.08em] text-muted;
   }
   .chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-primary px-2.5 py-[2px] text-[12px] font-normal text-primary;
+    @apply inline-flex items-center gap-1.5 rounded-full bg-accent-soft px-3.5 py-[7px] text-[14px] font-bold;
+    color: #1a2fc7;
   }
   .input {
-    @apply block w-full rounded-[26px] border border-line bg-surface px-5 py-3 text-[15px] font-normal text-fg outline-none transition placeholder:text-fog focus:border-primary;
+    @apply block min-h-[52px] w-full rounded-[14px] border-2 border-line bg-white px-4 py-3 text-[16px] font-medium text-fg outline-none transition placeholder:text-fog focus:border-primary;
   }
-  textarea.input { @apply rounded-[26px]; }
+  textarea.input { @apply min-h-[120px]; }
   .input[aria-invalid='true'] {
     @apply border-bad focus:border-bad;
   }
   .card {
-    @apply rounded-[54px] border border-line bg-surface;
+    @apply rounded-[20px] border-2 border-line bg-white;
   }
-  .pill {
-    @apply inline-flex items-center gap-2 rounded-[26px] bg-fg/5 px-5 py-2.5 text-[13px] font-normal text-fg transition-colors hover:bg-fg/10;
+  .btn {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-3 rounded-full bg-primary px-7 text-[16px] font-extrabold text-primary-fg transition-colors hover:bg-fg;
   }
+  .btn-light {
+    @apply inline-flex min-h-[52px] items-center justify-center gap-3 rounded-full bg-white px-8 text-[17px] font-extrabold text-primary transition-colors hover:bg-fg hover:text-white;
+  }
+  .btn-line {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-3 rounded-full border-2 border-fg px-7 text-[16px] font-extrabold text-fg transition-colors hover:bg-fg hover:text-white;
+  }
+  .riga {
+    @apply flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-line px-2 py-7 transition-colors hover:bg-accent-soft;
+  }
+  .riga:first-child { @apply border-t-2 border-fg; }
   .gold-rule {
-    height: 1px;
-    background: rgb(var(--line));
+    height: 2px;
+    background: rgb(var(--fg));
   }
+  /* Pillole di stato: il testo dice sempre lo stato, il colore è solo un rinforzo. */
+  .stato { @apply inline-flex items-center gap-1.5 rounded-full px-3.5 py-[7px] text-[14px] font-bold; }
+  .stato-corso { background: #eaeeff; color: #1a2fc7; }
+  .stato-ambra { background: #fff0cc; color: #7a4e00; }
+  .stato-ok { background: #dcf5e9; color: #0c5f43; }
+  .stato-grigio { background: #eceef2; color: #3d414a; }
 }
+
+:focus-visible { outline: 3px solid rgb(var(--accent)); outline-offset: 3px; }
 
 /* Movimento sobrio: comparsa allo scroll e cambio pagina */
 @keyframes page-in {

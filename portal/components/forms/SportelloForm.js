@@ -427,7 +427,7 @@ export function SportelloForm({ formId }) {
         </div>
         <div className="flex gap-2" aria-hidden="true">
           {steps.map((st, i) => (
-            <span key={st.title} className={`h-1.5 flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-fg' : 'bg-line'}`} />
+            <span key={st.title} className={`h-1.5 flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-primary' : 'bg-line'}`} />
           ))}
         </div>
       </div>

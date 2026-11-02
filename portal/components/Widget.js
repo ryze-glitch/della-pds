@@ -1,21 +1,21 @@
 import Link from 'next/link';
 import { Icon } from './icons';
 
-// Scheda grande: pannello bianco con angoli molto arrotondati e filo sottile, senza ombre.
+// Sezione a righe: filo nero in alto, titolo in maiuscolo piccolo, contenuto senza scheda.
 export function Widget({ icon, title, href, children, className = '' }) {
   return (
-    <section className={`card p-7 sm:p-10 ${className}`}>
-      <div className="flex items-center justify-between pb-5">
-        <h2 className="flex items-center gap-3 text-[27px] font-normal leading-none tracking-[-0.02em]">
-          <Icon name={icon} size={22} strokeWidth={1.3} className="text-fog" /> {title}
+    <section className={className}>
+      <div className="flex items-center justify-between border-t-2 border-fg pb-2 pt-5">
+        <h2 className="label flex items-center gap-2.5">
+          {icon ? <Icon name={icon} size={18} strokeWidth={2.2} /> : null} {title}
         </h2>
         {href ? (
-          <Link href={href} aria-label={`Apri ${title}`} className="text-primary transition-opacity hover:opacity-70">
-            <Icon name="arrow-right" size={20} strokeWidth={1.4} />
+          <Link href={href} aria-label={`Apri ${title}`} className="flex h-11 w-11 items-center justify-center rounded-full text-primary transition-colors hover:bg-accent-soft">
+            <Icon name="arrow-right" size={22} strokeWidth={2.4} />
           </Link>
         ) : null}
       </div>
-      <div className="border-t border-line">{children}</div>
+      {children}
     </section>
   );
 }

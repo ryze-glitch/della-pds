@@ -112,7 +112,7 @@ export function DashboardView({ profile, pratiche }) {
             </div>
 
             <Link href="/gestione/pratiche" className="mt-6 flex items-center gap-4 rounded-2xl bg-primary/5 px-5 py-4 text-link transition hover:bg-primary/5">
-              <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-primary bg-transparent text-primary">
+              <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-primary text-primary-fg">
                 <Icon name="info" size={20} />
               </span>
               <span className="text-[13.5px] leading-snug">{daPrendere ? `${daPrendere} pratiche da prendere in carico.` : 'Tutte le pratiche sono state prese in carico.'} Apri la gestione.</span>
