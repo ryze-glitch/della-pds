@@ -3,3 +3,6 @@
 @tailwind utilities;
 
 body { background: #090a0f; }
+
+@keyframes scorri { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.scorri { animation: scorri 28s linear infinite; }
