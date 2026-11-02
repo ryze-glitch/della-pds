@@ -14,10 +14,6 @@ html.anim body{animation:pagIn .6s ease both}
 html.anim body.esce{opacity:0;transition:opacity .22s ease}
 
 /* isole della barra */
-.navbar-wrapper .nav-left,.navbar-wrapper .nav-center,.navbar-wrapper .nav-right{transition:box-shadow .35s ease,border-color .35s ease,transform .35s ease}
-.navbar-wrapper .nav-left:hover,.navbar-wrapper .nav-center:hover,.navbar-wrapper .nav-right:hover{box-shadow:0 16px 42px rgba(37,99,235,.28);border-color:rgba(37,99,235,.4)}
-.navbar-wrapper .nav-logo img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
-.navbar-wrapper .nav-logo:hover img{transform:rotate(-6deg) scale(1.1)}
 .navbar-wrapper .nav-center>a,.navbar-wrapper .nav-center .dropdown>a{transition:background .25s ease,transform .25s ease}
 .navbar-wrapper .nav-center>a:hover{transform:translateY(-1px)}
 .navbar-wrapper .nav-area{transition:background .2s ease,transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s ease}
@@ -41,13 +37,12 @@ html.anim body.esce{opacity:0;transition:opacity .22s ease}
 .faq-bar a:hover i{transform:translateX(4px)}
 .site-footer ul a{display:inline-block;transition:color .2s ease,transform .25s ease}
 .site-footer ul a:hover{transform:translateX(5px)}
-.site-footer .sf-brand img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
-.site-footer .sf-brand:hover img{transform:rotate(-6deg) scale(1.08)}
 .hero-search-box{transition:border-color .25s ease,background .25s ease,box-shadow .25s ease}
 .hero-search-box:focus-within{box-shadow:0 0 0 4px rgba(37,99,235,.25),0 14px 34px rgba(0,0,0,.5)}
 
 @media (prefers-reduced-motion:reduce){
   html.anim .rv{opacity:1;transform:none;transition:none}
   html.anim body{animation:none}
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .nav-badge{animation:none}
+  .nav-bell:hover svg{animation:none}
 }
