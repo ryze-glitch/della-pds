@@ -1,0 +1,7 @@
+/* Pulsante "Area Personale" nella barra del sito (stesso linguaggio della barra a pillola). */
+.nav-area{display:inline-flex;align-items:center;gap:10px;background:#2563eb;color:#fff;padding:5px 5px 5px 18px;border-radius:999px;font-weight:600;font-size:.9rem;white-space:nowrap;min-height:44px;transition:background .2s}
+.nav-area:hover{background:#1d4ed8}
+.nav-area .icon-circle{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.85rem}
+@media (max-width:560px){.nav-area{padding:5px}.nav-area .nav-area-t{display:none}}
+/* Su schermi stretti il centro della barra è nascosto: logo a sinistra, pulsante a destra. */
+@media (max-width:1024px){.navbar{grid-template-columns:1fr auto !important}}
