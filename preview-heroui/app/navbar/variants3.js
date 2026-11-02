@@ -101,11 +101,17 @@ function L() {
 // ---- M: tre isole separate (logo, voci, azioni)
 function M() {
   const [open, setOpen] = useState(false);
+  const [t, setT] = useState('');
+  useEffect(() => { try { setT(new URLSearchParams(window.location.search).get('t') || ''); } catch (e) { /* ignora */ } }, []);
+  const marchio = t === 'ps' ? <span className="hidden whitespace-nowrap font-extrabold uppercase tracking-wide sm:block">Polizia di Stato</span>
+    : t === 'p' ? <span className="hidden font-extrabold uppercase tracking-wide sm:block">Polizia</span>
+    : t === 'p2' ? <span className="hidden leading-tight sm:block"><span className="block font-extrabold uppercase tracking-wide">Polizia</span><span className="block text-[10px] uppercase tracking-[0.2em] text-default-500">Questura IPRP</span></span>
+    : <span className="hidden font-extrabold uppercase tracking-wide sm:block">Polizia IPRP</span>;
   const glass = 'rounded-full border border-white/10 bg-content1/75 shadow-xl shadow-black/50 backdrop-blur-2xl';
   return (
     <div className="fixed inset-x-0 top-5 z-50 px-4">
       <div className="mx-auto flex max-w-[1300px] items-center justify-between gap-3">
-        <a href="#" className={`${glass} flex h-14 items-center gap-3 pl-3 pr-5`}><img src="/crest.png" alt="" className="h-9 w-auto" /><span className="hidden font-extrabold uppercase tracking-wide sm:block">Polizia IPRP</span></a>
+        <a href="#" className={`${glass} flex h-14 items-center gap-3 pl-3 pr-5`}><img src="/crest.png" alt="" className="h-9 w-auto" />{marchio}</a>
         <nav aria-label="Navigazione principale" className={`${glass} hidden h-14 items-center gap-1 px-2 lg:flex`}>
           {LINK.map((l, i) => <Link key={l} href="#" color="foreground" className={`flex h-10 items-center rounded-full px-4 text-sm font-medium transition-colors ${i === 0 ? 'bg-primary text-white' : 'hover:bg-white/10'}`}>{l}</Link>)}
         </nav>
