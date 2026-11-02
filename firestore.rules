@@ -21,9 +21,19 @@ service cloud.firestore {
     // agente può leggere solo il proprio documento, per sapere
     // nome/cognome/grado; nessuna scrittura da client: i dati si
     // gestiscono a mano dalla console Firebase.
+    // Contiene anche il campo "ruolo" (allievo, istruttore, admin) del portale di formazione:
+    // nessuna scrittura da client, quindi un utente non può assegnarsi un ruolo; si modifica
+    // solo dalla console Firebase.
     match /auth-sito/{discordId} {
       allow read: if request.auth != null && request.auth.uid == 'discord:' + discordId;
       allow write: if false;
+    }
+
+    // Portale di formazione. Le raccolte sotto sono chiuse ai client: le domande con le risposte
+    // corrette, i tentativi e le valutazioni si leggono e scrivono solo dal Worker (service account,
+    // che non passa dalle regole), dopo i controlli di ruolo lato server.
+    match /{col}/{id} {
+      allow read, write: if col in ['corsi', 'moduli', 'domande', 'tentativi', 'progressi', 'pratiche-formazione', 'sessioni', 'abilitazioni'] && false;
     }
 
     // Decisioni (approvato/rifiutato) sulle candidature al concorso,
