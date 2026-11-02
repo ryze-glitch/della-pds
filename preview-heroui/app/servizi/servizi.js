@@ -5,11 +5,11 @@ import {
   Accordion, AccordionItem, Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, Image, Link, ScrollShadow, Tab, Tabs,
 } from '@heroui/react';
 
-const Ic = ({ d, s = 18 }) => (
+export const Ic = ({ d, s = 18 }) => (
   <svg viewBox="0 0 24 24" width={s} height={s} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={d} /></svg>
 );
-const ARROW = 'M5 12h14M13 6l6 6-6 6';
-const CHECK = 'm5 12 5 5 9-10';
+export const ARROW = 'M5 12h14M13 6l6 6-6 6';
+export const CHECK = 'm5 12 5 5 9-10';
 
 export const SV = [
   { k: 'urp', t: 'Ufficio Relazioni col Pubblico', n: 'URP', img: '/foto/ufficidesk.jpg', href: 'urp.html',
@@ -25,24 +25,24 @@ export const SV = [
     s: 'Prenota un colloquio o recati in Questura specificando intenzione, motivazioni e persona con cui vuoi parlare.',
     extra: [] },
 ];
-const FAQ = [
+export const FAQ = [
   ["Come richiedere l'autorizzazione per un evento", 'prenotazioni.html'],
   ['Come faccio la licenza armi?', 'porto-armi.html'],
   ['Come faccio a candidarmi?', 'concorso.html'],
 ];
 
-const glass = 'border border-white/10 bg-content1/60 shadow-xl shadow-black/40 backdrop-blur-2xl';
+export const glass = 'border border-white/10 bg-content1/60 shadow-xl shadow-black/40 backdrop-blur-2xl';
 const Titolo = () => (
   <h2 className="mb-10 text-center text-4xl font-extrabold uppercase tracking-wide sm:text-5xl">I nostri <span className="text-primary">servizi</span></h2>
 );
-const Pagina = ({ children, v }) => (
+export const Pagina = ({ children, v }) => (
   <div className="relative min-h-screen overflow-hidden px-6 py-20">
     <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(37,99,235,0.18),transparent_55%)]" />
     <div className="relative mx-auto max-w-[1200px]"><Titolo />{children}</div>
     <p className="relative mx-auto mt-12 w-fit rounded-full border border-white/10 px-4 py-1.5 text-[11px] uppercase tracking-widest text-default-500">{v}</p>
   </div>
 );
-const FaqBox = ({ className = '' }) => (
+export const FaqBox = ({ className = '' }) => (
   <Card className={`${glass} ${className}`}><CardBody className="gap-3 p-5">
     <p className="font-bold">Domande più frequenti</p>
     {FAQ.map(([q, h]) => <Link key={q} href={h} size="sm" className="justify-between text-foreground">{q}<Ic d={ARROW} s={14} /></Link>)}
