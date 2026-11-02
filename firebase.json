@@ -52,23 +52,8 @@
     ],
     "redirects": [
       {
-        "source": "/chi-siamo",
-        "destination": "/organigramma",
-        "type": 301
-      },
-      {
         "source": "/reparti",
         "destination": "/organigramma",
-        "type": 301
-      },
-      {
-        "source": "/qualifiche",
-        "destination": "/organigramma",
-        "type": 301
-      },
-      {
-        "source": "/concorso",
-        "destination": "/reclutamento",
         "type": 301
       },
       {

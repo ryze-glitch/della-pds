@@ -32,6 +32,10 @@ jobs:
         run: |
           rm -rf site
           cp -r portal/out site
+          # Sito statico "PDS 3.0": le sue pagine sono quelle pubbliche (home inclusa); le rotte del portale
+          # (sportello, login, gestione) restano raggiungibili sotto i loro percorsi.
+          cp -r sito-statico/. site/
+          cp sito-statico/Home.html site/index.html
 
       - name: Write service account credentials
         run: echo "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/firebase-sa.json"
