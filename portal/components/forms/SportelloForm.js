@@ -76,7 +76,7 @@ function Field({ field, value, error, onChange, onBlur }) {
                 onChange(field, o);
                 onBlur(field, o);
               }}
-              className={`rounded-full border px-5 py-2.5 text-[13.1px] font-medium transition ${on ? 'border-primary bg-primary/15 text-link' : 'border-line text-fg hover:border-white/40'}`}
+              className={`rounded-full border px-5 py-2.5 text-[13.1px] font-medium transition ${on ? 'border-primary bg-primary/5 text-link' : 'border-line text-fg hover:border-white/40'}`}
             >
               {o}
             </button>
@@ -399,7 +399,7 @@ export function SportelloForm({ formId }) {
     <form ref={formRef} onSubmit={onSubmit} noValidate>
       <div ref={topRef} className="scroll-mt-28" />
       {googleId && gUser ? (
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-full border border-[#242d3b] py-2 pl-3 pr-4 text-sm">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-full border border-line py-2 pl-3 pr-4 text-sm">
           <span className="flex min-w-0 items-center gap-2.5">
             {gUser.picture ? <img src={gUser.picture} alt="" referrerPolicy="no-referrer" className="h-7 w-7 rounded-full" /> : <Icon name="user" size={18} />}
             <span className="truncate">
@@ -427,12 +427,12 @@ export function SportelloForm({ formId }) {
         </div>
         <div className="flex gap-2" aria-hidden="true">
           {steps.map((st, i) => (
-            <span key={st.title} className={`h-1.5 flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-primary' : 'bg-line'}`} />
+            <span key={st.title} className={`h-1.5 flex-1 rounded-full transition-colors duration-500 ${i <= step ? 'bg-fg' : 'bg-line'}`} />
           ))}
         </div>
       </div>
 
-      <div key={step} className="hero-in rounded-[20px] border border-line bg-surface p-6 sm:p-8" style={{ '--d': '0ms' }}>
+      <div key={step} className="hero-in rounded-2xl border border-line bg-surface p-6 sm:p-8" style={{ '--d': '0ms' }}>
         {cur.summary ? (
           <div>
             <h2 className="text-xl font-semibold tracking-tight">Riepilogo</h2>

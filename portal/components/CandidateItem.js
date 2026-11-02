@@ -55,7 +55,7 @@ export function CandidateItem({ c, currentAgent, onDecide }) {
   const border = review?.stato === 'approvato' ? 'border-ok/50' : review?.stato === 'rifiutato' ? 'border-bad/50' : 'border-line';
 
   return (
-    <div className={`overflow-hidden rounded-[20px] border bg-surface  ${border}`}>
+    <div className={`overflow-hidden rounded-2xl border bg-surface  ${border}`}>
       <button type="button" onClick={() => setOpen((o) => !o)} className="flex w-full flex-wrap items-center gap-3 px-5 py-4 text-left hover:bg-surface2">
         {review?.stato === 'approvato' ? <Icon name="check-circle" size={19} className="text-ok" /> : null}
         {review?.stato === 'rifiutato' ? <Icon name="cross" size={19} className="text-bad" /> : null}

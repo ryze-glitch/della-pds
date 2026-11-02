@@ -7,7 +7,7 @@ import { Widget } from './Widget';
 import { STATI, TIPI_PRATICA } from '../lib/data';
 import { Bacheca } from './Bacheca';
 
-const BORDER = 'border-[#242d3b]';
+const BORDER = 'border-line';
 
 function Ring({ value, label }) {
   const r = 52;
@@ -48,11 +48,11 @@ function fmtDay(ts) {
 }
 
 const TONE = {
-  ricevuta: 'border-l-[#3b82f6] bg-[#1c3158]',
-  in_lavorazione: 'border-l-[#f5b946] bg-[#3a3016]',
-  in_attesa: 'border-l-[#9a7bf0] bg-[#2b2550]',
-  conclusa: 'border-l-[#34d17f] bg-[#173a28]',
-  respinta: 'border-l-[#ff6b7d] bg-[#3d1d24]',
+  ricevuta: 'border-l-[#0071e3] bg-[#eaf3fd]',
+  in_lavorazione: 'border-l-[#d98a00] bg-[#fdf3e0]',
+  in_attesa: 'border-l-[#7a5af5] bg-[#f0ecfe]',
+  conclusa: 'border-l-[#1f9d63] bg-[#e5f6ed]',
+  respinta: 'border-l-[#d70015] bg-[#fdeaec]',
 };
 const TEXT = { ricevuta: '#7ea4ee', in_lavorazione: '#f5b946', in_attesa: '#b7a0ff', conclusa: '#4ade80', respinta: '#ff8a98' };
 
@@ -81,24 +81,24 @@ export function DashboardView({ profile, pratiche }) {
   return (
     <div className="px-5 py-7 sm:px-8">
       <h1 className="text-[22.5px] font-normal">Home</h1>
-      <p className="mt-0.5 text-sm text-[#c9d2e0]">{profile ? `${nome || 'Agente'} · ${profile.grado || 'Agente'}` : 'Caricamento…'}</p>
+      <p className="mt-0.5 text-sm text-muted">{profile ? `${nome || 'Agente'} · ${profile.grado || 'Agente'}` : 'Caricamento…'}</p>
 
       <div className="mt-6 grid items-start gap-5 md:grid-cols-[repeat(auto-fit,minmax(340px,1fr))]">
         {/* colonna 1: riepilogo + da prendere in carico */}
         <div className="space-y-5">
-          <section className={`rounded-[20px] border ${BORDER} p-6`}>
+          <section className={`rounded-2xl border ${BORDER} p-6`}>
             <div className="grid gap-6 sm:grid-cols-[1fr_1fr]">
               <div className="flex flex-col items-center gap-2 text-center">
                 <div className="text-sm font-semibold uppercase tracking-wide">Concluse</div>
                 <Ring value={pct} label={`${done} su ${total}`} />
-                <div className="text-sm text-[#c9d2e0]">Pratiche chiuse sulle ultime {total || 0}</div>
+                <div className="text-sm text-muted">Pratiche chiuse sulle ultime {total || 0}</div>
               </div>
               <div className={`flex flex-col items-center justify-center gap-3 border-t pt-6 text-center sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0 ${BORDER}`}>
                 <div className="text-sm font-semibold uppercase tracking-wide">Sportello oggi</div>
-                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#0f3947] text-[#3fc4d6]">
+                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-surface2 text-link">
                   <Icon name="radio" size={30} strokeWidth={1.4} />
                 </span>
-                <div className="text-sm leading-snug text-[#3fc4d6]">
+                <div className="text-sm leading-snug text-link">
                   {pratiche === null ? 'Caricamento…' : daPrendere ? `${daPrendere} richieste in attesa di presa in carico` : 'Nessuna richiesta in attesa'}
                 </div>
               </div>
@@ -111,8 +111,8 @@ export function DashboardView({ profile, pratiche }) {
               <Counter n={n('respinta')} label="Respinte" color="#ff8a98" />
             </div>
 
-            <Link href="/pratiche" className="mt-6 flex items-center gap-4 rounded-2xl bg-[#17a8bd]/10 px-5 py-4 text-[#3fc4d6] transition hover:bg-[#17a8bd]/15">
-              <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#3fc4d6] text-[#04222a]">
+            <Link href="/pratiche" className="mt-6 flex items-center gap-4 rounded-2xl bg-primary/5 px-5 py-4 text-link transition hover:bg-primary/5">
+              <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-primary bg-transparent text-primary">
                 <Icon name="info" size={20} />
               </span>
               <span className="text-[13.5px] leading-snug">{daPrendere ? `${daPrendere} pratiche da prendere in carico.` : 'Tutte le pratiche sono state prese in carico.'} Apri la gestione.</span>
@@ -125,7 +125,7 @@ export function DashboardView({ profile, pratiche }) {
             ) : ricevute.length === 0 ? (
               <p className="py-8 text-center text-sm text-muted">Nessuna pratica in attesa.</p>
             ) : (
-              <ul className="divide-y divide-[#1e2735]">
+              <ul className="divide-y divide-line">
                 {ricevute.map((p) => (
                   <li key={p.id} className="flex items-center justify-between gap-4 py-3.5">
                     <div>
@@ -151,15 +151,15 @@ export function DashboardView({ profile, pratiche }) {
             ) : inAttesa.length === 0 ? (
               <p className="py-6 text-center text-sm text-muted">Nessuna pratica in attesa di documenti.</p>
             ) : (
-              <ul className="divide-y divide-[#1e2735]">
+              <ul className="divide-y divide-line">
                 {inAttesa.map((p) => (
                   <li key={p.id} className="py-3.5">
                     <div className="flex items-center gap-2 text-[13.5px]">
                       <Icon name="user" size={15} /> {TIPI_PRATICA[p.tipo] || p.tipo}
                     </div>
                     <div className="mt-1 flex items-center gap-4 text-sm">
-                      <span className="font-mono text-[#ff8a98]">#{p.id}</span>
-                      <span className="flex items-center gap-1.5 text-[#c9d2e0]">
+                      <span className="font-mono text-bad">#{p.id}</span>
+                      <span className="flex items-center gap-1.5 text-muted">
                         <Icon name="clock" size={14} /> da {fmtDay(p.creatoIl)}
                       </span>
                     </div>

@@ -9,7 +9,7 @@ export default function NotFound() {
       <p className="mt-8 font-mono text-sm text-muted">Errore 404</p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Pagina non trovata</h1>
       <p className="mt-3 max-w-md text-muted">Il fascicolo che cerchi non esiste o è stato spostato. Torna alla home e riparti da lì.</p>
-      <Link href="/" className="mt-8 inline-flex h-12 items-center gap-2 rounded-full bg-primary px-6 text-[13.5px] font-semibold text-primary-fg transition hover:brightness-110">
+      <Link href="/" className="mt-8 inline-flex h-12 items-center gap-2 rounded-full border border-primary bg-transparent px-6 text-[13.5px] font-semibold text-primary transition hover:bg-primary/5">
         Torna alla home
       </Link>
     </main>

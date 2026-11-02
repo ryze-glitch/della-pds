@@ -81,29 +81,29 @@ export default function ComunicatiAgentiPage() {
   return (
     <div className="px-5 py-7 sm:px-8">
       <h1 className="text-[22.5px] font-normal">Comunicati</h1>
-      <p className="mt-1 max-w-2xl text-sm text-[#c9d2e0]">I comunicati pubblicati compaiono nella bacheca e nella pagina Comunicati del sito. Se non ce n'è nessuno, il sito non mostra nulla.</p>
+      <p className="mt-1 max-w-2xl text-sm text-muted">I comunicati pubblicati compaiono nella bacheca e nella pagina Comunicati del sito. Se non ce n'è nessuno, il sito non mostra nulla.</p>
 
       <div className="mt-7 grid items-start gap-6 lg:grid-cols-[1fr_1.2fr]">
-        <form onSubmit={publish} className="rounded-[20px] border border-[#242d3b] p-6">
+        <form onSubmit={publish} className="rounded-2xl border border-line p-6">
           <h2 className="text-xl font-medium">Nuovo comunicato</h2>
           <div className="mt-5 space-y-4">
             <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Tipo">
               {TIPI.map((t) => (
-                <button key={t} type="button" role="radio" aria-checked={tipo === t} onClick={() => setTipo(t)} className={`rounded-full border px-4 py-2 text-sm font-medium transition ${tipo === t ? 'border-primary bg-primary/15 text-link' : 'border-line hover:border-white/40'}`}>
+                <button key={t} type="button" role="radio" aria-checked={tipo === t} onClick={() => setTipo(t)} className={`rounded-full border px-4 py-2 text-sm font-medium transition ${tipo === t ? 'border-primary bg-primary/5 text-link' : 'border-line hover:border-white/40'}`}>
                   {t}
                 </button>
               ))}
             </div>
             <div>
-              <label htmlFor="c-data" className="mb-1.5 block text-sm text-[#c9d2e0]">Data</label>
+              <label htmlFor="c-data" className="mb-1.5 block text-sm text-muted">Data</label>
               <input id="c-data" type="date" value={data} onChange={(e) => setData(e.target.value)} className="input" />
             </div>
             <div>
-              <label htmlFor="c-tit" className="mb-1.5 block text-sm text-[#c9d2e0]">Titolo</label>
+              <label htmlFor="c-tit" className="mb-1.5 block text-sm text-muted">Titolo</label>
               <input id="c-tit" value={titolo} maxLength={140} onChange={(e) => setTitolo(e.target.value)} className="input" />
             </div>
             <div>
-              <label htmlFor="c-txt" className="mb-1.5 block text-sm text-[#c9d2e0]">Testo</label>
+              <label htmlFor="c-txt" className="mb-1.5 block text-sm text-muted">Testo</label>
               <textarea id="c-txt" rows={6} value={testo} maxLength={2000} onChange={(e) => setTesto(e.target.value)} className="input resize-y" />
             </div>
             {err ? <Notice tone="bad">{err}</Notice> : null}
@@ -113,14 +113,14 @@ export default function ComunicatiAgentiPage() {
           </div>
         </form>
 
-        <div className="rounded-[20px] border border-[#242d3b] p-6">
-          <h2 className="border-b border-[#242d3b] pb-4 text-xl font-medium">Pubblicati</h2>
+        <div className="rounded-2xl border border-line p-6">
+          <h2 className="border-b border-line pb-4 text-xl font-medium">Pubblicati</h2>
           {items === null ? (
             <p className="py-8 text-center text-sm text-muted">Caricamento…</p>
           ) : items.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted">Nessun comunicato pubblicato.</p>
           ) : (
-            <ul className="divide-y divide-[#1e2735]">
+            <ul className="divide-y divide-line">
               {items.map((c) => (
                 <li key={c.id} className="flex items-start gap-3 py-4">
                   <div className="min-w-0 flex-1">
@@ -129,7 +129,7 @@ export default function ComunicatiAgentiPage() {
                     </div>
                     <div className="mt-1.5 font-medium">{c.titolo}</div>
                   </div>
-                  <button type="button" onClick={() => remove(c.id)} aria-label={`Elimina ${c.titolo}`} className="rounded-full p-2 text-muted transition hover:bg-white/5 hover:text-bad">
+                  <button type="button" onClick={() => remove(c.id)} aria-label={`Elimina ${c.titolo}`} className="rounded-full p-2 text-muted transition hover:bg-black/5 hover:text-bad">
                     <Icon name="x" size={16} />
                   </button>
                 </li>

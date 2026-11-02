@@ -48,7 +48,7 @@ function Result({ code, pratica }) {
             const done = !bad && i <= idx;
             return (
               <li key={key}>
-                <div className={`h-1.5 rounded-full ${bad ? 'bg-bad/40' : done ? 'bg-primary' : 'bg-line'}`} />
+                <div className={`h-1.5 rounded-full ${bad ? 'bg-bad/40' : done ? 'bg-fg' : 'bg-line'}`} />
                 <div className={`mt-2 text-xs font-semibold sm:text-sm ${done ? 'text-fg' : 'text-muted'}`}>{label}</div>
               </li>
             );

@@ -25,7 +25,7 @@ export default function SportelloPage() {
         <div className="divide-y divide-line border-y border-line">
           {SERVIZI.map((s, i) => (
             <Reveal key={s.href} delay={i * 60}>
-              <Link href={s.href} className="group grid items-center gap-x-8 gap-y-3 py-7 transition hover:bg-white/[0.02] md:grid-cols-[56px_1fr_1.1fr_32px]">
+              <Link href={s.href} className="group grid items-center gap-x-8 gap-y-3 py-7 transition hover:bg-black/[0.02] md:grid-cols-[56px_1fr_1.1fr_32px]">
                 <IconTile name={s.icon} className="!h-12 !w-12" />
                 <div>
                   <h2 className="text-xl font-semibold">{s.title}</h2>

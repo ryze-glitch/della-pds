@@ -1,129 +1,135 @@
 import Link from 'next/link';
 import { Icon } from '../../components/icons';
 import { MiePratiche } from '../../components/MiePratiche';
-import { Crest3D } from '../../components/Crest3D';
 import { Widget } from '../../components/Widget';
 import { HeroTrack } from '../../components/forms/HeroTrack';
-import { DEPTS } from '../../lib/data';
 import { Bacheca } from '../../components/Bacheca';
+import { Reveal } from '../../components/Reveal';
+import { Crest3D } from '../../components/Crest3D';
+import { DEPTS } from '../../lib/data';
 
 const SERVIZI = [
-  ['file-text', 'Denuncia online', 'Furto, rapina, aggressione, truffa', '/sportello/denuncia'],
-  ['shield-check', "Porto d'armi (PDA)", 'Nuovo, rinnovo, uso sportivo', '/sportello/porto-darmi'],
-  ['calendar-check', 'Colloquio con i dirigenti', 'Prenota un appuntamento', '/sportello/colloquio'],
-  ['search', 'Stato della pratica', 'Verifica con il codice', '/sportello/pratica'],
+  { tag: 'Denuncia', title: 'Denuncia online', text: 'Furto, rapina, aggressione, truffa. Compilazione guidata in tre passi, con ricevuta e codice.', href: '/sportello/denuncia' },
+  { tag: "Porto d'armi", title: 'Porto d’armi (PDA)', text: 'Nuovo, rinnovo e uso sportivo, con tariffe e visita medica.', href: '/sportello/porto-darmi' },
+  { tag: 'Colloquio', title: 'Colloquio con i dirigenti', text: 'Prenota un appuntamento con la dirigenza della Questura.', href: '/sportello/colloquio' },
 ];
 
 const PASSI = [
-  ['1', 'Compila il modulo', 'Scegli il servizio e inserisci i dati richiesti.'],
-  ['2', 'Ricevi il codice', 'Ottieni un codice pratica e la ricevuta.'],
-  ['3', 'Segui la pratica', 'Controlla lo stato quando vuoi.'],
+  ['Compila il modulo', 'Scegli il servizio e inserisci i dati richiesti.'],
+  ['Ricevi il codice', 'Ottieni un codice pratica e la ricevuta.'],
+  ['Segui la pratica', 'Controlla lo stato quando vuoi, con il codice.'],
 ];
+
+function SectionHead({ label, title, text }) {
+  return (
+    <Reveal className="grid gap-4 lg:grid-cols-[1fr_2fr_1.4fr] lg:gap-10">
+      <div className="label">{label}</div>
+      <h2 className="h2 max-w-xl">{title}</h2>
+      {text ? <p className="max-w-sm text-[15px] leading-snug text-muted">{text}</p> : <span />}
+    </Reveal>
+  );
+}
 
 export default function HomePage() {
   return (
-    <div className="px-5 py-7 sm:px-8">
-      <h1 className="text-[22.5px] font-normal">Home</h1>
-
-      {/* banner con la foto della Questura */}
-      <section className="hero-in relative mt-5 overflow-hidden rounded-[20px] border border-[#242d3b]">
-        <img src="/assets/hero-slide-1.webp" alt="" className="kb absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '55% 62%' }} />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#141a24] via-[#141a24]/80 to-[#141a24]/10" />
-        <div className="pointer-events-none absolute right-[5%] top-1/2 hidden h-[280px] w-[220px] -translate-y-1/2 lg:block">
-          <Crest3D className="hero-in relative h-full w-full" fallbackClass="h-[210px] w-auto" />
+    <>
+      {/* Apertura: lo stemma in 3D come immagine unica, testo in basso a sinistra */}
+      <section className="relative mx-auto -mt-14 min-h-[640px] max-w-[1200px] overflow-hidden px-4 sm:px-6 lg:px-10">
+        <div className="pointer-events-none absolute inset-x-0 top-24 flex justify-center md:inset-y-0 md:left-auto md:right-[4%] md:top-0 md:w-[46%] md:items-center">
+          <Crest3D className="hero-in relative h-[240px] w-[190px] md:h-[460px] md:w-[360px]" fallbackClass="h-[220px] w-auto md:h-[400px]" glow={false} />
         </div>
-        <div className="relative px-7 py-9 sm:px-10 sm:py-12">
-          <div className="text-xs font-medium uppercase tracking-[0.2em] text-[#3fc4d6]">Italian Paradise XI · Questura</div>
-          <h2 className="mt-3 max-w-xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">Lo sportello della Polizia di Stato, online.</h2>
-          <p className="mt-3 max-w-lg text-[14.4px] text-white/80">Denunce, porto d’armi e colloqui con i dirigenti. Ogni pratica ha un codice e uno stato sempre consultabile.</p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/sportello/denuncia" className="inline-flex h-12 items-center gap-2 rounded-full bg-[#17a8bd] px-6 text-[13.5px] font-semibold text-[#04222a] transition hover:brightness-110">
-              Presenta una denuncia <Icon name="arrow-right" size={17} />
+        <div className="relative flex min-h-[640px] flex-col justify-end pb-14 pt-32">
+          <div className="hero-in mb-5 flex flex-wrap gap-2">
+            <Link href="/sportello/denuncia" className="chip">Denuncia</Link>
+            <Link href="/sportello/porto-darmi" className="chip">Porto d’armi</Link>
+            <Link href="/sportello/colloquio" className="chip">Colloquio</Link>
+          </div>
+          <h1 className="h1 hero-in max-w-[760px]" style={{ '--d': '80ms' }}>Lo sportello della Polizia di Stato, online.</h1>
+          <p className="hero-in mt-5 max-w-[470px] text-[18px] leading-snug text-muted" style={{ '--d': '170ms' }}>
+            Denunce, porto d’armi e colloqui con i dirigenti. Ogni pratica ha un codice e uno stato sempre consultabile.
+          </p>
+          <div className="hero-in mt-8 flex flex-wrap items-center gap-3" style={{ '--d': '250ms' }}>
+            <Link href="/sportello/denuncia" className="pill">
+              <Icon name="arrow-right" size={14} strokeWidth={1.5} className="text-primary" /> Presenta una denuncia
             </Link>
-            <Link href="/sportello/porto-darmi" className="inline-flex h-12 items-center rounded-full border border-white/40 bg-[#141a24]/40 px-6 text-[13.5px] font-medium backdrop-blur-sm transition hover:bg-white/10">
-              Richiedi porto d’armi
-            </Link>
+            <Link href="/sportello/pratica" className="text-[15px] text-primary hover:underline">Segui una pratica</Link>
           </div>
         </div>
       </section>
 
-      <div className="mt-5 grid items-start gap-5 md:grid-cols-[repeat(auto-fit,minmax(340px,1fr))]">
-        <div className="space-y-5">
-          <Widget icon="landmark" title="Servizi" href="/sportello/denuncia">
-            <ul className="divide-y divide-[#1e2735]">
-              {SERVIZI.map(([icon, title, text, href]) => (
-                <li key={href}>
-                  <Link href={href} className="group flex items-center gap-4 py-4">
-                    <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-[#0f3947] text-[#3fc4d6]">
-                      <Icon name={icon} size={21} strokeWidth={1.5} />
-                    </span>
-                    <span className="flex-1">
-                      <span className="block text-[14.4px] font-medium">{title}</span>
-                      <span className="block text-[11.7px] text-muted">{text}</span>
-                    </span>
-                    <Icon name="chevron" size={18} className="text-muted transition-transform group-hover:translate-x-0.5" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </Widget>
-
-          <Widget icon="file-text" title="Le tue pratiche" href="/sportello/pratica">
-            <MiePratiche compact />
-            <div className="mt-4 border-t border-[#242d3b] pt-4">
-              <p className="mb-2 text-sm text-muted">Hai un codice? Inseriscilo qui.</p>
-              <HeroTrack />
-            </div>
-          </Widget>
+      {/* Servizi */}
+      <section className="mx-auto mt-[94px] max-w-[1200px] px-4 sm:px-6 lg:px-10">
+        <SectionHead label="Sportello cittadino" title="Cosa puoi fare online" text="Tre servizi, un solo percorso: compili, ricevi un codice, segui lo stato." />
+        <div className="mt-14 grid gap-4 lg:grid-cols-3">
+          {SERVIZI.map((s, i) => (
+            <Reveal key={s.href} className="h-full" delay={i * 70}>
+              <Link href={s.href} className="card group flex h-full min-h-[340px] flex-col p-8 transition-colors hover:border-primary sm:p-10">
+                <span className="chip w-fit">{s.tag}</span>
+                <h3 className="mt-auto pt-16 text-[27px] font-normal leading-[1.2] tracking-[-0.02em]">{s.title}</h3>
+                <p className="mt-3 text-[15px] leading-snug text-muted">{s.text}</p>
+                <span className="mt-6 inline-flex items-center gap-2 text-[15px] text-primary group-hover:underline">
+                  <Icon name="arrow-right" size={14} strokeWidth={1.5} /> Apri
+                </span>
+              </Link>
+            </Reveal>
+          ))}
         </div>
+      </section>
 
+      {/* Pratiche e bacheca */}
+      <section className="mx-auto mt-[94px] grid max-w-[1200px] items-start gap-4 px-4 sm:px-6 lg:grid-cols-2 lg:px-10">
+        <Widget icon="file-text" title="Le tue pratiche" href="/sportello/pratica">
+          <MiePratiche compact />
+          <div className="border-t border-line pt-6">
+            <div className="mb-3 text-[14px] text-fog">Hai un codice? Inseriscilo qui.</div>
+            <HeroTrack />
+          </div>
+        </Widget>
         <Bacheca />
+      </section>
 
-        <div className="space-y-5">
-          <Widget icon="clipboard" title="Come funziona">
-            <ol className="divide-y divide-[#1e2735]">
-              {PASSI.map(([n, t, d]) => (
-                <li key={n} className="flex items-start gap-4 py-4">
-                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#0f3947] font-semibold text-[#3fc4d6]">{n}</span>
-                  <div>
-                    <div className="font-medium">{t}</div>
-                    <p className="text-[12.2px] text-muted">{d}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </Widget>
+      {/* Come funziona */}
+      <section className="mx-auto mt-[94px] max-w-[1200px] px-4 sm:px-6 lg:px-10">
+        <SectionHead label="Come funziona" title="Tre passi, un codice, nessuna coda" />
+        <ol className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
+          {PASSI.map(([t, d], i) => (
+            <Reveal key={t} delay={i * 70}>
+              <li className="border-t border-line pt-5">
+                <span className="label">0{i + 1}</span>
+                <div className="mt-6 text-[27px] leading-[1.2] tracking-[-0.02em]">{t}</div>
+                <p className="mt-3 max-w-xs text-[15px] leading-snug text-muted">{d}</p>
+              </li>
+            </Reveal>
+          ))}
+        </ol>
+      </section>
 
-          <Widget icon="users" title="Reparti" href="/organigramma">
-            <ul className="divide-y divide-[#1e2735]">
-              {DEPTS.map((d) => (
-                <li key={d.name} className="flex items-center gap-3.5 py-3">
-                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#0f3947] text-[#3fc4d6]">
-                    <Icon name={d.icon} size={17} strokeWidth={1.6} />
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block truncate text-[13.5px]">{d.name}</span>
-                    <span className="block truncate text-xs text-muted">{d.tag}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </Widget>
-
-          <Link href="/reclutamento" className="group relative block overflow-hidden rounded-[20px] border border-[#242d3b]">
-            <img src="/assets/hero-slide-2.webp" alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '30% 60%' }} />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#141a24] via-[#141a24]/85 to-[#141a24]/30" />
-            <div className="relative p-6">
-              <div className="text-xs font-medium uppercase tracking-[0.18em] text-[#3fc4d6]">Reclutamento</div>
-              <div className="mt-2 text-xl font-semibold">Entra nella Polizia di Stato</div>
-              <p className="mt-1 text-sm text-white/75">Selezioni sempre aperte.</p>
-              <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#3fc4d6]">
-                Scopri i bandi <Icon name="arrow-right" size={15} className="transition-transform group-hover:translate-x-1" />
-              </span>
-            </div>
-          </Link>
+      {/* Reparti */}
+      <section className="mx-auto mt-[94px] max-w-[1200px] px-4 sm:px-6 lg:px-10">
+        <SectionHead label="La Questura" title="I reparti" text="Dal pronto intervento alla formazione: chi lavora dietro lo sportello." />
+        <ul className="mt-12 flex flex-wrap gap-2.5">
+          {DEPTS.map((d) => (
+            <li key={d.name} className="chip px-4 py-1.5 text-[14px]">{d.name}</li>
+          ))}
+        </ul>
+        <div className="mt-8">
+          <Link href="/organigramma" className="pill"><Icon name="arrow-right" size={14} strokeWidth={1.5} className="text-primary" /> Vedi l’organigramma</Link>
         </div>
-      </div>
-    </div>
+      </section>
+
+      {/* Reclutamento */}
+      <section className="mx-auto mt-[94px] max-w-[1200px] px-4 sm:px-6 lg:px-10">
+        <div className="card grid items-end gap-8 p-8 sm:p-14 lg:grid-cols-[1.4fr_1fr]">
+          <div>
+            <div className="label">Reclutamento</div>
+            <h2 className="h2 mt-5 max-w-lg">Entra nella Polizia di Stato</h2>
+            <p className="mt-4 max-w-md text-[15px] leading-snug text-muted">Selezioni sempre aperte, formazione in Accademia e affiancamento sul campo.</p>
+          </div>
+          <div className="lg:justify-self-end">
+            <Link href="/reclutamento" className="pill"><Icon name="arrow-right" size={14} strokeWidth={1.5} className="text-primary" /> Scopri i bandi</Link>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

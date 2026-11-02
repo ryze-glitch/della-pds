@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Portale della Questura: tema scuro, token come canali RGB per supportare
+   le opacità di Tailwind. */
+:root {
+  color-scheme: light;
+  --bg: 255 255 255;        /* Gallery White */
+  --surface: 245 245 247;   /* Studio Mist */
+  --surface2: 230 230 232;  /* Control Gray */
+  --fg: 29 29 31;           /* Ink */
+  --muted: 112 112 112;     /* Slate */
+  --fog: 134 134 139;       /* Steel */
+  --line: 214 214 214;      /* Hairline Silver */
+  --primary: 0 113 227;     /* Pricing Blue */
+  --primary-fg: 255 255 255;
+  --link: 0 102 204;        /* Apple Blue */
+  --gold: 0 102 204;
+  --gold-soft: 245 245 247;
+  --gold-ink: 0 102 204;
+  --ok: 25 135 84;
+  --bad: 215 0 21;
+  --warn: 182 68 0;         /* Launch Orange */
+}
+
+html {
+  font-size: 90%;
+}
+
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: 'Inter', 'Helvetica Neue', Arial, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.022em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body strong, body b { font-weight: 600; }
+
+::selection {
+  background: rgb(0 113 227 / 0.22);
+}
+
+@layer components {
+  .h1 {
+    @apply text-[44px] font-semibold leading-[1.05] tracking-[-0.015em] sm:text-6xl lg:text-[80px];
+  }
+  .h2 {
+    @apply text-[30px] font-semibold leading-[1.05] tracking-[-0.01em] sm:text-[40px];
+  }
+  .label {
+    @apply text-[12px] font-semibold uppercase tracking-[0.06em] text-muted;
+  }
+  .chip {
+    @apply inline-flex items-center gap-2 text-[17px] font-semibold tracking-[0.01em] text-fg;
+  }
+  .input {
+    @apply block w-full rounded-full border border-fog bg-white px-6 py-3 text-[15px] text-fg outline-none transition placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/25;
+  }
+  textarea.input { @apply rounded-[20px]; }
+  .input[aria-invalid='true'] {
+    @apply border-bad focus:border-bad focus:ring-bad/25;
+  }
+  .gold-rule {
+    height: 1px;
+    background: rgb(var(--line));
+  }
+}
+
+/* Movimento sobrio: comparsa allo scroll e cambio pagina */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.page-enter { animation: page-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
+
+.rv { transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms); }
+.js .rv:not(.is-in) { opacity: 0; transform: translateY(34px); }
+.anim-failsafe .rv { opacity: 1 !important; transform: none !important; }
+
+@keyframes ping-soft {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.ping-soft { animation: ping-soft 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+/* Ingresso in pagina e hero */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+.hero-in { animation: rise 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; animation-delay: var(--d, 0ms); }
+
+@keyframes kenburns {
+  from { transform: scale(1.07); }
+  to { transform: scale(1); }
+}
+.kb { animation: kenburns 2s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
+
+@keyframes line-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.line-grow { transform-origin: left; animation: line-grow 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both; }
+
+@media print {
+  header, footer, aside, .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+}

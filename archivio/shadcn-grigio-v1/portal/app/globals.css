@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Portale della Questura: tema scuro, token come canali RGB per supportare
+   le opacità di Tailwind. */
+:root {
+  color-scheme: light;
+  --bg: 245 245 245;        /* Canvas */
+  --surface: 255 255 255;   /* Paper: schede */
+  --surface2: 245 245 245;  /* riempimenti tenui, input */
+  --fg: 10 10 10;           /* Ink */
+  --muted: 115 115 115;     /* Mid Gray */
+  --fog: 115 115 115;
+  --line: 229 229 229;      /* Hairline */
+  --primary: 23 23 23;      /* Ink Soft: azione piena */
+  --primary-fg: 250 250 250;
+  --link: 10 10 10;
+  --gold: 10 10 10;
+  --gold-soft: 245 245 245;
+  --gold-ink: 10 10 10;
+  --ok: 22 128 74;
+  --bad: 231 0 11;          /* Ember */
+  --warn: 180 83 9;
+  --side: 250 250 250;      /* Surface Alt: barra laterale */
+}
+
+html {
+  font-size: 90%;
+}
+
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: 'Geist', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  font-feature-settings: 'ss01' on, 'cv11' on;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body strong, body b { font-weight: 600; }
+
+::selection {
+  background: rgb(10 10 10 / 0.14);
+}
+
+@layer components {
+  .h1 {
+    @apply text-[36px] font-semibold leading-[1.1] tracking-[-0.05em] sm:text-[48px];
+  }
+  .h2 {
+    @apply text-[24px] font-semibold leading-[1.2] tracking-[-0.025em] sm:text-[30px];
+  }
+  .label {
+    @apply text-[12px] font-medium uppercase tracking-[0.05em] text-muted;
+  }
+  .chip {
+    @apply inline-flex items-center gap-2 rounded-[18px] border border-line bg-white px-3 py-0.5 text-[12px] font-medium text-fg;
+  }
+  .input {
+    @apply block w-full rounded-[18px] border border-transparent bg-surface2 px-3.5 py-2.5 text-[14px] text-fg outline-none transition placeholder:text-muted focus:border-line focus:ring-1 focus:ring-fg/20;
+  }
+  textarea.input { @apply rounded-[18px]; }
+  .input[aria-invalid='true'] {
+    @apply border-bad focus:border-bad focus:ring-bad/25;
+  }
+  .card {
+    @apply rounded-[24px] border border-line bg-surface shadow-card;
+  }
+  .gold-rule {
+    height: 1px;
+    background: rgb(var(--line));
+  }
+}
+
+/* Movimento sobrio: comparsa allo scroll e cambio pagina */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.page-enter { animation: page-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
+
+.rv { transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms); }
+.js .rv:not(.is-in) { opacity: 0; transform: translateY(34px); }
+.anim-failsafe .rv { opacity: 1 !important; transform: none !important; }
+
+@keyframes ping-soft {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.ping-soft { animation: ping-soft 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+/* Ingresso in pagina e hero */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+.hero-in { animation: rise 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; animation-delay: var(--d, 0ms); }
+
+@keyframes kenburns {
+  from { transform: scale(1.07); }
+  to { transform: scale(1); }
+}
+.kb { animation: kenburns 2s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
+
+@keyframes line-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.line-grow { transform-origin: left; animation: line-grow 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both; }
+
+@media print {
+  header, footer, aside, .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+}

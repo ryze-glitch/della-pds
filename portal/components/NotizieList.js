@@ -43,7 +43,7 @@ export function NotizieList() {
             type="button"
             onClick={() => setF(t)}
             aria-pressed={f === t}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition ${f === t ? 'bg-[#0f3947] text-[#3fc4d6]' : 'text-muted hover:bg-white/5 hover:text-fg'}`}
+            className={`rounded-full px-4 py-2 text-sm font-medium transition ${f === t ? 'bg-surface2 text-link' : 'text-muted hover:bg-black/5 hover:text-fg'}`}
           >
             {LABEL[t]}
           </button>
@@ -57,7 +57,7 @@ export function NotizieList() {
             <article
               id={`c-${c.id}`}
               key={c.id}
-              className={`grid scroll-mt-28 gap-x-8 gap-y-2 border-b border-line px-2 py-7 transition-colors duration-700 md:grid-cols-[170px_1fr] ${hl === c.id ? 'bg-primary/10' : ''}`}
+              className={`grid scroll-mt-28 gap-x-8 gap-y-2 border-b border-line px-2 py-7 transition-colors duration-700 md:grid-cols-[170px_1fr] ${hl === c.id ? 'bg-primary/5' : ''}`}
             >
               <div>
                 <div className={`text-xs font-medium uppercase tracking-[0.16em] ${COLOR[c.tipo]}`}>{c.tipo}</div>

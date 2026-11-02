@@ -17,7 +17,7 @@ export function CopiaLink({ code }) {
     }
   }
   return (
-    <button type="button" onClick={copy} aria-label={`Copia il link della pratica ${code}`} title="Copia link" className="rounded-full p-1.5 text-muted transition hover:bg-white/5 hover:text-fg">
+    <button type="button" onClick={copy} aria-label={`Copia il link della pratica ${code}`} title="Copia link" className="rounded-full p-1.5 text-muted transition hover:bg-black/5 hover:text-fg">
       <Icon name={ok ? 'check' : 'copy'} size={15} />
     </button>
   );
