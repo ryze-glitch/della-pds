@@ -3,6 +3,8 @@
 // Cloudflare Worker (src/index.js) o come route handler Next.js su hosting
 // Node (vedi README). Il webhook Discord vive SOLO nelle variabili d'ambiente.
 import { FORMS, validate, CODE_ALPHABET } from '../../../portal/lib/forms.js';
+import { handleFormazione } from './formazione/api.js';
+import { firestoreStore } from './formazione/store.js';
 
 const DEFAULT_ORIGINS = [
   'https://polizia-iprp.web.app',
@@ -244,7 +246,7 @@ export async function handleRequest(request, env = {}) {
   if (request.method === 'OPTIONS') {
     return new Response(null, {
       status: 204,
-      headers: { ...cors, 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type, Authorization', 'Access-Control-Max-Age': '86400' },
+      headers: { ...cors, 'Access-Control-Allow-Methods': 'POST, GET, PUT, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type, Authorization', 'Access-Control-Max-Age': '86400' },
     });
   }
 
@@ -264,6 +266,11 @@ export async function handleRequest(request, env = {}) {
       200,
       cors
     );
+  }
+
+  if (url.pathname.startsWith('/formazione/')) {
+    if (!originOk) return json({ error: 'Origine non autorizzata.' }, 403, cors);
+    return handleFormazione(request, env, { cors, url, verify: verifyFirebaseToken, store: env.__store || firestoreStore(env) });
   }
 
   if (url.pathname === '/log' && request.method === 'POST') {
