@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="sisfor/sisfor.css">
     <link rel="stylesheet" href="sisfor/nav.css">
+    <link rel="stylesheet" href="sisfor/footer.css">
     <style>
         body{background:radial-gradient(ellipse at 50% -10%,rgba(37,99,235,.28),transparent 55%),var(--bg-dark);background-attachment:fixed}
         .accesso{min-height:calc(100vh - 220px);display:flex;align-items:center;justify-content:center;padding:150px 20px 60px}
@@ -61,8 +62,44 @@
         </section>
     </main>
 
-    <footer><p>Sito Ufficiale della Polizia di Stato - Server IPRP | Solo a scopo Roleplay.</p></footer>
-    <div class="legal">Si informa che il presente sito non ha alcun valore reale o legale ed è stato creato esclusivamente per scopi di intrattenimento legati al videogioco IPRP. In caso di emergenza reale chiama il 112.</div>
+    <footer class="site-footer">
+        <div class="sf-grid">
+            <div>
+                <a class="sf-brand" href="Home.html"><img src="logo-polizia.png" alt="">Polizia di Stato</a>
+                <p class="sf-tag">Sito ufficiale della Polizia di Stato del server IPRP. Solo a scopo roleplay.</p>
+            </div>
+            <nav aria-label="Navigazione">
+                <h4>Navigazione</h4>
+                <ul>
+                    <li><a href="Home.html">Home</a></li>
+                    <li><a href="notizie.html">Notizie</a></li>
+                    <li><a href="chi-siamo.html">Chi siamo</a></li>
+                    <li><a href="qualifiche.html">Qualifiche</a></li>
+                    <li><a href="prenotazioni.html">Prenota</a></li>
+                    <li><a href="concorso.html">Concorso</a></li>
+                </ul>
+            </nav>
+            <nav aria-label="Servizi">
+                <h4>Servizi</h4>
+                <ul>
+                    <li><a href="denuncia.html">Denuncia, querela, esposto</a></li>
+                    <li><a href="porto-armi.html">Porto d'armi</a></li>
+                    <li><a href="urp.html">Ufficio Relazioni col Pubblico</a></li>
+                    <li><a href="sportello/pratica">Stato della pratica</a></li>
+                    <li><a href="sisfor">Area Personale</a></li>
+                </ul>
+            </nav>
+            <div>
+                <h4>Contatti</h4>
+                <ul class="sf-contact">
+                    <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12ZM12 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg><span>Via dei Peccatori N°761</span></li>
+                    <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg><a href="tel:113">Tel. 113</a></li>
+                    <li class="sf-sos"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 20h20zM12 10v4M12 17v.5"/></svg><a href="tel:112">Emergenza reale: 112</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="sf-bar"><div><span>© Polizia di Stato · Server IPRP</span><span>Creato da Ryze e DragonFire · IPRP</span></div></div>
+    </footer>
 
     <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
