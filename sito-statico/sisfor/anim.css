@@ -1,0 +1,53 @@
+/* Animazioni comuni a tutte le pagine (si disattivano con "riduci movimento" del sistema). */
+@keyframes pagIn{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(-8px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes scendi{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@keyframes pulsa{0%,100%{box-shadow:0 0 0 0 rgba(243,18,96,.55)}60%{box-shadow:0 0 0 7px rgba(243,18,96,0)}}
+@keyframes suona{0%,100%{transform:rotate(0)}15%{transform:rotate(14deg)}30%{transform:rotate(-12deg)}45%{transform:rotate(8deg)}60%{transform:rotate(-5deg)}75%{transform:rotate(2deg)}}
+
+/* comparsa allo scorrimento */
+html.anim .rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s);will-change:opacity,transform}
+html.anim .rv.in{opacity:1;transform:none}
+
+/* ingresso e uscita di pagina */
+html.anim body{animation:pagIn .6s ease both}
+html.anim body.esce{opacity:0;transition:opacity .22s ease}
+
+/* isole della barra */
+.navbar-wrapper .nav-left,.navbar-wrapper .nav-center,.navbar-wrapper .nav-right{transition:box-shadow .35s ease,border-color .35s ease,transform .35s ease}
+.navbar-wrapper .nav-left:hover,.navbar-wrapper .nav-center:hover,.navbar-wrapper .nav-right:hover{box-shadow:0 16px 42px rgba(37,99,235,.28);border-color:rgba(37,99,235,.4)}
+.navbar-wrapper .nav-logo img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.navbar-wrapper .nav-logo:hover img{transform:rotate(-6deg) scale(1.1)}
+.navbar-wrapper .nav-center>a,.navbar-wrapper .nav-center .dropdown>a{transition:background .25s ease,transform .25s ease}
+.navbar-wrapper .nav-center>a:hover{transform:translateY(-1px)}
+.navbar-wrapper .nav-area{transition:background .2s ease,transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s ease}
+.navbar-wrapper .nav-area:hover{transform:translateY(-1px) scale(1.04);box-shadow:0 8px 22px rgba(37,99,235,.45)}
+.navbar-wrapper .nav-area:active{transform:scale(.96)}
+.nav-bell:hover svg{animation:suona .7s ease}
+.nav-badge{animation:pulsa 2.2s ease-out infinite}
+.notif-panel:not([hidden]){animation:pop .24s cubic-bezier(.2,.7,.2,1);transform-origin:top right}
+.nav-panel.open{animation:scendi .26s ease}
+.hero-search.open .hero-results{animation:pop .2s ease;transform-origin:top center}
+.notif-item,.hero-results a{transition:background .2s ease,transform .2s ease}
+.notif-item:hover,.hero-results a:hover{transform:translateX(3px)}
+
+/* pulsanti, scorciatoie, schede, footer */
+.hero-chips a,.faq-bar a,.service-btn,.sf-bar a{transition:background .2s ease,border-color .2s ease,color .2s ease,transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s ease}
+.hero-chips a:hover,.faq-bar a:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.service-btn i{transition:transform .25s ease}
+.service-btn:hover i{transform:translateX(5px)}
+.service-btn:active,.hero-chips a:active{transform:scale(.97)}
+.faq-bar a i{transition:transform .25s ease}
+.faq-bar a:hover i{transform:translateX(4px)}
+.site-footer ul a{display:inline-block;transition:color .2s ease,transform .25s ease}
+.site-footer ul a:hover{transform:translateX(5px)}
+.site-footer .sf-brand img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.site-footer .sf-brand:hover img{transform:rotate(-6deg) scale(1.08)}
+.hero-search-box{transition:border-color .25s ease,background .25s ease,box-shadow .25s ease}
+.hero-search-box:focus-within{box-shadow:0 0 0 4px rgba(37,99,235,.25),0 14px 34px rgba(0,0,0,.5)}
+
+@media (prefers-reduced-motion:reduce){
+  html.anim .rv{opacity:1;transform:none;transition:none}
+  html.anim body{animation:none}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
