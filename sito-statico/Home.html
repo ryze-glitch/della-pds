@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polizia di Stato - IPRP</title>
+    <meta name="description" content="Sito Ufficiale della Polizia di Stato - Server IPRP. Garantiamo l'ordine pubblico e la sicurezza del cittadino.">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET E VARIABILI --- */
+        :root {
+            --bg-dark: #090a0f;
+            --nav-bg: rgba(20, 22, 28, 0.75);
+            --nav-border: rgba(255, 255, 255, 0.08);
+            --pill-dark: #1b1e24;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-hover: #ffffff;
+            --accent-blue: #2563eb;
+            --accent-hover: #1d4ed8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Lexend', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+       
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            scroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- PRELOADER --- */
+        .preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-dark);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preloader img {
+            width: 130px;
+            opacity: 0;
+            transform: scale(0.8);
+            filter: drop-shadow(0 0 20px rgba(37, 99, 235, 0.3));
+        }
+
+        /* --- NAVBAR FLOTTANTE CENTRATA --- */
+        .navbar-wrapper {
+            position: fixed;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 1400px;
+            z-index: 1000;
+            opacity: 0;
+        }
+
+        .navbar {
+            background: var(--nav-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--nav-border);
+            border-radius: 999px;
+            padding: 6px 8px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-left { justify-self: start; }
+
+        .nav-logo {
+            background: var(--pill-dark);
+            padding: 6px 20px 6px 12px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+
+        .nav-logo:hover { opacity: 0.8; }
+
+        .nav-logo img {
+            height: 36px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-center {
+            justify-self: center;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .nav-center a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-center a:hover { color: var(--text-hover); }
+
+        .nav-center a i {
+            font-size: 1rem;
+            opacity: 0.8;
+            color: var(--text-hover);
+        }
+
+        /* --- DROPDOWN --- */
+        .dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 10px 0;
+        }
+
+        .dropdown-menu {
+            visibility: hidden;
+            opacity: 0;
+            transform: translate(-50%, 30px);
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            width: 220px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--nav-border);
+            border-radius: 12px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .dropdown-menu::before {
+            content: '';
+            position: absolute;
+            top: -25px;
+            left: 0;
+            width: 100%;
+            height: 25px;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(-50%, 15px);
+        }
+
+        .dropdown-menu a {
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: var(--text-muted);
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: flex-start;
+            font-weight: 400;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-hover);
+        }
+
+        .nav-right { justify-self: end; }
+
+        .nav-login-btn {
+            background-color: var(--accent-blue);
+            color: white;
+            padding: 6px 10px 6px 20px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 0.2s ease, transform 0.2s;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .nav-login-btn:hover {
+            background-color: var(--accent-hover);
+            transform: scale(1.05);
+        }
+
+        .nav-login-btn .icon-circle {
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- HERO SECTION CON SFONDO ANIMATO --- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-background-slideshow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            animation: slideShow 16s infinite;
+        }
+
+        .hero-slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(9, 10, 15, 0.4), var(--bg-dark));
+        }
+
+        .slide-1 {
+            background-image: url('https://i.imgur.com/HYyxG9W.jpg');
+            animation-delay: 0s;
+        }
+
+        .slide-2 {
+            background-image: url('https://i.imgur.com/TOEz1GU.jpg');
+            animation-delay: 8s;
+        }
+
+        .slide-3 {
+            background-image: url('https://i.imgur.com/8fsNUu2.jpg');
+            animation-delay: 16s;
+        }
+
+        @keyframes slideShow {
+            0%   { opacity: 0; }
+            4%   { opacity: 1; }
+            30%  { opacity: 1; }
+            38%  { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero-logo {
+            max-width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto 15px;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 25px;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .separator-line {
+            border: 0;
+            border-top: 1px solid var(--nav-border);
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .contact-info {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin: 0 auto 30px;
+            font-weight: 300;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .contact-info a { color: inherit; text-decoration: none; }
+        .contact-info a:hover { color: var(--text-hover); text-decoration: underline; }
+
+        .btn-scroll {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--nav-border);
+            padding: 15px 35px;
+            border-radius: 999px;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .btn-scroll:hover {
+            background: var(--text-main);
+            color: var(--bg-dark);
+            transform: translateY(-3px);
+        }
+
+        /* --- SEZIONE SERVIZI --- */
+        .services-section {
+            padding: 100px 5%;
+            background-color: var(--bg-dark);
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 3;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 60px;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .section-title span { color: var(--accent-blue); }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .service-card {
+            background: var(--nav-bg);
+            border: 1px solid var(--nav-border);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.15);
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--nav-border);
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover img { transform: scale(1.05); }
+
+        .service-content {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .service-content h3 {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .service-content p,
+        .service-content ul {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            font-weight: 300;
+        }
+
+        .service-content ul { padding-left: 20px; }
+        .service-content ul li { margin-bottom: 10px; }
+
+        .service-link {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--nav-border);
+            padding-top: 15px;
+            margin-top: auto;
+        }
+
+        .service-link strong { color: var(--accent-blue); font-weight: 600; }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--nav-border);
+            background-color: var(--bg-dark);
+            position: relative;
+            z-index: 3;
+            font-weight: 300;
+        }
+
+        .legal-disclaimer {
+            background: rgba(37, 99, 235, 0.05);
+            border-top: 1px solid rgba(37, 99, 235, 0.2);
+            padding: 20px;
+            margin-top: 0;
+        }
+        .disclaimer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .disclaimer-inner i { color: var(--accent-blue); font-size: 1rem; margin-top: 2px; flex-shrink: 0; }
+        .disclaimer-inner p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; font-weight: 300; }
+        .disclaimer-inner a { color: var(--accent-blue); text-decoration: underline; }
+
+        /* Banner nuova notizia */
+        #new-news-banner {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--accent-blue), #1d4ed8);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 12px;
+            z-index: 999;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5);
+            max-width: 320px;
+            animation: slideInRight 0.5s ease-out;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(120%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        #new-news-banner a { color: white; font-weight: 700; text-decoration: underline; }
+        #new-news-banner button { background: rgba(255,255,255,0.2); border: none; color: white; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-size: 0.9rem; }
+
+        /* Annunci speciali */
+        #annunci-speciali { display: none; position: fixed; top: 100px; left: 50%; transform: translateX(-50%); z-index: 998; width: 90%; max-width: 800px; }
+        .annuncio-speciale {
+            background: linear-gradient(135deg, rgba(234,179,8,0.15), rgba(234,179,8,0.05));
+            border: 1px solid rgba(234,179,8,0.4);
+            color: #fbbf24;
+            padding: 14px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        }
+        /* --- GSAP REVEAL --- */
+        .gs-reveal { visibility: hidden; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1200px) {
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-center { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .services-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 3.5rem; }
+        }
+    </style>
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+      import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBrBkzLE_0MLQEXB9YBDW7G05n6aI_ykA0",
+        authDomain: "polizia-iprp.firebaseapp.com",
+        projectId: "polizia-iprp",
+        storageBucket: "polizia-iprp.firebasestorage.app",
+        messagingSenderId: "295622243589",
+        appId: "1:295622243589:web:abfd6d06dac2f95428f36c"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      async function checkAnnunci() {
+        try {
+          const snap = await getDocs(collection(db, 'NOTIZIE'));
+          const oggi = new Date();
+          oggi.setHours(0,0,0,0);
+
+          let haNewNews = false;
+          let annunciVisibili = [];
+          const sevenDaysAgo = new Date(oggi);
+          sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+          snap.forEach(doc => {
+            const d = doc.data();
+            const visibile = d['visibile'];
+
+            // Punto 13: notizie con visibile:no mostrano banner speciale home
+            if (visibile === 'no') {
+              const scadenzaStr = d['Scadenza'] || '';
+              let scadenza = null;
+              if (scadenzaStr) {
+                const parts = scadenzaStr.split('/');
+                if (parts.length === 3) scadenza = new Date(parts[2], parts[1]-1, parts[0]);
+              }
+              if (!scadenza || scadenza >= oggi) {
+                annunciVisibili.push({
+                  descrizione: d['Descrizione'] || '',
+                  scadenza: scadenzaStr
+                });
+              }
+            }
+
+            // Punto 12: nuova notizia (ultimi 7 giorni, visibile normale)
+            if (visibile !== 'no') {
+              const dataStr = d['Data della notizia'] || '';
+              if (dataStr) {
+                const parts = dataStr.split(' ');
+                // Formato "DD Mese YYYY" o "DD/MM/YYYY"
+                let dataNews = null;
+                if (dataStr.includes('/')) {
+                  const p = dataStr.split('/');
+                  dataNews = new Date(p[2], p[1]-1, p[0]);
+                }
+                if (dataNews && dataNews >= sevenDaysAgo) haNewNews = true;
+              }
+            }
+          });
+
+          // Mostra banner nuova notizia
+          if (haNewNews) {
+            document.getElementById('new-news-banner').style.display = 'flex';
+          }
+
+          // Mostra annunci speciali (visibile:no)
+          if (annunciVisibili.length > 0) {
+            const container = document.getElementById('annunci-speciali');
+            annunciVisibili.forEach(ann => {
+              const div = document.createElement('div');
+              div.className = 'annuncio-speciale';
+              div.innerHTML = '<i class="fas fa-bullhorn"></i><span>' + ann.descrizione + (ann.scadenza ? ' <em style="opacity:0.7;font-size:0.8em;">(scade: ' + ann.scadenza + ')</em>' : '') + '</span><button onclick="this.parentElement.remove()" style="background:none;border:none;color:inherit;cursor:pointer;margin-left:auto;font-size:1.1rem;">&#10005;</button>';
+              container.appendChild(div);
+            });
+            container.style.display = 'block';
+          }
+        } catch(e) {
+          console.error('Errore annunci:', e);
+        }
+      }
+
+      window.addEventListener('DOMContentLoaded', checkAnnunci);
+    </script>
+</head>
+
+<body>
+
+    <div class="preloader" id="preloader">
+        <img id="preload-logo" src="https://i.imgur.com/gRzOXM3.png" alt="Logo Polizia" />
+    </div>
+
+    <div id="new-news-banner">
+        <i class="fas fa-bell" style="font-size:1.3rem;flex-shrink:0;"></i>
+        <span>Ci sono <a href="notizie.html">nuove notizie</a> disponibili!</span>
+        <button onclick="document.getElementById('new-news-banner').style.display='none'">&#10005;</button>
+    </div>
+
+    <div id="annunci-speciali"></div>
+
+    <div class="navbar-wrapper" id="navbar">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="Home.html" class="nav-logo">
+                    <img src="https://i.imgur.com/SUM8B5x.png" alt="Logo">
+                    POLIZIA IPRP
+                </a>
+            </div>
+
+            <div class="nav-center">
+                <a href="Home.html" class="active-link"><i class="fas fa-home"></i> Home</a>
+                <a href="notizie.html"><i class="fas fa-bullhorn"></i> Notizie</a>
+
+                <div class="dropdown">
+                    <a href="#"><i class="fas fa-search"></i> Chi Siamo <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: -2px;"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="chi-siamo.html"><i class="fas fa-user-tie"></i> La Dirigenza</a>
+                        <a href="storia.html"><i class="fas fa-book"></i> Storia della Polizia</a>
+                        <a href="chi-siamo.html#mezzi"><i class="fas fa-car"></i> I Nostri Mezzi</a>
+                        <a href="chi-siamo.html#reparti"><i class="fas fa-shield-alt"></i> I Nostri Reparti</a>
+                    </div>
+                </div>
+
+                <a href="qualifiche.html"><i class="fas fa-medal"></i> Qualifiche</a>
+                <a href="prenotazioni.html"><i class="fas fa-calendar-check"></i> Prenota</a>
+                <a href="concorso.html"><i class="fas fa-trophy"></i> Concorso Pubblico</a>
+            </div>
+
+            <div class="nav-right"></div>
+        </nav>
+    </div>
+
+    <section class="hero">
+        <div class="hero-background-slideshow">
+            <div class="hero-slide slide-1"></div>
+            <div class="hero-slide slide-2"></div>
+            <div class="hero-slide slide-3"></div>
+        </div>
+
+        <div class="hero-content">
+            <img src="https://i.imgur.com/gRzOXM3.png" alt="PDS Logo" class="hero-logo gs-reveal hero-item">
+
+            <h1 class="gs-reveal hero-item">POLIZIA DI STATO</h1>
+
+            <hr class="separator-line gs-reveal hero-item">
+
+            <p class="contact-info gs-reveal hero-item">
+                Via dei Peccatori N°761 - Tel: <a href="tel:113">113</a>
+            </p>
+
+            <button class="btn-scroll gs-reveal hero-item" onclick="document.getElementById('servizi').scrollIntoView({behavior: 'smooth'})">
+                Scopri i Servizi <i class="fas fa-arrow-down" style="margin-left: 8px;"></i>
+            </button>
+        </div>
+    </section>
+
+    <section id="servizi" class="services-section">
+        <h2 class="section-title gs-header gs-reveal">I Nostri <span>Servizi</span></h2>
+
+        <div class="services-grid gs-grid">
+
+            <div class="service-card gs-card gs-reveal">
+                <img src="foto/index/ufficidesk.png" alt="Ufficio URP">
+                <div class="service-content">
+                    <h3>UFFICIO RELAZIONI COL PUBBLICO</h3>
+                    <p>L'Ufficio <strong>URP</strong> della Polizia Di Stato di Roma, svolge diverse funzioni fondamentali per il servizio al cittadino.</p>
+                    <div class="service-link">
+                        Consulta anche la pagina: <a href="urp.html"><strong>URP</strong></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-card gs-card gs-reveal">
+                <img src="foto/index/PORTO-DARMI.png" alt="Porto Armi">
+                <div class="service-content">
+                    <h3>PORTO D'ARMI</h3>
+                    <p style="margin-bottom: 5px;">REQUISITI:</p>
+                    <ul>
+                        <li>Avere la fedina penale pulita, sia al ritiro che al rilascio;</li>
+                        <li>Essere maggiorenni;</li>
+                        <li>Risultare idonei al CERTIFICATO ANAMNESTICO e TEST BALISTICO;</li>
+                        <li>Avere una ragione valida e motivata che giustifichi il bisogno di andare armati.</li>
+                    </ul>
+                    <div class="service-link">
+                        Consulta anche la pagina: <a href="porto-armi.html"><strong>Porto D'armi</strong></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-card gs-card gs-reveal">
+                <img src="foto/index/denuncia.png" alt="Denuncia">
+                <div class="service-content">
+                    <h3>DENUNCIA, QUERELA, ESPOSTO</h3>
+                    <p>Per effettuare una Denuncia, Querela, Esposto recati al desk della Questura di Roma e degli operatori accoglieranno la tua deposizione.</p>
+                    <p>In assenza di operatori per effettuare una denuncia prendi una <a href="prenotazioni.html" style="color: var(--accent-blue);">Prenotazione</a>. Se la prenotazione viene CONFERMATA "qui" recati in Questura nella data prestabilita.</p>
+                    <div class="service-link">
+                        Consulta anche la pagina: <a href="denuncia.html"><strong>Denuncia</strong></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-card gs-card gs-reveal">
+                <img src="foto/index/bando.png" alt="Concorsi">
+                <div class="service-content">
+                    <h3>BANDO DI CONCORSO</h3>
+                    <p>Prenota per effettuare un colloquio, o recati in Questura o prendi una Prenotazione e specifica la tua intenzione, con le relative motivazioni e la persona con la quale vuoi parlare.</p>
+                    <div class="service-link">
+                        Consulta anche la pagina: <a href="concorso.html"><strong>Concorso Pubblico</strong></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-card gs-card gs-reveal">
+                <img src="https://i.imgur.com/gRzOXM3.png" alt="FAQ" style="height:180px;object-fit:contain;padding:20px;background:rgba(37,99,235,0.05);">
+                <div class="service-content">
+                    <h3>DOMANDE PIÙ FREQUENTI</h3>
+                    <ul>
+                        <li><a href="prenotazioni.html" style="color:var(--accent-blue);">Come richiedere l'autorizzazione per un evento</a></li>
+                        <li><a href="porto-armi.html" style="color:var(--accent-blue);">Come faccio la licenza armi?</a></li>
+                        <li><a href="concorso.html" style="color:var(--accent-blue);">Come faccio a candidarmi?</a></li>
+                    </ul>
+                    <div class="service-link">
+                        Consulta le nostre <strong>FAQ</strong> per maiores informazioni
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Sito Ufficiale della Polizia di Stato - Server IPRP | Solo a scopo Roleplay.</p>
+        <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">Creato da Ryze e DragonFire - IPRP</p>
+    </footer>
+
+    <div class="legal-disclaimer">
+        <div class="disclaimer-inner">
+            <i class="fas fa-info-circle"></i>
+            <p>Si informa che il presente sito non ha alcun valore reale o legale ed è stato creato esclusivamente per scopi di intrattenimento legati al videogioco chiamato IPRP. Tutti i contenuti, le informazioni e i riferimenti presenti su questo sito sono puramente fittizi e non devono essere interpretati come dati reali o utilizzabili al di fuori del contesto videoludico. Il sito è progettato per arricchire l'esperienza di gioco e fornire un ambiente immersivo per i giocatori, ma non riflette alcuna realtà esistente. Nessun contenuto può essere utilizzato per scopi legali, commerciali o di qualsiasi altra natura al di fuori dell'ambito del gioco IPRP. Si invita a non fare affidamento sulle informazioni presenti per decisioni o azioni nel mondo reale. L'utilizzo del sito deve essere considerato unicamente come parte dell'esperienza videoludica. <a href="https://www.iprp.it" target="_blank">www.iprp.it</a></p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script>
+        // Lenis smooth scroll
+        const lenis = new Lenis({ 
+            duration: 1.2, 
+            smoothWheel: true 
+        });
+        
+        function raf(time) { 
+            lenis.raf(time); 
+            requestAnimationFrame(raf); 
+        }
+        requestAnimationFrame(raf);
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Collega ScrollTrigger a Lenis per evitare desincronizzazioni
+        lenis.on('scroll', ScrollTrigger.update);
+
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    document.getElementById('preloader').style.display = 'none';
+                    
+                    // Forza Lenis a ricalcolare l'altezza della pagina ora che il preloader è rimosso
+                    lenis.resize();
+                    
+                    initScrollAnimations();
+                }
+            });
+
+            tl.to("#preload-logo", { autoAlpha: 1, scale: 1, duration: 1, ease: "back.out(1.5)" })
+              .to("#preloader", { autoAlpha: 0, duration: 0.6, ease: "power2.inOut", delay: 0.4 })
+              .to("#navbar", { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.4")
+              .fromTo(".hero-item", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1, stagger: 0.15, ease: "back.out(1.2)" }, "-=0.6");
+        });
+
+        function initScrollAnimations() {
+            gsap.utils.toArray('.gs-header').forEach(elem => {
+                gsap.fromTo(elem, { y: 30, autoAlpha: 0 }, {
+                    y: 0, autoAlpha: 1, duration: 1, ease: "power3.out",
+                    scrollTrigger: { trigger: elem, start: "top 85%" }
+                });
+            });
+
+            gsap.utils.toArray('.gs-grid').forEach(grid => {
+                const cards = grid.querySelectorAll('.gs-card');
+                if (cards.length > 0) {
+                    gsap.fromTo(cards, { y: 40, autoAlpha: 0 }, {
+                        y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.2)",
+                        scrollTrigger: { trigger: grid, start: "top 80%" }
+                    });
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
