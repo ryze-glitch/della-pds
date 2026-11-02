@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Portale della Questura: tema scuro, token come canali RGB per supportare
+   le opacità di Tailwind. */
+:root {
+  color-scheme: light;
+  /* Colore principale: si cambia qui, in un solo punto (canali RGB). */
+  --accent: 31 59 255;       /* #1f3bff */
+  --accent-soft: 244 246 255; /* azzurro tenue */
+  --on-accent: 219 226 255;   /* testo secondario sulla banda blu */
+  --bg: 255 255 255;
+  --surface: 255 255 255;
+  --surface2: 244 246 255;
+  --fg: 10 10 10;
+  --muted: 82 86 95;         /* #52565f */
+  --fog: 138 143 154;
+  --line: 213 216 224;       /* #d5d8e0 */
+  --primary: var(--accent);
+  --primary-fg: 255 255 255;
+  --link: var(--accent);
+  --gold: var(--accent);
+  --gold-soft: 244 246 255;
+  --gold-ink: var(--accent);
+  --ok: 12 95 67;
+  --bad: 178 24 43;
+  --warn: 122 78 0;
+  --dark: 10 10 10;
+}
+
+html {
+  font-size: 90%;
+}
+
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: 'Archivo Variable', 'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body strong, body b { font-weight: 700; }
+
+::selection {
+  background: rgb(var(--accent) / 0.22);
+}
+
+@layer components {
+  .h1 {
+    @apply text-[44px] font-extrabold leading-[0.98] tracking-[-0.04em] sm:text-[60px] lg:text-[76px];
+    font-stretch: 90%;
+    text-wrap: balance;
+  }
+  .h2 {
+    @apply text-[30px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px];
+    font-stretch: 92%;
+    text-wrap: balance;
+  }
+  .label {
+    @apply text-[14px] font-extrabold uppercase tracking-[0.08em] text-muted;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-accent-soft px-3.5 py-[7px] text-[14px] font-bold;
+    color: #1a2fc7;
+  }
+  .input {
+    @apply block min-h-[52px] w-full rounded-[14px] border-2 border-line bg-white px-4 py-3 text-[16px] font-medium text-fg outline-none transition placeholder:text-fog focus:border-primary;
+  }
+  textarea.input { @apply min-h-[120px]; }
+  .input[aria-invalid='true'] {
+    @apply border-bad focus:border-bad;
+  }
+  .card {
+    @apply rounded-[20px] border-2 border-line bg-white;
+  }
+  .btn {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-3 rounded-full bg-primary px-7 text-[16px] font-extrabold text-primary-fg transition-colors hover:bg-fg;
+  }
+  .btn-light {
+    @apply inline-flex min-h-[52px] items-center justify-center gap-3 rounded-full bg-white px-8 text-[17px] font-extrabold text-primary transition-colors hover:bg-fg hover:text-white;
+  }
+  .btn-line {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-3 rounded-full border-2 border-fg px-7 text-[16px] font-extrabold text-fg transition-colors hover:bg-fg hover:text-white;
+  }
+  .riga {
+    @apply flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-line px-2 py-7 transition-colors hover:bg-accent-soft;
+  }
+  .riga:first-child { @apply border-t-2 border-fg; }
+  .gold-rule {
+    height: 2px;
+    background: rgb(var(--fg));
+  }
+  /* Pillole di stato: il testo dice sempre lo stato, il colore è solo un rinforzo. */
+  .stato { @apply inline-flex items-center gap-1.5 rounded-full px-3.5 py-[7px] text-[14px] font-bold; }
+  .stato-corso { background: #eaeeff; color: #1a2fc7; }
+  .stato-ambra { background: #fff0cc; color: #7a4e00; }
+  .stato-ok { background: #dcf5e9; color: #0c5f43; }
+  .stato-grigio { background: #eceef2; color: #3d414a; }
+}
+
+:focus-visible { outline: 3px solid rgb(var(--accent)); outline-offset: 3px; }
+
+/* Movimento sobrio: comparsa allo scroll e cambio pagina */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.page-enter { animation: page-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
+
+.rv { transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms); }
+.js .rv:not(.is-in) { opacity: 0; transform: translateY(34px); }
+.anim-failsafe .rv { opacity: 1 !important; transform: none !important; }
+
+@keyframes ping-soft {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.ping-soft { animation: ping-soft 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+/* Ingresso in pagina e hero */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+.hero-in { animation: rise 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; animation-delay: var(--d, 0ms); }
+
+@keyframes kenburns {
+  from { transform: scale(1.07); }
+  to { transform: scale(1); }
+}
+.kb { animation: kenburns 2s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
+
+@keyframes line-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.line-grow { transform-origin: left; animation: line-grow 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both; }
+
+@media print {
+  header, footer, aside, .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+}
