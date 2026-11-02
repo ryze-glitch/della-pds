@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accesso · Area Personale IPRP</title>
+    <meta name="robots" content="noindex">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="sisfor/sisfor.css">
+    <link rel="stylesheet" href="sisfor/nav.css">
+    <style>
+        body{background:radial-gradient(ellipse at 50% -10%,rgba(37,99,235,.28),transparent 55%),var(--bg-dark);background-attachment:fixed}
+        .accesso{min-height:calc(100vh - 220px);display:flex;align-items:center;justify-content:center;padding:150px 20px 60px}
+        .scheda{width:100%;max-width:460px;background:var(--nav-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--nav-border);border-radius:24px;padding:44px 36px 36px;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,.55),0 0 0 1px rgba(37,99,235,.12)}
+        .scheda img.stemma{width:92px;height:auto;margin:0 auto 22px;display:block;filter:drop-shadow(0 8px 20px rgba(0,0,0,.5))}
+        .scheda h1{font-size:clamp(1.9rem,6vw,2.5rem);font-weight:800;line-height:1.05;letter-spacing:.5px;text-transform:uppercase}
+        .scheda h1 span{color:var(--accent-blue)}
+        .scheda p.sotto{margin:14px auto 28px;max-width:340px;color:var(--text-muted);line-height:1.6;font-size:.98rem}
+        .btn-discord{display:flex;width:100%;align-items:center;justify-content:center;gap:12px;min-height:56px;border:0;border-radius:999px;background:#4752c4;color:#fff;font-weight:600;font-size:1.02rem;transition:background .2s,transform .2s}
+        .btn-discord:hover:not(:disabled){background:#3b45a8;transform:translateY(-2px)}
+        .btn-discord:disabled{background:#2b2f3a;color:#9aa3b5;cursor:default}
+        .btn-discord svg{width:22px;height:22px}
+        .nota{margin-top:20px;font-size:.84rem;color:var(--text-muted);line-height:1.6}
+        .scheda .avviso{margin-bottom:18px;text-align:left}
+        .indietro{display:inline-flex;align-items:center;gap:8px;margin-top:22px;min-height:44px;color:var(--accent-soft);font-size:.92rem}
+        .indietro:hover{text-decoration:underline}
+    </style>
+</head>
+<body>
+    <a class="skip" href="#accesso">Vai al contenuto</a>
+    <div class="navbar-wrapper">
+        <nav class="navbar" aria-label="Navigazione del sito">
+            <div class="nav-left"><a href="Home.html" class="nav-logo"><img src="https://i.imgur.com/SUM8B5x.png" alt="">POLIZIA IPRP</a></div>
+            <div class="nav-center">
+                <a href="Home.html"><i class="fas fa-home" aria-hidden="true"></i> Home</a>
+                <a href="notizie.html"><i class="fas fa-bullhorn" aria-hidden="true"></i> Notizie</a>
+                <a href="chi-siamo.html"><i class="fas fa-search" aria-hidden="true"></i> Chi Siamo</a>
+                <a href="qualifiche.html"><i class="fas fa-medal" aria-hidden="true"></i> Qualifiche</a>
+                <a href="prenotazioni.html"><i class="fas fa-calendar-check" aria-hidden="true"></i> Prenota</a>
+                <a href="concorso.html"><i class="fas fa-trophy" aria-hidden="true"></i> Concorso Pubblico</a>
+            </div>
+            <div class="nav-right"><a class="nav-area" href="sisfor" aria-label="Area Personale"><span class="nav-area-t">Area Personale</span><span class="icon-circle"><i class="fas fa-user-shield" aria-hidden="true"></i></span></a></div>
+        </nav>
+    </div>
+
+    <main id="accesso" class="accesso" tabindex="-1">
+        <section class="scheda" aria-labelledby="titolo">
+            <img class="stemma" src="assets/crest-md.png" alt="Stemma della Polizia di Stato IPRP">
+            <h1 id="titolo">Area <span>riservata</span></h1>
+            <p class="sotto">Accedi con il tuo account Discord per studiare i corsi, seguire le tue abilitazioni e gestire le pratiche.</p>
+            <div id="msg" role="status" aria-live="polite"></div>
+            <button id="discord" class="btn-discord" type="button" disabled>
+                <i class="fas fa-circle-notch fa-spin" id="spin" aria-hidden="true"></i>
+                <span id="discord-t">Verifica dell'accesso…</span>
+            </button>
+            <p class="nota">Possono accedere solo gli agenti registrati dall'amministrazione.</p>
+            <a class="indietro" href="Home.html"><i class="fas fa-arrow-left" aria-hidden="true"></i> Torna al sito</a>
+        </section>
+    </main>
+
+    <footer><p>Sito Ufficiale della Polizia di Stato - Server IPRP | Solo a scopo Roleplay.</p></footer>
+    <div class="legal">Si informa che il presente sito non ha alcun valore reale o legale ed è stato creato esclusivamente per scopi di intrattenimento legati al videogioco IPRP. In caso di emergenza reale chiama il 112.</div>
+
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+      import { getAuth, onAuthStateChanged, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+
+      const firebaseConfig = {
+        apiKey: 'AIzaSyBrBkzLE_0MLQEXB9YBDW7G05n6aI_ykA0', authDomain: 'polizia-iprp.firebaseapp.com',
+        projectId: 'polizia-iprp', appId: '1:295622243589:web:abfd6d06dac2f95428f36c'
+      };
+      const DISCORD_AUTH_WORKER_URL = 'https://pds-discord-oauth.ryzedev63131.workers.dev/discord-auth';
+      const DISCORD_CLIENT_ID = '1543034109146959882';
+      const PERCORSI = ['/sisfor', '/dashboard', '/gestione/pratiche'];
+
+      const auth = getAuth(initializeApp(firebaseConfig));
+      const $msg = document.getElementById('msg');
+      const $btn = document.getElementById('discord');
+      const params = new URLSearchParams(location.search);
+      const redirectUri = location.origin + location.pathname.replace(/\.html$/, '');
+
+      const avviso = (t, tipo = '', ic = 'fa-circle-info') => {
+        $msg.innerHTML = '';
+        const d = document.createElement('div');
+        d.className = 'avviso ' + tipo;
+        d.setAttribute('role', tipo === 'err' ? 'alert' : 'status');
+        const i = document.createElement('i'); i.className = 'fas ' + ic; i.setAttribute('aria-hidden', 'true');
+        const s = document.createElement('div'); s.textContent = t;
+        d.append(i, s); $msg.append(d);
+      };
+      function pronto() {
+        $btn.disabled = false;
+        document.getElementById('spin').outerHTML = '<svg viewBox="0 0 24 18" fill="none" aria-hidden="true"><path fill="currentColor" d="M20.3 1.8A19.5 19.5 0 0 0 15.6.3a.07.07 0 0 0-.08.04c-.2.36-.43.83-.59 1.2a18 18 0 0 0-5.4 0 12 12 0 0 0-.6-1.2.08.08 0 0 0-.08-.04A19.4 19.4 0 0 0 3.9 1.8a.07.07 0 0 0-.03.03C.9 6.3.1 10.6.5 14.9a.08.08 0 0 0 .03.06 19.6 19.6 0 0 0 5.9 3 .08.08 0 0 0 .08-.03c.46-.62.86-1.28 1.2-1.97a.08.08 0 0 0-.04-.1 12.9 12.9 0 0 1-1.85-.88.08.08 0 0 1 0-.13c.12-.1.25-.2.37-.29a.07.07 0 0 1 .08 0c3.9 1.77 8.1 1.77 11.94 0a.07.07 0 0 1 .08 0c.12.1.25.2.37.3a.08.08 0 0 1 0 .13c-.59.34-1.21.63-1.85.87a.08.08 0 0 0-.04.11c.35.68.76 1.34 1.2 1.96a.08.08 0 0 0 .08.03 19.5 19.5 0 0 0 5.93-3 .08.08 0 0 0 .03-.05c.5-4.97-.83-9.24-3.5-13.06a.06.06 0 0 0-.03-.03zM8.02 12.3c-1.18 0-2.15-1.08-2.15-2.4 0-1.33.95-2.41 2.15-2.41 1.21 0 2.17 1.09 2.15 2.4 0 1.33-.95 2.41-2.15 2.41zm7.97 0c-1.18 0-2.15-1.08-2.15-2.4 0-1.33.95-2.41 2.15-2.41 1.21 0 2.17 1.09 2.15 2.4 0 1.33-.94 2.41-2.15 2.41z"/></svg>';
+        document.getElementById('discord-t').textContent = 'Continua con Discord';
+      }
+      // Non si resta bloccati su «Verifica…»: dopo 1,5 s il pulsante compare comunque.
+      const sblocca = setTimeout(pronto, 1500);
+
+      if (params.get('denied') === '1') avviso('Il tuo account Discord non risulta registrato tra gli agenti. Contatta un amministratore per essere abilitato.', 'err', 'fa-lock');
+
+      onAuthStateChanged(auth, (user) => {
+        clearTimeout(sblocca);
+        if (user) {
+          let next = params.get('next');
+          try { next = next || sessionStorage.getItem('pds-next'); sessionStorage.removeItem('pds-next'); } catch (e) { /* storage non disponibile */ }
+          location.href = PERCORSI.includes(next) ? next : '/sisfor';
+        } else {
+          pronto();
+        }
+      });
+
+      $btn.addEventListener('click', () => {
+        try { const n = params.get('next'); if (n) sessionStorage.setItem('pds-next', n); } catch (e) { /* storage non disponibile */ }
+        const q = new URLSearchParams({ client_id: DISCORD_CLIENT_ID, redirect_uri: redirectUri, response_type: 'code', scope: 'identify email' });
+        location.href = 'https://discord.com/api/oauth2/authorize?' + q.toString();
+      });
+
+      // Ritorno da Discord: si scambia il codice con il Worker e si entra in Firebase.
+      (async () => {
+        const code = params.get('code');
+        if (!code) return;
+        avviso('Completamento accesso con Discord…');
+        try {
+          const res = await fetch(`${DISCORD_AUTH_WORKER_URL}?code=${encodeURIComponent(code)}&redirect_uri=${encodeURIComponent(redirectUri)}`);
+          if (!res.ok) throw new Error('Worker ' + res.status);
+          const d = await res.json();
+          if (!d.token) throw new Error('Nessun token');
+          await signInWithCustomToken(auth, d.token);
+          history.replaceState({}, '', location.pathname);
+        } catch (e) {
+          console.error(e);
+          avviso('Accesso con Discord non riuscito. Riprova.', 'err', 'fa-triangle-exclamation');
+        }
+      })();
+    </script>
+</body>
+</html>
