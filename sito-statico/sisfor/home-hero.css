@@ -1,0 +1,26 @@
+/* Home: titolo su una riga, ricerca dei servizi e scorciatoie (versione "D · centrata con ricerca"). */
+.hero-content{width:100%;max-width:760px}
+.hero .hero-logo{max-width:150px;max-height:140px;width:auto;object-fit:contain;margin:0 auto 18px;filter:drop-shadow(0 10px 30px rgba(0,0,0,.6))}
+.hero h1{white-space:nowrap;font-size:clamp(1.9rem,7.4vw,5rem);margin-bottom:14px}
+.hero-sub{color:var(--text-muted);font-size:1.05rem;margin-bottom:26px;text-shadow:0 4px 18px rgba(0,0,0,.7)}
+.hero-search{position:relative;max-width:640px;margin:0 auto}
+.hero-search-box{display:flex;align-items:center;gap:12px;height:58px;padding:0 20px;border-radius:999px;background:rgba(20,22,28,.75);border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 34px rgba(0,0,0,.5);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);transition:border-color .2s,background .2s}
+.hero-search-box:focus-within{border-color:#2563eb;background:rgba(20,22,28,.9)}
+.hero-search-box svg{flex:none;color:var(--text-muted)}
+.hero-search-box input{flex:1;min-width:0;background:none;border:0;outline:0;color:#fff;font:inherit;font-size:1rem}
+.hero-search-box input::placeholder{color:var(--text-muted)}
+.hero-search-box kbd{flex:none;font:inherit;font-size:.75rem;color:var(--text-muted);background:rgba(255,255,255,.08);border-radius:8px;padding:4px 8px}
+.hero-results{position:absolute;left:0;right:0;top:66px;z-index:20;text-align:left;padding:8px;border-radius:24px;background:rgba(20,22,28,.96);border:1px solid rgba(255,255,255,.1);box-shadow:0 24px 50px rgba(0,0,0,.65);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);display:none}
+.hero-search.open .hero-results{display:block}
+.hero-results a{display:flex;flex-direction:column;gap:2px;padding:11px 16px;border-radius:16px;color:#fff}
+.hero-results a b{font-weight:600;font-size:.95rem}
+.hero-results a span{font-size:.8rem;color:var(--text-muted)}
+.hero-results a.sel,.hero-results a:hover{background:rgba(255,255,255,.09)}
+.hero-results .vuoto{padding:14px 16px;color:var(--text-muted);font-size:.9rem}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:20px}
+.hero-chips a{padding:9px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(20,22,28,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font-size:.88rem;font-weight:500;transition:background .2s}
+.hero-chips a:hover{background:rgba(255,255,255,.12)}
+.hero .contact-info{margin-top:30px}
+@media (max-width:560px){.hero-search-box kbd{display:none}.hero-chips a{font-size:.8rem;padding:8px 13px}}
+.hero-search-box input::-webkit-search-cancel-button,.hero-search-box input::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}
+@media (max-width:560px){.hero-search-box input{font-size:.95rem}}

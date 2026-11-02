@@ -649,6 +649,7 @@
       window.addEventListener('DOMContentLoaded', checkAnnunci);
     </script>
     <link rel="stylesheet" href="sisfor/nav.css">
+    <link rel="stylesheet" href="sisfor/home-hero.css">
 </head>
 
 <body>
@@ -705,19 +706,32 @@
         </div>
 
         <div class="hero-content">
-            <img src="logo-polizia.png" alt="PDS Logo" class="hero-logo gs-reveal hero-item">
+            <img src="https://i.imgur.com/1w7tCn2.png" alt="Logo" class="hero-logo gs-reveal hero-item">
 
             <h1 class="gs-reveal hero-item">POLIZIA DI STATO</h1>
 
-            <hr class="separator-line gs-reveal hero-item">
+            <p class="hero-sub gs-reveal hero-item">Come possiamo aiutarti?</p>
+
+            <div class="hero-search gs-reveal hero-item" id="hero-search" role="search">
+                <label class="hero-search-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm9 16-4-4"/></svg>
+                    <input type="search" placeholder="Cerca un servizio o una pratica…" aria-label="Cerca un servizio" autocomplete="off" spellcheck="false">
+                    <kbd>Ctrl K</kbd>
+                </label>
+                <div class="hero-results" role="listbox" aria-label="Risultati"></div>
+            </div>
+
+            <div class="hero-chips gs-reveal hero-item">
+                <a href="denuncia.html">Denuncia online</a>
+                <a href="porto-armi.html">Porto d'armi</a>
+                <a href="prenotazioni.html">Prenota un colloquio</a>
+                <a href="concorso.html">Concorso</a>
+                <a href="sportello/pratica">Stato della pratica</a>
+            </div>
 
             <p class="contact-info gs-reveal hero-item">
                 Via dei Peccatori N°761 - Tel: <a href="tel:113">113</a>
             </p>
-
-            <button class="btn-scroll gs-reveal hero-item" onclick="document.getElementById('servizi').scrollIntoView({behavior: 'smooth'})">
-                Scopri i Servizi <i class="fas fa-arrow-down" style="margin-left: 8px;"></i>
-            </button>
         </div>
     </section>
 
@@ -868,5 +882,6 @@
     </script>
 
 <script src="sisfor/nav.js"></script>
+<script src="sisfor/home-hero.js"></script>
 </body>
 </html>
