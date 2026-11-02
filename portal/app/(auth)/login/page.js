@@ -27,7 +27,12 @@ export default function LoginPage() {
       });
     }
 
+    // Non si resta mai bloccati su «Verifica dell'accesso…»: se Firebase non risponde entro poco
+    // (rete lenta, blocco dei contenuti nel browser) compare comunque il pulsante di accesso.
+    const sblocca = setTimeout(() => setChecking(false), 1500);
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      clearTimeout(sblocca);
       if (user) {
         // Dopo l'accesso si torna dove si voleva andare (solo percorsi del sito); di base all'Area Personale.
         let next = new URLSearchParams(window.location.search).get('next');
@@ -70,7 +75,10 @@ export default function LoginPage() {
     }
     handleDiscordCallback();
 
-    return unsubscribe;
+    return () => {
+      clearTimeout(sblocca);
+      unsubscribe();
+    };
   }, []);
 
   function handleDiscordLogin() {
