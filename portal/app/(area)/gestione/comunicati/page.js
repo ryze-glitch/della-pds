@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { addDoc, collection, deleteDoc, doc, getDocs, limit, orderBy, query, serverTimestamp } from 'firebase/firestore';
-import { Badge, Btn, Notice } from '../../../components/ui';
-import { Icon } from '../../../components/icons';
-import { useAgentProfile } from '../../../components/useAgentProfile';
-import { db } from '../../../lib/firebase';
+import { Badge, Btn, Notice } from '../../../../components/ui';
+import { Icon } from '../../../../components/icons';
+import { useAgentProfile } from '../../../../components/useAgentProfile';
+import { db } from '../../../../lib/firebase';
 
 const TIPI = ['Comunicato', 'Ordinanza', 'Allerta'];
 const TONE = { Comunicato: 'blue', Ordinanza: 'neutral', Allerta: 'bad' };

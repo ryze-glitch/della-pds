@@ -7,11 +7,11 @@ import { Icon } from './icons';
 import { useAgentProfile } from './useAgentProfile';
 
 const ITEMS = [
-  { href: '/dashboard', label: 'Home', icon: 'dashboard' },
-  { href: '/pratiche', label: 'Pratiche', icon: 'file-text' },
-  { href: '/candidature', label: 'Candidature', icon: 'clipboard' },
-  { href: '/comunicati', label: 'Comunicati', icon: 'megaphone' },
-  { href: '/impostazioni', label: 'Impostazioni', icon: 'shield' },
+  { href: '/dashboard', label: 'Panoramica', icon: 'dashboard' },
+  { href: '/gestione/pratiche', label: 'Pratiche', icon: 'file-text' },
+  { href: '/gestione/candidature', label: 'Candidature', icon: 'clipboard' },
+  { href: '/gestione/comunicati', label: 'Comunicati', icon: 'megaphone' },
+  { href: '/gestione/impostazioni', label: 'Impostazioni', icon: 'shield' },
 ];
 
 const SITE = [
@@ -74,14 +74,14 @@ export function AgentShell({ children, preview = false }) {
   return (
     <div className="flex min-h-screen bg-bg text-fg">
       <aside
-        aria-label="Menu area riservata"
+        aria-label="Menu gestione"
         className={`${open ? 'flex' : 'hidden'} fixed inset-y-0 left-0 z-40 w-[235.8px] flex-col border-r border-line bg-surface transition-[width] duration-300 lg:static lg:flex ${collapsed ? 'lg:w-[82.8px]' : 'lg:w-[235.8px]'}`}
       >
         <Link href="/" className={`flex h-[79.2px] items-center gap-3 px-5 ${collapsed ? 'lg:justify-center lg:px-0' : ''}`} aria-label="Questura IPRP, torna al sito">
           <img src="/assets/crest-md.png" alt="" className="h-11 w-auto flex-none" />
           <span className={`leading-tight ${collapsed ? 'lg:hidden' : ''}`}>
             <span className="block text-[13.5px] font-semibold uppercase tracking-[0.14em]">Questura</span>
-            <span className="block text-[9.9px] uppercase tracking-[0.2em] text-muted">Area agenti</span>
+            <span className="block text-[9.9px] uppercase tracking-[0.2em] text-muted">Gestione</span>
           </span>
         </Link>
         <div className={`mx-[18px] flex items-center gap-3.5 border-b border-line pb-4 pt-3 ${collapsed ? 'lg:justify-center' : ''}`}>
@@ -93,7 +93,7 @@ export function AgentShell({ children, preview = false }) {
             <span className="block truncate text-[11.7px] text-muted">{profile?.grado || 'Agente'}</span>
           </span>
         </div>
-        <nav className={`flex flex-1 flex-col gap-0.5 px-4 pt-4 ${collapsed ? 'lg:items-center lg:px-0' : ''}`} aria-label="Area riservata">
+        <nav className={`flex flex-1 flex-col gap-0.5 px-4 pt-4 ${collapsed ? 'lg:items-center lg:px-0' : ''}`} aria-label="Gestione">
           {ITEMS.map(item)}
           <hr className={`my-2 border-line ${collapsed ? 'lg:w-10' : ''}`} />
           {SITE.map(item)}
@@ -116,7 +116,7 @@ export function AgentShell({ children, preview = false }) {
           <button type="button" onClick={toggle} aria-label="Mostra o nascondi il menu" className="text-fg/90 transition hover:text-fg">
             <Icon name="menu" size={24} />
           </button>
-          <span className="text-[13.1px] font-medium">Area Riservata Agenti</span>
+          <span className="text-[13.1px] font-medium">Gestione</span>
           <span className="flex-1" />
           <span className="hidden text-right text-[11.7px] leading-snug text-muted sm:block">
             Questura IPRP
