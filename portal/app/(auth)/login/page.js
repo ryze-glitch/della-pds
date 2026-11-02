@@ -21,7 +21,15 @@ export default function LoginPage() {
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        window.location.href = '/dashboard';
+        // Dopo l'accesso si torna dove si voleva andare (solo percorsi del sito); di base all'Area Personale.
+        let next = new URLSearchParams(window.location.search).get('next');
+        try {
+          next = next || sessionStorage.getItem('pds-next');
+          sessionStorage.removeItem('pds-next');
+        } catch (e) {
+          /* storage non disponibile */
+        }
+        window.location.href = ['/sisfor', '/dashboard', '/gestione/pratiche'].includes(next) ? next : '/sisfor';
       } else {
         setChecking(false);
       }
@@ -58,6 +66,12 @@ export default function LoginPage() {
   }, []);
 
   function handleDiscordLogin() {
+    try {
+      const next = new URLSearchParams(window.location.search).get('next');
+      if (next) sessionStorage.setItem('pds-next', next); // il giro su Discord perde la query
+    } catch (e) {
+      /* storage non disponibile */
+    }
     const redirectUri = window.location.origin + window.location.pathname;
     const params = new URLSearchParams({
       client_id: DISCORD_CLIENT_ID,

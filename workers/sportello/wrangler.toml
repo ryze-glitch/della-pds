@@ -25,3 +25,8 @@ ALLOWED_ORIGINS = "https://polizia-iprp.web.app,https://polizia-iprp.firebaseapp
 #   npx wrangler secret put TURNSTILE_SECRET    (chiave segreta)
 # Canale Discord per i log degli aggiornamenti di stato (se manca usa quello delle denunce):
 #   npx wrangler secret put DISCORD_WEBHOOK_LOG
+
+# Portale di formazione (rotte /formazione/*): il Worker legge e scrive Firestore come amministratore.
+#   npx wrangler secret put FIREBASE_SERVICE_ACCOUNT   (incolla l'intero JSON del service account, tutto su una riga)
+# Senza questo segreto le rotte /formazione/* rispondono 503. Il ruolo di ogni utente (allievo, istruttore, admin)
+# è il campo "ruolo" del suo documento in auth-sito, modificabile solo dalla console Firebase.
