@@ -97,25 +97,64 @@ function fasi(f) {
 
 function intestazione(titolo, sotto, crumbs = []) {
   const c = crumbs.length
-    ? `<nav class="crumbs" aria-label="Percorso"><a href="#/">I miei corsi</a>${crumbs
+    ? `<nav class="crumbs" aria-label="Percorso"><a href="#/">Dashboard</a>${crumbs
         .map((x, i) => (x.href && i < crumbs.length - 1 ? `<span aria-hidden="true">›</span><a href="${x.href}">${esc(x.t)}</a>` : `<span aria-hidden="true">›</span><span aria-current="page">${esc(x.t)}</span>`))
         .join('')}</nav>`
     : '';
   return `${c}<h1 class="titolo">${titolo}</h1>${sotto ? `<p class="sottotitolo">${sotto}</p>` : ''}`;
 }
 
+let CTX = null; // dati del corso aperto, per l'indice nella colonna a sinistra
+const iniziali = (a) => ((a.nome || '')[0] || '') + ((a.cognome || '')[0] || '') || '?';
+const RUOLO_LABEL = { allievo: 'Allievo', istruttore: 'Istruttore', admin: 'Amministratore' };
+
+function indiceCorso() {
+  if (!CTX) return '';
+  const h = (location.hash || '').replace(/^#\/?/, '').split('/').filter(Boolean);
+  const cid = CTX.cid;
+  if (h[0] !== 'corso' || h[1] !== cid) return '';
+  const d = CTX.d;
+  const mid = h[2] === 'modulo' ? h[3] : '';
+  const inQuiz = mid && h[4] === 'quiz';
+  const fatti = d.moduli.reduce((n, m) => n + (m.letto ? 1 : 0) + (m.quizSuperato ? 1 : 0), 0) + (d.abilitazione ? 1 : 0);
+  const tot = d.moduli.length * 2 + 1;
+  const pc = d.abilitazione ? 100 : Math.round((fatti / tot) * 100);
+  const ic = (ok, blocco) => (blocco ? '<i class="fas fa-lock st blocco" aria-label="Bloccato"></i>' : ok ? '<i class="fas fa-circle-check st fatto" aria-label="Completato"></i>' : '<i class="far fa-circle st" aria-label="Da fare"></i>');
+  const riga = (href, icona, testo, ok, blocco, attiva) => {
+    const inner = `<i class="fas ${icona} tp" aria-hidden="true"></i><span>${testo}</span>${ic(ok, blocco)}`;
+    return `<li class="${attiva ? 'on' : ''}">${blocco || !href ? `<span class="r ${blocco ? 'bl' : ''}">${inner}</span>` : `<a class="r" href="${href}" ${attiva ? 'aria-current="page"' : ''}>${inner}</a>`}</li>`;
+  };
+  const sezioni = d.moduli
+    .map((m, i) => {
+      const bl = m.stato === 'bloccato';
+      return `<li class="sez-i"><b>${num(i)} · ${esc(m.titolo)}</b><ul>${riga(`#/corso/${cid}/modulo/${m.id}`, 'fa-book-open', 'Contenuto', m.letto, bl, mid === m.id && !inQuiz)}${riga(`#/corso/${cid}/modulo/${m.id}/quiz`, 'fa-list-check', 'Quiz di verifica', m.quizSuperato, !m.quizSbloccato && !m.quizSuperato, mid === m.id && inQuiz)}</ul></li>`;
+    })
+    .join('');
+  const p = d.pratica;
+  const praticaOk = !!d.abilitazione;
+  const fine = `<li class="sez-i"><b>${num(d.moduli.length)} · Pratica e abilitazione</b><ul>${riga(`#/corso/${cid}/pratica`, 'fa-user-shield', 'Esame pratico', praticaOk, !(p.sbloccata || p.attiva || praticaOk), h[2] === 'pratica')}${riga('', 'fa-award', esc((d.corso.abilitazione && d.corso.abilitazione.nome) || 'Abilitazione'), praticaOk, !praticaOk, false)}</ul></li>`;
+  return `<div class="lms-blocco"><h2>Indice del corso</h2><a class="idx-titolo" href="#/corso/${esc(cid)}">${esc(d.corso.titolo)}</a>
+    <div class="prog" role="progressbar" aria-valuenow="${pc}" aria-valuemin="0" aria-valuemax="100" aria-label="Completamento del corso"><i style="width:${pc}%"></i></div><small class="prog-t">${pc}% completato</small>
+    <ol class="idx">${sezioni}${fine}</ol></div>`;
+}
+
 function barra(attivo) {
   const ruolo = me.ruolo;
   const voci = [
-    ['#/', 'I miei corsi', 'fa-graduation-cap', 'corsi'],
+    ['#/', 'Dashboard', 'fa-gauge-high', 'corsi'],
     ['#/percorso', 'Il mio percorso', 'fa-route', 'percorso'],
   ];
-  if (ruolo === 'istruttore' || ruolo === 'admin') voci.push(['#/istruttori', 'Istruttori', 'fa-clipboard-check', 'istruttori']);
-  if (ruolo === 'admin') voci.push(['#/admin', 'Admin', 'fa-sliders', 'admin']);
-  return `<div class="bar"><nav class="tabs" aria-label="Area personale">${voci
-    .map(([h, t, ic, k]) => `<a href="${h}" ${attivo === k ? 'aria-current="page"' : ''}><i class="fas ${ic}" aria-hidden="true"></i>${t}</a>`)
-    .join('')}<a href="/gestione/pratiche"><i class="fas fa-folder-open" aria-hidden="true"></i>Gestione</a></nav>
-    <div class="who"><div><strong>${esc(nomeCompleto(me))}</strong> <span>· ${esc(me.grado || 'Agente')}</span></div><button class="btn linea piccolo" data-az="esci">Esci</button></div></div>`;
+  if (ruolo === 'istruttore' || ruolo === 'admin') voci.push(['#/istruttori', 'Area istruttori', 'fa-clipboard-check', 'istruttori']);
+  if (ruolo === 'admin') voci.push(['#/admin', 'Amministrazione', 'fa-sliders', 'admin']);
+  voci.push(['/gestione/pratiche', 'Gestione pratiche', 'fa-folder-open', '']);
+  return `<aside class="lms-side" aria-label="Menu dell'area personale">
+    <div class="lms-user"><span class="av" aria-hidden="true">${esc(iniziali(me)).toUpperCase()}</span><div><strong>${esc(nomeCompleto(me))}</strong><small>${esc(me.grado || 'Agente')} · ${RUOLO_LABEL[ruolo] || 'Allievo'}</small></div></div>
+    <nav class="lms-nav" aria-label="Area personale">${voci
+      .map(([h, t, ic, k]) => `<a href="${h}" ${attivo === k && k ? 'aria-current="page"' : ''}><i class="fas ${ic}" aria-hidden="true"></i>${t}</a>`)
+      .join('')}</nav>
+    ${indiceCorso()}
+    <button class="lms-esci" data-az="esci"><i class="fas fa-right-from-bracket" aria-hidden="true"></i> Esci</button>
+  </aside>`;
 }
 
 const caricamento = () => ($app.innerHTML = '<div class="caricamento"><i class="fas fa-circle-notch fa-spin" aria-hidden="true"></i> Caricamento…</div>');
@@ -123,7 +162,7 @@ const avviso = (t, tipo = '', ic = 'fa-circle-info') => `<div class="avviso ${ti
 
 function mostra(attivo, html) {
   clearInterval(timer);
-  $app.innerHTML = barra(attivo) + html;
+  $app.innerHTML = `<div class="lms">${barra(attivo)}<section class="lms-main">${html}</section></div>`;
   $app.focus({ preventScroll: true });
   window.scrollTo({ top: 0 });
 }
@@ -152,62 +191,83 @@ function mostraGate(motivo) {
 // ---------- viste ----------
 async function vistaHome() {
   caricamento();
+  CTX = null;
   const { corsi } = await api('/corsi');
-  const prossimo = corsi.find((c) => ['in_corso', 'pratica_da_prenotare', 'pratica_in_corso'].includes(c.stato)) || corsi.find((c) => c.stato === 'non_iniziato');
+  const perc = (c) => {
+    if (c.stato === 'completato') return 100;
+    if (typeof c.letti === 'number') return Math.min(99, Math.round(((c.letti + c.quizSuperati) / (c.moduli * 2 + 1)) * 100));
+    return { 1: 10, 2: 40, 3: 75, 4: 100 }[c.fase] || 0;
+  };
+  const inCorso = corsi.filter((c) => !['completato', 'non_iniziato'].includes(c.stato));
+  const finiti = corsi.filter((c) => c.stato === 'completato');
+  const prossimo = inCorso[0] || corsi.find((c) => c.stato === 'non_iniziato');
   const testoProssimo = { in_corso: 'Continua il corso', pratica_da_prenotare: 'Prenota l’esame pratico', pratica_in_corso: 'Segui la tua pratica', non_iniziato: 'Inizia il corso' };
-  let html = `<h1 class="titolo" style="margin-bottom:8px">I miei <span>corsi</span></h1>`;
+  const colori = ['#1d4ed8', '#0e7490', '#6d28d9', '#b45309', '#15803d'];
+  let html = `<header class="pg-testa"><h1 class="pg-t">Dashboard</h1><p>Bentornato, ${esc(me.nome || nomeCompleto(me))}. Ecco la tua formazione.</p></header>
+    <div class="stat-riga">
+      <div class="stat"><i class="fas fa-book" aria-hidden="true"></i><div><b>${corsi.length}</b><span>Corsi disponibili</span></div></div>
+      <div class="stat"><i class="fas fa-hourglass-half" aria-hidden="true"></i><div><b>${inCorso.length}</b><span>In corso</span></div></div>
+      <div class="stat"><i class="fas fa-award" aria-hidden="true"></i><div><b>${finiti.length}</b><span>Abilitazioni ottenute</span></div></div>
+    </div>`;
   if (prossimo) {
-    html += `<div class="card alto" style="margin-top:26px"><div class="eyebrow">Prossimo passo</div>
-      <h2 style="font-size:clamp(1.6rem,3.4vw,2.4rem);font-weight:800;margin:10px 0 4px;line-height:1.1">${esc(prossimo.titolo)}</h2>
-      <p style="color:var(--text-muted)">${prossimo.moduli} moduli · grado minimo ${esc(prossimo.gradoMinimo)}</p>
-      ${fasi(prossimo.fase)}
-      <a class="btn bianco" href="#/corso/${esc(prossimo.id)}" style="color:#0b1020">${testoProssimo[prossimo.stato]} <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div>`;
+    html += `<section class="blocco"><h2 class="blocco-t">Continua da dove eri rimasto</h2>
+      <div class="continua"><div><b>${esc(prossimo.titolo)}</b><span>${prossimo.moduli} moduli · grado minimo ${esc(prossimo.gradoMinimo)}</span>
+      <div class="prog" role="progressbar" aria-valuenow="${perc(prossimo)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${perc(prossimo)}%"></i></div><small class="prog-t">${perc(prossimo)}% completato</small></div>
+      <a class="btn" href="#/corso/${esc(prossimo.id)}">${testoProssimo[prossimo.stato]} <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div></section>`;
   }
-  html += `<h2 class="sez">Tutti i corsi</h2>`;
+  html += `<section class="blocco"><div class="blocco-testa"><h2 class="blocco-t">Panoramica dei corsi</h2>
+    <div class="filtri" role="group" aria-label="Filtra i corsi"><button class="on" data-az="filtro" data-f="tutti">Tutti</button><button data-az="filtro" data-f="corso">In corso</button><button data-az="filtro" data-f="fatti">Completati</button></div></div>`;
   if (!corsi.length) {
     html += `<div class="vuoto">Nessun corso disponibile per il tuo grado al momento.</div>`;
   } else {
-    html += `<ul class="righe">${corsi
-      .map(
-        (c, i) => `<li><a class="riga" href="#/corso/${esc(c.id)}"><span class="n">${num(i)}</span>
-        <span class="t"><b>${esc(c.titolo)}</b><small>${esc(c.descrizione || `${c.moduli} moduli`)}</small></span>${pill(c.stato)}<i class="fas fa-arrow-right" aria-hidden="true"></i></a></li>`
-      )
-      .join('')}</ul>`;
+    html += `<div class="corsi-griglia">${corsi
+      .map((c, i) => {
+        const pc = perc(c);
+        const cat = c.stato === 'completato' ? 'fatti' : c.stato === 'non_iniziato' ? 'nuovi' : 'corso';
+        return `<article class="corso-card" data-cat="${cat}"><a class="cc-img" href="#/corso/${esc(c.id)}" style="background:linear-gradient(135deg,${colori[i % colori.length]},#0b1020)" aria-hidden="true" tabindex="-1"><i class="fas fa-shield-halved"></i></a>
+          <div class="cc-corpo"><a class="cc-titolo" href="#/corso/${esc(c.id)}">${esc(c.titolo)}</a><p>${esc(c.descrizione || `${c.moduli} moduli`)}</p>
+          <div class="prog" role="progressbar" aria-valuenow="${pc}" aria-valuemin="0" aria-valuemax="100" aria-label="Completamento"><i style="width:${pc}%"></i></div>
+          <div class="cc-piede"><small class="prog-t">${pc}% completato</small>${pill(c.stato)}</div></div></article>`;
+      })
+      .join('')}</div>`;
   }
+  html += `</section>`;
   mostra('corsi', html);
 }
 
 async function vistaCorso(cid) {
   caricamento();
   const d = await api(`/corsi/${cid}`);
+  CTX = { cid, d };
   const c = d.corso;
-  let html = intestazione(esc(c.titolo), esc(c.descrizione || ''), [{ t: c.titolo }]);
+  const fatti = d.moduli.reduce((n, m) => n + (m.letto ? 1 : 0) + (m.quizSuperato ? 1 : 0), 0) + (d.abilitazione ? 1 : 0);
+  const pc = d.abilitazione ? 100 : Math.round((fatti / (d.moduli.length * 2 + 1)) * 100);
+  const stato = (ok, bl) => (bl ? '<span class="compl bl"><i class="fas fa-lock" aria-hidden="true"></i> Bloccato</span>' : ok ? '<span class="compl ok"><i class="fas fa-circle-check" aria-hidden="true"></i> Fatto</span>' : '<span class="compl"><i class="far fa-circle" aria-hidden="true"></i> Da fare</span>');
+  const att = (href, icona, titolo, sotto, ok, bl) => {
+    const corpo = `<i class="fas ${icona} ai" aria-hidden="true"></i><span class="at"><b>${titolo}</b><small>${sotto}</small></span>${stato(ok, bl)}`;
+    return `<li>${bl || !href ? `<div class="att ${bl ? 'bl' : ''}">${corpo}</div>` : `<a class="att" href="${href}">${corpo}</a>`}</li>`;
+  };
+  let html = intestazione(esc(c.titolo), esc(c.descrizione || ''), [{ t: c.titolo }]).replace('class="titolo"', 'class="pg-t"');
+  html += `<div class="compl-box"><div><b>Completamento del corso</b><small>${fatti} attività completate su ${d.moduli.length * 2 + 1}</small></div><div class="compl-barra"><div class="prog" role="progressbar" aria-valuenow="${pc}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pc}%"></i></div><b>${pc}%</b></div></div>`;
   html += fasi(d.fase);
   if (d.abilitazione) {
     html += avviso(`Hai ottenuto <strong>${esc(d.abilitazione.nome)}</strong> il ${data(d.abilitazione.ottenutaIl)}${d.abilitazione.scadeIl ? ` · valida fino al ${data(d.abilitazione.scadeIl)}` : ''}.`, 'ok', 'fa-circle-check');
   }
-  html += `<h2 class="sez">01 · Moduli</h2><ul class="righe">${d.moduli
+  html += d.moduli
     .map((m, i) => {
       const bl = m.stato === 'bloccato';
-      const corpo = `<span class="n">${num(i)}</span><span class="t"><b>${esc(m.titolo)}</b><small>${bl ? 'Completa prima il modulo precedente.' : m.letto ? 'Letto' : 'Da leggere'}</small></span>${pill(m.stato)}${bl ? '' : '<i class="fas fa-arrow-right" aria-hidden="true"></i>'}`;
-      return `<li>${bl ? `<div class="riga bloccata">${corpo}</div>` : `<a class="riga" href="#/corso/${esc(cid)}/modulo/${esc(m.id)}">${corpo}</a>`}</li>`;
+      const sottoQuiz = m.quizSuperato ? `Superato con ${m.punteggio}%` : m.quizSbloccato ? `${m.quiz.domande} domande · soglia ${m.quiz.soglia}% · max ${m.quiz.maxTentativi} tentativi` : 'Si sblocca dopo aver letto il modulo.';
+      return `<section class="sezione"><h2 class="sezione-t"><span>${num(i)}</span>${esc(m.titolo)}</h2><ul class="attivita">
+        ${att(`#/corso/${esc(cid)}/modulo/${esc(m.id)}`, 'fa-book-open', 'Contenuto del modulo', bl ? 'Completa prima il modulo precedente.' : m.letto ? 'Letto' : 'Da leggere', m.letto, bl)}
+        ${att(`#/corso/${esc(cid)}/modulo/${esc(m.id)}/quiz`, 'fa-list-check', 'Quiz di verifica', sottoQuiz, m.quizSuperato, !m.quizSbloccato && !m.quizSuperato)}</ul></section>`;
     })
-    .join('')}</ul>`;
-  html += `<h2 class="sez">02 · Quiz di verifica</h2><ul class="righe">${d.moduli
-    .map((m, i) => {
-      const k = m.quizSuperato ? 'superato' : m.quizSbloccato ? 'disponibile' : 'bloccato';
-      const sub = m.quizSuperato ? `Superato con ${m.punteggio}%` : m.quizSbloccato ? `${m.quiz.domande} domande · soglia ${m.quiz.soglia}% · max ${m.quiz.maxTentativi} tentativi` : 'Si sblocca dopo aver letto il modulo.';
-      const corpo = `<span class="n">${num(i)}</span><span class="t"><b>Quiz · ${esc(m.titolo)}</b><small>${sub}</small></span>${pill(k)}${k === 'disponibile' ? '<i class="fas fa-arrow-right" aria-hidden="true"></i>' : ''}`;
-      return `<li>${k === 'disponibile' ? `<a class="riga" href="#/corso/${esc(cid)}/modulo/${esc(m.id)}/quiz">${corpo}</a>` : `<div class="riga ${k === 'bloccato' ? 'bloccata' : ''}">${corpo}</div>`}</li>`;
-    })
-    .join('')}</ul>`;
+    .join('');
   const p = d.pratica;
-  const stPratica = p.attiva ? p.attiva.stato : d.abilitazione ? 'superata' : p.sbloccata ? 'disponibile' : 'bloccato';
-  const subP = p.attiva ? 'Segui lo stato e le sessioni.' : d.abilitazione ? 'Esame pratico superato.' : p.sbloccata ? 'Hai superato tutti i quiz: puoi prenotare.' : 'Si sblocca dopo aver superato tutti i quiz del corso.';
   const apri = (p.sbloccata && !d.abilitazione) || p.attiva;
-  const corpoP = `<span class="n">03</span><span class="t"><b>Esame pratico</b><small>${subP}</small></span>${stPratica === 'disponibile' ? '<span class="pill ambra">Pratica da prenotare</span>' : pill(stPratica)}${apri ? '<i class="fas fa-arrow-right" aria-hidden="true"></i>' : ''}`;
-  html += `<h2 class="sez">03 · Pratica e abilitazione</h2><ul class="righe"><li>${apri ? `<a class="riga" href="#/corso/${esc(cid)}/pratica">${corpoP}</a>` : `<div class="riga ${stPratica === 'bloccato' ? 'bloccata' : ''}">${corpoP}</div>`}</li>
-    <li><div class="riga ${d.abilitazione ? '' : 'bloccata'}"><span class="n">04</span><span class="t"><b>${esc(c.abilitazione && c.abilitazione.nome ? c.abilitazione.nome : 'Abilitazione')}</b><small>${d.abilitazione ? 'Ottenuta' : 'Si ottiene superando l’esame pratico.'}</small></span>${d.abilitazione ? pill('completato') : pill('bloccato')}</div></li></ul>`;
+  const subP = p.attiva ? 'Segui lo stato e le sessioni.' : d.abilitazione ? 'Esame pratico superato.' : p.sbloccata ? 'Hai superato tutti i quiz: puoi prenotare.' : 'Si sblocca dopo aver superato tutti i quiz del corso.';
+  html += `<section class="sezione"><h2 class="sezione-t"><span>${num(d.moduli.length)}</span>Pratica e abilitazione</h2><ul class="attivita">
+    ${att(apri || d.abilitazione ? `#/corso/${esc(cid)}/pratica` : '', 'fa-user-shield', 'Esame pratico', subP, !!d.abilitazione, !(apri || d.abilitazione))}
+    ${att('', 'fa-award', esc(c.abilitazione && c.abilitazione.nome ? c.abilitazione.nome : 'Abilitazione'), d.abilitazione ? 'Ottenuta' : 'Si ottiene superando l’esame pratico.', !!d.abilitazione, !d.abilitazione)}</ul></section>`;
   mostra('corsi', html);
 }
 
@@ -226,6 +286,7 @@ function embedYT(url) {
 async function vistaModulo(cid, mid) {
   caricamento();
   const [d, corso] = await Promise.all([api(`/corsi/${cid}/moduli/${mid}`), api(`/corsi/${cid}`)]);
+  CTX = { cid, d: corso };
   const m = d.modulo;
   const stato = corso.moduli.find((x) => x.id === mid);
   let html = intestazione(esc(m.titolo), `Modulo ${m.ordine} di ${corso.moduli.length}`, [{ t: corso.corso.titolo, href: `#/corso/${cid}` }, { t: m.titolo }]);
@@ -263,6 +324,7 @@ async function vistaQuiz(cid, mid) {
     }
     throw e;
   }
+  try { CTX = { cid, d: await api(`/corsi/${cid}`) }; } catch (e) { /* l'indice è facoltativo */ }
   Q = { cid, mid, id: r.tentativo.id, scade: r.tentativo.scadeIl, soglia: r.tentativo.soglia, domande: r.domande, risp: {}, i: 0, numero: r.tentativo.numero, max: r.tentativo.max };
   disegnaQuiz();
 }
@@ -271,20 +333,25 @@ function disegnaQuiz() {
   const q = Q.domande[Q.i];
   const ultima = Q.i === Q.domande.length - 1;
   const scelta = Q.risp[q.id];
-  const html = `<div class="quiz" style="margin-top:6px">
-    <div class="quiz-testa"><span>Tentativo ${Q.numero} di ${Q.max} · soglia ${Q.soglia}%</span><span id="tempo" aria-hidden="true"></span></div>
-    <nav aria-label="Avanzamento del quiz"><ol class="griglia">${Q.domande
-      .map((d, i) => `<li class="${i === Q.i ? 'corrente' : Q.risp[d.id] ? 'data' : ''}"><button data-az="vai" data-i="${i}" aria-label="Domanda ${i + 1}${Q.risp[d.id] ? ', risposta data' : ''}" ${i === Q.i ? 'aria-current="step"' : ''}>${i + 1}</button></li>`)
-      .join('')}</ol></nav>
-    <form data-form="quiz"><fieldset><legend class="domanda"><span class="eyebrow" style="display:block;margin-bottom:8px">Domanda ${Q.i + 1} di ${Q.domande.length}${q.tipo === 'situazionale' ? ' · situazione' : ''}</span>${esc(q.testo)}</legend>
-      <div class="opzioni">${q.opzioni.map((o) => `<label class="opzione"><input type="radio" name="r" value="${esc(o.id)}" ${scelta === o.id ? 'checked' : ''}><span>${esc(o.testo)}</span></label>`).join('')}</div></fieldset>
-    <div class="azioni"><button type="button" class="btn linea" data-az="prec" ${Q.i === 0 ? 'disabled' : ''}>Precedente</button>
-      <button type="submit" class="btn" id="conferma" ${scelta ? '' : 'disabled'}>${ultima ? 'Consegna il quiz' : 'Conferma e continua'} <i class="fas fa-arrow-right" aria-hidden="true"></i></button></div></form></div>`;
-  mostra('corsi', intestazione('Quiz', '', [{ t: 'Quiz' }]).replace('<h1 class="titolo">Quiz</h1>', '<h1 class="titolo" style="font-size:1.4rem">Quiz di verifica</h1>') + html);
+  const html = `<div class="quiz-lms">
+    <form data-form="quiz" class="quiz-main"><fieldset class="qcard">
+      <div class="qinfo"><b>Domanda ${Q.i + 1}</b><span class="qst ${scelta ? 'ok' : ''}">${scelta ? 'Risposta salvata' : 'Risposta non ancora data'}</span><span>Valore 1,00</span>${q.tipo === 'situazionale' ? '<span class="qtag">Situazione</span>' : ''}</div>
+      <div class="qbody"><legend class="domanda">${esc(q.testo)}</legend>
+        <p class="qistr">Seleziona una risposta:</p>
+        <div class="opzioni">${q.opzioni.map((o) => `<label class="opzione"><input type="radio" name="r" value="${esc(o.id)}" ${scelta === o.id ? 'checked' : ''}><span>${esc(o.testo)}</span></label>`).join('')}</div></div></fieldset>
+      <div class="azioni"><button type="button" class="btn linea" data-az="prec" ${Q.i === 0 ? 'disabled' : ''}>Pagina precedente</button>
+        <button type="submit" class="btn" id="conferma" ${scelta ? '' : 'disabled'}>${ultima ? 'Termina il tentativo' : 'Pagina successiva'} <i class="fas fa-arrow-right" aria-hidden="true"></i></button></div></form>
+    <aside class="quiz-nav" aria-label="Navigazione del quiz"><h2>Navigazione del quiz</h2>
+      <ol class="griglia">${Q.domande
+        .map((d, i) => `<li class="${i === Q.i ? 'corrente' : Q.risp[d.id] ? 'data' : ''}"><button data-az="vai" data-i="${i}" aria-label="Domanda ${i + 1}${Q.risp[d.id] ? ', risposta data' : ''}" ${i === Q.i ? 'aria-current="step"' : ''}>${i + 1}</button></li>`)
+        .join('')}</ol>
+      <div class="quiz-tempo"><small>Tempo rimasto</small><b id="tempo" aria-hidden="true"></b></div>
+      <small class="quiz-meta">Tentativo ${Q.numero} di ${Q.max} · soglia ${Q.soglia}%</small></aside></div>`;
+  mostra('corsi', intestazione('Quiz di verifica', '', [{ t: 'Quiz' }]).replace('class="titolo"', 'class="pg-t"') + html);
   const tick = () => {
     const s = Math.max(0, Math.floor((Q.scade - Date.now()) / 1000));
     const el = document.getElementById('tempo');
-    if (el) el.textContent = `Tempo rimasto ${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+    if (el) el.textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
   };
   tick();
   timer = setInterval(tick, 1000);
@@ -307,7 +374,9 @@ async function consegna() {
         .join('')}`;
     }
     html += `<div class="azioni"><a class="btn" href="#/corso/${esc(Q.cid)}">${ok ? 'Continua il corso' : 'Torna al corso'} <i class="fas fa-arrow-right" aria-hidden="true"></i></a>${ok ? '' : `<a class="btn linea" href="#/corso/${esc(Q.cid)}/modulo/${esc(Q.mid)}">Rivedi il modulo</a>`}</div>`;
+    const cidFine = Q.cid;
     Q = null;
+    try { CTX = { cid: cidFine, d: await api(`/corsi/${cidFine}`) }; } catch (e) { /* indice facoltativo */ }
     mostra('corsi', html);
   } catch (e) {
     erroreVista(e, 'corsi');
@@ -318,6 +387,7 @@ async function consegna() {
 async function vistaPratica(cid) {
   caricamento();
   const [d, corso] = await Promise.all([api(`/corsi/${cid}/pratica`), api(`/corsi/${cid}`)]);
+  CTX = { cid, d: corso };
   const att = corso.pratica.attiva;
   let html = intestazione('Esame <span>pratico</span>', esc(corso.corso.titolo), [{ t: corso.corso.titolo, href: `#/corso/${cid}` }, { t: 'Esame pratico' }]);
   html += fasi(corso.fase);
@@ -523,7 +593,10 @@ $app.addEventListener('click', async (ev) => {
   if (!t) return;
   const az = t.dataset.az;
   try {
-    if (az === 'esci') {
+    if (az === 'filtro') {
+      document.querySelectorAll('[data-az="filtro"]').forEach((b) => b.classList.toggle('on', b === t));
+      document.querySelectorAll('.corso-card').forEach((c) => { c.hidden = !(t.dataset.f === 'tutti' || (t.dataset.f === 'corso' && c.dataset.cat === 'corso') || (t.dataset.f === 'fatti' && c.dataset.cat === 'fatti')); });
+    } else if (az === 'esci') {
       await signOut(auth);
     } else if (az === 'letto') {
       t.disabled = true;

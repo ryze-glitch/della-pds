@@ -111,7 +111,7 @@ export async function handleFormazione(request, env, { cors, url, verify, store,
       else if (attiva) stato = 'pratica_in_corso';
       else if (praticaSbloccata(cm.moduli, pr)) stato = 'pratica_da_prenotare';
       else if ((pr.moduliLetti || []).length) stato = 'in_corso';
-      out.push({ id: corso.id, titolo: corso.titolo, descrizione: corso.descrizione, gradoMinimo: corso.gradoMinimo, pubblicato: corso.pubblicato !== false, moduli: cm.moduli.length, fase: f, stato });
+      out.push({ id: corso.id, titolo: corso.titolo, descrizione: corso.descrizione, gradoMinimo: corso.gradoMinimo, pubblicato: corso.pubblicato !== false, moduli: cm.moduli.length, fase: f, stato, letti: (pr.moduliLetti || []).length, quizSuperati: Object.keys(pr.quizSuperati || {}).length });
     }
     return risposta({ corsi: out }, 200, cors);
   }
