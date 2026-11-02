@@ -1,7 +1,7 @@
 // SISFOR+ IPRP — area personale e portale di formazione (applicazione a una pagina, percorsi con #/…).
 // Tutta la logica sensibile (correzione, sblocco, ruoli) sta nel Worker: qui solo la presentazione.
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+// Modalità prova (?demo=allievo|istruttore|admin): dati finti in memoria, nessun accesso e nessun server.
+const PROVA = (() => { try { const r = new URLSearchParams(location.search).get('demo'); return ['allievo', 'istruttore', 'admin'].includes(r) ? r : null; } catch (e) { return null; } })();
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBrBkzLE_0MLQEXB9YBDW7G05n6aI_ykA0',
@@ -10,7 +10,20 @@ const firebaseConfig = {
   appId: '1:295622243589:web:abfd6d06dac2f95428f36c',
 };
 const API = 'https://iprp-sportello.ryze63131.workers.dev/formazione';
-const auth = getAuth(initializeApp(firebaseConfig));
+let auth, onAuthStateChanged, signOut, chiamaProva = null;
+if (PROVA) {
+  const { creaMotore } = await import('./demo/motore.js');
+  chiamaProva = creaMotore(PROVA);
+  auth = { currentUser: { getIdToken: async () => 'prova' } };
+  onAuthStateChanged = (a, cb) => setTimeout(() => cb(auth.currentUser), 0);
+  signOut = async () => { location.href = '/sisfor'; };
+} else {
+  const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+  const m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
+  auth = m.getAuth(initializeApp(firebaseConfig));
+  onAuthStateChanged = m.onAuthStateChanged;
+  signOut = m.signOut;
+}
 
 const $app = document.getElementById('app');
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -30,11 +43,13 @@ async function api(path, { method = 'GET', body } = {}) {
     throw e;
   }
   const token = await u.getIdToken();
-  const res = await fetch(API + path, {
-    method,
-    headers: { Authorization: `Bearer ${token}`, ...(body ? { 'Content-Type': 'application/json' } : {}) },
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  const res = chiamaProva
+    ? await chiamaProva(path, { method, body })
+    : await fetch(API + path, {
+        method,
+        headers: { Authorization: `Bearer ${token}`, ...(body ? { 'Content-Type': 'application/json' } : {}) },
+        body: body ? JSON.stringify(body) : undefined,
+      });
   let d = {};
   try {
     d = await res.json();
@@ -668,3 +683,12 @@ onAuthStateChanged(auth, async (u) => {
       <button class="btn" type="button" onclick="location.reload()" style="margin-top:22px"><i class="fas fa-rotate" aria-hidden="true"></i> Riprova</button></div>`;
   }
 });
+
+if (PROVA) {
+  const nastro = document.createElement('div');
+  nastro.className = 'prova-nastro';
+  nastro.innerHTML = `<strong>Modalità prova</strong> <span>dati finti, non viene salvato nulla</span>
+    ${['allievo', 'istruttore', 'admin'].map((r) => `<a href="?demo=${r}"${r === PROVA ? ' aria-current="true"' : ''}>${r}</a>`).join('')}
+    <a href="/sisfor">esci</a>`;
+  document.body.appendChild(nastro);
+}

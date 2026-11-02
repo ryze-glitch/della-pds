@@ -1,8 +1,9 @@
 name: Deploy Worker Sportello (Cloudflare)
 
 # Si avvia a mano (Actions → Run workflow) oppure quando cambia il Worker.
-# Richiede nei Secrets del repository: CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID.
-# I segreti del Worker (webhook, token Telegram, ecc.) restano su Cloudflare e NON passano da qui.
+# Richiede nei Secrets del repository (GitHub → Settings → Secrets and variables → Actions): CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID.
+# Facoltativo: FIREBASE_SERVICE_ACCOUNT (il JSON del service account). Se c'è, viene caricato sul Worker a ogni deploy,
+# così non serve eseguire `wrangler secret put` a mano. Gli altri segreti del Worker (webhook, token Telegram, ecc.) restano su Cloudflare.
 on:
   workflow_dispatch:
   push:
@@ -18,7 +19,7 @@ jobs:
       - name: Controlla i secret
         id: check
         run: |
-          if [ -z "$CF_TOKEN" ]; then echo "skip=true" >> "$GITHUB_OUTPUT"; echo "Secret CLOUDFLARE_API_TOKEN non impostato: deploy saltato."; fi
+          if [ -z "$CF_TOKEN" ]; then echo "skip=true" >> "$GITHUB_OUTPUT"; echo "::warning::Secret CLOUDFLARE_API_TOKEN non impostato: il Worker NON è stato distribuito."; fi
         env:
           CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
@@ -42,5 +43,15 @@ jobs:
           npm ci || npm install
           npx wrangler deploy
         env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Carica il service account Firebase sul Worker
+        if: steps.check.outputs.skip != 'true'
+        working-directory: workers/sportello
+        run: |
+          if [ -n "$FSA" ]; then printf '%s' "$FSA" | npx wrangler secret put FIREBASE_SERVICE_ACCOUNT; else echo "::warning::Secret FIREBASE_SERVICE_ACCOUNT non impostato: il portale di formazione resta non configurato."; fi
+        env:
+          FSA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

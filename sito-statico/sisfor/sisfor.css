@@ -169,3 +169,9 @@ footer{text-align:center;padding:44px 20px;color:var(--text-muted);font-size:.9r
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 .bar{border-radius:28px}
 @media (max-width:560px){main.wrap{padding:96px 16px 60px}.navbar-wrapper{top:12px}.who{width:100%;justify-content:space-between}}
+
+/* nastro della modalità prova */
+.prova-nastro{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:1500;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;max-width:calc(100% - 24px);padding:10px 18px;border-radius:999px;background:rgb(16,18,24);border:1px solid rgba(251,191,36,.5);box-shadow:0 14px 34px rgba(0,0,0,.6);font-size:.82rem;color:var(--text-muted)}
+.prova-nastro strong{color:var(--warn)}
+.prova-nastro a{padding:4px 12px;border-radius:999px;color:#fff;background:rgba(255,255,255,.08)}
+.prova-nastro a[aria-current]{background:var(--accent-blue)}
