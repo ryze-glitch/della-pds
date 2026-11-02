@@ -7,6 +7,14 @@ import { Badge, Container, Notice } from '../../../components/ui';
 import { Icon } from '../../../components/icons';
 import { auth, DISCORD_AUTH_WORKER_URL, DISCORD_CLIENT_ID } from '../../../lib/firebase';
 
+// Aspetto del vecchio accesso (tema scuro con accento teal), applicato solo a questa pagina.
+const SCURO = {
+  colorScheme: 'dark',
+  '--bg': '20 26 36', '--surface': '18 24 33', '--surface2': '25 33 46', '--fg': '238 242 248', '--muted': '160 172 190',
+  '--fog': '120 130 150', '--line': '36 45 59', '--primary': '23 168 189', '--primary-fg': '4 34 42', '--link': '63 196 214',
+  '--gold': '23 168 189', '--gold-soft': '15 57 71', '--gold-ink': '63 196 214',
+};
+
 export default function LoginPage() {
   const [status, setStatus] = useState({ msg: '', type: '' });
   const [checking, setChecking] = useState(true);
@@ -83,12 +91,13 @@ export default function LoginPage() {
   }
 
   return (
+  <div className="min-h-screen bg-bg text-fg" style={SCURO}>
     <Container className="relative flex min-h-screen items-center justify-center py-14">
       <a href="/" className="absolute left-4 top-6 inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm text-muted transition hover:text-fg sm:left-8">
         ← Torna al sito
       </a>
       <div className="w-full max-w-md overflow-hidden rounded-2xl border border-line bg-surface ">
-        <div className="gold-rule" />
+        <div style={{ height: 3, background: 'rgb(var(--gold))' }} />
         <div className="p-7 text-center sm:p-9">
           <Crest3D className="relative mx-auto h-36 w-28" fallbackClass="h-32 w-auto" glow={false} />
           <div className="mt-5">
@@ -124,5 +133,6 @@ export default function LoginPage() {
         </div>
       </div>
     </Container>
+  </div>
   );
 }
