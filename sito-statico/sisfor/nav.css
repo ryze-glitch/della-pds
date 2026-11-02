@@ -1,7 +1,52 @@
-/* Pulsante "Area Personale" nella barra del sito (stesso linguaggio della barra a pillola). */
-.nav-area{display:inline-flex;align-items:center;gap:10px;background:#2563eb;color:#fff;padding:5px 5px 5px 18px;border-radius:999px;font-weight:600;font-size:.9rem;white-space:nowrap;min-height:44px;transition:background .2s}
+/* Barra del sito: tre isole separate (marchio · voci · azioni), stile HeroUI "M".
+   Sovrascrive la barra a pillola unica delle singole pagine. */
+.navbar-wrapper .navbar{display:flex;grid-template-columns:none;justify-content:space-between;align-items:center;gap:12px;background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0;border-radius:0}
+.navbar-wrapper .nav-left,.navbar-wrapper .nav-center,.navbar-wrapper .nav-right{height:56px;display:flex;align-items:center;background:var(--nav-bg,rgba(20,22,28,.75));border:1px solid rgba(255,255,255,.1);border-radius:999px;box-shadow:0 14px 34px rgba(0,0,0,.5);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+
+/* isola 1: marchio */
+.navbar-wrapper .nav-left{padding:0}
+.navbar-wrapper .nav-logo{background:none;min-height:0;height:100%;padding:0 22px 0 12px;gap:12px;font-weight:800;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;color:#fff}
+.navbar-wrapper .nav-logo img{height:36px}
+
+/* isola 2: voci */
+.navbar-wrapper .nav-center{gap:2px;padding:0 8px;font-size:.9rem;font-weight:500;color:#fff}
+.navbar-wrapper .nav-center>a,.navbar-wrapper .nav-center .dropdown>a{height:40px;min-height:0;padding:0 16px;border-radius:999px;gap:6px;color:#fff;transition:background .2s}
+.navbar-wrapper .nav-center>a>i,.navbar-wrapper .nav-center .dropdown>a>i:not(.fa-chevron-down){display:none}
+.navbar-wrapper .nav-center>a:hover,.navbar-wrapper .nav-center .dropdown:hover>a{background:rgba(255,255,255,.1);color:#fff}
+.navbar-wrapper .nav-center a.active-link{background:#2563eb !important;color:#fff !important}
+.navbar-wrapper .nav-center .dropdown{padding:0;height:auto}
+.navbar-wrapper .nav-center .dropdown-menu{border-radius:20px;padding:8px;width:230px}
+.navbar-wrapper .nav-center .dropdown-menu a{min-height:0;border-radius:12px;color:#c9ccd6}
+.navbar-wrapper .nav-center .dropdown-menu a i{display:inline-block}
+
+/* isola 3: azioni */
+.nav-area{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#2563eb;color:#fff;border-radius:999px;font-weight:600;white-space:nowrap;transition:background .2s}
 .nav-area:hover{background:#1d4ed8}
-.nav-area .icon-circle{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.85rem}
-@media (max-width:560px){.nav-area{padding:5px}.nav-area .nav-area-t{display:none}}
-/* Su schermi stretti il centro della barra è nascosto: logo a sinistra, pulsante a destra. */
-@media (max-width:1024px){.navbar{grid-template-columns:1fr auto !important}}
+.nav-area .icon-circle{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);align-items:center;justify-content:center;font-size:.85rem}
+.navbar-wrapper .nav-right{gap:6px;padding:0 8px}
+.nav-bell{width:40px;height:40px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;transition:background .2s}
+.nav-bell:hover{background:rgba(255,255,255,.1)}
+.navbar-wrapper .nav-area{min-height:0;height:40px;padding:0 18px;gap:0;font-size:.9rem;line-height:1}
+.navbar-wrapper .nav-area .icon-circle{display:none}
+.nav-burger{display:none;width:40px;height:40px;border-radius:50%;border:0;background:none;color:#fff;font-size:1.1rem;cursor:pointer}
+.nav-burger:hover{background:rgba(255,255,255,.1)}
+
+/* menu a comparsa su schermi stretti */
+.nav-panel{display:none;margin-top:12px;padding:10px;border-radius:28px;background:rgba(20,22,28,.95);border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 40px rgba(0,0,0,.6);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);max-height:calc(100vh - 120px);overflow:auto}
+.nav-panel.open{display:block}
+.nav-panel a{display:flex;align-items:center;min-height:48px;padding:0 18px;border-radius:999px;color:#fff;font-weight:600;font-size:1.05rem}
+.nav-panel a:hover,.nav-panel a.active-link{background:rgba(255,255,255,.1)}
+.nav-panel a.active-link{background:#2563eb}
+.nav-panel .sub{padding-left:34px;font-weight:400;font-size:.95rem;color:#c9ccd6}
+
+@media (max-width:1200px){
+  .nav-burger{display:inline-flex;align-items:center;justify-content:center}
+  .navbar-wrapper .nav-center{display:none}
+}
+@media (max-width:560px){
+  .navbar-wrapper .nav-logo{padding-right:16px;font-size:.85rem}
+  .navbar-wrapper .nav-area{padding:0;width:40px;justify-content:center}
+  .navbar-wrapper .nav-area .nav-area-t{display:none}
+  .navbar-wrapper .nav-area .icon-circle{display:flex;background:none;width:auto;height:auto}
+}
+@media (max-width:400px){.navbar-wrapper .nav-logo img{display:none}.navbar-wrapper .nav-logo{padding-left:18px}}
