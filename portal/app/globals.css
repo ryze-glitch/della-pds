@@ -5,28 +5,29 @@
 /* Portale della Questura: tema scuro, token come canali RGB per supportare
    le opacità di Tailwind. */
 :root {
-  color-scheme: light;
-  /* Colore principale: si cambia qui, in un solo punto (canali RGB). */
-  --accent: 31 59 255;       /* #1f3bff */
-  --accent-soft: 244 246 255; /* azzurro tenue */
-  --on-accent: 219 226 255;   /* testo secondario sulla banda blu */
-  --bg: 255 255 255;
-  --surface: 255 255 255;
-  --surface2: 244 246 255;
-  --fg: 10 10 10;
-  --muted: 82 86 95;         /* #52565f */
-  --fog: 138 143 154;
-  --line: 213 216 224;       /* #d5d8e0 */
-  --primary: var(--accent);
-  --primary-fg: 255 255 255;
+  color-scheme: dark;
+  /* Colore d'accento (link e dettagli): si cambia qui, in un solo punto. */
+  --accent: 91 140 255;       /* #5b8cff */
+  --bg: 0 0 0;
+  --surface: 22 22 25;        /* schede */
+  --surface2: 36 37 43;       /* campi, chip, tasti secondari */
+  --fg: 255 255 255;
+  --muted: 160 165 185;       /* testo secondario, 8:1 su nero */
+  --fog: 120 125 145;
+  --line: 44 45 53;
+  --primary: 255 255 255;     /* azione principale: pillola bianca con testo nero */
+  --primary-fg: 0 0 0;
   --link: var(--accent);
   --gold: var(--accent);
-  --gold-soft: 244 246 255;
+  --gold-soft: 36 37 43;
   --gold-ink: var(--accent);
-  --ok: 12 95 67;
-  --bad: 178 24 43;
-  --warn: 122 78 0;
-  --dark: 10 10 10;
+  --ok: 74 222 128;
+  --bad: 255 107 125;
+  --warn: 251 191 36;
+  --dark: 22 22 25;
+  /* Dissolvenza blu in cima alla pagina (fondo dell'app). Per toglierla: --fade-top: #000. */
+  --fade-top: #1b2cb0;
+  --fade-mid: #0a1255;
 }
 
 html {
@@ -36,71 +37,69 @@ html {
 body {
   background: rgb(var(--bg));
   color: rgb(var(--fg));
-  font-family: 'Archivo Variable', 'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  font-weight: 500;
+  font-family: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-body strong, body b { font-weight: 700; }
+body strong, body b { font-weight: 600; }
+
+.app-fade {
+  background: linear-gradient(180deg, var(--fade-top) 0%, var(--fade-mid) 26%, #000 58%);
+}
 
 ::selection {
-  background: rgb(var(--accent) / 0.22);
+  background: rgb(var(--accent) / 0.35);
 }
 
 @layer components {
   .h1 {
-    @apply text-[44px] font-extrabold leading-[0.98] tracking-[-0.04em] sm:text-[60px] lg:text-[76px];
-    font-stretch: 90%;
+    @apply text-[38px] font-bold leading-[1.08] tracking-[-0.025em] sm:text-[44px];
     text-wrap: balance;
   }
   .h2 {
-    @apply text-[30px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[40px];
-    font-stretch: 92%;
+    @apply text-[28px] font-bold leading-[1.15] tracking-[-0.02em] sm:text-[32px];
     text-wrap: balance;
   }
   .label {
-    @apply text-[14px] font-extrabold uppercase tracking-[0.08em] text-muted;
+    @apply text-[13px] font-semibold uppercase tracking-[0.08em] text-muted;
   }
   .chip {
-    @apply inline-flex items-center gap-1.5 rounded-full bg-accent-soft px-3.5 py-[7px] text-[14px] font-bold;
-    color: #1a2fc7;
+    @apply inline-flex items-center gap-1.5 rounded-full bg-surface2 px-4 py-2 text-[14px] font-medium text-fg;
   }
   .input {
-    @apply block min-h-[52px] w-full rounded-[14px] border-2 border-line bg-white px-4 py-3 text-[16px] font-medium text-fg outline-none transition placeholder:text-fog focus:border-primary;
+    @apply block min-h-[60px] w-full rounded-[22px] border border-transparent bg-white/10 px-5 py-3.5 text-[17px] text-fg outline-none transition placeholder:text-muted focus:border-white/50 focus:bg-white/[0.14];
   }
-  textarea.input { @apply min-h-[120px]; }
+  textarea.input { @apply min-h-[130px]; }
+  select.input { @apply appearance-none; }
   .input[aria-invalid='true'] {
-    @apply border-bad focus:border-bad;
+    @apply border-bad;
   }
   .card {
-    @apply rounded-[20px] border-2 border-line bg-white;
+    @apply rounded-[24px] bg-surface;
   }
   .btn {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-3 rounded-full bg-primary px-7 text-[16px] font-extrabold text-primary-fg transition-colors hover:bg-fg;
+    @apply inline-flex min-h-[58px] w-full items-center justify-center gap-3 rounded-full bg-white px-7 text-[17px] font-medium text-black transition-colors hover:bg-white/85 disabled:bg-[#9b9b9f] disabled:text-black/70;
   }
-  .btn-light {
-    @apply inline-flex min-h-[52px] items-center justify-center gap-3 rounded-full bg-white px-8 text-[17px] font-extrabold text-primary transition-colors hover:bg-fg hover:text-white;
-  }
-  .btn-line {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-3 rounded-full border-2 border-fg px-7 text-[16px] font-extrabold text-fg transition-colors hover:bg-fg hover:text-white;
+  .btn-dark {
+    @apply inline-flex min-h-[58px] w-full items-center justify-center gap-3 rounded-full bg-surface px-7 text-[17px] font-medium text-white transition-colors hover:bg-surface2;
   }
   .riga {
-    @apply flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-line px-2 py-7 transition-colors hover:bg-accent-soft;
+    @apply flex items-center gap-4 border-t border-line px-1 py-4 transition-colors;
   }
-  .riga:first-child { @apply border-t-2 border-fg; }
   .gold-rule {
-    height: 2px;
-    background: rgb(var(--fg));
+    height: 1px;
+    background: rgb(var(--line));
   }
   /* Pillole di stato: il testo dice sempre lo stato, il colore è solo un rinforzo. */
-  .stato { @apply inline-flex items-center gap-1.5 rounded-full px-3.5 py-[7px] text-[14px] font-bold; }
-  .stato-corso { background: #eaeeff; color: #1a2fc7; }
-  .stato-ambra { background: #fff0cc; color: #7a4e00; }
-  .stato-ok { background: #dcf5e9; color: #0c5f43; }
-  .stato-grigio { background: #eceef2; color: #3d414a; }
+  .stato { @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[13px] font-semibold; }
+  .stato-corso { background: rgb(var(--accent) / 0.2); color: #9db9ff; }
+  .stato-ambra { background: rgb(251 191 36 / 0.18); color: #fcd34d; }
+  .stato-ok { background: rgb(74 222 128 / 0.16); color: #86efac; }
+  .stato-grigio { background: #2a2b31; color: #c3c6d4; }
 }
 
-:focus-visible { outline: 3px solid rgb(var(--accent)); outline-offset: 3px; }
+:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 
 /* Movimento sobrio: comparsa allo scroll e cambio pagina */
 @keyframes page-in {

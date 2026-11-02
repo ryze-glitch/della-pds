@@ -1,17 +1,17 @@
 import Link from 'next/link';
 import { Icon } from './icons';
 
-// Sezione a righe: filo nero in alto, titolo in maiuscolo piccolo, contenuto senza scheda.
+// Scheda scura: titolo con icona e freccia, contenuto sotto. Piatta, senza ombre.
 export function Widget({ icon, title, href, children, className = '' }) {
   return (
-    <section className={className}>
-      <div className="flex items-center justify-between border-t-2 border-fg pb-2 pt-5">
-        <h2 className="label flex items-center gap-2.5">
-          {icon ? <Icon name={icon} size={18} strokeWidth={2.2} /> : null} {title}
+    <section className={`card p-5 ${className}`}>
+      <div className="flex items-center justify-between pb-3">
+        <h2 className="flex items-center gap-3 text-[20px] font-semibold tracking-[-0.01em]">
+          {icon ? <Icon name={icon} size={22} strokeWidth={1.7} className="text-muted" /> : null} {title}
         </h2>
         {href ? (
-          <Link href={href} aria-label={`Apri ${title}`} className="flex h-11 w-11 items-center justify-center rounded-full text-primary transition-colors hover:bg-accent-soft">
-            <Icon name="arrow-right" size={22} strokeWidth={2.4} />
+          <Link href={href} aria-label={`Apri ${title}`} className="flex h-11 w-11 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10">
+            <Icon name="chevron" size={22} strokeWidth={2} />
           </Link>
         ) : null}
       </div>
