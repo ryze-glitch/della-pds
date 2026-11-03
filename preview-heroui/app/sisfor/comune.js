@@ -82,4 +82,4 @@ export function Quiz({ onFine }) {
   );
 }
 
-export const Etichetta = ({ v }) => <p className="fixed bottom-3 left-1/2 z-50 -translate-x-1/2 rounded-full border border-white/10 bg-background/90 px-4 py-1.5 text-[11px] uppercase tracking-widest text-default-500 backdrop-blur">{v}</p>;
+export const Etichetta = ({ v }) => <p className="fixed bottom-3 left-3 z-50 rounded-full border border-white/10 bg-background/90 px-4 py-1.5 text-[11px] uppercase tracking-widest text-default-500 backdrop-blur">{v}</p>;
