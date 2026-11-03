@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="sisfor/anim.css">
     <style>
         body{background:radial-gradient(ellipse at 50% -10%,rgba(37,99,235,.28),transparent 55%),var(--bg-dark);background-attachment:fixed}
-        .accesso{min-height:calc(100vh - 220px);display:flex;align-items:center;justify-content:center;padding:150px 20px 60px}
+        .accesso{min-height:calc(100vh - 220px);display:flex;align-items:center;justify-content:center;padding:110px 20px 60px}
         .scheda{width:100%;max-width:460px;background:var(--nav-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--nav-border);border-radius:24px;padding:44px 36px 36px;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,.55),0 0 0 1px rgba(37,99,235,.12)}
         .scheda img.stemma{width:92px;height:auto;margin:0 auto 22px;display:block;filter:drop-shadow(0 8px 20px rgba(0,0,0,.5))}
         .scheda h1{font-size:clamp(1.9rem,6vw,2.5rem);font-weight:800;line-height:1.05;letter-spacing:.5px;text-transform:uppercase}
@@ -33,28 +33,7 @@
 </head>
 <body>
     <a class="skip" href="#accesso">Vai al contenuto</a>
-    <div class="navbar-wrapper">
-        <nav class="navbar" aria-label="Navigazione del sito">
-            <div class="nav-left"><a href="home.html" class="nav-logo"><img src="logo-polizia.png" alt="">POLIZIA DI STATO</a></div>
-            <div class="nav-center">
-                <a href="home.html"><i class="fas fa-home" aria-hidden="true"></i> Home</a>
-                <a href="notizie.html"><i class="fas fa-bullhorn" aria-hidden="true"></i> Notizie</a>
-                <div class="dropdown">
-                    <a href="#"><i class="fas fa-search"></i> Chi Siamo <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: -2px;"></i></a>
-                    <div class="dropdown-menu">
-                        <a href="chi-siamo.html"><i class="fas fa-user-tie"></i> La Dirigenza</a>
-                        <a href="storia.html"><i class="fas fa-book"></i> Storia della Polizia</a>
-                        <a href="chi-siamo.html#mezzi"><i class="fas fa-car"></i> I Nostri Mezzi</a>
-                        <a href="chi-siamo.html#reparti"><i class="fas fa-shield-alt"></i> I Nostri Reparti</a>
-                    </div>
-                </div>
-                <a href="qualifiche.html"><i class="fas fa-medal" aria-hidden="true"></i> Qualifiche</a>
-                <a href="prenota.html"><i class="fas fa-calendar-check" aria-hidden="true"></i> Prenota</a>
-                <a href="concorso.html"><i class="fas fa-trophy" aria-hidden="true"></i> Concorso</a>
-            </div>
-            <div class="nav-right"><a class="nav-bell" href="sisfor" aria-label="Notifiche"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></a><a class="nav-area" href="sisfor" aria-label="Area Personale"><span class="nav-area-t">Area Personale</span><span class="icon-circle"><i class="fas fa-user-shield" aria-hidden="true"></i></span></a><button type="button" class="nav-burger" aria-label="Apri il menu" aria-expanded="false" aria-controls="nav-panel"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
-        </nav>
-    </div>
+    <a class="back-site" href="home.html"><i class="fas fa-arrow-left" aria-hidden="true"></i> Torna al sito</a>
 
     <main id="accesso" class="accesso" tabindex="-1">
         <section class="scheda" aria-labelledby="titolo">
@@ -67,7 +46,6 @@
                 <span id="discord-t">Verifica dell'accesso…</span>
             </button>
             <p class="nota">Possono accedere solo gli agenti registrati dall'amministrazione.</p>
-            <a class="indietro" href="home.html"><i class="fas fa-arrow-left" aria-hidden="true"></i> Torna al sito</a>
         </section>
     </main>
 

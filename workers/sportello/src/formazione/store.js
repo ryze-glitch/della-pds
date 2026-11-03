@@ -47,7 +47,11 @@ async function accessToken(sa) {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion: `${head}.${body}.${b64u(sig)}` }),
   });
-  if (!res.ok) throw new Error(`token service account: ${res.status}`);
+  if (!res.ok) {
+    let det = '';
+    try { det = (await res.json()).error_description || ''; } catch (e) { /* corpo non JSON */ }
+    throw new Error(`token service account: ${res.status} ${det}`.trim());
+  }
   const j = await res.json();
   cached = { token: j.access_token, exp: now + (j.expires_in || 3000) };
   return cached.token;
@@ -66,7 +70,11 @@ export function firestoreStore(env) {
   const call = async (path, init = {}) => {
     const res = await fetch(`${BASE(project)}${path}`, { ...init, headers: { Authorization: `Bearer ${await accessToken(sa)}`, 'Content-Type': 'application/json', ...(init.headers || {}) } });
     if (res.status === 404 && (init.method || 'GET') === 'GET') return null;
-    if (!res.ok) throw new Error(`firestore ${res.status}`);
+    if (!res.ok) {
+      let det = '';
+      try { det = ((await res.json()).error || {}).message || ''; } catch (e) { /* corpo non JSON */ }
+      throw new Error(`firestore ${res.status} ${det}`.trim());
+    }
     return res.status === 204 ? {} : res.json();
   };
   return {

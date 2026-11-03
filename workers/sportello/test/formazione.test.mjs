@@ -440,3 +440,12 @@ test('regole Firestore: i contenuti del sito statico sono in sola lettura', () =
   assert.match(sito, /allow write: if false;/);
   assert.ok(!sito.includes('auth-sito') && !sito.includes('domande'));
 });
+
+test('errore dello store: risposta JSON 500 con CORS, non un crash del Worker', async () => {
+  const store = { async get() { throw new Error('firestore 403'); }, async list() { return []; }, async set() {}, async delete() {} };
+  const req = new Request('https://w.example/formazione/me', { headers: { Authorization: 'Bearer x', Origin: 'https://polizia-iprp.web.app' } });
+  const r = await handleFormazione(req, {}, { cors: { 'Access-Control-Allow-Origin': 'https://polizia-iprp.web.app' }, url: new URL(req.url), verify: async () => ({ sub: 'discord:111111111111111111' }), store });
+  assert.equal(r.status, 500);
+  assert.equal(r.headers.get('Access-Control-Allow-Origin'), 'https://polizia-iprp.web.app');
+  assert.match((await r.json()).error, /firestore 403/);
+});

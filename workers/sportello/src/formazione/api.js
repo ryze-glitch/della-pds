@@ -58,7 +58,7 @@ async function nomeAllievo(store, id) {
   return p ? { id, nome: p.nome || '', cognome: p.cognome || '', grado: p.grado || '' } : { id, nome: '', cognome: '', grado: '' };
 }
 
-export async function handleFormazione(request, env, { cors, url, verify, store, now = Date.now, rng = Math.random }) {
+async function gestisci(request, env, { cors, url, verify, store, now = Date.now, rng = Math.random }) {
   if (!store) return err('Portale di formazione non configurato.', 503, cors);
   const path = url.pathname.replace(/^\/formazione/, '') || '/';
   const m = request.method;
@@ -359,4 +359,16 @@ export async function handleFormazione(request, env, { cors, url, verify, store,
   }
 
   return err('Risorsa non trovata.', 404, cors);
+}
+
+// Qualunque errore inatteso (es. Firestore non raggiungibile o service account non valido) torna come JSON con gli
+// header CORS: senza, il browser mostrerebbe solo "Load failed" e non si capirebbe cosa non va.
+export async function handleFormazione(request, env, opts) {
+  try {
+    return await gestisci(request, env, opts);
+  } catch (e) {
+    console.error('formazione:', e && e.message);
+    const dettaglio = String((e && e.message) || 'errore sconosciuto').replace(/[^\w .:()/-]/g, '').slice(0, 120);
+    return err(`Errore del server (${dettaglio}).`, 500, opts.cors || {});
+  }
 }

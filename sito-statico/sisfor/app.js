@@ -43,13 +43,20 @@ async function api(path, { method = 'GET', body } = {}) {
     throw e;
   }
   const token = await u.getIdToken();
-  const res = chiamaProva
-    ? await chiamaProva(path, { method, body })
-    : await fetch(API + path, {
-        method,
-        headers: { Authorization: `Bearer ${token}`, ...(body ? { 'Content-Type': 'application/json' } : {}) },
-        body: body ? JSON.stringify(body) : undefined,
-      });
+  let res;
+  try {
+    res = chiamaProva
+      ? await chiamaProva(path, { method, body })
+      : await fetch(API + path, {
+          method,
+          headers: { Authorization: `Bearer ${token}`, ...(body ? { 'Content-Type': 'application/json' } : {}) },
+          body: body ? JSON.stringify(body) : undefined,
+        });
+  } catch (e) {
+    const er = new Error('Impossibile contattare il server della formazione. Riprova tra poco.');
+    er.status = 0;
+    throw er;
+  }
   let d = {};
   try {
     d = await res.json();
@@ -177,6 +184,11 @@ function erroreVista(e, attivo = '') {
 function mostraGate(motivo) {
   clearInterval(timer);
   me = null;
+  // Un solo accesso: se non sei dentro, si va direttamente alla pagina di login (niente schermata intermedia).
+  if (!motivo && !PROVA) {
+    location.replace('/login?next=/sisfor');
+    return;
+  }
   const msg =
     motivo === 'negato'
       ? avviso('Il tuo account Discord non risulta abilitato. Chiedi a un amministratore di registrarti.', 'err', 'fa-lock')
@@ -185,7 +197,7 @@ function mostraGate(motivo) {
     <h1 class="titolo">Area <span>Personale</span></h1>
     <p class="sottotitolo">Accedi con il tuo account Discord per studiare i corsi, fare i quiz di verifica e prenotare gli esami pratici.</p>
     ${msg}
-    <a class="btn" href="/login?next=/sisfor"><i class="fab fa-discord" aria-hidden="true"></i> Accedi con Discord</a></div>`;
+    ${motivo === 'negato' ? '<button class="btn" type="button" data-az="esci"><i class="fas fa-right-from-bracket" aria-hidden="true"></i> Esci e usa un altro account</button>' : '<a class="btn" href="/login?next=/sisfor"><i class="fab fa-discord" aria-hidden="true"></i> Accedi con Discord</a>'}</div>`;
 }
 
 // ---------- viste ----------
