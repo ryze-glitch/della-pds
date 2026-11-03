@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="sisfor/nav.css">
     <link rel="stylesheet" href="sisfor/footer.css">
     <link rel="stylesheet" href="sisfor/anim.css">
+    <link rel="stylesheet" href="sisfor/boot.css">
     <style>
         body{background:radial-gradient(ellipse at 50% -10%,rgba(37,99,235,.28),transparent 55%),var(--bg-dark);background-attachment:fixed}
         .accesso{min-height:calc(100vh - 220px);display:flex;align-items:center;justify-content:center;padding:110px 20px 60px}
@@ -32,6 +33,7 @@
     </style>
 </head>
 <body>
+    <script src="sisfor/boot.js"></script>
     <a class="skip" href="#accesso">Vai al contenuto</a>
     <a class="back-site" href="home.html"><i class="fas fa-arrow-left" aria-hidden="true"></i> Torna al sito</a>
 
@@ -125,9 +127,13 @@
 
       if (params.get('denied') === '1') avviso('Il tuo account Discord non risulta registrato tra gli agenti. Contatta un amministratore per essere abilitato.', 'err', 'fa-lock');
 
+      const boot = window.IPRPBoot || { show() {}, done() {}, hide() {} };
+      if (params.get('code')) boot.show(); // ritorno da Discord: schermata di accesso al posto del messaggio
+
       onAuthStateChanged(auth, (user) => {
         clearTimeout(sblocca);
         if (user) {
+          boot.show();
           let next = params.get('next');
           try { next = next || sessionStorage.getItem('pds-next'); sessionStorage.removeItem('pds-next'); } catch (e) { /* storage non disponibile */ }
           location.href = PERCORSI.includes(next) ? next : '/sisfor';
@@ -146,7 +152,6 @@
       (async () => {
         const code = params.get('code');
         if (!code) return;
-        avviso('Completamento accesso con Discord…');
         try {
           const res = await fetch(`${DISCORD_AUTH_WORKER_URL}?code=${encodeURIComponent(code)}&redirect_uri=${encodeURIComponent(redirectUri)}`);
           if (!res.ok) throw new Error('Worker ' + res.status);
@@ -156,6 +161,8 @@
           history.replaceState({}, '', location.pathname);
         } catch (e) {
           console.error(e);
+          boot.hide();
+          pronto();
           avviso('Accesso con Discord non riuscito. Riprova.', 'err', 'fa-triangle-exclamation');
         }
       })();

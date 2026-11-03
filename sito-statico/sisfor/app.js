@@ -1,5 +1,8 @@
 // SISFOR+ IPRP — area personale e portale di formazione (applicazione a una pagina, percorsi con #/…).
 // Tutta la logica sensibile (correzione, sblocco, ruoli) sta nel Worker: qui solo la presentazione.
+const boot = window.IPRPBoot || { show() {}, done() {}, hide() {} };
+boot.show(); // schermata di accesso finché l'area non è pronta
+
 // Modalità prova (?demo=allievo|istruttore|admin): dati finti in memoria, nessun accesso e nessun server.
 const PROVA = (() => { try { const r = new URLSearchParams(location.search).get('demo'); return ['allievo', 'istruttore', 'admin'].includes(r) ? r : null; } catch (e) { return null; } })();
 
@@ -184,6 +187,7 @@ function erroreVista(e, attivo = '') {
 function mostraGate(motivo) {
   clearInterval(timer);
   me = null;
+  if (motivo) boot.hide();
   // Un solo accesso: se non sei dentro, si va direttamente alla pagina di login (niente schermata intermedia).
   if (!motivo && !PROVA) {
     location.replace('/login?next=/sisfor');
@@ -797,9 +801,11 @@ onAuthStateChanged(auth, async (u) => {
     me = m.me;
     config = c;
     document.title = 'Area Personale · SISFOR+ IPRP';
-    route();
+    await route();
+    boot.done();
   } catch (e) {
     if (e.status === 403 || e.status === 401) return mostraGate(e.status === 403 ? 'negato' : '');
+    boot.hide();
     // errore del server o di rete: l'accesso è riuscito, quindi non rimandare al login
     const motivo = e.status === 503 ? 'Il portale di formazione non è ancora attivo: manca la configurazione sul server.' : e.message || 'Impossibile contattare il server.';
     $app.innerHTML = `<div class="hero-gate"><h1 class="titolo">Area <span>Personale</span></h1>
