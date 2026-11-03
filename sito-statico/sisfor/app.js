@@ -197,10 +197,10 @@ function mostraGate(motivo) {
   if (motivo === 'negato') {
     $app.innerHTML = `<div class="gate"><div class="gate-card">
       <img src="/logo-iprp.png" alt="IPRP" class="gate-logo">
-      <span class="gate-ico" aria-hidden="true"><i class="fas fa-user-lock"></i></span>
+      <span class="gate-ico" aria-hidden="true"><i class="fas fa-lock"></i></span>
       <h1>Accesso non ancora abilitato</h1>
-      <p>Il tuo account Discord è stato riconosciuto, ma non risulta tra gli agenti registrati. Se fai parte della Polizia di Stato, l’accesso si attiva da solo dopo l’aggiornamento della gerarchia: riprova tra qualche minuto, oppure chiedi a un amministratore di verificare i tuoi dati.</p>
-      ${idDiscord ? `<div class="gate-id"><small>Il tuo ID Discord</small><code>${esc(idDiscord)}</code></div>` : ''}
+      <p>Il tuo account Discord è stato riconosciuto, ma non risulta tra gli agenti registrati. L’accesso si attiva da solo dopo l’aggiornamento della gerarchia.</p>
+      ${idDiscord ? `<div class="gate-id"><span><b>ID</b><code>${esc(idDiscord)}</code></span><button type="button" data-az="copia-id" data-id="${esc(idDiscord)}" aria-label="Copia l’ID Discord"><i class="far fa-copy" aria-hidden="true"></i></button></div>` : ''}
       <div class="gate-azioni"><button class="btn" type="button" onclick="location.reload()"><i class="fas fa-rotate" aria-hidden="true"></i> Riprova</button>
         <button class="btn linea" type="button" data-az="esci">Usa un altro account</button></div></div></div>`;
     return;
@@ -646,6 +646,8 @@ $app.addEventListener('click', async (ev) => {
     if (az === 'filtro') {
       document.querySelectorAll('[data-az="filtro"]').forEach((b) => b.classList.toggle('on', b === t));
       document.querySelectorAll('.corso-card').forEach((c) => { c.hidden = !(t.dataset.f === 'tutti' || (t.dataset.f === 'corso' && c.dataset.cat === 'corso') || (t.dataset.f === 'fatti' && c.dataset.cat === 'fatti')); });
+    } else if (az === 'copia-id') {
+      try { await navigator.clipboard.writeText(t.dataset.id); t.innerHTML = '<i class="fas fa-check" aria-hidden="true"></i>'; setTimeout(() => { t.innerHTML = '<i class="far fa-copy" aria-hidden="true"></i>'; }, 1500); } catch (e) { /* appunti non disponibili */ }
     } else if (az === 'esci') {
       await signOut(auth);
     } else if (az === 'letto') {
