@@ -42,9 +42,9 @@ const sizes = { sm: 'h-8 px-4 text-[13px]', md: 'h-11 px-6', lg: 'h-12 px-7 text
 const variants = {
   primary: 'border-primary bg-transparent text-primary hover:bg-primary/5',
   gold: 'border-primary bg-transparent text-primary hover:bg-primary/5',
-  outline: 'border-line bg-transparent text-fg hover:bg-black/5',
+  outline: 'border-line bg-transparent text-fg hover:bg-white/5',
   light: 'border-transparent bg-fg/5 text-fg hover:bg-fg/10',
-  'outline-light': 'border-line bg-surface text-fg hover:bg-black/5',
+  'outline-light': 'border-line bg-surface text-fg hover:bg-white/5',
   ghost: 'border-transparent text-primary hover:underline',
 };
 

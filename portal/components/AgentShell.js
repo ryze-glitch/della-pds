@@ -63,7 +63,7 @@ export function AgentShell({ children, preview = false }) {
         title={collapsed ? it.label : undefined}
         aria-label={it.label}
         onClick={() => setOpen(false)}
-        className={`flex h-12 items-center gap-4 rounded-full text-[13.5px] transition-colors ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''} px-4 ${on ? 'bg-surface2 text-link' : 'text-fg hover:bg-black/5'}`}
+        className={`flex h-12 items-center gap-4 rounded-full text-[13.5px] transition-colors ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''} px-4 ${on ? 'bg-surface2 text-link' : 'text-fg hover:bg-white/5'}`}
       >
         <Icon name={it.icon} size={22} strokeWidth={1.5} className="flex-none" />
         <span className={collapsed ? 'lg:hidden' : ''}>{it.label}</span>

@@ -46,7 +46,7 @@ export function CitizenShell({ children }) {
               ))}
             </nav>
             <span className="flex-1 lg:hidden" />
-            <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-label="Apri il menu" className="flex h-9 w-9 items-center justify-center rounded-full text-fg transition-colors hover:bg-black/5 lg:hidden">
+            <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-label="Apri il menu" className="flex h-9 w-9 items-center justify-center rounded-full text-fg transition-colors hover:bg-white/5 lg:hidden">
               <Icon name={open ? 'x' : 'menu'} size={20} strokeWidth={1.4} />
             </button>
           </div>
