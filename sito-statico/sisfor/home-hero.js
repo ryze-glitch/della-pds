@@ -7,7 +7,7 @@
   var VOCI = [
     ['Denuncia, querela, esposto', 'Come presentare una denuncia', 'denuncia.html', 'denunciare reato furto querela esposto'],
     ["Porto d'armi", 'Licenze e richieste di porto', 'porto-armi.html', 'armi licenza pistola fucile'],
-    ['Prenota un colloquio', 'Scegli giorno e orario', 'prenotazioni.html', 'appuntamento prenotazione evento autorizzazione'],
+    ['Prenota un colloquio', 'Scegli giorno e orario', 'prenota.html', 'appuntamento prenotazione evento autorizzazione'],
     ['Concorso pubblico', 'Entra nella Polizia di Stato', 'concorso.html', 'bando candidarsi arruolamento agente'],
     ['Stato della pratica', 'Controlla una richiesta già inviata', 'sportello/pratica', 'pratica codice richiesta stato'],
     ['Ufficio Relazioni col Pubblico', 'URP', 'urp.html', 'urp informazioni reclami'],

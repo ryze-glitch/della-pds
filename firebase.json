@@ -57,11 +57,6 @@
         "type": 301
       },
       {
-        "source": "/prenota",
-        "destination": "/sportello",
-        "type": 301
-      },
-      {
         "source": "/pratiche",
         "destination": "/gestione/pratiche",
         "type": 301
@@ -79,6 +74,26 @@
       {
         "source": "/impostazioni",
         "destination": "/gestione/impostazioni",
+        "type": 301
+      },
+      {
+        "source": "/Home",
+        "destination": "/home",
+        "type": 301
+      },
+      {
+        "source": "/Home.html",
+        "destination": "/home",
+        "type": 301
+      },
+      {
+        "source": "/prenotazioni",
+        "destination": "/prenota",
+        "type": 301
+      },
+      {
+        "source": "/prenotazioni.html",
+        "destination": "/prenota",
         "type": 301
       }
     ],
