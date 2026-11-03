@@ -1,50 +1,34 @@
 /**
  * Sincronizza gli agenti del foglio "Gerarchia Generale" (scheda MATRICOLE OPERATORI) con il sito della Polizia.
  *
- * Installazione (una volta sola):
- *  1. Nel foglio: Estensioni → Apps Script. Cancella il codice presente e incolla tutto questo file. Salva.
- *  2. Ricarica il foglio: compare il menu "Sito Polizia".
- *  3. Menu "Sito Polizia" → "1. Imposta la chiave" e incolla la chiave (la stessa del secret SYNC_KEY su GitHub).
- *  4. Menu "Sito Polizia" → "2. Attiva la sincronizzazione automatica" (Google chiederà di autorizzare lo script).
- *  5. Menu "Sito Polizia" → "Sincronizza adesso" per la prima volta.
+ * ATTENZIONE: va incollato in un progetto Apps Script SEPARATO e privato, creato da script.google.com
+ * (Nuovo progetto), NON da "Estensioni → Apps Script" dentro il foglio. Così chi ha accesso al foglio
+ * non può vedere né il codice né la chiave: il progetto è visibile solo a chi lo ha creato.
  *
- * Da quel momento ogni modifica alla scheda viene inviata al sito entro pochi secondi, e comunque ogni 5 minuti.
- * Il ruolo (allievo / istruttore / admin) si gestisce dal sito: la sincronizzazione non lo cambia.
+ * Installazione (una volta sola):
+ *  1. Vai su script.google.com → "Nuovo progetto". Cancella il codice presente e incolla tutto questo file. Salva.
+ *  2. Impostazioni del progetto (ingranaggio a sinistra) → "Proprietà dello script" → "Aggiungi proprietà":
+ *       nome SYNC_KEY, valore = la chiave (la stessa del secret SYNC_KEY su GitHub). Salva.
+ *  3. In alto scegli la funzione "attiva" e premi "Esegui". Google chiede di autorizzare lo script: accetta.
+ *  4. Scegli la funzione "sincronizzaOra" ed "Esegui": nel registro delle esecuzioni compare quanti agenti ha inviato.
+ *
+ * Da quel momento ogni modifica alla scheda (anche fatta da altri) viene inviata al sito entro pochi secondi,
+ * e comunque ogni 5 minuti. Il ruolo (allievo / istruttore / admin) si gestisce dal sito e non viene toccato.
  */
 
+var ID_FOGLIO = '12VhLXV-f8J7BfaGREjSn9DiH91hafzGqcpo_K9D6Ej8'; // non è un segreto: senza accesso al foglio non serve a nulla
 var URL_SITO = 'https://iprp-sportello.ryze63131.workers.dev/formazione/sync/agenti';
 var SCHEDA = 'MATRICOLE OPERATORI';
 
-function onOpen() {
-  SpreadsheetApp.getUi()
-    .createMenu('Sito Polizia')
-    .addItem('Sincronizza adesso', 'sincronizzaOra')
-    .addSeparator()
-    .addItem('1. Imposta la chiave', 'impostaChiave')
-    .addItem('2. Attiva la sincronizzazione automatica', 'attivaAutomatica')
-    .addItem('Disattiva la sincronizzazione automatica', 'disattivaAutomatica')
-    .addToUi();
-}
-
-function impostaChiave() {
-  var ui = SpreadsheetApp.getUi();
-  var r = ui.prompt('Chiave di sincronizzazione', 'Incolla la chiave (stessa del secret SYNC_KEY su GitHub):', ui.ButtonSet.OK_CANCEL);
-  if (r.getSelectedButton() !== ui.Button.OK) return;
-  var chiave = r.getResponseText().trim();
-  if (chiave.length < 16) { ui.alert('La chiave deve avere almeno 16 caratteri.'); return; }
-  PropertiesService.getScriptProperties().setProperty('SYNC_KEY', chiave);
-  ui.alert('Chiave salvata.');
-}
-
-function attivaAutomatica() {
-  disattivaAutomatica();
-  var ss = SpreadsheetApp.getActive();
-  ScriptApp.newTrigger('allaModifica').forSpreadsheet(ss).onEdit().create();
+// Crea i due trigger: a ogni modifica del foglio e ogni 5 minuti.
+function attiva() {
+  disattiva();
+  ScriptApp.newTrigger('allaModifica').forSpreadsheet(SpreadsheetApp.openById(ID_FOGLIO)).onEdit().create();
   ScriptApp.newTrigger('sincronizzaSilenzioso').timeBased().everyMinutes(5).create();
-  SpreadsheetApp.getUi().alert('Sincronizzazione automatica attiva.');
+  Logger.log('Sincronizzazione automatica attiva.');
 }
 
-function disattivaAutomatica() {
+function disattiva() {
   ScriptApp.getProjectTriggers().forEach(function (t) {
     var f = t.getHandlerFunction();
     if (f === 'allaModifica' || f === 'sincronizzaSilenzioso') ScriptApp.deleteTrigger(t);
@@ -53,7 +37,7 @@ function disattivaAutomatica() {
 
 // Letto dalla scheda: cerca da sé la riga delle intestazioni e le colonne, così regge spostamenti e righe nuove.
 function leggiAgenti_() {
-  var foglio = SpreadsheetApp.getActive().getSheetByName(SCHEDA);
+  var foglio = SpreadsheetApp.openById(ID_FOGLIO).getSheetByName(SCHEDA);
   if (!foglio) throw new Error('Scheda "' + SCHEDA + '" non trovata.');
   var valori = foglio.getDataRange().getValues();
   var intest = -1, col = {};
@@ -82,7 +66,7 @@ function leggiAgenti_() {
 function invia_(forza) {
   var props = PropertiesService.getScriptProperties();
   var chiave = props.getProperty('SYNC_KEY');
-  if (!chiave) throw new Error('Chiave non impostata: usa il menu "Sito Polizia" → "1. Imposta la chiave".');
+  if (!chiave) throw new Error('Manca la proprietà SYNC_KEY (Impostazioni del progetto → Proprietà dello script).');
   var righe = leggiAgenti_();
   var corpo = JSON.stringify({ righe: righe });
   var impronta = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, corpo));
@@ -94,17 +78,13 @@ function invia_(forza) {
   return JSON.parse(res.getContentText());
 }
 
+// Da lanciare a mano dall'editor: invia subito e scrive il risultato nel registro.
 function sincronizzaOra() {
-  var ui = SpreadsheetApp.getUi();
-  try {
-    var e = invia_(true);
-    ui.alert('Sincronizzazione completata', e.totale + ' agenti nel foglio — aggiunti: ' + e.aggiunti + ', aggiornati: ' + e.aggiornati + ', rimossi: ' + e.rimossi + '.', ui.ButtonSet.OK);
-  } catch (err) {
-    ui.alert('Sincronizzazione non riuscita', String(err.message || err), ui.ButtonSet.OK);
-  }
+  var e = invia_(true);
+  Logger.log('Fatto: ' + e.totale + ' agenti nel foglio — aggiunti ' + e.aggiunti + ', aggiornati ' + e.aggiornati + ', rimossi ' + e.rimossi + '.');
 }
 
-// Modifica manuale: a raffica si invia al massimo ogni 15 secondi (il trigger a tempo recupera il resto).
+// Modifica del foglio: a raffica si invia al massimo ogni 15 secondi (il trigger a tempo recupera il resto).
 function allaModifica(e) {
   if (e && e.range && e.range.getSheet().getName() !== SCHEDA) return;
   var lock = LockService.getScriptLock();
