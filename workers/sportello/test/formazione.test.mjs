@@ -465,7 +465,7 @@ function fakeD1() {
       async all() { const [c] = st.args; return { results: [...righe].filter(([k]) => k.startsWith(`${c}\u0000`)).map(([k, v]) => ({ id: k.split('\u0000')[1], data: v })) }; } };
     return st;
   };
-  return { prepare: prepara, righe };
+  return { prepare: prepara, righe, async batch(sts) { for (const x of sts) await x.run(); return []; } };
 }
 
 test('D1: get, set, list con filtro e delete; il campo id nel documento ha la precedenza', async () => {
@@ -506,4 +506,74 @@ test('amministratore da variabile: registrato al primo accesso e sempre admin', 
   assert.equal((await chiamaEnv('999999999999999999', 'DELETE', '/admin/agenti/999999999999999999', undefined, env)).status, 422); // non si autorimuove
   assert.equal((await chiamaEnv('999999999999999999', 'DELETE', '/admin/agenti/777777777777777777', undefined, env)).status, 200);
   assert.equal((await chiamaEnv('777777777777777777', 'GET', '/me', undefined, env)).status, 403);
+});
+
+// ---------- sincronizzazione dal foglio Google ----------
+import { mappaGrado, normalizzaRighe, sincronizzaAgenti } from '../src/formazione/fogli.js';
+import { handleRequest } from '../src/handler.js';
+
+const RIGHE = [
+  { nome: 'GABRIEL MARTINELLI', matricola: 'PDS - 0006', qualifica: 'Vice Questore Aggiunto', discordId: '1387684968536477756' },
+  { nome: 'MATTEO DE MARTINO', matricola: 'PDS - 0039', qualifica: 'Assistente Capo', discordId: '1314929810019188836' },
+  { nome: "NICOLO' BRIGHELLA", matricola: 'PDS - 0034', qualifica: 'Vice Sovrintendente', discordId: '991995502998605875' },
+  { nome: 'JACOPO ROSSINI', matricola: 'PDS - 0054', qualifica: 'Allievo Agente', discordId: '1195728106967797842' },
+  { nome: 'CHRISTIAN ROSSI', matricola: 'PDS - 0040', qualifica: 'Agente Scelto', discordId: '487248662959882241' },
+  { nome: 'GERARDO MARINI', matricola: 'PDS - 0096', qualifica: 'Allievo Agente', discordId: '1217163872537018511' },
+  { nome: 'MARCO MARINI', matricola: 'PDS - 0062', qualifica: 'Agente in Prova', discordId: '1217163872537018511' }, // ID doppio nel foglio
+  { nome: '', matricola: 'PDS - 0108', qualifica: '', discordId: '' }, // riga vuota
+];
+
+test('qualifiche del foglio → grado del portale', () => {
+  const casi = { 'Allievo Agente': 'Agente', 'Agente in Prova': 'Agente', 'Agente Scelto': 'Agente Scelto', Assistente: 'Assistente', 'Assistente Capo Coordinatore': 'Assistente Capo', 'Vice Sovrintendente': 'Sovrintendente', 'Sovrintendente Capo Coordinatore': 'Sovrintendente', 'Allievo Vice Ispettore': 'Ispettore', 'Ispettore Superiore': 'Ispettore', 'Sostituto Commissario': 'Vice Commissario', 'Commissario Capo': 'Vice Commissario', 'Vice Questore Aggiunto': 'Questore', 'Dirigente Generale di P.S': 'Questore', '': 'Agente' };
+  for (const [q, g] of Object.entries(casi)) assert.equal(mappaGrado(q), g, q);
+});
+
+test('righe del foglio: nomi in maiuscolo/minuscolo, ID doppi e righe vuote scartati', () => {
+  const { agenti, scartate } = normalizzaRighe(RIGHE);
+  assert.equal(agenti.length, 6);
+  assert.equal(scartate, 1); // il secondo Marini; la riga completamente vuota non conta
+  const m = agenti.find((a) => a.id === '1387684968536477756');
+  assert.deepEqual([m.nome, m.cognome, m.grado, m.qualifica], ['Gabriel', 'Martinelli', 'Questore', 'Vice Questore Aggiunto']);
+  const d = agenti.find((a) => a.matricola === 'PDS - 0039');
+  assert.equal(d.cognome, 'De Martino');
+  assert.equal(agenti.find((a) => a.matricola === 'PDS - 0034').nome, "Nicolo'");
+});
+
+test('sincronizzazione: aggiunge, aggiorna, rimuove e conserva ruoli e agenti inseriti a mano', async () => {
+  const store = d1Store(fakeD1());
+  await store.set('agenti', '1387684968536477756', { nome: 'Gabriel', cognome: 'Martinelli', grado: 'Ispettore', ruolo: 'admin', fonte: 'fogli' });
+  await store.set('agenti', '111111111111111111', { nome: 'Uscito', cognome: 'Dalfoglio', grado: 'Agente', ruolo: 'allievo', fonte: 'fogli' });
+  await store.set('agenti', '222222222222222222', { nome: 'Inserito', cognome: 'AMano', grado: 'Agente', ruolo: 'istruttore', fonte: 'manuale' });
+  const e = await sincronizzaAgenti(store, RIGHE, 5000);
+  assert.deepEqual([e.ok, e.totale, e.aggiunti, e.aggiornati, e.rimossi], [true, 6, 5, 1, 1]);
+  const g = await store.get('agenti', '1387684968536477756');
+  assert.equal(g.ruolo, 'admin'); // il ruolo non viene toccato
+  assert.equal(g.grado, 'Questore'); // il grado sì
+  assert.equal(await store.get('agenti', '111111111111111111'), null); // uscito dal foglio
+  assert.equal((await store.get('agenti', '222222222222222222')).ruolo, 'istruttore'); // manuale: resta
+  assert.equal((await store.get('agenti', '1195728106967797842')).ruolo, 'allievo');
+  assert.equal((await store.get('meta', 'sync-fogli')).totale, 6);
+  const e2 = await sincronizzaAgenti(store, RIGHE, 6000);
+  assert.deepEqual([e2.aggiunti, e2.aggiornati, e2.rimossi], [0, 0, 0]); // nessuna modifica
+});
+
+test('sincronizzazione: un foglio vuoto o rotto non cancella nessuno', async () => {
+  const store = d1Store(fakeD1());
+  await store.set('agenti', '111111111111111111', { nome: 'Uno', cognome: 'Due', grado: 'Agente', ruolo: 'allievo', fonte: 'fogli' });
+  const e = await sincronizzaAgenti(store, [], 1);
+  assert.equal(e.ok, false);
+  assert.ok(await store.get('agenti', '111111111111111111'));
+});
+
+test('rotta /formazione/sync/agenti: richiede la chiave, accetta le righe dello script', async () => {
+  const store = d1Store(fakeD1());
+  const env = { SYNC_KEY: 'chiave-di-prova-molto-lunga', __store: store };
+  const post = (chiave, corpo) => handleRequest(new Request('https://w.test/formazione/sync/agenti', { method: 'POST', headers: chiave ? { 'X-Sync-Key': chiave } : {}, body: JSON.stringify(corpo) }), env);
+  assert.equal((await post('', { righe: RIGHE })).status, 401);
+  assert.equal((await post('sbagliata-sbagliata-sbagliata', { righe: RIGHE })).status, 401);
+  assert.equal((await handleRequest(new Request('https://w.test/formazione/sync/agenti', { method: 'POST', body: '{}' }), { __store: store })).status, 401); // senza SYNC_KEY configurata
+  const r = await post('chiave-di-prova-molto-lunga', { righe: RIGHE });
+  assert.equal(r.status, 200);
+  assert.equal((await r.json()).aggiunti, 6);
+  assert.equal((await post('chiave-di-prova-molto-lunga', { righe: [] })).status, 422);
 });

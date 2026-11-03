@@ -89,6 +89,12 @@ export function firestoreStore(env) {
     async delete(col, id) {
       await call(`/documents/${col}/${encodeURIComponent(id)}`, { method: 'DELETE' });
     },
+    async setMany(col, voci) {
+      for (const [id, data] of voci) await this.set(col, id, data);
+    },
+    async deleteMany(col, ids) {
+      for (const id of ids) await this.delete(col, id);
+    },
     async list(col, where = {}) {
       const filters = Object.entries(where).map(([f, v]) => ({ fieldFilter: { field: { fieldPath: f }, op: 'EQUAL', value: toFs(v) } }));
       const structuredQuery = { from: [{ collectionId: col }], limit: 500 };
@@ -115,6 +121,12 @@ export function memoryStore(seed = {}) {
     async delete(col, id) {
       db.delete(`${col}/${id}`);
     },
+    async setMany(col, voci) {
+      for (const [id, data] of voci) await this.set(col, id, data);
+    },
+    async deleteMany(col, ids) {
+      for (const id of ids) db.delete(`${col}/${id}`);
+    },
     async list(col, where = {}) {
       const out = [];
       for (const [k, d] of db) {
@@ -140,6 +152,14 @@ export function d1Store(db) {
     },
     async delete(col, id) {
       await db.prepare('DELETE FROM docs WHERE col = ?1 AND id = ?2').bind(col, id).run();
+    },
+    // Scritture multiple in un'unica richiesta al database (a blocchi), per non superare i limiti di Cloudflare.
+    async setMany(col, voci) {
+      const st = 'INSERT INTO docs (col, id, data) VALUES (?1, ?2, ?3) ON CONFLICT(col, id) DO UPDATE SET data = excluded.data';
+      for (let i = 0; i < voci.length; i += 80) await db.batch(voci.slice(i, i + 80).map(([id, data]) => db.prepare(st).bind(col, id, JSON.stringify(data))));
+    },
+    async deleteMany(col, ids) {
+      for (let i = 0; i < ids.length; i += 80) await db.batch(ids.slice(i, i + 80).map((id) => db.prepare('DELETE FROM docs WHERE col = ?1 AND id = ?2').bind(col, id)));
     },
     async list(col, where = {}) {
       const { results } = await db.prepare('SELECT id, data FROM docs WHERE col = ?1 LIMIT 5000').bind(col).all();

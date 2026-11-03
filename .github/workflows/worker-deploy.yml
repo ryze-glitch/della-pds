@@ -5,7 +5,10 @@ name: Deploy Worker Sportello (Cloudflare)
 #   CLOUDFLARE_API_TOKEN   token API con i permessi "Workers Scripts: Edit" e "D1: Edit"
 #   CLOUDFLARE_ACCOUNT_ID  ID dell'account Cloudflare
 # Facoltativo ma necessario per entrare nell'Area Personale:
-#   ADMIN_DISCORD_IDS      ID Discord degli amministratori, separati da virgola (secret o variabile del repository)
+#   ADMIN_DISCORD_IDS      ID Discord degli amministratori, separati da virgola (secret o variabile del repository);
+#                          se manca si usa l'ID indicato nel passaggio Deploy
+#   SYNC_KEY               password lunga (almeno 16 caratteri) condivisa con lo script Apps Script del foglio Gerarchia,
+#                          che invia al Worker gli agenti (nome, matricola, qualifica, ID Discord)
 # Il database D1 "iprp-formazione" viene creato e aggiornato da questo workflow: non serve alcun comando a mano.
 # Gli altri segreti del Worker (webhook, token Telegram, ecc.) restano su Cloudflare e NON passano da qui.
 on:
@@ -68,8 +71,20 @@ jobs:
         if: steps.check.outputs.skip != 'true'
         working-directory: workers/sportello
         run: |
-          if [ -n "$ADMIN_IDS" ]; then npx wrangler deploy --var "ADMIN_DISCORD_IDS:$ADMIN_IDS"; else echo "::warning::ADMIN_DISCORD_IDS non impostato: nessun amministratore iniziale."; npx wrangler deploy; fi
+          # Amministratore iniziale: Gabriel Martinelli (PDS-0006), proprietario del sito. Modificabile con ADMIN_DISCORD_IDS.
+          ADMIN="${ADMIN_IDS:-1387684968536477756}"
+          npx wrangler deploy --var "ADMIN_DISCORD_IDS:$ADMIN"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           ADMIN_IDS: ${{ secrets.ADMIN_DISCORD_IDS || vars.ADMIN_DISCORD_IDS }}
+
+      - name: Chiave di sincronizzazione del foglio
+        if: steps.check.outputs.skip != 'true'
+        working-directory: workers/sportello
+        run: |
+          if [ -n "$SYNC_KEY" ]; then printf '%s' "$SYNC_KEY" | npx wrangler secret put SYNC_KEY; else echo "::warning::SYNC_KEY non impostato: la sincronizzazione dal foglio Gerarchia non funzionerà."; fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          SYNC_KEY: ${{ secrets.SYNC_KEY }}

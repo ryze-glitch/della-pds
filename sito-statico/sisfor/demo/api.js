@@ -83,7 +83,7 @@ async function gestisci(request, env, { cors, url, verify, store, now = Date.now
     await store.set('agenti', uid, profilo);
   }
   const ruolo = superAdmin ? 'admin' : ruoloDi(profilo);
-  const io = { id: uid, nome: profilo.nome || '', cognome: profilo.cognome || '', grado: profilo.grado || '', ruolo };
+  const io = { id: uid, nome: profilo.nome || '', cognome: profilo.cognome || '', grado: profilo.grado || '', qualifica: profilo.qualifica || '', matricola: profilo.matricola || '', ruolo };
   const ora = now();
   const richiedi = (azione) => (puo(ruolo, azione) ? null : err('Permesso negato.', 403, cors));
 
@@ -333,16 +333,18 @@ async function gestisci(request, env, { cors, url, verify, store, now = Date.now
     if ((r = richiedi('amministra'))) return r;
 
     if (path === '/admin/agenti' && m === 'GET') {
-      const agenti = (await store.list('agenti')).map((a) => ({ id: a.id, nome: a.nome || '', cognome: a.cognome || '', grado: a.grado || '', ruolo: ruoloDi(a) }));
+      const agenti = (await store.list('agenti')).map((a) => ({ id: a.id, nome: a.nome || '', cognome: a.cognome || '', grado: a.grado || '', ruolo: ruoloDi(a), qualifica: a.qualifica || '', matricola: a.matricola || '', fonte: a.fonte || 'manuale' }));
       agenti.sort((a, b) => `${a.cognome} ${a.nome}`.localeCompare(`${b.cognome} ${b.nome}`, 'it'));
-      return risposta({ agenti }, 200, cors);
+      return risposta({ agenti, sync: await store.get('meta', 'sync-fogli') }, 200, cors);
     }
     mt = path.match(/^\/admin\/agenti\/(\d{5,25})$/);
     if (mt && m === 'PUT') {
       const nome = pulisci(body.nome, 40).trim();
       const cognome = pulisci(body.cognome, 40).trim();
       if (!nome || !cognome || !GRADI.includes(body.grado) || !RUOLI.includes(body.ruolo)) return err('Dati dell’agente non validi.', 422, cors);
-      const agente = { nome, cognome, grado: body.grado, ruolo: body.ruolo };
+      const prima = await store.get('agenti', mt[1]);
+      const { id: _id, ...resto } = prima || {};
+      const agente = { ...resto, nome, cognome, grado: body.grado, ruolo: body.ruolo, fonte: (prima && prima.fonte) || 'manuale' };
       await store.set('agenti', mt[1], agente);
       return risposta({ agente: { id: mt[1], ...agente } }, 200, cors);
     }

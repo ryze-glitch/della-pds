@@ -158,7 +158,7 @@ function barra(attivo) {
   if (ruolo === 'admin') voci.push(['#/admin', 'Amministrazione', 'fa-sliders', 'admin']);
   voci.push(['/gestione/pratiche', 'Gestione pratiche', 'fa-folder-open', '']);
   return `<aside class="lms-side" aria-label="Menu dell'area personale">
-    <div class="lms-user"><span class="av" aria-hidden="true">${esc(iniziali(me)).toUpperCase()}</span><div><strong>${esc(nomeCompleto(me))}</strong><small>${esc(me.grado || 'Agente')} · ${RUOLO_LABEL[ruolo] || 'Allievo'}</small></div></div>
+    <div class="lms-user"><span class="av" aria-hidden="true">${esc(iniziali(me)).toUpperCase()}</span><div><strong>${esc(nomeCompleto(me))}</strong><small>${esc(me.qualifica || me.grado || 'Agente')}${me.matricola ? ' · ' + esc(me.matricola) : ''} · ${RUOLO_LABEL[ruolo] || 'Allievo'}</small></div></div>
     <nav class="lms-nav" aria-label="Area personale">${voci
       .map(([h, t, ic, k]) => `<a href="${h}" ${attivo === k && k ? 'aria-current="page"' : ''}><i class="fas ${ic}" aria-hidden="true"></i>${t}</a>`)
       .join('')}</nav>
@@ -186,6 +186,7 @@ function erroreVista(e, attivo = '') {
 
 function mostraGate(motivo) {
   clearInterval(timer);
+  const idDiscord = auth && auth.currentUser && String(auth.currentUser.uid || '').replace(/^discord:/, '');
   me = null;
   if (motivo) boot.hide();
   // Un solo accesso: se non sei dentro, si va direttamente alla pagina di login (niente schermata intermedia).
@@ -193,15 +194,21 @@ function mostraGate(motivo) {
     location.replace('/login?next=/sisfor');
     return;
   }
-  const msg =
-    motivo === 'negato'
-      ? avviso('Il tuo account Discord non risulta abilitato. Chiedi a un amministratore di registrarti.', 'err', 'fa-lock')
-      : '';
+  if (motivo === 'negato') {
+    $app.innerHTML = `<div class="gate"><div class="gate-card">
+      <img src="/logo-iprp.png" alt="IPRP" class="gate-logo">
+      <span class="gate-ico" aria-hidden="true"><i class="fas fa-user-lock"></i></span>
+      <h1>Accesso non ancora abilitato</h1>
+      <p>Il tuo account Discord è stato riconosciuto, ma non risulta tra gli agenti registrati. Se fai parte della Polizia di Stato, l’accesso si attiva da solo dopo l’aggiornamento della gerarchia: riprova tra qualche minuto, oppure chiedi a un amministratore di verificare i tuoi dati.</p>
+      ${idDiscord ? `<div class="gate-id"><small>Il tuo ID Discord</small><code>${esc(idDiscord)}</code></div>` : ''}
+      <div class="gate-azioni"><button class="btn" type="button" onclick="location.reload()"><i class="fas fa-rotate" aria-hidden="true"></i> Riprova</button>
+        <button class="btn linea" type="button" data-az="esci">Usa un altro account</button></div></div></div>`;
+    return;
+  }
   $app.innerHTML = `<div class="hero-gate"><img src="/logo-iprp.png" alt="Stemma della Polizia di Stato IPRP">
     <h1 class="titolo">Area <span>Personale</span></h1>
     <p class="sottotitolo">Accedi con il tuo account Discord per studiare i corsi, fare i quiz di verifica e prenotare gli esami pratici.</p>
-    ${msg}
-    ${motivo === 'negato' ? '<button class="btn" type="button" data-az="esci"><i class="fas fa-right-from-bracket" aria-hidden="true"></i> Esci e usa un altro account</button>' : '<a class="btn" href="/login?next=/sisfor"><i class="fab fa-discord" aria-hidden="true"></i> Accedi con Discord</a>'}</div>`;
+    <a class="btn" href="/login?next=/sisfor"><i class="fab fa-discord" aria-hidden="true"></i> Accedi con Discord</a></div>`;
 }
 
 // ---------- viste ----------
@@ -508,11 +515,12 @@ async function vistaIstruttori(sel) {
 const SLUG = '[a-z0-9][a-z0-9-]{0,40}';
 async function vistaAgenti() {
   caricamento();
-  const { agenti } = await api('/admin/agenti');
+  const { agenti, sync } = await api('/admin/agenti');
+  const info = sync && sync.ultimaSincronizzazione ? `Ultima sincronizzazione dal foglio Gerarchia: ${dataOra(sync.ultimaSincronizzazione)} · ${sync.totale} agenti (aggiunti ${sync.aggiunti}, aggiornati ${sync.aggiornati}, rimossi ${sync.rimossi}).` : 'Nessuna sincronizzazione ricevuta dal foglio Gerarchia: dal foglio usa il menu “Sito Polizia → Sincronizza adesso”.';
   const opzioni = (lista, sel) => lista.map((v) => `<option value="${esc(v)}" ${v === sel ? 'selected' : ''}>${esc(v)}</option>`).join('');
   const RUOLI = ['allievo', 'istruttore', 'admin'];
   let html = `<nav class="crumbs" aria-label="Percorso"><a href="#/admin">Amministrazione</a><span aria-hidden="true">›</span><span aria-current="page">Agenti</span></nav>
-    <h1 class="pg-t">Agenti e ruoli</h1><p class="sottotitolo">Chi può entrare nell’Area Personale, con quale grado e con quale ruolo (allievo, istruttore o amministratore).</p>
+    <h1 class="pg-t">Agenti e ruoli</h1><p class="sottotitolo">Gli agenti arrivano da soli dal foglio Gerarchia (nome, matricola, qualifica, ID Discord) e si aggiornano a ogni modifica del foglio. Qui assegni il ruolo (allievo, istruttore o amministratore) e puoi aggiungere a mano chi non è nel foglio.</p>${avviso(esc(info), sync && sync.ultimaSincronizzazione ? 'ok' : '', 'fa-arrows-rotate')}
     <form class="card" data-form="agente" style="margin-top:24px"><div class="grid2">
       <label class="campo">ID Discord<small>Il numero lungo dell’account (modalità sviluppatore di Discord → Copia ID utente).</small><input type="text" name="id" required pattern="[0-9]{5,25}" inputmode="numeric" placeholder="es. 123456789012345678"></label>
       <label class="campo">Nome<input type="text" name="nome" required maxlength="40"></label>
@@ -522,8 +530,8 @@ async function vistaAgenti() {
       <div class="azioni"><button class="btn" type="submit">Salva l’agente</button></div><div id="esito-az" style="margin-top:16px"></div></form>
     <h2 class="sez">Agenti registrati (${agenti.length})</h2>`;
   html += agenti.length
-    ? `<div class="scorri"><table><thead><tr><th>Agente</th><th>Grado</th><th>Ruolo</th><th>ID Discord</th><th></th></tr></thead><tbody>${agenti
-        .map((a) => `<tr><td>${esc(a.cognome)} ${esc(a.nome)}${a.id === me.id ? ' <small>(tu)</small>' : ''}</td><td>${esc(a.grado)}</td><td>${esc(a.ruolo)}</td><td><code>${esc(a.id)}</code></td>
+    ? `<div class="scorri"><table><thead><tr><th>Agente</th><th>Qualifica</th><th>Matricola</th><th>Ruolo</th><th>ID Discord</th><th></th></tr></thead><tbody>${agenti
+        .map((a) => `<tr><td>${esc(a.cognome)} ${esc(a.nome)}${a.id === me.id ? ' <small>(tu)</small>' : ''}</td><td>${esc(a.qualifica || a.grado)}</td><td>${esc(a.matricola || '—')}</td><td>${esc(a.ruolo)}</td><td><code>${esc(a.id)}</code></td>
           <td style="white-space:nowrap"><button class="btn linea piccolo" data-az="agente-modifica" data-id="${esc(a.id)}" data-nome="${esc(a.nome)}" data-cognome="${esc(a.cognome)}" data-grado="${esc(a.grado)}" data-ruolo="${esc(a.ruolo)}">Modifica</button>
           ${a.id === me.id ? '' : `<button class="btn linea piccolo" data-az="agente-rimuovi" data-id="${esc(a.id)}">Rimuovi</button>`}</td></tr>`)
         .join('')}</tbody></table></div>`

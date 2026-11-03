@@ -5,6 +5,7 @@
 import { FORMS, validate, CODE_ALPHABET } from '../../../portal/lib/forms.js';
 import { handleFormazione } from './formazione/api.js';
 import { d1Store } from './formazione/store.js';
+import { sincronizzaAgenti } from './formazione/fogli.js';
 
 const DEFAULT_ORIGINS = [
   'https://polizia-iprp.web.app',
@@ -236,6 +237,14 @@ async function postLog(env, text) {
   return results.some((r) => r.status === 'fulfilled');
 }
 
+// Confronto a tempo costante (evita di rivelare la chiave a forza di tentativi).
+function uguali(a, b) {
+  if (a.length !== b.length) return false;
+  let d = 0;
+  for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return d === 0;
+}
+
 export async function handleRequest(request, env = {}) {
   const url = new URL(request.url);
   const origin = request.headers.get('Origin');
@@ -266,6 +275,27 @@ export async function handleRequest(request, env = {}) {
       200,
       cors
     );
+  }
+
+  // Sincronizzazione degli agenti dal foglio Google: la chiama lo script Apps Script, autenticato da una chiave condivisa.
+  if (url.pathname === '/formazione/sync/agenti' && request.method === 'POST') {
+    const chiave = String(env.SYNC_KEY || '');
+    const ricevuta = request.headers.get('X-Sync-Key') || '';
+    if (chiave.length < 16 || !uguali(ricevuta, chiave)) return json({ error: 'Chiave di sincronizzazione non valida.' }, 401, cors);
+    const store = env.__store || (env.DB ? d1Store(env.DB) : null);
+    if (!store) return json({ error: 'Database non configurato.' }, 503, cors);
+    let corpo;
+    try {
+      corpo = JSON.parse(await request.text());
+    } catch (e) {
+      return json({ error: 'Formato non valido.' }, 400, cors);
+    }
+    try {
+      const esito = await sincronizzaAgenti(store, corpo && corpo.righe);
+      return json(esito, esito.ok ? 200 : 422, cors);
+    } catch (e) {
+      return json({ error: 'Sincronizzazione non riuscita.' }, 500, cors);
+    }
   }
 
   if (url.pathname.startsWith('/formazione/')) {
