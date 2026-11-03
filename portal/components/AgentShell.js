@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { Avatar, Button, Divider, Drawer, DrawerBody, DrawerContent, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Listbox, ListboxItem, User, useDisclosure } from '@heroui/react';
 import { usePathname } from 'next/navigation';
 import { Icon } from './icons';
 import { useAgentProfile } from './useAgentProfile';
@@ -19,113 +18,98 @@ const SITE = [
   { href: '/', label: 'Torna al sito', icon: 'landmark' },
 ];
 
-const KEY = 'pds-sidebar';
+function Menu({ pathname, onNavigate }) {
+  const attiva = (href) => pathname === href || pathname.startsWith(href + '/');
+  const voce = (it) => (
+    <ListboxItem key={it.href} href={it.href} textValue={it.label} startContent={<Icon name={it.icon} size={19} strokeWidth={1.6} />} onPress={onNavigate} className={attiva(it.href) ? 'bg-primary/15 text-primary' : ''}>
+      {it.label}
+    </ListboxItem>
+  );
+  return (
+    <Listbox aria-label="Menu gestione" itemClasses={{ base: 'h-11 gap-3 rounded-xl px-3 data-[hover=true]:bg-white/10', title: 'text-sm' }}>
+      {[...ITEMS.map(voce), <ListboxItem key="sep" isReadOnly textValue="separatore" className="h-3 p-0 opacity-100" hideSelectedIcon><Divider className="my-1" /></ListboxItem>, ...SITE.map(voce)]}
+    </Listbox>
+  );
+}
 
-// Guscio dell'area riservata: sidebar comprimibile + barra superiore, stile registro.
+function Marchio() {
+  return (
+    <a href="/" aria-label="Questura IPRP, torna al sito" className="flex items-center gap-3 px-2 py-3">
+      <img src="/assets/crest-md.png" alt="" className="h-10 w-auto" />
+      <span className="leading-tight">
+        <span className="block text-sm font-extrabold uppercase tracking-[0.14em]">Questura</span>
+        <span className="block text-[10px] uppercase tracking-[0.2em] text-default-500">Gestione</span>
+      </span>
+    </a>
+  );
+}
+
+// Guscio dell'area riservata: barra laterale a sinistra e intestazione (HeroUI).
 export function AgentShell({ children, preview = false }) {
-  const pathname = usePathname();
+  const pathname = usePathname() || '';
   const { profile: realProfile, logout } = useAgentProfile(preview);
   const profile = preview ? { nome: 'Marco', cognome: 'Ferrari', grado: 'Ispettore' } : realProfile;
-  const [open, setOpen] = useState(false); // drawer mobile
-  const [collapsed, setCollapsed] = useState(false); // sidebar solo icone (desktop)
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const nome = profile ? `${profile.nome || ''} ${profile.cognome || ''}`.trim() || 'Agente' : '…';
-  const initials = profile ? (((profile.nome || '')[0] || '') + ((profile.cognome || '')[0] || '')).toUpperCase() || '?' : '';
+  const iniziali = profile ? (((profile.nome || '')[0] || '') + ((profile.cognome || '')[0] || '')).toUpperCase() || '?' : '';
+  const sezione = [...ITEMS, ...SITE].find((i) => pathname === i.href || pathname.startsWith(i.href + '/'));
 
-  useEffect(() => {
-    try {
-      setCollapsed(localStorage.getItem(KEY) === '1');
-    } catch (e) {
-      /* storage non disponibile */
-    }
-  }, []);
-
-  function toggle() {
-    if (window.matchMedia('(min-width: 1024px)').matches) {
-      setCollapsed((c) => {
-        try {
-          localStorage.setItem(KEY, c ? '0' : '1');
-        } catch (e) {
-          /* ignora */
-        }
-        return !c;
-      });
-    } else {
-      setOpen((o) => !o);
-    }
-  }
-
-  const item = (it) => {
-    const on = pathname === it.href || pathname.startsWith(it.href + '/');
-    return (
-      <Link
-        key={it.href}
-        href={it.href}
-        title={collapsed ? it.label : undefined}
-        aria-label={it.label}
-        onClick={() => setOpen(false)}
-        className={`flex h-12 items-center gap-4 rounded-full text-[13.5px] transition-colors ${collapsed ? 'lg:w-12 lg:justify-center lg:px-0' : ''} px-4 ${on ? 'bg-surface2 text-link' : 'text-fg hover:bg-white/5'}`}
-      >
-        <Icon name={it.icon} size={22} strokeWidth={1.5} className="flex-none" />
-        <span className={collapsed ? 'lg:hidden' : ''}>{it.label}</span>
-      </Link>
-    );
-  };
+  const utente = (
+    <User name={nome} description={profile?.grado || 'Agente'} avatarProps={{ name: iniziali, color: 'primary', size: 'sm' }} classNames={{ name: 'text-sm font-semibold uppercase', description: 'text-xs' }} className="justify-start px-2" />
+  );
 
   return (
-    <div className="flex min-h-screen bg-bg text-fg">
-      <aside
-        aria-label="Menu gestione"
-        className={`${open ? 'flex' : 'hidden'} fixed inset-y-0 left-0 z-40 w-[235.8px] flex-col border-r border-line bg-surface transition-[width] duration-300 lg:static lg:flex ${collapsed ? 'lg:w-[82.8px]' : 'lg:w-[235.8px]'}`}
-      >
-        <Link href="/" className={`flex h-[79.2px] items-center gap-3 px-5 ${collapsed ? 'lg:justify-center lg:px-0' : ''}`} aria-label="Questura IPRP, torna al sito">
-          <img src="/assets/crest-md.png" alt="" className="h-11 w-auto flex-none" />
-          <span className={`leading-tight ${collapsed ? 'lg:hidden' : ''}`}>
-            <span className="block text-[13.5px] font-semibold uppercase tracking-[0.14em]">Questura</span>
-            <span className="block text-[9.9px] uppercase tracking-[0.2em] text-muted">Gestione</span>
-          </span>
-        </Link>
-        <div className={`mx-[18px] flex items-center gap-3.5 border-b border-line pb-4 pt-3 ${collapsed ? 'lg:justify-center' : ''}`}>
-          <span className="flex h-[37.8px] w-[37.8px] flex-none items-center justify-center rounded-full bg-surface2 text-[11.7px] font-semibold" title={collapsed ? nome : undefined}>
-            {initials || <Icon name="user" size={18} />}
-          </span>
-          <span className={`min-w-0 leading-snug ${collapsed ? 'lg:hidden' : ''}`}>
-            <span className="block truncate text-[12.2px] font-semibold uppercase">{nome}</span>
-            <span className="block truncate text-[11.7px] text-muted">{profile?.grado || 'Agente'}</span>
-          </span>
-        </div>
-        <nav className={`flex flex-1 flex-col gap-0.5 px-4 pt-4 ${collapsed ? 'lg:items-center lg:px-0' : ''}`} aria-label="Gestione">
-          {ITEMS.map(item)}
-          <hr className={`my-2 border-line ${collapsed ? 'lg:w-10' : ''}`} />
-          {SITE.map(item)}
-        </nav>
-        <button
-          type="button"
-          onClick={logout}
-          title={collapsed ? 'Esci' : undefined}
-          aria-label="Esci"
-          className={`m-3 flex h-12 items-center justify-center gap-2.5 rounded-full border border-primary bg-transparent text-[11.7px] font-medium text-primary transition hover:bg-primary/5 ${collapsed ? 'lg:mx-auto lg:w-12' : ''}`}
-        >
-          <Icon name="logout" size={18} />
-          <span className={collapsed ? 'lg:hidden' : ''}>Esci</span>
-        </button>
+    <div className="flex min-h-screen bg-background text-foreground">
+      <aside aria-label="Menu gestione" className="hidden w-64 flex-none flex-col gap-2 border-r border-white/10 bg-content1/50 p-4 lg:flex">
+        <Marchio />
+        <div className="py-2">{utente}</div>
+        <Divider />
+        <div className="mt-1 flex-1"><Menu pathname={pathname} /></div>
+        <Button variant="bordered" radius="full" onPress={logout} startContent={<Icon name="logout" size={17} />} className="border-white/20">
+          Esci
+        </Button>
       </aside>
-      {open ? <button aria-label="Chiudi il menu" className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setOpen(false)} /> : null}
+
+      <Drawer isOpen={isOpen} onOpenChange={onOpenChange} placement="left" size="xs" classNames={{ base: 'border-r border-white/10 bg-content1' }}>
+        <DrawerContent>
+          {(close) => (
+            <DrawerBody className="gap-2 p-4">
+              <Marchio />
+              <div className="py-2">{utente}</div>
+              <Divider />
+              <Menu pathname={pathname} onNavigate={close} />
+              <Button variant="bordered" radius="full" onPress={logout} className="mt-auto border-white/20">
+                Esci
+              </Button>
+            </DrawerBody>
+          )}
+        </DrawerContent>
+      </Drawer>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-[79.2px] flex-none items-center gap-5 border-b border-line bg-surface px-5 sm:px-6">
-          <button type="button" onClick={toggle} aria-label="Mostra o nascondi il menu" className="text-fg/90 transition hover:text-fg">
-            <Icon name="menu" size={24} />
-          </button>
-          <span className="text-[13.1px] font-medium">Gestione</span>
-          <span className="flex-1" />
-          <span className="hidden text-right text-[11.7px] leading-snug text-muted sm:block">
+        <header className="flex h-16 flex-none items-center gap-3 border-b border-white/10 px-4 sm:px-6">
+          <Button isIconOnly variant="light" radius="full" aria-label="Apri il menu" onPress={onOpen} className="lg:hidden">
+            <Icon name="menu" size={22} />
+          </Button>
+          <p className="font-semibold">{sezione ? sezione.label : 'Gestione'}</p>
+          <div className="flex-1" />
+          <span className="hidden text-right text-xs leading-snug text-default-500 sm:block">
             Questura IPRP
             <br />
             Italian Paradise XI
           </span>
-          <span className="flex h-[41.4px] w-[41.4px] items-center justify-center rounded-full border border-primary bg-transparent text-primary">
-            <Icon name="user" size={22} />
-          </span>
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger>
+              <button type="button" aria-label="Menu utente" className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                <Avatar name={iniziali} color="primary" size="sm" isBordered />
+              </button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Utente">
+              <DropdownItem key="p" isReadOnly textValue={nome} description={profile?.grado || 'Agente'} className="opacity-100">{nome}</DropdownItem>
+              <DropdownItem key="s" href="/">Torna al sito</DropdownItem>
+              <DropdownItem key="e" color="danger" className="text-danger" onPress={logout}>Esci</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </header>
         <main id="main" className="flex-1">
           {children}

@@ -2,6 +2,7 @@ import '@fontsource-variable/inter/wght.css';
 import 'lenis/dist/lenis.css';
 import './globals.css';
 import { SmoothScroll } from '../components/SmoothScroll';
+import { Providers } from '../components/Providers';
 
 const TITLE = 'Polizia di Stato — Questura IPRP · Italian Paradise XI';
 const DESC =
@@ -24,7 +25,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="it">
+    <html lang="it" className="dark">
       <head>
         <meta name="color-scheme" content="dark" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -43,7 +44,7 @@ export default function RootLayout({ children }) {
           Vai al contenuto
         </a>
         <SmoothScroll />
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
