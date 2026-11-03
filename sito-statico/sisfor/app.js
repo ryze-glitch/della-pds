@@ -158,7 +158,7 @@ function barra(attivo) {
   if (ruolo === 'admin') voci.push(['#/admin', 'Amministrazione', 'fa-sliders', 'admin']);
   voci.push(['/gestione/pratiche', 'Gestione pratiche', 'fa-folder-open', '']);
   return `<aside class="lms-side" aria-label="Menu dell'area personale">
-    <div class="lms-user"><span class="av" aria-hidden="true">${esc(iniziali(me)).toUpperCase()}</span><div><strong>${esc(nomeCompleto(me))}</strong><small>${esc(me.qualifica || me.grado || 'Agente')}${me.matricola ? ' · ' + esc(me.matricola) : ''} · ${RUOLO_LABEL[ruolo] || 'Allievo'}</small></div></div>
+    <div class="lms-user"><span class="av" aria-hidden="true">${esc(iniziali(me)).toUpperCase()}</span><div><strong>${esc(nomeCompleto(me))}</strong><small>${esc(me.qualifica || me.grado || 'Agente')}${me.matricola ? ' · ' + esc(me.matricola) : ''}</small></div></div>
     <nav class="lms-nav" aria-label="Area personale">${voci
       .map(([h, t, ic, k]) => `<a href="${h}" ${attivo === k && k ? 'aria-current="page"' : ''}><i class="fas ${ic}" aria-hidden="true"></i>${t}</a>`)
       .join('')}</nav>
