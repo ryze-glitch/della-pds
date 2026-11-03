@@ -185,7 +185,7 @@ const ID_ISTR2 = '444444444444444444';
 
 function seedStore() {
   const seed = {
-    'auth-sito': {
+    'agenti': {
       [ID_ALLIEVO]: { nome: 'Mario', cognome: 'Rossi', grado: 'Agente', ruolo: 'allievo' },
       [ID_ISTR]: { nome: 'Luca', cognome: 'Bianchi', grado: 'Ispettore', ruolo: 'istruttore' },
       [ID_ISTR2]: { nome: 'Anna', cognome: 'Verdi', grado: 'Ispettore', ruolo: 'istruttore' },
@@ -448,4 +448,62 @@ test('errore dello store: risposta JSON 500 con CORS, non un crash del Worker', 
   assert.equal(r.status, 500);
   assert.equal(r.headers.get('Access-Control-Allow-Origin'), 'https://polizia-iprp.web.app');
   assert.match((await r.json()).error, /firestore 403/);
+});
+
+// ---------- Cloudflare D1: archivio e gestione degli agenti ----------
+import { d1Store } from '../src/formazione/store.js';
+
+function fakeD1() {
+  const righe = new Map(); // "col\u0000id" -> json
+  const prepara = (sql) => {
+    const st = { args: [], bind(...a) { st.args = a; return st; },
+      async first() { const [c, i] = st.args; const d = righe.get(`${c}\u0000${i}`); return d === undefined ? null : { data: d }; },
+      async run() { const q = sql.trim().toUpperCase();
+        if (q.startsWith('INSERT')) righe.set(`${st.args[0]}\u0000${st.args[1]}`, st.args[2]);
+        else if (q.startsWith('DELETE')) righe.delete(`${st.args[0]}\u0000${st.args[1]}`);
+        return { success: true }; },
+      async all() { const [c] = st.args; return { results: [...righe].filter(([k]) => k.startsWith(`${c}\u0000`)).map(([k, v]) => ({ id: k.split('\u0000')[1], data: v })) }; } };
+    return st;
+  };
+  return { prepare: prepara, righe };
+}
+
+test('D1: get, set, list con filtro e delete; il campo id nel documento ha la precedenza', async () => {
+  const s = d1Store(fakeD1());
+  await s.set('moduli', 'c__m', { id: 'm', corsoId: 'c', ordine: 1 });
+  await s.set('moduli', 'c__n', { id: 'n', corsoId: 'x', ordine: 2 });
+  assert.equal((await s.get('moduli', 'c__m')).id, 'm');
+  assert.equal(await s.get('moduli', 'nope'), null);
+  assert.deepEqual((await s.list('moduli', { corsoId: 'c' })).map((d) => d.id), ['m']);
+  assert.equal((await s.list('moduli')).length, 2);
+  await s.set('moduli', 'c__m', { id: 'm', corsoId: 'c', ordine: 9 });
+  assert.equal((await s.get('moduli', 'c__m')).ordine, 9);
+  await s.delete('moduli', 'c__m');
+  assert.equal(await s.get('moduli', 'c__m'), null);
+});
+
+test('amministratore da variabile: registrato al primo accesso e sempre admin', async () => {
+  const store = d1Store(fakeD1());
+  const ora = { t: 1000 };
+  const chiamaEnv = async (utente, metodo, percorso, body, env) => {
+    const request = new Request(`https://w.test/formazione${percorso}`, { method: metodo, headers: { Authorization: 'Bearer ok', 'Content-Type': 'application/json' }, body: body === undefined ? undefined : JSON.stringify(body) });
+    const r = await handleFormazione(request, env, { cors, url: new URL(request.url), verify: async () => ({ sub: `discord:${utente}` }), store, now: () => ora.t });
+    return { status: r.status, body: await r.json() };
+  };
+  const env = { ADMIN_DISCORD_IDS: '999999999999999999, 888888888888888888' };
+  assert.equal((await chiamaEnv('777777777777777777', 'GET', '/me', undefined, env)).status, 403); // sconosciuto
+  const me = await chiamaEnv('999999999999999999', 'GET', '/me', undefined, env);
+  assert.equal(me.status, 200);
+  assert.equal(me.body.me.ruolo, 'admin');
+  assert.ok(await store.get('agenti', '999999999999999999'));
+  // gestione degli agenti
+  assert.equal((await chiamaEnv('999999999999999999', 'PUT', '/admin/agenti/777777777777777777', { nome: 'Mario', cognome: 'Rossi', grado: 'Agente', ruolo: 'allievo' }, env)).status, 200);
+  assert.equal((await chiamaEnv('999999999999999999', 'PUT', '/admin/agenti/777777777777777777', { nome: 'Mario', cognome: 'Rossi', grado: 'Boh', ruolo: 'allievo' }, env)).status, 422);
+  const lista = await chiamaEnv('999999999999999999', 'GET', '/admin/agenti', undefined, env);
+  assert.equal(lista.body.agenti.length, 2);
+  assert.equal((await chiamaEnv('777777777777777777', 'GET', '/me', undefined, env)).body.me.ruolo, 'allievo'); // ora registrato
+  assert.equal((await chiamaEnv('777777777777777777', 'GET', '/admin/agenti', undefined, env)).status, 403); // non admin
+  assert.equal((await chiamaEnv('999999999999999999', 'DELETE', '/admin/agenti/999999999999999999', undefined, env)).status, 422); // non si autorimuove
+  assert.equal((await chiamaEnv('999999999999999999', 'DELETE', '/admin/agenti/777777777777777777', undefined, env)).status, 200);
+  assert.equal((await chiamaEnv('777777777777777777', 'GET', '/me', undefined, env)).status, 403);
 });

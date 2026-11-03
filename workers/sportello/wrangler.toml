@@ -26,7 +26,12 @@ ALLOWED_ORIGINS = "https://polizia-iprp.web.app,https://polizia-iprp.firebaseapp
 # Canale Discord per i log degli aggiornamenti di stato (se manca usa quello delle denunce):
 #   npx wrangler secret put DISCORD_WEBHOOK_LOG
 
-# Portale di formazione (rotte /formazione/*): il Worker legge e scrive Firestore come amministratore.
-#   npx wrangler secret put FIREBASE_SERVICE_ACCOUNT   (incolla l'intero JSON del service account, tutto su una riga)
-# Senza questo segreto le rotte /formazione/* rispondono 503. Il ruolo di ogni utente (allievo, istruttore, admin)
-# è il campo "ruolo" del suo documento in auth-sito, modificabile solo dalla console Firebase.
+# Portale di formazione (rotte /formazione/*): dati su Cloudflare D1 (binding "DB").
+# Il workflow GitHub "Deploy Worker Sportello" crea il database "iprp-formazione" se non esiste, ne scrive l'id qui
+# al posto di __D1_ID__, applica schema.sql e inserisce il corso di esempio. Nessun comando da eseguire a mano.
+# Gli amministratori si indicano con la variabile ADMIN_DISCORD_IDS (ID Discord separati da virgola):
+# nel workflow arriva dal secret/variabile GitHub omonimo. Gli altri agenti si gestiscono dall'Area Personale.
+[[d1_databases]]
+binding = "DB"
+database_name = "iprp-formazione"
+database_id = "__D1_ID__"

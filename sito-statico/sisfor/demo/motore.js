@@ -25,7 +25,7 @@ const ID_PROVA = '111111111111111111';
 export function creaMotore(ruolo) {
   const grado = ruolo === 'admin' ? 'Questore' : ruolo === 'istruttore' ? 'Ispettore' : 'Agente';
   const store = archivio({
-    'auth-sito': {
+    'agenti': {
       [ID_PROVA]: { nome: 'Mario', cognome: 'Rossi', grado, ruolo },
       '222222222222222222': { nome: 'Luca', cognome: 'Bianchi', grado: 'Agente', ruolo: 'allievo' },
     },

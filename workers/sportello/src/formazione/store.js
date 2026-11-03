@@ -125,3 +125,25 @@ export function memoryStore(seed = {}) {
     },
   };
 }
+
+// Archivio su Cloudflare D1 (SQLite): una sola tabella "docs" con raccolta, id e documento JSON.
+// Stessa interfaccia degli altri store; un campo `id` dentro al documento ha la precedenza sulla chiave.
+export function d1Store(db) {
+  const out = (id, json) => ({ id, ...JSON.parse(json) });
+  return {
+    async get(col, id) {
+      const r = await db.prepare('SELECT data FROM docs WHERE col = ?1 AND id = ?2').bind(col, id).first();
+      return r ? out(id, r.data) : null;
+    },
+    async set(col, id, data) {
+      await db.prepare('INSERT INTO docs (col, id, data) VALUES (?1, ?2, ?3) ON CONFLICT(col, id) DO UPDATE SET data = excluded.data').bind(col, id, JSON.stringify(data)).run();
+    },
+    async delete(col, id) {
+      await db.prepare('DELETE FROM docs WHERE col = ?1 AND id = ?2').bind(col, id).run();
+    },
+    async list(col, where = {}) {
+      const { results } = await db.prepare('SELECT id, data FROM docs WHERE col = ?1 LIMIT 5000').bind(col).all();
+      return (results || []).map((r) => out(r.id, r.data)).filter((d) => Object.entries(where).every(([f, v]) => d[f] === v));
+    },
+  };
+}

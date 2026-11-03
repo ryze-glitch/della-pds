@@ -1,6 +1,6 @@
 // Rotte /formazione/* del Worker. Ogni rotta verifica il token e il ruolo lato server.
 // Le risposte corrette dei quiz non escono mai prima della consegna.
-import { gradoIndex, LIVELLI, GRADI, STATI_PRATICA_LABEL, QUIZ_DEFAULT } from './formazione.js';
+import { gradoIndex, LIVELLI, GRADI, RUOLI, STATI_PRATICA_LABEL, QUIZ_DEFAULT } from './formazione.js';
 import { ruoloDi, puo } from './ruoli.js';
 import { configQuiz, estrai, perIlBrowser, puoTentare, correggi } from './quiz.js';
 import { statoModuli, tuttiIQuizSuperati, praticaSbloccata, corsoVisibile } from './percorso.js';
@@ -54,12 +54,12 @@ function fase(moduli, progressi, abilitato) {
 }
 
 async function nomeAllievo(store, id) {
-  const p = await store.get('auth-sito', id);
+  const p = await store.get('agenti', id);
   return p ? { id, nome: p.nome || '', cognome: p.cognome || '', grado: p.grado || '' } : { id, nome: '', cognome: '', grado: '' };
 }
 
 async function gestisci(request, env, { cors, url, verify, store, now = Date.now, rng = Math.random }) {
-  if (!store) return err('Portale di formazione non configurato.', 503, cors);
+  if (!store) return err('Portale di formazione non configurato: manca il database.', 503, cors);
   const path = url.pathname.replace(/^\/formazione/, '') || '/';
   const m = request.method;
 
@@ -74,9 +74,15 @@ async function gestisci(request, env, { cors, url, verify, store, now = Date.now
   if (!claims) return err('Non autorizzato.', 401, cors);
   const uid = claims.sub.startsWith('discord:') ? claims.sub.slice(8) : '';
   if (!/^\d{5,25}$/.test(uid)) return err('Non autorizzato.', 403, cors);
-  const profilo = await store.get('auth-sito', uid);
-  if (!profilo) return err('Non autorizzato.', 403, cors);
-  const ruolo = ruoloDi(profilo);
+  // Gli ID Discord in ADMIN_DISCORD_IDS sono sempre amministratori (e vengono registrati al primo accesso).
+  const superAdmin = String(env.ADMIN_DISCORD_IDS || '').split(/[\s,;]+/).filter(Boolean).includes(uid);
+  let profilo = await store.get('agenti', uid);
+  if (!profilo && !superAdmin) return err('Non autorizzato.', 403, cors);
+  if (!profilo) {
+    profilo = { nome: '', cognome: '', grado: GRADI[GRADI.length - 1], ruolo: 'admin' };
+    await store.set('agenti', uid, profilo);
+  }
+  const ruolo = superAdmin ? 'admin' : ruoloDi(profilo);
   const io = { id: uid, nome: profilo.nome || '', cognome: profilo.cognome || '', grado: profilo.grado || '', ruolo };
   const ora = now();
   const richiedi = (azione) => (puo(ruolo, azione) ? null : err('Permesso negato.', 403, cors));
@@ -325,6 +331,26 @@ async function gestisci(request, env, { cors, url, verify, store, now = Date.now
   // ---------- admin ----------
   if (path.startsWith('/admin/')) {
     if ((r = richiedi('amministra'))) return r;
+
+    if (path === '/admin/agenti' && m === 'GET') {
+      const agenti = (await store.list('agenti')).map((a) => ({ id: a.id, nome: a.nome || '', cognome: a.cognome || '', grado: a.grado || '', ruolo: ruoloDi(a) }));
+      agenti.sort((a, b) => `${a.cognome} ${a.nome}`.localeCompare(`${b.cognome} ${b.nome}`, 'it'));
+      return risposta({ agenti }, 200, cors);
+    }
+    mt = path.match(/^\/admin\/agenti\/(\d{5,25})$/);
+    if (mt && m === 'PUT') {
+      const nome = pulisci(body.nome, 40).trim();
+      const cognome = pulisci(body.cognome, 40).trim();
+      if (!nome || !cognome || !GRADI.includes(body.grado) || !RUOLI.includes(body.ruolo)) return err('Dati dell’agente non validi.', 422, cors);
+      const agente = { nome, cognome, grado: body.grado, ruolo: body.ruolo };
+      await store.set('agenti', mt[1], agente);
+      return risposta({ agente: { id: mt[1], ...agente } }, 200, cors);
+    }
+    if (mt && m === 'DELETE') {
+      if (mt[1] === uid) return err('Non puoi rimuovere il tuo stesso account.', 422, cors);
+      await store.delete('agenti', mt[1]);
+      return risposta({ ok: true }, 200, cors);
+    }
 
     if (path === '/admin/corsi' && m === 'GET') return risposta({ corsi: await store.list('corsi') }, 200, cors);
 

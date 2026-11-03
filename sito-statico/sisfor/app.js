@@ -502,14 +502,40 @@ async function vistaIstruttori(sel) {
 
 // ----- area admin -----
 const SLUG = '[a-z0-9][a-z0-9-]{0,40}';
+async function vistaAgenti() {
+  caricamento();
+  const { agenti } = await api('/admin/agenti');
+  const opzioni = (lista, sel) => lista.map((v) => `<option value="${esc(v)}" ${v === sel ? 'selected' : ''}>${esc(v)}</option>`).join('');
+  const RUOLI = ['allievo', 'istruttore', 'admin'];
+  let html = `<nav class="crumbs" aria-label="Percorso"><a href="#/admin">Amministrazione</a><span aria-hidden="true">›</span><span aria-current="page">Agenti</span></nav>
+    <h1 class="pg-t">Agenti e ruoli</h1><p class="sottotitolo">Chi può entrare nell’Area Personale, con quale grado e con quale ruolo (allievo, istruttore o amministratore).</p>
+    <form class="card" data-form="agente" style="margin-top:24px"><div class="grid2">
+      <label class="campo">ID Discord<small>Il numero lungo dell’account (modalità sviluppatore di Discord → Copia ID utente).</small><input type="text" name="id" required pattern="[0-9]{5,25}" inputmode="numeric" placeholder="es. 123456789012345678"></label>
+      <label class="campo">Nome<input type="text" name="nome" required maxlength="40"></label>
+      <label class="campo">Cognome<input type="text" name="cognome" required maxlength="40"></label>
+      <label class="campo">Grado<select name="grado">${opzioni(config.gradi, config.gradi[0])}</select></label>
+      <label class="campo">Ruolo<select name="ruolo">${opzioni(RUOLI, 'allievo')}</select></label></div>
+      <div class="azioni"><button class="btn" type="submit">Salva l’agente</button></div><div id="esito-az" style="margin-top:16px"></div></form>
+    <h2 class="sez">Agenti registrati (${agenti.length})</h2>`;
+  html += agenti.length
+    ? `<div class="scorri"><table><thead><tr><th>Agente</th><th>Grado</th><th>Ruolo</th><th>ID Discord</th><th></th></tr></thead><tbody>${agenti
+        .map((a) => `<tr><td>${esc(a.cognome)} ${esc(a.nome)}${a.id === me.id ? ' <small>(tu)</small>' : ''}</td><td>${esc(a.grado)}</td><td>${esc(a.ruolo)}</td><td><code>${esc(a.id)}</code></td>
+          <td style="white-space:nowrap"><button class="btn linea piccolo" data-az="agente-modifica" data-id="${esc(a.id)}" data-nome="${esc(a.nome)}" data-cognome="${esc(a.cognome)}" data-grado="${esc(a.grado)}" data-ruolo="${esc(a.ruolo)}">Modifica</button>
+          ${a.id === me.id ? '' : `<button class="btn linea piccolo" data-az="agente-rimuovi" data-id="${esc(a.id)}">Rimuovi</button>`}</td></tr>`)
+        .join('')}</tbody></table></div>`
+    : '<div class="vuoto">Nessun agente registrato.</div>';
+  mostra('admin', html);
+}
+
 async function vistaAdmin(parti) {
   if (me.ruolo !== 'admin') return location.replace('#/');
   caricamento();
   const [, cid, tipo, a, b] = parti; // admin / corso / :cid / modulo|domanda / ...
+  if (cid === 'agenti') return vistaAgenti();
   if (!cid) {
     const { corsi } = await api('/admin/corsi');
     return mostra('admin', `<h1 class="titolo">Area <span>admin</span></h1><p class="sottotitolo">Crea e modifica corsi, moduli, domande dei quiz e griglie di valutazione, e scegli da quale grado si vede ogni corso.</p>
-      <div class="azioni"><a class="btn" href="#/admin/nuovo"><i class="fas fa-plus" aria-hidden="true"></i> Nuovo corso</a></div><h2 class="sez">Corsi</h2>${
+      <div class="azioni"><a class="btn" href="#/admin/nuovo"><i class="fas fa-plus" aria-hidden="true"></i> Nuovo corso</a><a class="btn linea" href="#/admin/agenti"><i class="fas fa-users" aria-hidden="true"></i> Agenti e ruoli</a></div><h2 class="sez">Corsi</h2>${
         corsi.length
           ? `<ul class="righe">${corsi.map((c, i) => `<li><a class="riga" href="#/admin/${esc(c.id)}"><span class="n">${num(i)}</span><span class="t"><b>${esc(c.titolo)}</b><small>Visibile dal grado ${esc(c.gradoMinimo)} · ${c.pubblicato === false ? 'bozza' : 'pubblicato'}</small></span>${c.pubblicato === false ? '<span class="pill grigio">Bozza</span>' : pill('completato').replace('Completato', 'Pubblicato')}<i class="fas fa-arrow-right" aria-hidden="true"></i></a></li>`).join('')}</ul>`
           : '<div class="vuoto">Nessun corso. Creane uno.</div>'
@@ -628,6 +654,15 @@ $app.addEventListener('click', async (ev) => {
       t.disabled = true;
       await api(`/istruttori/pratiche/${t.dataset.p}/assegna`, { method: 'POST', body: {} });
       location.hash = `#/istruttori/${t.dataset.p}`;
+    } else if (az === 'agente-modifica') {
+      const f = document.querySelector('[data-form="agente"]');
+      for (const k of ['id', 'nome', 'cognome', 'grado', 'ruolo']) if (f.elements[k]) f.elements[k].value = t.dataset[k] || '';
+      f.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else if (az === 'agente-rimuovi') {
+      if (!confirm('Rimuovere questo agente? Non potrà più entrare nell’Area Personale.')) return;
+      t.disabled = true;
+      await api(`/admin/agenti/${t.dataset.id}`, { method: 'DELETE' });
+      vistaAgenti();
     } else if (az === 'rimuovi') {
       t.closest('[data-riga]').remove();
     } else if (az === 'add-criterio') {
@@ -679,6 +714,11 @@ $app.addEventListener('submit', async (ev) => {
         if (mancanti && !confirm(`Hai ${mancanti} ${mancanti === 1 ? 'domanda' : 'domande'} senza risposta (contano come sbagliate). Consegnare comunque?`)) return;
         await consegna();
       }
+    } else if (k === 'agente') {
+      await api(`/admin/agenti/${fd.get('id')}`, { method: 'PUT', body: { nome: fd.get('nome'), cognome: fd.get('cognome'), grado: fd.get('grado'), ruolo: fd.get('ruolo') } });
+      await vistaAgenti();
+      const box = document.getElementById('esito-az');
+      if (box) box.innerHTML = avviso('Agente salvato.', 'ok', 'fa-circle-check');
     } else if (k === 'sessione') {
       const ms = new Date(fd.get('data')).getTime();
       await api('/istruttori/sessioni', { method: 'POST', body: { corsoId: fd.get('corsoId'), data: ms, posti: Number(fd.get('posti')), luogo: fd.get('luogo') } });

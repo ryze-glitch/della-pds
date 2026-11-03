@@ -4,7 +4,7 @@
 // Node (vedi README). Il webhook Discord vive SOLO nelle variabili d'ambiente.
 import { FORMS, validate, CODE_ALPHABET } from '../../../portal/lib/forms.js';
 import { handleFormazione } from './formazione/api.js';
-import { firestoreStore } from './formazione/store.js';
+import { d1Store } from './formazione/store.js';
 
 const DEFAULT_ORIGINS = [
   'https://polizia-iprp.web.app',
@@ -270,7 +270,7 @@ export async function handleRequest(request, env = {}) {
 
   if (url.pathname.startsWith('/formazione/')) {
     if (!originOk) return json({ error: 'Origine non autorizzata.' }, 403, cors);
-    return handleFormazione(request, env, { cors, url, verify: verifyFirebaseToken, store: env.__store || firestoreStore(env) });
+    return handleFormazione(request, env, { cors, url, verify: verifyFirebaseToken, store: env.__store || (env.DB ? d1Store(env.DB) : null) });
   }
 
   if (url.pathname === '/log' && request.method === 'POST') {

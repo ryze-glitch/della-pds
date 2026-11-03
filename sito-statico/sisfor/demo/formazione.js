@@ -11,7 +11,7 @@ export const GRADI = [
   'Questore',
 ];
 
-// Ruoli del portale, salvati in auth-sito/{discordId}.ruolo (si modificano solo dalla console).
+// Ruoli del portale, salvati nella raccolta agenti del database D1.
 export const RUOLI = ['allievo', 'istruttore', 'admin'];
 
 // Stati della pratica (esame pratico).
