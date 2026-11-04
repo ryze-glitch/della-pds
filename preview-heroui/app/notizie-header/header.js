@@ -2,10 +2,10 @@
 
 import { Alert, Avatar, AvatarGroup, BreadcrumbItem, Breadcrumbs, Button, Card, CardBody, Chip, Divider, Input, Tab, Tabs } from '@heroui/react';
 
-const Ic = ({ d, s = 16 }) => (
+export const Ic = ({ d, s = 16 }) => (
   <svg viewBox="0 0 24 24" width={s} height={s} fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={d} /></svg>
 );
-const P = {
+export const P = {
   mega: 'M3 11v2a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1ZM17 8a5 5 0 0 1 0 8',
   search: 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM21 21l-4.3-4.3',
   cal: 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4',
@@ -17,7 +17,7 @@ const P = {
 };
 
 /* barra finta, solo per dare il contesto della pagina */
-const Barra = () => (
+export const Barra = () => (
   <div className="relative z-10 flex justify-center gap-3 px-6 pt-5 text-sm">
     <div className="flex h-12 items-center gap-2 rounded-full border border-white/10 bg-content1/90 px-5 font-extrabold uppercase tracking-wide"><img src="/crest.png" alt="" className="h-8" />Polizia di Stato</div>
     <div className="hidden h-12 items-center gap-6 rounded-full border border-white/10 bg-content1/90 px-6 text-default-500 md:flex"><span>Home</span><span className="rounded-full bg-primary/20 px-3 py-1 text-primary">Notizie</span><span>Chi Siamo</span><span>Qualifiche</span><span>Prenota</span><span>Concorso</span></div>
