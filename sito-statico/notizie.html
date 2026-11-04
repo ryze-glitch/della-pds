@@ -340,11 +340,25 @@ gsap.registerPlugin(ScrollTrigger);
         });
 
 
+        // la pagina parte sempre dall'apice (niente posizione ripristinata dal browser)
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        if (!location.hash) window.scrollTo(0, 0);
+
+        // filtri: cambio immediato nella stessa pagina, senza ricaricare né far saltare lo scorrimento
+        let filtrato = false;
         document.querySelectorAll('.np-tabs button').forEach((b) => b.addEventListener('click', () => {
+            if (b.classList.contains('on')) return;
             document.querySelectorAll('.np-tabs button').forEach((x) => { x.classList.toggle('on', x === b); x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
             const f = b.dataset.f;
-            document.querySelectorAll('.news-article').forEach((a) => { a.hidden = f !== 'tutte' && a.dataset.tipo !== f; });
-            if (window.ScrollTrigger) ScrollTrigger.refresh();
+            if (!filtrato && window.ScrollTrigger) { ScrollTrigger.getAll().forEach((t) => t.kill()); filtrato = true; }
+            const tutti = [...document.querySelectorAll('.news-article')];
+            const visibili = tutti.filter((a) => f === 'tutte' || a.dataset.tipo === f);
+            tutti.forEach((a) => { a.hidden = !visibili.includes(a); });
+            gsap.killTweensOf(tutti);
+            gsap.fromTo(visibili, { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: 'power3.out', stagger: 0.05, overwrite: true });
+            // se eri sceso nella pagina, torna all'inizio dell'elenco; altrimenti resta dove sei
+            const soglia = document.querySelector('.np-head').offsetHeight - 120;
+            if (window.scrollY > soglia) { if (window.__lenis) window.__lenis.scrollTo(soglia, { immediate: true }); else window.scrollTo(0, soglia); }
         }));
 
         function initScrollAnimations() {
