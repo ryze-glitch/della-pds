@@ -2,6 +2,7 @@
 <html lang="it">
 
 <head>
+    <script>try{history.scrollRestoration="manual"}catch(e){}if(!location.hash)window.scrollTo(0,0)</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notizie - Polizia di Stato IPRP</title>
@@ -27,6 +28,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Lexend', sans-serif; }
 
+        html, body { overscroll-behavior-y: none; }
         body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
         html.lenis, html.lenis body { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -341,8 +343,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 
         // la pagina parte sempre dall'apice (niente posizione ripristinata dal browser)
-        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-        if (!location.hash) window.scrollTo(0, 0);
+        const inCima = () => { if (location.hash) return; window.scrollTo(0, 0); if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true, force: true }); };
+        inCima();
+        window.addEventListener('load', () => { inCima(); requestAnimationFrame(inCima); setTimeout(inCima, 120); });
+        window.addEventListener('pageshow', inCima);
 
         // filtri: cambio immediato nella stessa pagina, senza ricaricare né far saltare lo scorrimento
         let filtrato = false;
