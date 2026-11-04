@@ -1,6 +1,6 @@
 // Animazioni comuni: comparsa allo scorrimento, cambio vista nell'Area Personale e dissolvenza tra le pagine.
 (function () {
-  var ridotto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ridotto = false; // le animazioni restano attive anche se il sistema (es. Windows) le disattiva
   var root = document.documentElement;
   root.classList.add('anim');
   if (!ridotto) {

@@ -42,8 +42,3 @@ html.anim .rv.in{opacity:1;transform:none}
 html.tr-on body>*:not(.navbar-wrapper):not(.preloader):not(.boot):not(.back-site):not(script):not(style):not(link){animation:trIn .32s cubic-bezier(.2,.7,.2,1) backwards}
 html.tr-out body>*:not(.navbar-wrapper):not(.preloader):not(.boot):not(.back-site):not(script):not(style):not(link){opacity:0!important;translate:0 -22px;transition:opacity .22s ease-in,translate .22s ease-in}
 
-@media (prefers-reduced-motion:reduce){
-  html.anim .rv{opacity:1;transform:none;transition:none}
-  .nav-badge{animation:none}
-  .nav-bell:hover svg{animation:none}
-}

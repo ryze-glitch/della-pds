@@ -1,6 +1,6 @@
 // Scroll morbido (Lenis), agganciato al ciclo di GSAP così le animazioni allo scorrimento restano sincronizzate.
 (function () {
-  if (!window.Lenis || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  if (!window.Lenis) return;
   var l = new Lenis({ duration: 1.0, smoothWheel: true, wheelMultiplier: 1, touchMultiplier: 1.5 });
   window.__lenis = l;
   if (window.gsap && window.ScrollTrigger) {

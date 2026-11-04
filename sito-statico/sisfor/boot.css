@@ -19,4 +19,3 @@
 .boot-barra{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.08);z-index:2}
 .boot-barra b{display:block;height:100%;width:0;background:#2563eb;transition:width .25s ease}
 @media (max-width:900px){.boot-lato{display:none}.boot-riga{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){.boot-centro img,.boot-chip i,.boot-ombra .sk{animation:none}}
