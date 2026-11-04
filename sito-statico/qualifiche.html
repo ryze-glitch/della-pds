@@ -102,7 +102,7 @@ border: 1px solid var(--nav-border);
             transition: opacity 0.2s;
         }
 
-        .nav-logo:hover { opacity: 0.8; }
+        .nav-logo { cursor: default; user-select: none; }
 
         .nav-logo img {
             height: 36px;
@@ -499,10 +499,10 @@ border: 1px solid var(--nav-border);
     <div class="navbar-wrapper" id="navbar">
         <nav class="navbar">
             <div class="nav-left">
-                <a href="home.html" class="nav-logo">
+                <div class="nav-logo" aria-label="Polizia di Stato">
                     <img src="logo-polizia.png" alt="Logo">
                     POLIZIA DI STATO
-                </a>
+                </div>
             </div>
 
             <div class="nav-center">
@@ -649,7 +649,9 @@ gsap.registerPlugin(ScrollTrigger);
             }
         }
     </script>
+<script src="sisfor/lenis.min.js"></script>
 <script src="sisfor/nav.js"></script>
+<script src="sisfor/scroll.js"></script>
 <script src="sisfor/anim.js"></script>
 <script type="module" src="sisfor/notifiche.js"></script>
 </body>

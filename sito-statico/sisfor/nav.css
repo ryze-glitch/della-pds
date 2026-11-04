@@ -87,3 +87,4 @@ button.nav-bell{border:0;background:none;cursor:pointer;position:relative;font:i
 .back-site:hover{background:rgba(37,99,235,.85);transform:translateX(-3px)}
 .back-site i{font-size:.8rem}
 @media (max-width:560px){.back-site{top:12px;left:12px;height:44px;padding:0 18px}}
+.navbar-wrapper .nav-logo{cursor:default;user-select:none}

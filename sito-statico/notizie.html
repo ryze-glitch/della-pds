@@ -41,7 +41,7 @@
         .navbar { background: var(--nav-bg);border: 1px solid var(--nav-border); border-radius: 999px; padding: 6px 8px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .nav-left { justify-self: start; }
         .nav-logo { background: var(--pill-dark); padding: 6px 20px 6px 12px; border-radius: 999px; display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: 0.5px; color: var(--text-main); white-space: nowrap; transition: opacity 0.2s; }
-        .nav-logo:hover { opacity: 0.8; }
+        .nav-logo { cursor: default; user-select: none; }
         .nav-logo img { height: 36px; width: auto; object-fit: contain; }
         .nav-center { justify-self: center; display: flex; align-items: center; gap: 28px; font-size: 0.95rem; font-weight: 500; color: var(--text-muted); }
         .nav-center a { display: flex; align-items: center; gap: 8px; transition: color 0.2s ease; white-space: nowrap; }
@@ -114,10 +114,10 @@
     <div class="navbar-wrapper" id="navbar">
         <nav class="navbar">
             <div class="nav-left">
-                <a href="home.html" class="nav-logo">
+                <div class="nav-logo" aria-label="Polizia di Stato">
                     <img src="logo-polizia.png" alt="Logo">
                     POLIZIA DI STATO
-                </a>
+                </div>
             </div>
             <div class="nav-center">
                 <a href="home.html"><i class="fas fa-home"></i> Home</a>
@@ -308,7 +308,9 @@ gsap.registerPlugin(ScrollTrigger);
         }
     </script>
 
+<script src="sisfor/lenis.min.js"></script>
 <script src="sisfor/nav.js"></script>
+<script src="sisfor/scroll.js"></script>
 <script src="sisfor/anim.js"></script>
 <script type="module" src="sisfor/notifiche.js"></script>
 </body>

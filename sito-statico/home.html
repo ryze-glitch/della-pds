@@ -123,7 +123,7 @@ border: 1px solid var(--nav-border);
             transition: opacity 0.2s;
         }
 
-        .nav-logo:hover { opacity: 0.8; }
+        .nav-logo { cursor: default; user-select: none; }
 
         .nav-logo img {
             height: 36px;
@@ -666,10 +666,10 @@ box-shadow: 0 5px 20px rgba(0,0,0,0.4);
     <div class="navbar-wrapper" id="navbar">
         <nav class="navbar">
             <div class="nav-left">
-                <a href="home.html" class="nav-logo">
+                <div class="nav-logo" aria-label="Polizia di Stato">
                     <img src="logo-polizia.png" alt="Logo">
                     POLIZIA DI STATO
-                </a>
+                </div>
             </div>
 
             <div class="nav-center">
@@ -706,7 +706,7 @@ box-shadow: 0 5px 20px rgba(0,0,0,0.4);
 
             <h1 class="gs-reveal hero-item">POLIZIA DI STATO</h1>
 
-            <p class="hero-sub gs-reveal hero-item">Come possiamo aiutarti?</p>
+            <p class="hero-sub gs-reveal hero-item">Come Possiamo Aiutarti ?</p>
 
             <div class="hero-search gs-reveal hero-item" id="hero-search" role="search">
                 <label class="hero-search-box">
@@ -714,7 +714,7 @@ box-shadow: 0 5px 20px rgba(0,0,0,0.4);
                     <input type="search" placeholder="Cerca un servizio o una pratica…" aria-label="Cerca un servizio" autocomplete="off" spellcheck="false">
                     <kbd>Ctrl K</kbd>
                 </label>
-                <div class="hero-results" role="listbox" aria-label="Risultati"></div>
+                <div class="hero-results" data-lenis-prevent role="listbox" aria-label="Risultati"></div>
             </div>
 
             <div class="hero-chips gs-reveal hero-item">
@@ -867,7 +867,9 @@ initScrollAnimations();
         }
     </script>
 
+<script src="sisfor/lenis.min.js"></script>
 <script src="sisfor/nav.js"></script>
+<script src="sisfor/scroll.js"></script>
 <script src="sisfor/anim.js"></script>
 <script type="module" src="sisfor/notifiche.js"></script>
 <script src="sisfor/home-hero.js"></script>

@@ -69,7 +69,7 @@ function init() {
   const badge = btn.querySelector('.nav-badge');
 
   const pannello = document.createElement('div');
-  pannello.className = 'notif-panel'; pannello.setAttribute('role', 'dialog'); pannello.setAttribute('aria-label', 'Notifiche'); pannello.hidden = true;
+  pannello.className = 'notif-panel'; pannello.setAttribute('data-lenis-prevent', ''); pannello.setAttribute('role', 'dialog'); pannello.setAttribute('aria-label', 'Notifiche'); pannello.hidden = true;
   pannello.innerHTML = '<div class="notif-head"><strong>Notifiche</strong><button type="button" class="notif-all">Segna come lette</button></div><div class="notif-list"><p class="notif-empty">Caricamento…</p></div>';
   (document.getElementById('navbar') || document.body).appendChild(pannello);
   const lista = pannello.querySelector('.notif-list');

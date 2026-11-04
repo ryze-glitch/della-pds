@@ -6,7 +6,7 @@
   var centro = wrap.querySelector('.nav-center');
   if (!burger || !centro) return;
   var pannello = document.createElement('div');
-  pannello.className = 'nav-panel';
+  pannello.className = 'nav-panel'; pannello.setAttribute('data-lenis-prevent', '');
   pannello.id = 'nav-panel';
   pannello.setAttribute('aria-label', 'Menu');
   centro.querySelectorAll('a').forEach(function (a) {
