@@ -23,6 +23,15 @@
         ]
       },
       {
+        "source": "**/*.@(js|css|png|jpg|jpeg|webp|svg|ico|woff2)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=900"
+          }
+        ]
+      },
+      {
         "source": "/_next/static/**",
         "headers": [
           {

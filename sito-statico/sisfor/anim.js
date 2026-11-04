@@ -18,8 +18,22 @@
       if (u.pathname === location.pathname && u.search === location.search) return;
       e.preventDefault();
       root.classList.add('tr-out');
-      setTimeout(function () { location.href = u.href; }, 220);
+      location.href = u.href; // la vecchia pagina resta visibile finché la nuova non è pronta: l'animazione corre mentre carica
     });
+    // precarica la pagina appena il cursore/dito si avvicina al link
+    var gia = {};
+    function precarica(e) {
+      var a = e.target.closest && e.target.closest('a[href]');
+      if (!a || (a.target && a.target !== '_self')) return;
+      var u; try { u = new URL(a.href, location.href); } catch (_) { return; }
+      if (u.origin !== location.origin || u.pathname === location.pathname || gia[u.pathname] || /^(mailto:|tel:)/i.test(a.getAttribute('href'))) return;
+      gia[u.pathname] = 1;
+      var l = document.createElement('link'); l.rel = 'prefetch'; l.href = u.href; l.as = 'document';
+      document.head.appendChild(l);
+    }
+    document.addEventListener('mouseover', precarica, { passive: true });
+    document.addEventListener('touchstart', precarica, { passive: true });
+    document.addEventListener('focusin', precarica);
   }
   if (ridotto || !('IntersectionObserver' in window)) { root.classList.remove('anim'); return; }
 
