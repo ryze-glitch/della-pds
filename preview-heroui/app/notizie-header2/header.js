@@ -6,22 +6,22 @@ import { Barra } from '../notizie-header/header';
 const FOTO = '/foto/giuramento.png';
 const FOTO2 = '/foto/ufficidesk.jpg';
 
-const Kicker = () => (
+export const Kicker = () => (
   <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-primary"><span className="h-px w-10 bg-primary" />Sala stampa · Questura di Roma</div>
 );
-const Titolo = ({ cls = '', style }) => (
+export const Titolo = ({ cls = '', style }) => (
   <h1 style={style} className={`mt-4 font-extrabold uppercase leading-none tracking-tight text-[5.5rem] md:text-[8rem] ${cls}`}>Notizie</h1>
 );
-const Riga = () => (
+export const Riga = () => (
   <div className="mt-6 flex flex-wrap items-end justify-between gap-4 border-t border-white/15 pt-5">
     <p className="max-w-md text-default-400">Comunicazioni ufficiali e aggiornamenti dalla Polizia di Stato.</p>
     <div className="flex items-center gap-4"><AvatarGroup size="sm" isBordered max={3}><Avatar src="/crest.png" /><Avatar name="U" /><Avatar name="Q" /></AvatarGroup><Tabs variant="underlined" color="primary" aria-label="Filtro"><Tab key="t" title="Tutte" /><Tab key="n" title="Notizie" /><Tab key="c" title="Comunicati" /></Tabs></div>
   </div>
 );
-const Testo = ({ gradient = true }) => (
+export const Testo = ({ gradient = true }) => (
   <div className="relative mx-auto max-w-6xl px-6 pb-10 pt-16"><Kicker /><Titolo cls={gradient ? 'bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent' : 'text-white'} /><Riga /></div>
 );
-const Base = ({ children }) => <div className="relative min-h-[560px] overflow-hidden bg-background">{children}</div>;
+export const Base = ({ children }) => <div className="relative min-h-[560px] overflow-hidden bg-background">{children}</div>;
 
 /* P1 · foto a tutto campo, scurita dal basso e dai lati */
 const P1 = () => (
