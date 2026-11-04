@@ -5,12 +5,12 @@ import { Accordion, AccordionItem, Avatar, Button, Card, CardBody, CardFooter, C
 import { Barra, Ic, P } from '../notizie-header/header';
 import { COMUNICATI, NOTIZIE } from '../notizie/dati';
 
-const COL = { Lutto: 'default', Nomine: 'primary', Cerimonie: 'success', Avviso: 'danger', Comunicato: 'warning' };
-const TUTTE = [...COMUNICATI, ...NOTIZIE].map((n, i) => ({ ...n, prot: `Prot. n. ${2025 - (n.data.includes('2024') ? 1 : 0)}/${String(40 - i * 3).padStart(3, '0')}` }));
-const Tipo = ({ t }) => <Chip size="sm" variant="flat" color={COL[t] || 'default'} classNames={{ content: 'font-semibold' }}>{t}</Chip>;
-const Data = ({ d }) => <span className="inline-flex items-center gap-1.5 text-xs text-default-500"><Ic d={P.cal} s={13} />{d}</span>;
+export const COL = { Lutto: 'default', Nomine: 'primary', Cerimonie: 'success', Avviso: 'danger', Comunicato: 'warning' };
+export const TUTTE = [...COMUNICATI, ...NOTIZIE].map((n, i) => ({ ...n, prot: `Prot. n. ${2025 - (n.data.includes('2024') ? 1 : 0)}/${String(40 - i * 3).padStart(3, '0')}` }));
+export const Tipo = ({ t }) => <Chip size="sm" variant="flat" color={COL[t] || 'default'} classNames={{ content: 'font-semibold' }}>{t}</Chip>;
+export const Data = ({ d }) => <span className="inline-flex items-center gap-1.5 text-xs text-default-500"><Ic d={P.cal} s={13} />{d}</span>;
 
-const Pagina = ({ children }) => (
+export const Pagina = ({ children }) => (
   <div className="relative min-h-screen overflow-hidden bg-background">
     <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[300px] bg-gradient-to-b from-white/[0.04] to-transparent" />
     <Barra />
