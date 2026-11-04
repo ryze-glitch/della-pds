@@ -68,8 +68,29 @@
         .hero-content h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 5px 15px rgba(0,0,0,0.8); }
         .hero-content p { font-size: 1.1rem; color: var(--accent-blue); font-weight: 500; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
+
+        /* INTESTAZIONE PAGINA */
+        .np-head { position: relative; overflow: hidden; padding: 130px 20px 10px; }
+        .np-glow { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.30), transparent 60%); pointer-events: none; }
+        .np-inner { position: relative; max-width: 1200px; margin: 0 auto; }
+        .np-kicker { display: flex; align-items: center; gap: 12px; font-size: .75rem; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--accent-blue); }
+        .np-kicker span { width: 40px; height: 1px; background: var(--accent-blue); }
+        .np-head h1 { margin-top: 16px; font-size: clamp(4rem, 14vw, 8rem); font-weight: 800; line-height: 1; letter-spacing: -.02em; text-transform: uppercase; background: linear-gradient(to bottom, #fff, rgba(255,255,255,.3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .np-bar { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.1); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+        .np-bar p { max-width: 430px; color: var(--text-muted); line-height: 1.6; }
+        .np-side { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .np-crest { width: 38px; height: 38px; border-radius: 50%; background: var(--pill-dark); border: 2px solid rgba(255,255,255,.22); display: flex; align-items: center; justify-content: center; }
+        .np-crest img { height: 24px; width: auto; }
+        .np-tabs { display: flex; gap: 6px; }
+        .np-tabs button { position: relative; background: none; border: 0; cursor: pointer; padding: 10px 12px; color: var(--text-muted); font-size: .95rem; font-weight: 500; transition: color .2s; }
+        .np-tabs button::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 2px; height: 2px; border-radius: 2px; background: var(--accent-blue); transform: scaleX(0); transition: transform .25s cubic-bezier(.2,.7,.2,1); }
+        .np-tabs button:hover { color: #fff; }
+        .np-tabs button.on { color: var(--accent-blue); }
+        .np-tabs button.on::after { transform: scaleX(1); }
+        .news-article[hidden] { display: none; }
+
         /* PAGE CONTENT */
-        .page-content { position: relative; z-index: 3; max-width: 1200px; margin: 0 auto; padding: 40px 20px 100px; }
+        .page-content { position: relative; z-index: 3; max-width: 1200px; margin: 0 auto; padding: 30px 20px 100px; }
 
         .breadcrumb { display: flex; align-items: center; gap: 12px; font-size: 0.95rem; color: var(--text-muted); margin-bottom: 40px; padding: 12px 20px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid var(--nav-border); width: fit-content; }
         .breadcrumb a { color: var(--text-main); font-weight: 500; transition: color 0.2s; }
@@ -137,24 +158,28 @@
         </nav>
     </div>
 
-    <header class="hero-small">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1>NOTIZIE</h1>
-            <p>Comunicazioni Ufficiali e Aggiornamenti</p>
+    <header class="np-head">
+        <div class="np-glow" aria-hidden="true"></div>
+        <div class="np-inner">
+            <div class="np-kicker"><span></span>Sala stampa · Questura di Roma</div>
+            <h1>Notizie</h1>
+            <div class="np-bar">
+                <p>Comunicazioni ufficiali e aggiornamenti dalla Polizia di Stato.</p>
+                <div class="np-side">
+                    <span class="np-crest" aria-hidden="true"><img src="logo-polizia.png" alt=""></span>
+                    <div class="np-tabs" role="tablist" aria-label="Filtra">
+                        <button type="button" role="tab" class="on" data-f="tutte" aria-selected="true">Tutte</button>
+                        <button type="button" role="tab" data-f="notizia" aria-selected="false">Notizie</button>
+                        <button type="button" role="tab" data-f="comunicato" aria-selected="false">Comunicati</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
     <main class="page-content">
 
-        <div class="breadcrumb gs-reveal page-anim">
-            Ti trovi qui:
-            <a href="home.html">Home</a>
-            <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
-            <span>Notizie</span>
-        </div>
-
-        <article class="news-article gs-reveal page-anim">
+        <article class="news-article gs-reveal page-anim" data-tipo="notizia">
             <div class="news-text-content">
                 <div class="news-date"><i class="far fa-calendar-alt"></i> 11 Maggio 2025</div>
                 <h2 class="news-title">La Polizia di Stato è in lutto per la scomparsa di Derek Morgan</h2>
@@ -170,7 +195,7 @@
             <img class="news-image" src="foto/notizie/lutto.png" alt="Scomparsa Derek Morgan">
         </article>
 
-  <article class="news-article gs-reveal page-anim">
+  <article class="news-article gs-reveal page-anim" data-tipo="notizia">
             <div class="news-text-content">
                 <div class="news-date"><i class="far fa-calendar-alt"></i> 6 Luglio 2024</div>
                 <h2 class="news-title">Cambio Dirigenti in Questura di Roma</h2>
@@ -185,7 +210,7 @@
         </article>
 
 
-        <article class="news-article gs-reveal page-anim">
+        <article class="news-article gs-reveal page-anim" data-tipo="notizia">
             <div class="news-text-content">
                 <div class="news-date"><i class="far fa-calendar-alt"></i> 5 Aprile 2024</div>
                 <h2 class="news-title">Cambio Dirigenti in Questura di Roma</h2>
@@ -202,7 +227,7 @@
         </article>
 
 
-         <article class="news-article gs-reveal page-anim">
+         <article class="news-article gs-reveal page-anim" data-tipo="notizia">
             <div class="news-text-content">
                 <div class="news-date"><i class="far fa-calendar-alt"></i> 20 Marzo 2024</div>
                 <h2 class="news-title">Cerimonia degli Onori alla Polizia di Stato</h2>
@@ -213,7 +238,7 @@
         </article>
 
 
-        <article class="news-article gs-reveal page-anim">
+        <article class="news-article gs-reveal page-anim" data-tipo="comunicato">
             <div class="news-text-content">
                 <div class="news-date" style="position: relative; top: -15px;"><i class="fas fa-exclamation-circle"></i> Avviso</div>
                 <h2 class="news-title">Richiesta Feste</h2>
@@ -225,7 +250,7 @@
             <img class="news-image" src="foto/notizie/stemma.png" alt="Richiesta Feste">
         </article>
 
-        <article class="news-article gs-reveal page-anim">
+        <article class="news-article gs-reveal page-anim" data-tipo="notizia">
             <div class="news-text-content">
                 <div class="news-date"><i class="far fa-calendar-alt"></i> 13 Aprile 2024</div>
                 <h2 class="news-title">Giuramento del Corpo della Polizia di Stato</h2>
@@ -297,6 +322,14 @@ gsap.registerPlugin(ScrollTrigger);
               .to("#navbar", { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.4");
             if (document.documentElement.classList.contains("pre-ok")) tl.seek(0.85);
         });
+
+
+        document.querySelectorAll('.np-tabs button').forEach((b) => b.addEventListener('click', () => {
+            document.querySelectorAll('.np-tabs button').forEach((x) => { x.classList.toggle('on', x === b); x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
+            const f = b.dataset.f;
+            document.querySelectorAll('.news-article').forEach((a) => { a.hidden = f !== 'tutte' && a.dataset.tipo !== f; });
+            if (window.ScrollTrigger) ScrollTrigger.refresh();
+        }));
 
         function initScrollAnimations() {
             gsap.utils.toArray('.page-anim').forEach((elem, i) => {
