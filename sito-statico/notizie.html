@@ -87,6 +87,20 @@
         .np-tabs button:hover { color: #fff; }
         .np-tabs button.on { color: var(--accent-blue); }
         .np-tabs button.on::after { transform: scaleX(1); }
+
+        .np-head { padding-bottom: 140px; }
+        .np-photo { position: absolute; top: 0; right: 0; bottom: 0; width: 72%; -webkit-mask-image: linear-gradient(to right, transparent, #000 55%); mask-image: linear-gradient(to right, transparent, #000 55%); }
+        .np-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .np-head::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 55%; background: linear-gradient(to top, var(--bg-dark), transparent); pointer-events: none; }
+        .np-glow { z-index: 1; }
+        .np-inner { z-index: 2; }
+        .np-evid { position: absolute; right: 0; bottom: -118px; z-index: 3; display: flex; align-items: center; gap: 16px; padding: 12px 20px 12px 12px; border-radius: 18px; background: rgba(9,10,15,.72); border: 1px solid rgba(255,255,255,.16); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); max-width: 340px; transition: transform .25s cubic-bezier(.2,.7,.2,1), border-color .25s; }
+        .np-evid:hover { transform: translateY(-3px); border-color: var(--accent-blue); }
+        .np-evid img { width: 96px; height: 64px; object-fit: cover; border-radius: 12px; flex: none; }
+        .np-evid span { display: flex; flex-direction: column; gap: 6px; }
+        .np-evid em { font-style: normal; align-self: flex-start; font-size: .7rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: rgba(245,165,36,.16); color: #f5a524; }
+        .np-evid strong { font-size: .9rem; font-weight: 600; line-height: 1.35; }
+        @media (max-width: 900px) { .np-photo { width: 100%; opacity: .45; } .np-head { padding-bottom: 40px; } .np-evid { position: static; margin-top: 24px; max-width: none; } }
         .news-article[hidden] { display: none; }
 
         /* PAGE CONTENT */
@@ -116,7 +130,7 @@
 
         /* RESPONSIVE */
         @media (max-width: 1200px) { .nav-center { display: none; } }
-        @media (max-width: 900px) { .news-article { flex-direction: column; } .news-image { width: 100%; height: 220px; } }
+        @media (max-width: 900px) { .news-article { flex-direction: column; } .news-image { width: 100% !important; max-width: 100%; height: 220px !important; } }
         @media (max-width: 768px) { .hero-content h1 { font-size: 2.5rem; } .news-title { font-size: 1.4rem; } }
             .pre-ok .preloader{display:none!important}
     </style>
@@ -159,6 +173,7 @@
     </div>
 
     <header class="np-head">
+        <div class="np-photo" aria-hidden="true"><img src="foto/notizie/giuramento-header.jpg" alt=""></div>
         <div class="np-glow" aria-hidden="true"></div>
         <div class="np-inner">
             <div class="np-kicker"><span></span>Sala stampa · Questura di Roma</div>
@@ -174,6 +189,10 @@
                     </div>
                 </div>
             </div>
+            <a class="np-evid" href="#in-evidenza">
+                <img src="foto/notizie/king.png" alt="">
+                <span><em>In evidenza</em><strong>Cambio Dirigenti in Questura di Roma</strong></span>
+            </a>
         </div>
     </header>
 
@@ -195,7 +214,7 @@
             <img class="news-image" src="foto/notizie/lutto.png" alt="Scomparsa Derek Morgan">
         </article>
 
-  <article class="news-article gs-reveal page-anim" data-tipo="notizia">
+  <article id="in-evidenza" class="news-article gs-reveal page-anim" data-tipo="notizia">
             <div class="news-text-content">
                 <div class="news-date"><i class="far fa-calendar-alt"></i> 6 Luglio 2024</div>
                 <h2 class="news-title">Cambio Dirigenti in Questura di Roma</h2>
