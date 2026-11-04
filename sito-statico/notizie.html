@@ -101,7 +101,64 @@
         .np-evid em { font-style: normal; align-self: flex-start; font-size: .7rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: rgba(245,165,36,.16); color: #f5a524; }
         .np-evid strong { font-size: .9rem; font-weight: 600; line-height: 1.35; }
         @media (max-width: 900px) { .np-photo { width: 100%; opacity: .45; } .np-head { padding-bottom: 40px; } .np-evid { position: static; margin-top: 24px; max-width: none; } }
-        .news-article[hidden] { display: none; }
+
+        /* CELLE A FOGLIO UFFICIALE */
+        .np-grid { display: flex; flex-direction: column; gap: 24px; }
+        .np-top { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+        .np-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .np-sheet { background: #f6f4ee; color: #171717; border-radius: 6px; border: 1px solid rgba(0,0,0,.05); box-shadow: 0 18px 40px rgba(0,0,0,.5); cursor: pointer; transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s; font-family: Georgia, 'Times New Roman', serif; }
+        .np-sheet:hover, .np-sheet:focus-visible { transform: translateY(-4px); box-shadow: 0 24px 50px rgba(0,0,0,.6); outline: none; }
+        .np-sheet * { font-family: inherit; }
+        .np-th { display: flex; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 2px solid rgba(23,23,23,.85); }
+        .np-th img { height: 44px; width: auto; }
+        .np-th small { display: block; font: 700 .6rem Lexend, sans-serif; letter-spacing: .25em; text-transform: uppercase; color: #5b5b5b; }
+        .np-th b { display: block; font: 800 .85rem Lexend, sans-serif; letter-spacing: .06em; text-transform: uppercase; }
+        .np-th span { margin-left: auto; text-align: right; font: .68rem Lexend, sans-serif; color: #5b5b5b; }
+        .np-ogg { font: 700 .62rem Lexend, sans-serif; letter-spacing: .2em; text-transform: uppercase; color: #737373; }
+        .np-main { padding: 30px 32px 22px; display: flex; flex-direction: column; gap: 16px; }
+        .np-cols { display: grid; grid-template-columns: 1fr 230px; gap: 24px; flex: 1; }
+        .np-main h2 { margin: 10px 0 12px; font-size: 1.9rem; line-height: 1.2; font-weight: 700; }
+        .np-main p { font-size: 1.02rem; line-height: 1.7; color: #404040; }
+        .np-att { margin: 0; background: #fff; padding: 6px 6px 20px; box-shadow: 0 8px 20px rgba(0,0,0,.28); outline: 1px solid rgba(0,0,0,.08); transform: rotate(-2deg); align-self: start; }
+        .np-att img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .np-att figcaption { margin-top: 3px; text-align: center; font: .5rem 'Courier New', monospace; letter-spacing: .2em; text-transform: uppercase; color: #737373; }
+        .np-att-big { width: 190px; height: 224px; justify-self: center; margin-top: 14px; }
+        .np-fm { display: flex; align-items: flex-end; justify-content: space-between; padding-top: 8px; }
+        .np-fm span { font: .62rem Lexend, sans-serif; color: #737373; }
+        .np-fm em { font-size: .95rem; color: #404040; padding-bottom: 2px; border-bottom: 1px solid #a3a3a3; min-width: 96px; text-align: right; }
+        .np-aside { padding: 26px 26px 20px; display: flex; flex-direction: column; gap: 14px; cursor: default; }
+        .np-aside:hover { transform: none; box-shadow: 0 18px 40px rgba(0,0,0,.5); }
+        .np-th-aside b { font-size: .9rem; }
+        .np-comu { cursor: pointer; padding-top: 6px; }
+        .np-comu:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 6px; }
+        .np-stamp { display: inline-block; padding: 2px 7px; border: 1px solid #b91c1c; color: #b91c1c; font: 700 .58rem Lexend, sans-serif; letter-spacing: .18em; text-transform: uppercase; border-radius: 2px; }
+        .np-comu h3 { margin: 10px 0 6px; font-size: 1.15rem; line-height: 1.3; }
+        .np-comu p { font-size: .92rem; line-height: 1.6; color: #525252; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+        .np-date { margin-top: 8px; font: .66rem Lexend, sans-serif; color: #737373; }
+        .np-card { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+        .np-cd { font: .66rem Lexend, sans-serif; color: #737373; text-align: right; }
+        .np-card .np-att { width: 100%; height: 150px; transform: rotate(-1deg); }
+        .np-card h3 { font-size: 1.08rem; line-height: 1.3; flex: 1; }
+        .np-card .np-fm em { min-width: 80px; font-size: .85rem; }
+        /* filtri */
+        .np-grid[data-f="notizia"] .np-aside { display: none; }
+        .np-grid[data-f="notizia"] .np-top { grid-template-columns: 1fr; }
+        .np-grid[data-f="comunicato"] .np-main, .np-grid[data-f="comunicato"] .np-row { display: none; }
+        .np-grid[data-f="comunicato"] .np-top { grid-template-columns: minmax(0, 520px); }
+        /* finestra di lettura */
+        .np-dialog { border: 0; padding: 0; background: transparent; max-width: min(720px, 94vw); width: 100%; max-height: 92vh; overflow: visible; margin: auto; }
+        .np-dialog::backdrop { background: rgba(5,6,10,.72); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+        .np-dialog-body { background: #f6f4ee; color: #171717; border-radius: 6px; padding: 36px 40px; max-height: 90vh; overflow-y: auto; font-family: Georgia, 'Times New Roman', serif; box-shadow: 0 30px 80px rgba(0,0,0,.7); }
+        .np-x { position: absolute; top: -14px; right: -14px; z-index: 2; width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,.2); background: #1b1e24; color: #fff; font-size: 1.4rem; line-height: 1; cursor: pointer; }
+        .np-doc { display: flex; flex-direction: column; gap: 14px; font-family: Georgia, 'Times New Roman', serif; }
+        .np-doc h3 { font-size: 1.7rem; line-height: 1.25; }
+        .np-doc p { font-size: 1.05rem; line-height: 1.75; color: #404040; }
+        .np-doc-img { width: 100%; max-height: 320px; object-fit: contain; background: #fff; padding: 8px; border-radius: 4px; box-shadow: 0 8px 20px rgba(0,0,0,.2); }
+        .np-doc * { font-family: inherit; }
+        .np-doc .np-th small, .np-doc .np-th b, .np-doc .np-th span, .np-doc .np-ogg, .np-doc .np-fm span { font-family: Lexend, sans-serif; }
+        @media (max-width: 1000px) { .np-top { grid-template-columns: 1fr; } .np-row { grid-template-columns: repeat(2, 1fr); } .np-cols { grid-template-columns: 1fr; } }
+        @media (max-width: 560px) { .np-row { grid-template-columns: 1fr; } .np-main { padding: 22px 20px 18px; } .np-main h2 { font-size: 1.5rem; } .np-dialog-body { padding: 26px 22px; } .np-x { top: -10px; right: -6px; } }
+
 
         /* PAGE CONTENT */
         .page-content { position: relative; z-index: 3; max-width: 1200px; margin: 0 auto; padding: 30px 20px 100px; }
@@ -196,91 +253,68 @@
     </header>
 
     <main class="page-content">
-
-        <article class="news-article gs-reveal page-anim" data-tipo="notizia">
-            <div class="news-text-content">
-                <div class="news-date"><i class="far fa-calendar-alt"></i> 11 Maggio 2025</div>
-                <h2 class="news-title">La Polizia di Stato è in lutto per la scomparsa di Derek Morgan</h2>
-                <p>Oggi, 11 maggio 2025, la Polizia di Stato piange la scomparsa del nostro caro collega Derek Morgan.
-                    Dopo aver lottato con tutte le sue forze fino all'ultimo momento, purtroppo non ce l'ha fatta.</p>
-                <p>Con la sua perdita, la Polizia non perde solo un valido agente, ma un amico, un fratello, una
-                    presenza sempre pronta a sostenere e a combattere ogni difficoltà con impegno e determinazione.
-                    Derek Morgan è stato un esempio di dedizione e professionalità, lasciando un segno indelebile in
-                    tutti coloro che hanno avuto l'onore di lavorare al suo fianco.</p>
-                <p>Alla sua famiglia e ai suoi cari va il nostro più profondo cordoglio e la vicinanza di tutto il
-                    Corpo. La sua memoria continuerà a vivere nei cuori di chi lo ha conosciuto e stimato.</p>
+        <div class="np-grid" id="np-grid" data-f="tutte">
+            <div class="np-top">
+                <article class="np-sheet np-main gs-reveal page-anim" data-tipo="notizia" tabindex="0" role="button" aria-label="Leggi: La Polizia di Stato è in lutto per la scomparsa di Derek Morgan">
+                    <div class="np-th"><img src="logo-polizia.png" alt=""><div><small>Polizia di Stato</small><b>Questura di Roma</b></div><span>Roma, 11 Maggio 2025</span></div>
+                    <div class="np-cols">
+                        <div>
+                            <div class="np-ogg">Oggetto · In apertura</div>
+                            <h2>La Polizia di Stato è in lutto per la scomparsa di Derek Morgan</h2>
+                            <p>Oggi, 11 maggio 2025, la Polizia di Stato piange la scomparsa del nostro caro collega Derek Morgan. Dopo aver lottato con tutte le sue forze fino all&#x27;ultimo momento, purtroppo non ce l&#x27;ha fatta.</p>
+                        </div>
+                        <figure class="np-att np-att-big"><img src="foto/notizie/lutto.png" alt="La Polizia di Stato è in lutto per la scomparsa di Derek Morgan"><figcaption>Allegato</figcaption></figure>
+                    </div>
+                    <div class="np-fm"><span>Ufficio Stampa</span><em>Il Questore</em></div>
+                    <template class="np-full"><div class="np-doc"><div class="np-th"><img src="logo-polizia.png" alt=""><div><small>Polizia di Stato</small><b>Questura di Roma</b></div><span>Roma, 11 Maggio 2025</span></div><div class="np-ogg">Oggetto</div><h3>La Polizia di Stato è in lutto per la scomparsa di Derek Morgan</h3><p>Oggi, 11 maggio 2025, la Polizia di Stato piange la scomparsa del nostro caro collega Derek Morgan. Dopo aver lottato con tutte le sue forze fino all'ultimo momento, purtroppo non ce l'ha fatta.</p><p>Con la sua perdita, la Polizia non perde solo un valido agente, ma un amico, un fratello, una presenza sempre pronta a sostenere e a combattere ogni difficoltà con impegno e determinazione. Derek Morgan è stato un esempio di dedizione e professionalità, lasciando un segno indelebile in tutti coloro che hanno avuto l'onore di lavorare al suo fianco.</p><p>Alla sua famiglia e ai suoi cari va il nostro più profondo cordoglio e la vicinanza di tutto il Corpo. La sua memoria continuerà a vivere nei cuori di chi lo ha conosciuto e stimato.</p><img class="np-doc-img" src="foto/notizie/lutto.png" alt="La Polizia di Stato è in lutto per la scomparsa di Derek Morgan"><div class="np-fm"><span>Ufficio Stampa</span><em>Il Questore</em></div></div></template>
+                </article>
+                <aside class="np-sheet np-aside gs-reveal page-anim" data-tipo="comunicato">
+                    <div class="np-th np-th-aside"><img src="logo-polizia.png" alt=""><b>Dalla Questura</b></div>
+                    <div class="np-comu" tabindex="0" role="button" aria-label="Leggi: Richiesta Feste">
+                        <div class="np-stamp">Avviso</div>
+                        <h3>Richiesta Feste</h3>
+                        <p>Si ricorda a tutta la cittadinanza che, ai promotori di riunioni in luogo pubblico aperto al pubblico, è obbligatorio avvisare il Questore della citta di Roma con almeno 3 Giorni di preavviso.</p>
+                        <div class="np-date">Avviso alla cittadinanza</div>
+                        <template class="np-full"><div class="np-doc"><div class="np-th"><img src="logo-polizia.png" alt=""><div><small>Polizia di Stato</small><b>Questura di Roma</b></div><span>Avviso alla cittadinanza</span></div><div class="np-ogg">Oggetto</div><h3>Richiesta Feste</h3><p>Si ricorda a tutta la cittadinanza che, ai promotori di riunioni in luogo pubblico aperto al pubblico, è obbligatorio avvisare il Questore della citta di Roma con almeno 3 Giorni di preavviso.</p><p>Vedi disposizione art. 18 TULPS.</p><img class="np-doc-img" src="foto/notizie/stemma.png" alt="Richiesta Feste"><div class="np-fm"><span>Ufficio Stampa</span><em>Il Questore</em></div></div></template>
+                    </div>
+                </aside>
             </div>
-            <img class="news-image" src="foto/notizie/lutto.png" alt="Scomparsa Derek Morgan">
-        </article>
-
-  <article id="in-evidenza" class="news-article gs-reveal page-anim" data-tipo="notizia">
-            <div class="news-text-content">
-                <div class="news-date"><i class="far fa-calendar-alt"></i> 6 Luglio 2024</div>
-                <h2 class="news-title">Cambio Dirigenti in Questura di Roma</h2>
-                <p>Oggi, 6 Luglio 2024 il Vice Questore Marco Ferri è stato nominato Questore della Questura di Roma col
-                    grado di Dirigente Generale.</p>
-                <p>Il Dirigente Generale della Polizia di Stato, Marco Ferri, si è laureato in Giurisprudenza
-                    all'università di Roma. Nel 2021 ha partecipato all'80° concorso per commissari, vincendo il
-                    concorso nel 2023. Successivamente è stato trasferito a Roma con l'incarico di Dirigente generale di
-                    Pubblica Sicurezza.</p>
+            <div class="np-row">
+                <article id="in-evidenza" class="np-sheet np-card gs-reveal page-anim" data-tipo="notizia" tabindex="0" role="button" aria-label="Leggi: Cambio Dirigenti in Questura di Roma">
+                    <div class="np-cd"><span>6 Luglio 2024</span></div>
+                    <figure class="np-att"><img src="foto/notizie/king.png" alt="Cambio Dirigenti in Questura di Roma"><figcaption>Allegato</figcaption></figure>
+                    <h3>Cambio Dirigenti in Questura di Roma</h3>
+                    <div class="np-fm"><span>Ufficio Stampa</span><em>Il Questore</em></div>
+                    <template class="np-full"><div class="np-doc"><div class="np-th"><img src="logo-polizia.png" alt=""><div><small>Polizia di Stato</small><b>Questura di Roma</b></div><span>Roma, 6 Luglio 2024</span></div><div class="np-ogg">Oggetto</div><h3>Cambio Dirigenti in Questura di Roma</h3><p>Oggi, 6 Luglio 2024 il Vice Questore Marco Ferri è stato nominato Questore della Questura di Roma col grado di Dirigente Generale.</p><p>Il Dirigente Generale della Polizia di Stato, Marco Ferri, si è laureato in Giurisprudenza all'università di Roma. Nel 2021 ha partecipato all'80° concorso per commissari, vincendo il concorso nel 2023. Successivamente è stato trasferito a Roma con l'incarico di Dirigente generale di Pubblica Sicurezza.</p><img class="np-doc-img" src="foto/notizie/king.png" alt="Cambio Dirigenti in Questura di Roma"><div class="np-fm"><span>Ufficio Stampa</span><em>Il Questore</em></div></div></template>
+                </article>
+                <article class="np-sheet np-card gs-reveal page-anim" data-tipo="notizia" tabindex="0" role="button" aria-label="Leggi: Giuramento del Corpo della Polizia di Stato">
+                    <div class="np-cd"><span>13 Aprile 2024</span></div>
+                    <figure class="np-att"><img src="foto/notizie/giuramento.png" alt="Giuramento del Corpo della Polizia di Stato"><figcaption>Allegato</figcaption></figure>
+                    <h3>Giuramento del Corpo della Polizia di Stato</h3>
+                    <div class="np-fm"><span>Ufficio Stampa</span><em>Il Questore</em></div>
+                    <template class="np-full"><div class="np-doc"><div class="np-th"><img src="logo-polizia.png" alt=""><div><small>Polizia di Stato</small><b>Questura di Roma</b></div><span>Roma, 13 Aprile 2024</span></div><div class="np-ogg">Oggetto</div><h3>Giuramento del Corpo della Polizia di Stato</h3><p>Nella giornata di oggi 13 Aprile 2024 si è svolto il Giuramento del Corpo della Polizia di Stato presso la Questura di Roma.</p><p>I nuovi agenti hanno giurato fedeltà alla Repubblica Italiana e si sono impegnati a servire i cittadini con dedizione e professionalità.</p><p>La cerimonia si è svolta alla presenza del Questore Marco Ferri e di tutti i Dirigenti del Corpo.</p><img class="np-doc-img" src="foto/notizie/giuramento.png" alt="Giuramento del Corpo della Polizia di Stato"><div class="np-fm"><span>Ufficio Stampa</span><em>Il Questore</em></div></div></template>
+                </article>
+                <article class="np-sheet np-card gs-reveal page-anim" data-tipo="notizia" tabindex="0" role="button" aria-label="Leggi: Cambio Dirigenti in Questura di Roma">
+                    <div class="np-cd"><span>5 Aprile 2024</span></div>
+                    <figure class="np-att"><img src="foto/notizie/andolfi.png" alt="Cambio Dirigenti in Questura di Roma"><figcaption>Allegato</figcaption></figure>
+                    <h3>Cambio Dirigenti in Questura di Roma</h3>
+                    <div class="np-fm"><span>Ufficio Stampa</span><em>Il Questore</em></div>
+                    <template class="np-full"><div class="np-doc"><div class="np-th"><img src="logo-polizia.png" alt=""><div><small>Polizia di Stato</small><b>Questura di Roma</b></div><span>Roma, 5 Aprile 2024</span></div><div class="np-ogg">Oggetto</div><h3>Cambio Dirigenti in Questura di Roma</h3><p>Oggi, 5 Aprile 2024 il Commissario Matteo Andolfi è stato nominato Questore della Questura di Roma col grado di Primo Dirigente.</p><p>Matteo Andolfi, è Laureato in giurisprudenza presso l'Università di Pavia, dopo aver conseguito la Laurea con il massimo dei voti, si è iscritto al concorso per Commissari, che ha vinto brillantemente. Nel 2020, è stato nominato dirigente dell'Ufficio Volante di Pavia, dove ha svolto il suo incarico con grande impegno e professionalità. Nel 2024, è stato trasferito a Roma con l'incarico di Primo Dirigente della Polizia di Stato.</p><img class="np-doc-img" src="foto/notizie/andolfi.png" alt="Cambio Dirigenti in Questura di Roma"><div class="np-fm"><span>Ufficio Stampa</span><em>Il Questore</em></div></div></template>
+                </article>
+                <article class="np-sheet np-card gs-reveal page-anim" data-tipo="notizia" tabindex="0" role="button" aria-label="Leggi: Cerimonia degli Onori alla Polizia di Stato">
+                    <div class="np-cd"><span>20 Marzo 2024</span></div>
+                    <figure class="np-att"><img src="foto/notizie/onori.png" alt="Cerimonia degli Onori alla Polizia di Stato"><figcaption>Allegato</figcaption></figure>
+                    <h3>Cerimonia degli Onori alla Polizia di Stato</h3>
+                    <div class="np-fm"><span>Ufficio Stampa</span><em>Il Questore</em></div>
+                    <template class="np-full"><div class="np-doc"><div class="np-th"><img src="logo-polizia.png" alt=""><div><small>Polizia di Stato</small><b>Questura di Roma</b></div><span>Roma, 20 Marzo 2024</span></div><div class="np-ogg">Oggetto</div><h3>Cerimonia degli Onori alla Polizia di Stato</h3><p>In data odierna si è svolta la cerimonia di conferimento degli onori e delle decorazioni agli agenti che si sono distinti per atti di coraggio e dedizione al servizio.</p><p>La Questura di Roma ha voluto riconoscere il valore e l'impegno di questi uomini e donne che ogni giorno garantiscono la sicurezza dei cittadini.</p><img class="np-doc-img" src="foto/notizie/onori.png" alt="Cerimonia degli Onori alla Polizia di Stato"><div class="np-fm"><span>Ufficio Stampa</span><em>Il Questore</em></div></div></template>
+                </article>
             </div>
-            <img class="news-image" src="foto/notizie/king.png" alt="Cambio Dirigenti 6 Luglio 2024">
-        </article>
+        </div>
 
-
-        <article class="news-article gs-reveal page-anim" data-tipo="notizia">
-            <div class="news-text-content">
-                <div class="news-date"><i class="far fa-calendar-alt"></i> 5 Aprile 2024</div>
-                <h2 class="news-title">Cambio Dirigenti in Questura di Roma</h2>
-              <p>Oggi, 5 Aprile 2024 il Commissario Matteo Andolfi è stato nominato Questore della Questura di Roma
-                    col grado di Primo Dirigente.</p>
-                <p>Matteo Andolfi, è Laureato in giurisprudenza presso l'Università di Pavia, dopo aver conseguito la
-                    Laurea con il massimo dei voti, si è iscritto al concorso per Commissari, che ha vinto
-                    brillantemente. Nel 2020, è stato nominato dirigente dell'Ufficio Volante di Pavia, dove ha svolto
-                    il suo incarico con grande impegno e professionalità. Nel 2024, è stato trasferito a Roma con
-                    l'incarico di Primo Dirigente della Polizia di Stato.</p>
-            </div>
-            <img class="news-image" src="foto/notizie/andolfi.png" alt="Cambio Dirigenti">
-
-        </article>
-
-
-         <article class="news-article gs-reveal page-anim" data-tipo="notizia">
-            <div class="news-text-content">
-                <div class="news-date"><i class="far fa-calendar-alt"></i> 20 Marzo 2024</div>
-                <h2 class="news-title">Cerimonia degli Onori alla Polizia di Stato</h2>
-                <p>In data odierna si è svolta la cerimonia di conferimento degli onori e delle decorazioni agli agenti che si sono distinti per atti di coraggio e dedizione al servizio.</p>
-                <p>La Questura di Roma ha voluto riconoscere il valore e l'impegno di questi uomini e donne che ogni giorno garantiscono la sicurezza dei cittadini.</p>
-            </div>
-            <img class="news-image" src="foto/notizie/onori.png" alt="Cerimonia degli Onori" style="width: 450px; height: 350px; margin: auto; object-fit: contain;">
-        </article>
-
-
-        <article class="news-article gs-reveal page-anim" data-tipo="comunicato">
-            <div class="news-text-content">
-                <div class="news-date" style="position: relative; top: -15px;"><i class="fas fa-exclamation-circle"></i> Avviso</div>
-                <h2 class="news-title">Richiesta Feste</h2>
-                <p>Si ricorda a tutta la cittadinanza che, ai promotori di riunioni in luogo pubblico aperto al
-                    pubblico, è obbligatorio avvisare il Questore della citta di Roma
-                    con almeno 3 Giorni di preavviso.</p>
-                <p>Vedi disposizione art. 18 TULPS.</p>
-            </div>
-            <img class="news-image" src="foto/notizie/stemma.png" alt="Richiesta Feste">
-        </article>
-
-        <article class="news-article gs-reveal page-anim" data-tipo="notizia">
-            <div class="news-text-content">
-                <div class="news-date"><i class="far fa-calendar-alt"></i> 13 Aprile 2024</div>
-                <h2 class="news-title">Giuramento del Corpo della Polizia di Stato</h2>
-                <p>Nella giornata di oggi 13 Aprile 2024 si è svolto il Giuramento del Corpo della Polizia di Stato presso la Questura di Roma.</p>
-                <p>I nuovi agenti hanno giurato fedeltà alla Repubblica Italiana e si sono impegnati a servire i cittadini con dedizione e professionalità.</p>
-                <p>La cerimonia si è svolta alla presenza del Questore Marco Ferri e di tutti i Dirigenti del Corpo.</p>
-            </div>
-            <img class="news-image" src="foto/notizie/giuramento.png" alt="Giuramento Polizia">
-        </article>
-
-       
-
+        <dialog class="np-dialog" id="np-dialog" data-lenis-prevent aria-label="Comunicato">
+            <button type="button" class="np-x" aria-label="Chiudi">&times;</button>
+            <div class="np-dialog-body"></div>
+        </dialog>
     </main>
 
     <footer class="site-footer">
@@ -349,21 +383,36 @@ gsap.registerPlugin(ScrollTrigger);
         window.addEventListener('pageshow', inCima);
 
         // filtri: cambio immediato nella stessa pagina, senza ricaricare né far saltare lo scorrimento
+        const griglia = document.getElementById('np-grid');
         let filtrato = false;
         document.querySelectorAll('.np-tabs button').forEach((b) => b.addEventListener('click', () => {
             if (b.classList.contains('on')) return;
             document.querySelectorAll('.np-tabs button').forEach((x) => { x.classList.toggle('on', x === b); x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
-            const f = b.dataset.f;
             if (!filtrato && window.ScrollTrigger) { ScrollTrigger.getAll().forEach((t) => t.kill()); filtrato = true; }
-            const tutti = [...document.querySelectorAll('.news-article')];
-            const visibili = tutti.filter((a) => f === 'tutte' || a.dataset.tipo === f);
-            tutti.forEach((a) => { a.hidden = !visibili.includes(a); });
-            gsap.killTweensOf(tutti);
+            griglia.dataset.f = b.dataset.f;
+            const visibili = [...griglia.querySelectorAll('.np-sheet')].filter((el) => el.offsetParent !== null);
+            gsap.killTweensOf('.np-sheet');
             gsap.fromTo(visibili, { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: 'power3.out', stagger: 0.05, overwrite: true });
-            // se eri sceso nella pagina, torna all'inizio dell'elenco; altrimenti resta dove sei
             const soglia = document.querySelector('.np-head').offsetHeight - 120;
             if (window.scrollY > soglia) { if (window.__lenis) window.__lenis.scrollTo(soglia, { immediate: true }); else window.scrollTo(0, soglia); }
         }));
+
+        // lettura del comunicato in una finestra
+        const dlg = document.getElementById('np-dialog');
+        const corpo = dlg.querySelector('.np-dialog-body');
+        function apri(el) {
+            const t = el.querySelector('template.np-full');
+            if (!t) return;
+            corpo.innerHTML = ''; corpo.appendChild(t.content.cloneNode(true)); corpo.scrollTop = 0;
+            dlg.showModal(); if (window.__lenis) window.__lenis.stop();
+        }
+        function chiudi() { dlg.close(); }
+        dlg.addEventListener('close', () => { if (window.__lenis) window.__lenis.start(); });
+        dlg.addEventListener('click', (e) => { if (e.target === dlg || e.target.classList.contains('np-x')) chiudi(); });
+        document.querySelectorAll('.np-main, .np-card, .np-comu').forEach((el) => {
+            el.addEventListener('click', () => apri(el));
+            el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); apri(el); } });
+        });
 
         function initScrollAnimations() {
             gsap.utils.toArray('.page-anim').forEach((elem, i) => {
