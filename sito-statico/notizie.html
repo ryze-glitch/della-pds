@@ -156,6 +156,18 @@
         .np-doc-img { width: 100%; max-height: 320px; object-fit: contain; background: #fff; padding: 8px; border-radius: 4px; box-shadow: 0 8px 20px rgba(0,0,0,.2); }
         .np-doc * { font-family: inherit; }
         .np-doc .np-th small, .np-doc .np-th b, .np-doc .np-th span, .np-doc .np-ogg, .np-doc .np-fm span { font-family: Lexend, sans-serif; }
+        /* animazione di apertura e chiusura della lettura (stessa dissolvenza e scivolamento del cambio pagina) */
+        @keyframes npIn { from { opacity: 0; translate: 0 22px; } }
+        @keyframes npFade { from { opacity: 0; } }
+        .np-dialog[open] .np-dialog-body, .np-dialog[open] .np-x { animation: npIn .32s cubic-bezier(.2,.7,.2,1) backwards; }
+        .np-dialog[open]::backdrop { animation: npFade .28s ease-out backwards; }
+        .np-dialog[open] .np-doc > * { animation: npIn .4s cubic-bezier(.2,.7,.2,1) backwards; }
+        .np-dialog[open] .np-doc > *:nth-child(2) { animation-delay: .05s; }
+        .np-dialog[open] .np-doc > *:nth-child(3) { animation-delay: .09s; }
+        .np-dialog[open] .np-doc > *:nth-child(4) { animation-delay: .13s; }
+        .np-dialog[open] .np-doc > *:nth-child(n+5) { animation-delay: .17s; }
+        .np-dialog.np-out .np-dialog-body, .np-dialog.np-out .np-x { opacity: 0; translate: 0 -22px; transition: opacity .22s ease-in, translate .22s ease-in; }
+        .np-dialog.np-out::backdrop { opacity: 0; transition: opacity .22s ease-in; }
         @media (max-width: 1000px) { .np-top { grid-template-columns: 1fr; } .np-row { grid-template-columns: repeat(2, 1fr); } .np-cols { grid-template-columns: 1fr; } }
         @media (max-width: 560px) { .np-row { grid-template-columns: 1fr; } .np-main { padding: 22px 20px 18px; } .np-main h2 { font-size: 1.5rem; } .np-dialog-body { padding: 26px 22px; } .np-x { top: -10px; right: -6px; } }
 
@@ -406,7 +418,13 @@ gsap.registerPlugin(ScrollTrigger);
             corpo.innerHTML = ''; corpo.appendChild(t.content.cloneNode(true)); corpo.scrollTop = 0;
             dlg.showModal(); if (window.__lenis) window.__lenis.stop();
         }
-        function chiudi() { dlg.close(); }
+        let inChiusura = false;
+        function chiudi() {
+            if (inChiusura || !dlg.open) return;
+            inChiusura = true; dlg.classList.add('np-out');
+            setTimeout(() => { dlg.close(); dlg.classList.remove('np-out'); inChiusura = false; }, 220);
+        }
+        dlg.addEventListener('cancel', (e) => { e.preventDefault(); chiudi(); });
         dlg.addEventListener('close', () => { if (window.__lenis) window.__lenis.start(); });
         dlg.addEventListener('click', (e) => { if (e.target === dlg || e.target.classList.contains('np-x')) chiudi(); });
         document.querySelectorAll('.np-main, .np-card, .np-comu').forEach((el) => {
