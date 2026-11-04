@@ -1,7 +1,7 @@
 /* Home: sezione "I nostri servizi" (schede uniformi con foto, etichetta e pulsante). */
 .services-section{padding:110px 5% 90px}
 .services-grid{grid-template-columns:repeat(4,1fr);gap:20px;align-items:stretch}
-.services-grid .service-card{border-radius:22px;background:rgba(20,22,28,.7);border:1px solid rgba(255,255,255,.08);box-shadow:0 14px 34px rgba(0,0,0,.35)}
+.services-grid .service-card{border-radius:22px;background:rgba(20,22,28,.92);border:1px solid rgba(255,255,255,.08);box-shadow:0 14px 34px rgba(0,0,0,.35)}
 .service-photo{position:relative;height:200px;overflow:hidden}
 .service-photo img{width:100%;height:100%;object-fit:cover;border-bottom:0;transition:transform .6s ease}
 .service-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(9,10,15,.55),transparent 55%);pointer-events:none}
@@ -18,7 +18,7 @@
 .service-btn{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:10px;align-self:flex-start;height:42px;padding:0 20px;border-radius:999px;background:rgba(37,99,235,.15);color:#7aa2ff;font-size:.88rem;font-weight:600;transition:background .2s,color .2s}
 .service-btn:hover{background:var(--accent-blue);color:#fff}
 .service-btn i{font-size:.8rem}
-.faq-bar{margin-top:20px;padding:26px 28px;border-radius:22px;background:rgba(20,22,28,.7);border:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:240px 1fr;gap:10px 30px;align-items:center}
+.faq-bar{margin-top:20px;padding:26px 28px;border-radius:22px;background:rgba(20,22,28,.92);border:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:240px 1fr;gap:10px 30px;align-items:center}
 .faq-bar h3{font-size:1.1rem;font-weight:700;color:#fff}
 .faq-bar ul{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .faq-bar a{display:flex;align-items:center;justify-content:space-between;gap:12px;height:100%;padding:14px 18px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:#fff;font-size:.9rem;transition:background .2s,border-color .2s}

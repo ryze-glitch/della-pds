@@ -16,7 +16,7 @@
         /* --- RESET E VARIABILI --- */
         :root {
             --bg-dark: #090a0f;
-            --nav-bg: rgba(20, 22, 28, 0.75);
+            --nav-bg: rgba(20, 22, 28, 0.92);
             --nav-border: rgba(255, 255, 255, 0.08);
             --pill-dark: #1b1e24;
             --text-main: #f8fafc;
@@ -98,9 +98,7 @@
 
         .navbar {
             background: var(--nav-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--nav-border);
+border: 1px solid var(--nav-border);
             border-radius: 999px;
             padding: 6px 8px;
             display: grid;
@@ -177,8 +175,7 @@
             left: 50%;
             width: 220px;
             background: var(--nav-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--nav-border);
+border: 1px solid var(--nav-border);
             border-radius: 12px;
             padding: 8px;
             display: flex;
@@ -370,8 +367,7 @@
             font-weight: 500;
             font-size: 1rem;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
+cursor: pointer;
         }
 
         .btn-scroll:hover {
@@ -542,8 +538,7 @@
             margin-bottom: 8px;
             font-size: 0.95rem;
             font-weight: 500;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+box-shadow: 0 5px 20px rgba(0,0,0,0.4);
         }
         /* --- GSAP REVEAL --- */
         .gs-reveal { visibility: hidden; }
@@ -558,6 +553,7 @@
             .services-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 3.5rem; }
         }
+            .pre-ok .preloader{display:none!important}
     </style>
     <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
@@ -653,6 +649,7 @@
 </head>
 
 <body>
+    <script>try{if(sessionStorage.getItem("pds-pre")==="1")document.documentElement.classList.add("pre-ok");else sessionStorage.setItem("pds-pre","1")}catch(e){}</script>
 
     <div class="preloader" id="preloader">
         <img id="preload-logo" src="logo-iprp.png" alt="Logo Polizia" />
@@ -830,42 +827,24 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
     <script>
-        // Lenis smooth scroll
-        const lenis = new Lenis({ 
-            duration: 1.2, 
-            smoothWheel: true 
-        });
-        
-        function raf(time) { 
-            lenis.raf(time); 
-            requestAnimationFrame(raf); 
-        }
-        requestAnimationFrame(raf);
+gsap.registerPlugin(ScrollTrigger);
 
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Collega ScrollTrigger a Lenis per evitare desincronizzazioni
-        lenis.on('scroll', ScrollTrigger.update);
-
-        window.addEventListener('load', () => {
+window.addEventListener('load', () => {
             const tl = gsap.timeline({
                 onComplete: () => {
                     document.getElementById('preloader').style.display = 'none';
                     
-                    // Forza Lenis a ricalcolare l'altezza della pagina ora che il preloader è rimosso
-                    lenis.resize();
-                    
-                    initScrollAnimations();
+initScrollAnimations();
                 }
             });
 
-            tl.to("#preload-logo", { autoAlpha: 1, scale: 1, duration: 1, ease: "back.out(1.5)" })
-              .to("#preloader", { autoAlpha: 0, duration: 0.6, ease: "power2.inOut", delay: 0.4 })
+            tl.to("#preload-logo", { autoAlpha: 1, scale: 1, duration: 0.6, ease: "back.out(1.5)" })
+              .to("#preloader", { autoAlpha: 0, duration: 0.6, ease: "power2.inOut", delay: 0.1 })
               .to("#navbar", { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.4")
               .fromTo(".hero-item", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1, stagger: 0.15, ease: "back.out(1.2)" }, "-=0.6");
+            if (document.documentElement.classList.contains("pre-ok")) tl.seek(0.85);
         });
 
         function initScrollAnimations() {

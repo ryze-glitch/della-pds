@@ -55,17 +55,4 @@
     });
   }
 
-  // dissolvenza in uscita verso un'altra pagina del sito
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href]');
-    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    if (a.target && a.target !== '_self') return;
-    var u; try { u = new URL(a.href, location.href); } catch (x) { return; }
-    if (u.origin !== location.origin || (u.pathname === location.pathname && u.search === location.search) || a.hasAttribute('download')) return;
-    if (/^(tel|mailto):/i.test(a.getAttribute('href'))) return;
-    e.preventDefault();
-    document.body.classList.add('esce');
-    setTimeout(function () { location.href = a.href; }, 200);
-  });
-  window.addEventListener('pageshow', function (e) { if (e.persisted) document.body.classList.remove('esce'); });
 })();

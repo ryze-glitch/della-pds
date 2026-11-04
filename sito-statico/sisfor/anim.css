@@ -6,12 +6,9 @@
 @keyframes suona{0%,100%{transform:rotate(0)}15%{transform:rotate(14deg)}30%{transform:rotate(-12deg)}45%{transform:rotate(8deg)}60%{transform:rotate(-5deg)}75%{transform:rotate(2deg)}}
 
 /* comparsa allo scorrimento */
-html.anim .rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s);will-change:opacity,transform}
+html.anim .rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s);}
 html.anim .rv.in{opacity:1;transform:none}
 
-/* ingresso e uscita di pagina */
-html.anim body{animation:pagIn .6s ease both}
-html.anim body.esce{opacity:0;transition:opacity .22s ease}
 
 /* isole della barra */
 .navbar-wrapper .nav-center>a,.navbar-wrapper .nav-center .dropdown>a{transition:background .25s ease,transform .25s ease}
@@ -42,7 +39,6 @@ html.anim body.esce{opacity:0;transition:opacity .22s ease}
 
 @media (prefers-reduced-motion:reduce){
   html.anim .rv{opacity:1;transform:none;transition:none}
-  html.anim body{animation:none}
   .nav-badge{animation:none}
   .nav-bell:hover svg{animation:none}
 }

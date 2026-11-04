@@ -1,7 +1,7 @@
 /* Barra del sito: tre isole separate (marchio · voci · azioni), stile HeroUI "M".
    Sovrascrive la barra a pillola unica delle singole pagine. */
 .navbar-wrapper .navbar{display:flex;grid-template-columns:none;justify-content:space-between;align-items:center;gap:12px;background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0;border-radius:0}
-.navbar-wrapper .nav-left,.navbar-wrapper .nav-center,.navbar-wrapper .nav-right{height:56px;display:flex;align-items:center;background:var(--nav-bg,rgba(20,22,28,.75));border:1px solid rgba(255,255,255,.1);border-radius:999px;box-shadow:0 14px 34px rgba(0,0,0,.5);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+.navbar-wrapper .nav-left,.navbar-wrapper .nav-center,.navbar-wrapper .nav-right{height:56px;display:flex;align-items:center;background:var(--nav-bg,rgba(20,22,28,.92));border:1px solid rgba(255,255,255,.1);border-radius:999px;box-shadow:0 14px 34px rgba(0,0,0,.5);}
 
 /* isola 1: marchio */
 .navbar-wrapper .nav-left{padding:0}
@@ -32,7 +32,7 @@
 .nav-burger:hover{background:rgba(255,255,255,.1)}
 
 /* menu a comparsa su schermi stretti */
-.nav-panel{display:none;margin-top:12px;padding:10px;border-radius:28px;background:rgba(20,22,28,.95);border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 40px rgba(0,0,0,.6);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);max-height:calc(100vh - 120px);overflow:auto}
+.nav-panel{display:none;margin-top:12px;padding:10px;border-radius:28px;background:rgba(20,22,28,.95);border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 40px rgba(0,0,0,.6);max-height:calc(100vh - 120px);overflow:auto}
 .nav-panel.open{display:block}
 .nav-panel a{display:flex;align-items:center;min-height:48px;padding:0 18px;border-radius:999px;color:#fff;font-weight:600;font-size:1.05rem}
 .nav-panel a:hover,.nav-panel a.active-link{background:rgba(255,255,255,.1)}
@@ -83,7 +83,7 @@ button.nav-bell{border:0;background:none;cursor:pointer;position:relative;font:i
 
 
 /* area riservata: niente barra del sito, solo il ritorno al sito */
-.back-site{position:fixed;top:25px;left:max(24px,calc((100vw - 1400px) / 2));z-index:1000;display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 22px;border-radius:999px;background:rgba(20,22,28,.75);border:1px solid rgba(255,255,255,.1);box-shadow:0 14px 34px rgba(0,0,0,.5);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);color:#fff;font-size:.9rem;font-weight:600;transition:background .2s,transform .25s}
+.back-site{position:fixed;top:25px;left:max(24px,calc((100vw - 1400px) / 2));z-index:1000;display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 22px;border-radius:999px;background:rgba(20,22,28,.75);border:1px solid rgba(255,255,255,.1);box-shadow:0 14px 34px rgba(0,0,0,.5);color:#fff;font-size:.9rem;font-weight:600;transition:background .2s,transform .25s}
 .back-site:hover{background:rgba(37,99,235,.85);transform:translateX(-3px)}
 .back-site i{font-size:.8rem}
 @media (max-width:560px){.back-site{top:12px;left:12px;height:44px;padding:0 18px}}
