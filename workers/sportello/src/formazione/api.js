@@ -1,7 +1,7 @@
 // Rotte /formazione/* del Worker. Ogni rotta verifica il token e il ruolo lato server.
 // Le risposte corrette dei quiz non escono mai prima della consegna.
 import { gradoIndex, LIVELLI, GRADI, RUOLI, STATI_PRATICA_LABEL, QUIZ_DEFAULT } from '../../../../portal/lib/formazione.js';
-import { ruoloDi, puo } from './ruoli.js';
+import { ruoloDi, puo, accedeSisfor } from './ruoli.js';
 import { configQuiz, estrai, perIlBrowser, puoTentare, correggi } from './quiz.js';
 import { statoModuli, tuttiIQuizSuperati, praticaSbloccata, corsoVisibile } from './percorso.js';
 import { transizione, valuta, praticaAttiva, scadenzaAbilitazione } from './pratica.js';
@@ -86,6 +86,8 @@ async function gestisci(request, env, { cors, url, verify, store, now = Date.now
   const io = { id: uid, nome: profilo.nome || '', cognome: profilo.cognome || '', grado: profilo.grado || '', qualifica: profilo.qualifica || '', matricola: profilo.matricola || '', ruolo };
   const ora = now();
   const richiedi = (azione) => (puo(ruolo, azione) ? null : err('Permesso negato.', 403, cors));
+  const sisfor = accedeSisfor(profilo, ruolo);
+  io.sisfor = sisfor;
 
   let r;
   let body = {};
@@ -97,6 +99,7 @@ async function gestisci(request, env, { cors, url, verify, store, now = Date.now
 
   // ---------- allievo ----------
   if (path === '/me' && m === 'GET') return risposta({ me: io }, 200, cors);
+  if (!sisfor) return err('Il SISFOR è riservato agli Allievi Agenti.', 403, cors);
   if (path === '/config' && m === 'GET') return risposta({ gradi: GRADI, statiPratica: STATI_PRATICA_LABEL, livelli: Object.fromEntries(Object.entries(LIVELLI).map(([k, v]) => [k, v.label])), quiz: QUIZ_DEFAULT }, 200, cors);
 
   if (path === '/corsi' && m === 'GET') {

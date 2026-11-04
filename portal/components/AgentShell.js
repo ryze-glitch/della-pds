@@ -6,7 +6,8 @@ import { Icon } from './icons';
 import { useAgentProfile } from './useAgentProfile';
 
 const ITEMS = [
-  { href: '/dashboard', label: 'Panoramica', icon: 'dashboard' },
+  { href: '/dashboard', label: 'Dashboard', icon: 'dashboard' },
+  { href: '/gestione/panoramica', label: 'Panoramica', icon: 'file-check' },
   { href: '/gestione/pratiche', label: 'Pratiche', icon: 'file-text' },
   { href: '/gestione/candidature', label: 'Candidature', icon: 'clipboard' },
   { href: '/gestione/comunicati', label: 'Comunicati', icon: 'megaphone' },

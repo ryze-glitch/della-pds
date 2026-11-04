@@ -75,7 +75,7 @@
                     <li><a href="porto-armi.html">Porto d'armi</a></li>
                     <li><a href="urp.html">Ufficio Relazioni col Pubblico</a></li>
                     <li><a href="sportello/pratica">Stato della pratica</a></li>
-                    <li><a href="sisfor">Area Personale</a></li>
+                    <li><a href="dashboard">Area Personale</a></li>
                 </ul>
             </nav>
             <div>
@@ -135,7 +135,7 @@
         boot.show();
         let next = params.get('next');
         try { next = next || sessionStorage.getItem('pds-next'); sessionStorage.removeItem('pds-next'); } catch (e) { /* storage non disponibile */ }
-        location.href = PERCORSI.includes(next) ? next : '/sisfor';
+        location.href = PERCORSI.includes(next) ? next : '/dashboard';
       };
       // Foto e nome dell'account Discord: dalla risposta del Worker, dal token o, in mancanza, l'avatar predefinito di Discord.
       function profiloDiscord(d, user) {

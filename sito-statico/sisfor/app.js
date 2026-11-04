@@ -195,6 +195,15 @@ function mostraGate(motivo) {
     location.replace('/login?next=/sisfor');
     return;
   }
+  if (motivo === 'riservato') {
+    $app.innerHTML = `<div class="gate"><div class="gate-card">
+      <img src="/logo-iprp.png" alt="IPRP" class="gate-logo">
+      <span class="gate-ico" aria-hidden="true"><i class="fas fa-lock"></i></span>
+      <h1>SISFOR riservato agli Allievi Agenti</h1>
+      <p>Questa sezione è dedicata alla formazione degli Allievi Agenti. Il tuo grado non la comprende, ma tutte le altre aree sono nella tua dashboard.</p>
+      <div class="gate-azioni"><a class="btn" href="/dashboard"><i class="fas fa-table-cells-large" aria-hidden="true"></i> Vai alla dashboard</a></div></div></div>`;
+    return;
+  }
   if (motivo === 'negato') {
     $app.innerHTML = `<div class="gate"><div class="gate-card">
       <img src="/logo-iprp.png" alt="IPRP" class="gate-logo">
@@ -820,7 +829,9 @@ onAuthStateChanged(auth, async (u) => {
   if (await sessioneScaduta()) return mostraGate('');
   try {
     caricamento();
-    const [m, c] = await Promise.all([api('/me'), api('/config')]);
+    const m = await api('/me');
+    if (m.me && m.me.sisfor === false) return mostraGate('riservato');
+    const c = await api('/config');
     me = m.me;
     config = c;
     document.title = 'Area Personale · SISFOR+ IPRP';

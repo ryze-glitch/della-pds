@@ -15,3 +15,14 @@ const PERMESSI = {
 export function puo(ruolo, azione) {
   return (PERMESSI[ruolo] || []).includes(azione);
 }
+
+// Il SISFOR è la sezione di formazione riservata agli Allievi Agenti. Istruttori e amministratori entrano sempre
+// (gli istruttori per valutare, gli amministratori per gestire e per provare). La qualifica arriva dal foglio Gerarchia.
+export function ePerAllievi(profilo) {
+  const testo = `${(profilo && profilo.qualifica) || ''} ${(profilo && profilo.grado) || ''}`;
+  return /\ballievo\b/i.test(testo);
+}
+
+export function accedeSisfor(profilo, ruolo) {
+  return ruolo === 'admin' || ruolo === 'istruttore' || ePerAllievi(profilo);
+}

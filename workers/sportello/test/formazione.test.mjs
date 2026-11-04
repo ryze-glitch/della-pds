@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { configQuiz, estrai, perIlBrowser, puoTentare, correggi } from '../src/formazione/quiz.js';
 import { statoModuli, praticaSbloccata, corsoVisibile } from '../src/formazione/percorso.js';
 import { transizione, valuta, scadenzaAbilitazione, praticaAttiva } from '../src/formazione/pratica.js';
-import { ruoloDi, puo } from '../src/formazione/ruoli.js';
+import { ruoloDi, puo, accedeSisfor, ePerAllievi } from '../src/formazione/ruoli.js';
 import { validaCorso, validaModulo, validaDomanda } from '../src/formazione/validazione.js';
 import { memoryStore } from '../src/formazione/store.js';
 import { handleFormazione } from '../src/formazione/api.js';
@@ -186,7 +186,7 @@ const ID_ISTR2 = '444444444444444444';
 function seedStore() {
   const seed = {
     'agenti': {
-      [ID_ALLIEVO]: { nome: 'Mario', cognome: 'Rossi', grado: 'Agente', ruolo: 'allievo' },
+      [ID_ALLIEVO]: { nome: 'Mario', cognome: 'Rossi', grado: 'Agente', qualifica: 'Allievo Agente', ruolo: 'allievo' },
       [ID_ISTR]: { nome: 'Luca', cognome: 'Bianchi', grado: 'Ispettore', ruolo: 'istruttore' },
       [ID_ISTR2]: { nome: 'Anna', cognome: 'Verdi', grado: 'Ispettore', ruolo: 'istruttore' },
       [ID_ADMIN]: { nome: 'Capo', cognome: 'Comando', grado: 'Questore', ruolo: 'admin' },
@@ -576,4 +576,30 @@ test('rotta /formazione/sync/agenti: richiede la chiave, accetta le righe dello 
   assert.equal(r.status, 200);
   assert.equal((await r.json()).aggiunti, 6);
   assert.equal((await post('chiave-di-prova-molto-lunga', { righe: [] })).status, 422);
+});
+
+// ---------- accesso al SISFOR ----------
+test('SISFOR: riservato agli Allievi Agenti; istruttori e amministratori entrano sempre', () => {
+  assert.equal(ePerAllievi({ qualifica: 'Allievo Agente' }), true);
+  assert.equal(ePerAllievi({ qualifica: 'ALLIEVO AGENTE' }), true);
+  assert.equal(ePerAllievi({ qualifica: 'Vice Questore Aggiunto', grado: 'Questore' }), false);
+  assert.equal(ePerAllievi({ qualifica: 'Agente Scelto' }), false);
+  assert.equal(ePerAllievi({}), false);
+  assert.equal(accedeSisfor({ qualifica: 'Ispettore' }, 'allievo'), false);
+  assert.equal(accedeSisfor({ qualifica: 'Allievo Agente' }, 'allievo'), true);
+  assert.equal(accedeSisfor({ qualifica: 'Ispettore' }, 'istruttore'), true);
+  assert.equal(accedeSisfor({ qualifica: 'Ispettore' }, 'admin'), true);
+});
+
+test('SISFOR API: un agente non allievo vede /me (con sisfor false) ma ha 403 sul resto', async () => {
+  const store = seedStore();
+  await store.set('agenti', '666666666666666666', { nome: 'Luca', cognome: 'Verdi', grado: 'Ispettore', qualifica: 'Ispettore', ruolo: 'allievo' });
+  const ora = { t: 1000 };
+  const me = await chiama(store, '666666666666666666', 'GET', '/me', undefined, ora);
+  assert.equal(me.status, 200);
+  assert.equal(me.body.me.sisfor, false);
+  assert.equal((await chiama(store, '666666666666666666', 'GET', '/corsi', undefined, ora)).status, 403);
+  // l'allievo agente entra, l'istruttore pure
+  assert.equal((await chiama(store, ID_ALLIEVO, 'GET', '/me', undefined, ora)).body.me.sisfor, true);
+  assert.equal((await chiama(store, ID_ISTR, 'GET', '/corsi', undefined, ora)).status, 200);
 });

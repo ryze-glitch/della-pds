@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
-import { DashboardView } from '../../../components/DashboardView';
-import { useAgentProfile } from '../../../components/useAgentProfile';
-import { db } from '../../../lib/firebase';
+import { DashboardView } from '../../../../components/DashboardView';
+import { useAgentProfile } from '../../../../components/useAgentProfile';
+import { db } from '../../../../lib/firebase';
 
 export default function DashboardPage() {
   const { loading, profile } = useAgentProfile();
