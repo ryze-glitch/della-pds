@@ -115,6 +115,7 @@ function intestazione(titolo, sotto, crumbs = []) {
 }
 
 let CTX = null; // dati del corso aperto, per l'indice nella colonna a sinistra
+const fotoAgente = () => { const s = window.IPRPSessione && window.IPRPSessione.valida(); return s && s.avatar ? `<img src="${esc(s.avatar)}" alt="" onerror="this.remove()">` : ''; };
 const iniziali = (a) => ((a.nome || '')[0] || '') + ((a.cognome || '')[0] || '') || '?';
 const RUOLO_LABEL = { allievo: 'Allievo', istruttore: 'Istruttore', admin: 'Amministratore' };
 
@@ -158,7 +159,7 @@ function barra(attivo) {
   if (ruolo === 'admin') voci.push(['#/admin', 'Amministrazione', 'fa-sliders', 'admin']);
   voci.push(['/gestione/pratiche', 'Gestione pratiche', 'fa-folder-open', '']);
   return `<aside class="lms-side" aria-label="Menu dell'area personale">
-    <div class="lms-user"><span class="av" aria-hidden="true">${esc(iniziali(me)).toUpperCase()}</span><div><strong>${esc(nomeCompleto(me))}</strong><small>${esc(me.qualifica || me.grado || 'Agente')}${me.matricola ? ' · ' + esc(me.matricola) : ''}</small></div></div>
+    <div class="lms-user"><span class="av" aria-hidden="true">${fotoAgente() || esc(iniziali(me)).toUpperCase()}</span><div><strong>${esc(nomeCompleto(me))}</strong><small>${esc(me.qualifica || me.grado || 'Agente')}${me.matricola ? ' · ' + esc(me.matricola) : ''}</small></div></div>
     <nav class="lms-nav" aria-label="Area personale">${voci
       .map(([h, t, ic, k]) => `<a href="${h}" ${attivo === k && k ? 'aria-current="page"' : ''}><i class="fas ${ic}" aria-hidden="true"></i>${t}</a>`)
       .join('')}</nav>
@@ -649,6 +650,7 @@ $app.addEventListener('click', async (ev) => {
     } else if (az === 'copia-id') {
       try { await navigator.clipboard.writeText(t.dataset.id); t.innerHTML = '<i class="fas fa-check" aria-hidden="true"></i>'; setTimeout(() => { t.innerHTML = '<i class="far fa-copy" aria-hidden="true"></i>'; }, 1500); } catch (e) { /* appunti non disponibili */ }
     } else if (az === 'esci') {
+      if (window.IPRPSessione) window.IPRPSessione.svuota();
       await signOut(auth);
     } else if (az === 'letto') {
       t.disabled = true;
@@ -803,8 +805,19 @@ async function route() {
 }
 window.addEventListener('hashchange', route);
 
+// L'accesso dura 12 ore: passato il tempo (o senza registro della sessione) si torna al login.
+const SESS = window.IPRPSessione;
+async function sessioneScaduta() {
+  if (PROVA || !SESS || SESS.valida()) return false;
+  SESS.svuota();
+  try { await signOut(auth); } catch (e) { /* già uscito */ }
+  return true;
+}
+if (!PROVA && SESS) setInterval(async () => { if (auth.currentUser && (await sessioneScaduta())) location.reload(); }, 60000);
+
 onAuthStateChanged(auth, async (u) => {
   if (!u) return mostraGate('');
+  if (await sessioneScaduta()) return mostraGate('');
   try {
     caricamento();
     const [m, c] = await Promise.all([api('/me'), api('/config')]);

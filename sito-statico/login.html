@@ -92,7 +92,7 @@
 
     <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-      import { getAuth, onAuthStateChanged, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+      import { getAuth, onAuthStateChanged, signInWithCustomToken, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
       const firebaseConfig = {
         apiKey: 'AIzaSyBrBkzLE_0MLQEXB9YBDW7G05n6aI_ykA0', authDomain: 'polizia-iprp.firebaseapp.com',
@@ -130,13 +130,37 @@
       const boot = window.IPRPBoot || { show() {}, done() {}, hide() {} };
       if (params.get('code')) boot.show(); // ritorno da Discord: schermata di accesso al posto del messaggio
 
-      onAuthStateChanged(auth, (user) => {
+      const S = window.IPRPSessione;
+      const vaiAvanti = () => {
+        boot.show();
+        let next = params.get('next');
+        try { next = next || sessionStorage.getItem('pds-next'); sessionStorage.removeItem('pds-next'); } catch (e) { /* storage non disponibile */ }
+        location.href = PERCORSI.includes(next) ? next : '/sisfor';
+      };
+      // Foto e nome dell'account Discord: dalla risposta del Worker, dal token o, in mancanza, l'avatar predefinito di Discord.
+      function profiloDiscord(d, user) {
+        const uid = String(user.uid || '').replace(/^discord:/, '');
+        let claims = {};
+        try { claims = JSON.parse(atob(String(d.token).split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))); claims = Object.assign({}, claims.claims || {}, claims); } catch (e) { /* token non leggibile */ }
+        const u = d.user || {};
+        const nome = d.global_name || d.displayName || d.username || d.name || u.global_name || u.username || u.name || claims.global_name || claims.username || claims.name || user.displayName || '';
+        let av = d.avatarUrl || d.avatar_url || d.picture || d.photoURL || u.avatarUrl || u.avatar_url || u.picture || claims.avatarUrl || claims.avatar_url || claims.picture || user.photoURL || '';
+        const hash = d.avatar || u.avatar || claims.avatar || claims.discord_avatar || '';
+        if (!av && hash) av = /^https?:/.test(hash) ? hash : 'https://cdn.discordapp.com/avatars/' + uid + '/' + hash + '.' + (String(hash).startsWith('a_') ? 'gif' : 'png') + '?size=128';
+        if (!av && /^\d+$/.test(uid)) av = 'https://cdn.discordapp.com/embed/avatars/' + Number((BigInt(uid) >> 22n) % 6n) + '.png';
+        return { uid: user.uid, nome, avatar: av };
+      }
+
+      onAuthStateChanged(auth, async (user) => {
         clearTimeout(sblocca);
         if (user) {
-          boot.show();
-          let next = params.get('next');
-          try { next = next || sessionStorage.getItem('pds-next'); sessionStorage.removeItem('pds-next'); } catch (e) { /* storage non disponibile */ }
-          location.href = PERCORSI.includes(next) ? next : '/sisfor';
+          if (params.get('code')) return; // ritorno da Discord: l'accesso viene completato più sotto
+          if (S && !S.valida()) { // sessione di oltre 12 ore (o senza registro): serve un nuovo accesso
+            S.svuota();
+            try { await signOut(auth); } catch (e) { /* già uscito */ }
+            return pronto();
+          }
+          vaiAvanti();
         } else {
           pronto();
         }
@@ -157,8 +181,19 @@
           if (!res.ok) throw new Error('Worker ' + res.status);
           const d = await res.json();
           if (!d.token) throw new Error('Nessun token');
-          await signInWithCustomToken(auth, d.token);
+          const cred = await signInWithCustomToken(auth, d.token);
+          if (S) {
+            const prof = profiloDiscord(d, cred.user);
+            // la foto viene salvata come immagine piccola, così compare subito in ogni pagina
+            try {
+              const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 2500);
+              const blob = await (await fetch(prof.avatar, { signal: ctl.signal })).blob(); clearTimeout(t);
+              if (blob.size < 150000) prof.avatar = await new Promise((ok, ko) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = ko; r.readAsDataURL(blob); });
+            } catch (e) { /* si userà l'indirizzo dell'immagine */ }
+            S.salva(prof);
+          }
           history.replaceState({}, '', location.pathname);
+          vaiAvanti();
         } catch (e) {
           console.error(e);
           boot.hide();
@@ -167,7 +202,7 @@
         }
       })();
     </script>
-<script src="sisfor/nav.js"></script>
+<script src="sisfor/sessione.js"></script><script src="sisfor/nav.js"></script>
 <script src="sisfor/anim.js"></script>
 <script type="module" src="sisfor/notifiche.js"></script>
 </body>
