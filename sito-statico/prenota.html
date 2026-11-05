@@ -524,6 +524,7 @@ border: 1px solid var(--nav-border);
             .pre-ok .preloader{display:none!important}
     </style>
     <link rel="stylesheet" href="sisfor/nav.css">
+    <link rel="stylesheet" href="sisfor/pagehead.css">
     <link rel="stylesheet" href="sisfor/footer.css">
     <link rel="stylesheet" href="sisfor/anim.css">
 </head>
@@ -568,29 +569,37 @@ border: 1px solid var(--nav-border);
         </nav>
     </div>
 
-    <header class="hero-small">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
+    <header class="np-head">
+        <div class="np-photo" aria-hidden="true"><img src="foto/index/denuncia.jpg" alt=""></div>
+        <div class="np-inner">
+            <div class="np-kicker"><span></span>Servizi al cittadino · Questura di Roma</div>
             <h1>Prenota</h1>
-            <p>Servizi al cittadino</p>
+            <div class="np-bar">
+                <p>Prenota il servizio che desideri ricevere, senza fare a vuoto il viaggio in Questura.</p>
+                <div class="np-side">
+                    <span class="np-crest" aria-hidden="true"><img src="logo-polizia.png" alt=""></span>
+                    <div class="np-tabs" role="tablist" aria-label="Vai a">
+                        <button type="button" role="tab" class="on" data-vai="#modulo" aria-selected="true">Modulo</button>
+                        <button type="button" role="tab" data-vai="#servizi" aria-selected="false">Servizi</button>
+                        <button type="button" role="tab" data-vai="#info" aria-selected="false">Informazioni</button>
+                    </div>
+                </div>
+            </div>
+            <a class="np-evid" href="#info" data-vai="#info">
+                <img src="foto/index/ufficidesk.jpg" alt="" decoding="async">
+                <span><em>Importante</em><strong>Prenotazioni sospese sabato e domenica</strong></span>
+            </a>
         </div>
     </header>
 
     <main class="page-content">
-
-        <div class="breadcrumb gs-reveal page-anim">
-            Ti trovi qui:
-            <a href="home.html">Home</a>
-            <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
-            <span>Prenota</span>
-        </div>
 
         <div class="prenota-container">
             <div class="prenota-header gs-reveal page-anim">
                 <h1>Prenota un <span>Servizio</span></h1>
                 <p class="prenota-intro">Stanco di andare in Questura e non trovare nessun operatore al desk? Prenota ora il servizio che desideri ricevere.</p>
 
-                <div class="prenota-info-box">
+                <div class="prenota-info-box" id="info">
                     <p>
                         <span class="icon"><i class="fas fa-info-circle"></i></span>
                         La tua prenotazione verrà visionata da un operatore il prima possibile, nel canale #sito-web verrà segnata la notifica di prenotazione eseguita con successo. Attendi quindi tale comunicato.
@@ -602,11 +611,11 @@ border: 1px solid var(--nav-border);
                 </div>
             </div>
 
-            <div class="form-container gs-reveal page-anim">
+            <div class="form-container gs-reveal page-anim" id="modulo">
                 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdZFH6-Sj2hgVSGOyAlckgIvkKhZ5qtZmb_OVB6W6LPw0NAiA/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Caricamento…</iframe>
             </div>
 
-            <div class="prenota-grid gs-grid">
+            <div class="prenota-grid gs-grid" id="servizi">
 
                 <div class="cubotto-card gs-card gs-reveal">
                     <h3>PRENOTAZIONE COLLOQUIO DI LAVORO</h3>
@@ -707,6 +716,26 @@ gsap.registerPlugin(ScrollTrigger);
                 gsap.fromTo(cards, { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.2)", scrollTrigger: { trigger: ".gs-grid", start: "top 85%" } });
             }
         }
+    
+        // intestazione: le schede portano alla sezione scelta, senza ricaricare la pagina
+        (function () {
+            var tabs = document.querySelectorAll('.np-tabs button');
+            function vai(sel) {
+                var el = document.querySelector(sel); if (!el) return;
+                var y = el.getBoundingClientRect().top + window.scrollY - 110;
+                if (window.__lenis) window.__lenis.scrollTo(y); else window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+            document.querySelectorAll('[data-vai]').forEach(function (b) {
+                b.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    tabs.forEach(function (t) { var on = t.dataset.vai === b.dataset.vai; t.classList.toggle('on', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); });
+                    vai(b.dataset.vai);
+                });
+            });
+            // la pagina parte sempre dall'apice
+            try { history.scrollRestoration = 'manual'; } catch (e) { /* non disponibile */ }
+            if (!location.hash) window.scrollTo(0, 0);
+        })();
     </script>
 <script src="sisfor/lenis.min.js"></script>
 <script src="sisfor/sessione.js"></script><script src="sisfor/nav.js"></script>
