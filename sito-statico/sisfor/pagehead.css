@@ -27,3 +27,7 @@
 .np-evid em { font-style: normal; align-self: flex-start; font-size: .7rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: rgba(245,165,36,.16); color: #f5a524; }
 .np-evid strong { font-size: .9rem; font-weight: 600; line-height: 1.35; }
 @media (max-width: 900px) { .np-photo { width: 100%; opacity: .45; } .np-head { padding-bottom: 40px; } .np-evid { position: static; margin-top: 24px; max-width: none; } }
+.np-head h1 { font-size: clamp(2.6rem, 12.5vw, 8rem); }
+.np-photo img { filter: brightness(.72); }
+.np-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(9,10,15,.9) 0, rgba(9,10,15,.45) 40%, transparent 72%); }
+.np-tabs button { text-shadow: 0 1px 8px rgba(0,0,0,.8); }

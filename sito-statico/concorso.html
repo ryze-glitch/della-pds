@@ -635,6 +635,7 @@ border: 1px solid var(--nav-border);
       window.addEventListener('DOMContentLoaded', loadFotoConcorso);
     </script>
     <link rel="stylesheet" href="sisfor/nav.css">
+    <link rel="stylesheet" href="sisfor/pagehead.css">
     <link rel="stylesheet" href="sisfor/footer.css">
     <link rel="stylesheet" href="sisfor/anim.css">
 </head>
@@ -679,22 +680,30 @@ border: 1px solid var(--nav-border);
         </nav>
     </div>
 
-    <header class="hero-small">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1>CONCORSI IN ATTO</h1>
-            <p>Arruolamento e Formazione</p>
+    <header class="np-head">
+        <div class="np-photo" aria-hidden="true"><img src="foto/index/bando.jpg" alt=""></div>
+        <div class="np-inner">
+            <div class="np-kicker"><span></span>Arruolamento e Formazione · Polizia di Stato</div>
+            <h1>Concorso</h1>
+            <div class="np-bar">
+                <p>La tua passione, la nostra forza! Entra a far parte della Polizia di Stato.</p>
+                <div class="np-side">
+                    <span class="np-crest" aria-hidden="true"><img src="logo-polizia.png" alt=""></span>
+                    <div class="np-tabs" role="tablist" aria-label="Vai a">
+                        <button type="button" role="tab" class="on" data-vai="#requisiti" aria-selected="true">Requisiti</button>
+                        <button type="button" role="tab" data-vai="#fasi" aria-selected="false">Fasi</button>
+                        <button type="button" role="tab" data-vai="#galleria" aria-selected="false">Galleria</button>
+                    </div>
+                </div>
+            </div>
+            <a class="np-evid" href="https://docs.google.com/forms/d/e/1FAIpQLSdGlyzGP_D0WaKKN1nskvH0Lp-xEbQSFxGwCYVLnRpp4w9Big/viewform" target="_blank" rel="noopener">
+                <img src="foto/index/denuncia.jpg" alt="" decoding="async">
+                <span><em>Candidature aperte</em><strong>Candidati ora al concorso</strong></span>
+            </a>
         </div>
     </header>
 
     <main class="page-content">
-
-        <div class="breadcrumb gs-reveal page-anim">
-            Ti trovi qui:
-            <a href="home.html">Home</a>
-            <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
-            <span>Concorso</span>
-        </div>
 
         <!-- HERO BANNER CONCORSO -->
         <div class="concorso-hero-banner gs-reveal page-anim">
@@ -720,7 +729,7 @@ border: 1px solid var(--nav-border);
         </div>
 
         <!-- REQUISITI -->
-        <div class="concorso-panel gs-reveal page-anim" style="margin-bottom:30px;">
+        <div class="concorso-panel gs-reveal page-anim" id="requisiti" style="margin-bottom:30px;">
             <h2 style="font-size:1.8rem;font-weight:800;margin-bottom:30px;text-transform:uppercase;text-align:center;color:var(--accent-blue);">
                 <i class="fas fa-clipboard-list" style="margin-right:10px;"></i>Requisiti di Partecipazione
             </h2>
@@ -748,7 +757,7 @@ border: 1px solid var(--nav-border);
         </div>
 
         <!-- FASI SELEZIONE -->
-        <div class="concorso-panel gs-reveal page-anim" style="margin-bottom:30px;">
+        <div class="concorso-panel gs-reveal page-anim" id="fasi" style="margin-bottom:30px;">
             <h2 style="font-size:1.8rem;font-weight:800;margin-bottom:30px;text-transform:uppercase;text-align:center;color:var(--accent-blue);">
                 <i class="fas fa-list-ol" style="margin-right:10px;"></i>Fasi di Selezione
             </h2>
@@ -781,7 +790,7 @@ border: 1px solid var(--nav-border);
         </div>
 
         <!-- GALLERIA FOTO da Firebase -->
-        <div class="foto-gallery gs-reveal page-anim">
+        <div class="foto-gallery gs-reveal page-anim" id="galleria">
             <h2 style="font-size:1.8rem;font-weight:800;text-transform:uppercase;text-align:center;margin-bottom:10px;">
                 <i class="fas fa-images" style="margin-right:10px;color:var(--accent-blue);"></i>Galleria
             </h2>
@@ -860,6 +869,26 @@ gsap.registerPlugin(ScrollTrigger);
                 gsap.fromTo(el, { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 85%" } });
             });
         }
+    
+        // intestazione: le schede portano alla sezione scelta, senza ricaricare la pagina
+        (function () {
+            var tabs = document.querySelectorAll('.np-tabs button');
+            function vai(sel) {
+                var el = document.querySelector(sel); if (!el) return;
+                var y = el.getBoundingClientRect().top + window.scrollY - 110;
+                if (window.__lenis) window.__lenis.scrollTo(y); else window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+            document.querySelectorAll('.np-tabs [data-vai]').forEach(function (b) {
+                b.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    tabs.forEach(function (t) { var on = t.dataset.vai === b.dataset.vai; t.classList.toggle('on', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); });
+                    vai(b.dataset.vai);
+                });
+            });
+            // la pagina parte sempre dall'apice
+            try { history.scrollRestoration = 'manual'; } catch (e) { /* non disponibile */ }
+            if (!location.hash) window.scrollTo(0, 0);
+        })();
     </script>
 <script src="sisfor/lenis.min.js"></script>
 <script src="sisfor/sessione.js"></script><script src="sisfor/nav.js"></script>
