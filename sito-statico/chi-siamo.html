@@ -240,116 +240,10 @@
       function hideOnError(el) { el.style.display = "none"; }
     </script>
     <!-- Firebase SDK - Mezzi e Reparti -->
-    <script type="module">
-      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-      import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyBrBkzLE_0MLQEXB9YBDW7G05n6aI_ykA0",
-        authDomain: "polizia-iprp.firebaseapp.com",
-        projectId: "polizia-iprp",
-        storageBucket: "polizia-iprp.firebasestorage.app",
-        messagingSenderId: "295622243589",
-        appId: "1:295622243589:web:abfd6d06dac2f95428f36c"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-
-      // Carica VEICOLI
-      async function loadVeicoli() {
-        const container = document.getElementById('mezzi-container');
-        try {
-          const snap = await getDocs(collection(db, 'VEICOLI'));
-          if (snap.empty) { container.innerHTML = '<p style="color:var(--text-muted);text-align:center;">Nessun veicolo presente nel database.</p>'; return; }
-          let html = '<div class="mezzi-grid">';
-          snap.forEach(doc => {
-            const d = doc.data();
-            const nome = d['Nome auto'] || d['Nome Auto'] || 'Veicolo';
-            const reparto = d['Reparto'] || '';
-            const immagine = d['Immagine'] || '';
-            html += '<div class="mezzo-card">';
-            if (immagine) html += '<img src="' + immagine + '" alt="' + nome + '" onerror="hideOnError(this)">';
-            html += '<div class="mezzo-info"><div class="mezzo-nome">' + nome + '</div>';
-            if (reparto) html += '<div class="mezzo-reparto"><i class="fas fa-shield-alt" style="margin-right:5px;"></i>' + reparto + '</div>';
-            html += '</div></div>';
-          });
-          html += '</div>';
-          container.innerHTML = html;
-        } catch(e) {
-          container.innerHTML = '<p style="color:#ef4444;text-align:center;">Errore caricamento veicoli. Controlla Firebase.</p>';
-        }
-      }
-
-      // Carica REPARTI
-      async function loadReparti() {
-        const container = document.getElementById('reparti-fb-container');
-        try {
-          const snap = await getDocs(collection(db, 'REPARTI'));
-          if (snap.empty) { container.innerHTML = '<p style="color:var(--text-muted);text-align:center;">Nessun reparto presente nel database.</p>'; return; }
-          let html = '';
-          const repartiDocs = [];
-          snap.forEach(doc => repartiDocs.push({ id: doc.id, ...doc.data() }));
-          repartiDocs.forEach((d, idx) => {
-            const nome = d['Nome reparto'] || 'Reparto';
-            const desc = d['Descrizione e funzioni'] || d['Descrizione'] || '';
-            const logo = d['logo'] || d['Logo'] || '';
-            const imgs = Object.keys(d).filter(k => k.toLowerCase().startsWith('immagine-')).sort().map(k => d[k]).filter(Boolean);
-            const cardId = 'rep-' + idx;
-            html += '<div class="reparto-fb-card">';
-            // Slideshow foto in cima
-            if (imgs.length > 0) {
-              html += '<div class="reparto-fb-foto" id="foto-' + cardId + '">';
-              imgs.forEach((img, i) => {
-                html += '<img src="' + img + '" alt="' + nome + '" onerror="hideOnError(this)"' + (i===0?' class="foto-active"':'') + '>';
-              });
-              if (imgs.length > 1) {
-                html += '<div class="reparto-fb-foto-dots">';
-                imgs.forEach((_, i) => {
-                  html += '<div class="foto-dot' + (i===0?' active':'') + '"></div>';
-                });
-                html += '</div>';
-              }
-              html += '</div>';
-            }
-            // Info card
-            html += '<div class="reparto-fb-info">';
-            html += '<div class="reparto-fb-header">';
-            if (logo) {
-              html += '<img class="reparto-fb-logo" src="' + logo + '" alt="Logo ' + nome + '" onerror="hideOnError(this)">';
-            } else {
-              html += '<div class="reparto-fb-logo-placeholder"><i class="fas fa-shield-alt"></i></div>';
-            }
-            html += '<div class="reparto-fb-nome">' + nome + '</div>';
-            html += '</div>';
-            if (desc) html += '<div class="reparto-fb-desc">' + desc + '</div>';
-            html += '</div>';
-            html += '</div>';
-          });
-          container.innerHTML = html;
-          // Avvia slideshow per ogni card con più foto
-          container.querySelectorAll('.reparto-fb-foto').forEach(fotoEl => {
-            const imgs = fotoEl.querySelectorAll('img');
-            const dots = fotoEl.querySelectorAll('.foto-dot');
-            if (imgs.length <= 1) return;
-            let cur = 0;
-            setInterval(() => {
-              imgs[cur].classList.remove('foto-active');
-              dots[cur] && dots[cur].classList.remove('active');
-              cur = (cur + 1) % imgs.length;
-              imgs[cur].classList.add('foto-active');
-              dots[cur] && dots[cur].classList.add('active');
-            }, 3000);
-          });
-        } catch(e) {
-          container.innerHTML = '<p style="color:#ef4444;text-align:center;">Errore caricamento reparti. Controlla Firebase.</p>';
-        }
-      }
-
-      window.addEventListener('DOMContentLoaded', () => { loadVeicoli(); loadReparti(); });
-    </script>
     <link rel="stylesheet" href="sisfor/nav.css">
+    <link rel="stylesheet" href="sisfor/pagehead.css">
+    <style>.dirigenza-grid { margin-top: 90px; } @media (max-width: 900px) { .dirigenza-grid { margin-top: 10px; } }</style>
     <link rel="stylesheet" href="sisfor/footer.css">
     <link rel="stylesheet" href="sisfor/anim.css">
 </head>
@@ -368,15 +262,7 @@
             <div class="nav-center">
                 <a href="home.html"><i class="fas fa-home"></i> Home</a>
                 <a href="notizie.html"><i class="fas fa-bullhorn"></i> Notizie</a>
-                <div class="dropdown">
-                    <a href="#" class="active-link"><i class="fas fa-search"></i> Chi Siamo <i class="fas fa-chevron-down" style="font-size:0.7rem;margin-left:-2px;"></i></a>
-                    <div class="dropdown-menu">
-                        <a href="chi-siamo.html" style="color:var(--text-hover);background:rgba(255,255,255,0.05);"><i class="fas fa-user-tie"></i> La Dirigenza</a>
-                        <a href="storia.html"><i class="fas fa-book"></i> Storia della Polizia</a>
-                        <a href="chi-siamo.html#mezzi"><i class="fas fa-car"></i> I Nostri Mezzi</a>
-                        <a href="chi-siamo.html#reparti"><i class="fas fa-shield-alt"></i> I Nostri Reparti</a>
-                    </div>
-                </div>
+                <a href="chi-siamo.html" class="active-link"><i class="fas fa-search"></i> Chi Siamo</a>
                 <a href="qualifiche.html"><i class="fas fa-medal"></i> Qualifiche</a>
                 <a href="prenota.html"><i class="fas fa-calendar-check"></i> Prenota</a>
                 <a href="concorso.html"><i class="fas fa-trophy"></i> Concorso</a>
@@ -385,25 +271,24 @@
         </nav>
     </div>
 
-    <header class="hero-small">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1>LA DIRIGENZA</h1>
-            <p>I Vertici della Polizia di Stato</p>
+    <header class="np-head">
+        <div class="np-photo" aria-hidden="true"><img src="foto/notizie/giuramento-header.jpg" alt=""></div>
+        <div class="np-inner">
+            <div class="np-kicker"><span></span>Chi siamo · Questura di Roma</div>
+            <h1>Dirigenza</h1>
+            <div class="np-bar">
+                <p>I vertici della Polizia di Stato: chi guida la Questura di Roma.</p>
+                <div class="np-side"><span class="np-crest" aria-hidden="true"><img src="logo-polizia.png" alt=""></span></div>
+            </div>
+            <a class="np-evid" href="#dirigenti" data-vai="#dirigenti">
+                <img src="https://i.imgur.com/8fsNUu2.jpg" alt="" decoding="async">
+                <span><em>Il Questore</em><strong>Marco Ferri · Dirigente Generale</strong></span>
+            </a>
         </div>
     </header>
 
     <main class="page-content">
-        <div class="breadcrumb gs-reveal page-anim">
-            Ti trovi qui:
-            <a href="home.html">Home</a>
-            <i class="fas fa-chevron-right" style="font-size:0.7rem;"></i>
-            <a href="#">Chi Siamo</a>
-            <i class="fas fa-chevron-right" style="font-size:0.7rem;"></i>
-            <span>La Dirigenza</span>
-        </div>
-
-        <div class="dirigenza-grid">
+        <div class="dirigenza-grid" id="dirigenti">
             <div class="dirigente-card gs-reveal gs-card">
                 <img src="https://i.imgur.com/CjREaFS.jpg" alt="Jolen Iuliano" class="dirigente-img">
                 <div class="dirigente-name">Jolen Iuliano</div>
@@ -426,31 +311,6 @@
             </div>
         </div>
     </main>
-
-    <!-- SEZIONE I NOSTRI MEZZI -->
-    <a id="mezzi"></a>
-    <section class="mezzi-section">
-        <h2 class="section-heading">I Nostri <span>Mezzi</span></h2>
-        <div id="mezzi-container">
-            <div class="loading-placeholder">
-                <i class="fas fa-spinner fa-spin"></i>
-                Caricamento veicoli dal database...
-            </div>
-        </div>
-    </section>
-
-    <!-- SEZIONE I NOSTRI REPARTI (da Firebase) -->
-    <a id="reparti"></a>
-    <section class="reparti-fb-section">
-        <h2 class="section-heading">I Nostri <span>Reparti</span></h2>
-        <div id="reparti-fb-container" class="reparti-grid">
-            <div class="loading-placeholder">
-                <i class="fas fa-spinner fa-spin"></i>
-                Caricamento reparti dal database...
-            </div>
-        </div>
-    </section>
-
 
     <footer class="site-footer">
         <div class="sf-grid">
@@ -512,6 +372,19 @@ gsap.registerPlugin(ScrollTrigger);
             const cards = document.querySelectorAll('.gs-card');
             gsap.fromTo(cards, { y:40, autoAlpha:0 }, { y:0, autoAlpha:1, duration:0.9, stagger:0.18, ease:"back.out(1.2)", scrollTrigger:{ trigger:'.dirigenza-grid', start:"top 80%" } });
         }
+    
+        // intestazione: la scheda del Questore porta ai dirigenti; la pagina parte sempre dall'apice
+        (function () {
+            var l = document.querySelector('.np-evid[data-vai]');
+            if (l) l.addEventListener('click', function (e) {
+                e.preventDefault();
+                var el = document.querySelector(l.dataset.vai); if (!el) return;
+                var y = el.getBoundingClientRect().top + window.scrollY - 110;
+                if (window.__lenis) window.__lenis.scrollTo(y); else window.scrollTo({ top: y, behavior: 'smooth' });
+            });
+            try { history.scrollRestoration = 'manual'; } catch (e) { /* non disponibile */ }
+            if (!location.hash) window.scrollTo(0, 0);
+        })();
     </script>
 <script src="sisfor/lenis.min.js"></script>
 <script src="sisfor/sessione.js"></script><script src="sisfor/nav.js"></script>

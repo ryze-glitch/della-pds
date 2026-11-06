@@ -13,9 +13,6 @@
     ['Ufficio Relazioni col Pubblico', 'URP', 'urp.html', 'urp informazioni reclami'],
     ['Notizie', 'Comunicati e novità', 'notizie.html', 'comunicati news novità avvisi'],
     ['La Dirigenza', 'Questore e dirigenti', 'chi-siamo.html', 'chi siamo questore dirigenti'],
-    ['Storia della Polizia', 'Dalle origini a oggi', 'storia.html', 'storia origini'],
-    ['I nostri mezzi', 'Volanti e veicoli', 'chi-siamo.html#mezzi', 'auto veicoli volanti'],
-    ['I nostri reparti', 'Reparti della Questura', 'chi-siamo.html#reparti', 'reparti squadra'],
     ['Qualifiche', 'Gradi e qualifiche', 'qualifiche.html', 'gradi agente ispettore commissario'],
     ['Area Personale', 'Formazione SISFOR+ e gestione', 'sisfor', 'agenti formazione corsi quiz accesso login']
   ];
