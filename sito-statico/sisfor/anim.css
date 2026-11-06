@@ -38,9 +38,9 @@ html.anim .rv.in{opacity:1;transform:none}
 .hero-search-box:focus-within{box-shadow:0 0 0 4px rgba(37,99,235,.25),0 14px 34px rgba(0,0,0,.5)}
 
 /* transizione tra le pagine: dissolvenza e scivolamento */
-@keyframes trIn{from{opacity:0;translate:0 22px}}
+@keyframes trIn{from{opacity:0;translate:0 14px}}
 html.tr-on body>*:not(.navbar-wrapper):not(.preloader):not(.boot):not(.back-site):not(script):not(style):not(link){animation:trIn .32s cubic-bezier(.2,.7,.2,1) backwards}
-html.tr-out body>*:not(.navbar-wrapper):not(.preloader):not(.boot):not(.back-site):not(script):not(style):not(link){opacity:0!important;translate:0 -22px;transition:opacity .22s ease-in,translate .22s ease-in}
+html.tr-out body>*:not(.navbar-wrapper):not(.preloader):not(.boot):not(.back-site):not(script):not(style):not(link){opacity:0!important;transition:opacity .2s ease-in}
 
 
 /* barra del sito: dalla seconda pagina in poi compare subito, senza dissolvenza né ricaricamento visibile */
