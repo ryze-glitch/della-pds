@@ -277,37 +277,13 @@
             <div class="np-kicker"><span></span>Chi siamo · Questura di Roma</div>
             <h1>Chi siamo</h1>
             <div class="np-bar">
-                <p>I vertici della Polizia di Stato: chi guida la Questura di Roma.</p>
+                <p>La Polizia di Stato della Questura di Roma.</p>
                 <div class="np-side"><span class="np-crest" aria-hidden="true"><img src="logo-polizia.png" alt=""></span></div>
             </div>
-            <a class="np-evid" href="#dirigenti" data-vai="#dirigenti">
-                <img src="logo-polizia.png" alt="" decoding="async" style="object-fit:contain;background:var(--pill-dark);padding:6px;">
-                <span><em>Il Questore</em><strong>Marco Ferri · Dirigente Generale</strong></span>
-            </a>
         </div>
     </header>
 
-    <main class="page-content">
-        <div class="dirigenza-grid" id="dirigenti">
-            <div class="dirigente-card gs-reveal gs-card">
-                <div class="dirigente-name">Jolen Iuliano</div>
-                <div class="dirigente-role">Dirigente Superiore</div>
-                <div class="dirigente-desc">Affianca la direzione generale nel coordinamento tattico e amministrativo della Questura. Supervisiona i reparti speciali garantendo il mantenimento dell'ordine pubblico.</div>
-            </div>
 
-            <div class="dirigente-card center-card gs-reveal gs-card">
-                <div class="dirigente-name">Marco Ferri</div>
-                <div class="dirigente-role">Dirigente Generale<br>Prefetto di Roma</div>
-                <div class="dirigente-desc">Massima autorità di Pubblica Sicurezza. Gestisce l'intera Questura centrale, determina le direttive operative e coordina le forze dell'ordine sul territorio romano.</div>
-            </div>
-
-            <div class="dirigente-card gs-reveal gs-card">
-                <div class="dirigente-name">Matteo Rossi</div>
-                <div class="dirigente-role">Primo Dirigente</div>
-                <div class="dirigente-desc">Responsabile diretto dell'operatività sul campo. Sovraintende alle indagini, alla gestione del personale di pattuglia e al pronto intervento in situazioni di criticità.</div>
-            </div>
-        </div>
-    </main>
 
     <footer class="site-footer">
         <div class="sf-grid">
@@ -370,18 +346,8 @@ gsap.registerPlugin(ScrollTrigger);
             gsap.fromTo(cards, { y:40, autoAlpha:0 }, { y:0, autoAlpha:1, duration:0.9, stagger:0.18, ease:"back.out(1.2)", scrollTrigger:{ trigger:'.dirigenza-grid', start:"top 80%" } });
         }
     
-        // intestazione: la scheda del Questore porta ai dirigenti; la pagina parte sempre dall'apice
-        (function () {
-            var l = document.querySelector('.np-evid[data-vai]');
-            if (l) l.addEventListener('click', function (e) {
-                e.preventDefault();
-                var el = document.querySelector(l.dataset.vai); if (!el) return;
-                var y = el.getBoundingClientRect().top + window.scrollY - 110;
-                if (window.__lenis) window.__lenis.scrollTo(y); else window.scrollTo({ top: y, behavior: 'smooth' });
-            });
-            try { history.scrollRestoration = 'manual'; } catch (e) { /* non disponibile */ }
-            if (!location.hash) window.scrollTo(0, 0);
-        })();
+        try { history.scrollRestoration = "manual"; } catch (e) { /* non disponibile */ }
+        if (!location.hash) window.scrollTo(0, 0);
     </script>
 <script src="sisfor/lenis.min.js"></script>
 <script src="sisfor/sessione.js"></script><script src="sisfor/nav.js"></script>

@@ -9,7 +9,7 @@
     <meta name="description" content="Comunicazioni ufficiali e aggiornamenti della Polizia di Stato IPRP.">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="preload" as="image" href="foto/notizie/giuramento-header.jpg">
+    <link rel="preload" as="image" href="foto/notizie/questura-header.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -93,6 +93,9 @@
         .np-head { padding-bottom: 140px; }
         .np-photo { position: absolute; top: 0; right: 0; bottom: 0; width: 72%; -webkit-mask-image: linear-gradient(to right, transparent, #000 55%); mask-image: linear-gradient(to right, transparent, #000 55%); }
         .np-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .np-photo img { filter: brightness(.72); }
+        .np-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(9,10,15,.9) 0, rgba(9,10,15,.45) 40%, transparent 72%); }
+        .np-tabs button { text-shadow: 0 1px 8px rgba(0,0,0,.8); }
         .np-head::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 55%; background: linear-gradient(to top, var(--bg-dark), transparent); pointer-events: none; }
         .np-inner { z-index: 2; }
         .np-evid { position: absolute; right: 0; bottom: -118px; z-index: 3; display: flex; align-items: center; gap: 16px; padding: 12px 20px 12px 12px; border-radius: 18px; background: rgba(9,10,15,.9); border: 1px solid rgba(255,255,255,.16); max-width: 340px; transition: transform .25s cubic-bezier(.2,.7,.2,1), border-color .25s; }
@@ -236,7 +239,7 @@
     </div>
 
     <header class="np-head">
-        <div class="np-photo" aria-hidden="true"><img src="foto/notizie/giuramento-header.jpg" alt=""></div>
+        <div class="np-photo" aria-hidden="true"><img src="foto/notizie/questura-header.jpg" alt=""></div>
         <div class="np-inner">
             <div class="np-kicker"><span></span>Sala stampa · Questura di Roma</div>
             <h1>Notizie</h1>
