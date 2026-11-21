@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Concorso - Polizia di Stato IPRP</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/fa/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/lexend-latin-400-normal.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/lexend-latin-500-normal.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/lexend-latin-800-normal.woff2">
+    <link rel="stylesheet" href="sisfor/fonts.css">
 
     <style>
         /* --- RESET E VARIABILI --- */
@@ -837,8 +838,8 @@ border: 1px solid var(--nav-border);
     </footer>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="vendor/gsap/gsap.min.js"></script>
+    <script src="vendor/gsap/ScrollTrigger.min.js"></script>
 
     <script>
 gsap.registerPlugin(ScrollTrigger);
