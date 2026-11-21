@@ -468,7 +468,7 @@ border: 1px solid var(--nav-border);
 </head>
 
 <body>
-    <script>try{if(sessionStorage.getItem("pds-pre")==="1")document.documentElement.classList.add("pre-ok");else sessionStorage.setItem("pds-pre","1")}catch(e){}</script>
+    <script>try{var d=document.documentElement,n=Date.now(),t=+localStorage.getItem("pds-pre2")||0;if(n-t<432e5)d.classList.add("pre-ok");else localStorage.setItem("pds-pre2",n);var s=JSON.parse(localStorage.getItem("iprp-sessione")||"null");if(s&&s.uid&&s.inizio&&n-s.inizio<432e5&&s.avatar){d.classList.add("ha-foto");d.style.setProperty("--av","url(\""+String(s.avatar).replace(/"/g,"%22")+"\")")}}catch(e){}</script>
 
     <div class="preloader" id="preloader">
         <img id="preload-logo" src="logo-iprp.png" alt="Logo Polizia" />

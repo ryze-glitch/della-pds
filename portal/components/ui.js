@@ -97,9 +97,9 @@ export function PageHeader({ eyebrow, title, text, crumbs = [], children }) {
       <Container className="pb-10 pt-12 md:pt-16">
         {crumbs.length ? (
           <nav aria-label="Percorso" className="hero-in mb-3 flex flex-wrap items-center gap-1.5 text-sm text-muted">
-            <Link href="/" className="hover:text-fg">
+            <a href="/home" className="hover:text-fg">
               Home
-            </Link>
+            </a>
             {crumbs.map((c) => (
               <span key={c.label} className="flex items-center gap-1.5">
                 <Icon name="chevron" size={14} />

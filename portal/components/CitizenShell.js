@@ -1,20 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Icon } from './icons';
 import { useQuesturaStatus } from './useQuesturaStatus';
 
 const NAV = [
-  { href: '/sportello/denuncia', label: 'Denuncia' },
-  { href: '/sportello/porto-darmi', label: "Porto d'armi" },
-  { href: '/sportello/colloquio', label: 'Colloquio' },
-  { href: '/sportello/pratica', label: 'Pratiche' },
-  { href: '/notizie', label: 'Comunicati' },
-  { href: '/reclutamento', label: 'Reclutamento' },
-  { href: '/organigramma', label: 'Organigramma' },
-  { href: '/login', label: 'Area Agenti' },
+  { href: '/home', label: 'Home' },
+  { href: '/notizie', label: 'Notizie' },
+  { href: '/chi-siamo', label: 'Chi Siamo' },
+  { href: '/qualifiche', label: 'Qualifiche' },
+  { href: '/prenota', label: 'Prenota' },
+  { href: '/concorso', label: 'Concorso' },
+  { href: '/login?next=dash', label: 'Area Personale' },
 ];
 
 function Dot({ ok, on }) {
@@ -34,15 +32,15 @@ export function CitizenShell({ children }) {
       <div className="sticky top-3 z-40 flex justify-center px-3 pt-3 sm:top-5 sm:pt-5">
         <header className="w-full max-w-[1000px] rounded-[10px] border border-line bg-surface/95 backdrop-blur lg:w-fit">
           <div className="flex items-center gap-1 px-[11px] py-[7px] lg:gap-0 lg:px-[22px]">
-            <Link href="/" className="mr-2 flex flex-none items-center gap-2.5 lg:mr-5" aria-label="Polizia di Stato, Questura IPRP: home">
+            <a href="/home" className="mr-2 flex flex-none items-center gap-2.5 lg:mr-5" aria-label="Polizia di Stato, Questura IPRP: home">
               <img src="/assets/crest-md.png" alt="" className="h-7 w-auto" />
               <span className="text-[14px] tracking-[-0.02em] lg:hidden">Questura IPRP</span>
-            </Link>
+            </a>
             <nav aria-label="Navigazione principale" className="hidden items-center lg:flex">
               {NAV.map((n) => (
-                <Link key={n.href} href={n.href} aria-current={on(n.href) ? 'page' : undefined} className={`px-3 py-2 text-[15px] transition-colors hover:underline ${on(n.href) ? 'text-primary' : 'text-fg'}`}>
+                <a key={n.href} href={n.href} aria-current={on(n.href) ? 'page' : undefined} className={`px-3 py-2 text-[15px] transition-colors hover:underline ${on(n.href) ? 'text-primary' : 'text-fg'}`}>
                   {n.label}
-                </Link>
+                </a>
               ))}
             </nav>
             <span className="flex-1 lg:hidden" />
@@ -55,9 +53,9 @@ export function CitizenShell({ children }) {
               <ul className="divide-y divide-line">
                 {NAV.map((n) => (
                   <li key={n.href}>
-                    <Link href={n.href} className={`flex items-center justify-between py-3 text-[16px] ${on(n.href) ? 'text-primary' : ''}`}>
+                    <a href={n.href} className={`flex items-center justify-between py-3 text-[16px] ${on(n.href) ? 'text-primary' : ''}`}>
                       {n.label} <Icon name="chevron" size={16} className="text-fog" />
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -76,7 +74,7 @@ export function CitizenShell({ children }) {
             <p className="mt-2 max-w-md text-[13px] leading-snug text-white/60">Sportello telematico: denunce, porto d’armi e colloqui con i dirigenti.</p>
             <nav aria-label="Piè di pagina" className="mt-7 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[14px]">
               {NAV.map((n) => (
-                <Link key={n.href} href={n.href} className="text-white/85 transition-colors hover:text-white hover:underline">{n.label}</Link>
+                <a key={n.href} href={n.href} className="text-white/85 transition-colors hover:text-white hover:underline">{n.label}</a>
               ))}
             </nav>
             <div className="mt-7 flex flex-wrap justify-center gap-x-6 gap-y-1.5 text-[12px] text-white/60">

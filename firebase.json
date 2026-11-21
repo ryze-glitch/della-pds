@@ -106,6 +106,21 @@
         "type": 301
       },
       {
+        "source": "/storia",
+        "destination": "/chi-siamo",
+        "type": 301
+      },
+      {
+        "source": "/storia.html",
+        "destination": "/chi-siamo",
+        "type": 301
+      },
+      {
+        "source": "/reclutamento",
+        "destination": "/concorso",
+        "type": 301
+      },
+      {
         "source": "/sisfor",
         "destination": "https://dash-pds.web.app/?sso=1",
         "type": 302

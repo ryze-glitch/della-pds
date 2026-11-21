@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { Icon } from './icons';
 import { Widget } from './Widget';
 import { useComunicati } from './useComunicati';
@@ -25,7 +24,7 @@ export function Bacheca({ max = 5, href = '/notizie' }) {
       <ul className="divide-y divide-line">
         {list.map((c) => (
           <li key={c.id}>
-            <Link href={`/notizie#c-${c.id}`} className="block py-4 transition hover:opacity-90">
+            <a href={`/notizie#c-${c.id}`} className="block py-4 transition hover:opacity-90">
               <div className="flex items-center justify-between text-[12.2px] text-muted">
                 <span className="flex items-center gap-2">
                   <Icon name="user" size={15} /> Questura
@@ -36,7 +35,7 @@ export function Bacheca({ max = 5, href = '/notizie' }) {
               <div className={`mt-1.5 flex items-center gap-2 text-xs font-medium uppercase tracking-wide ${c.tipo === 'Allerta' ? 'text-bad' : 'text-link'}`}>
                 <Icon name="clipboard" size={14} /> {c.tipo}
               </div>
-            </Link>
+            </a>
           </li>
         ))}
       </ul>

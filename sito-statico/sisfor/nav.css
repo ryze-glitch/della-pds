@@ -93,3 +93,7 @@ button.nav-bell{border:0;background:none;cursor:pointer;position:relative;font:i
 .navbar-wrapper .nav-area.nav-area-foto:hover{background:none;box-shadow:0 0 0 2px #2563eb;transform:scale(1.05)}
 .navbar-wrapper .nav-area.nav-area-foto img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
 html{overflow-y:scroll}
+
+/* Foto dell'account già pronta al primo disegno (la classe arriva dallo script in testa alla pagina): niente scambio testo→foto dopo il caricamento. */
+html.ha-foto .navbar-wrapper .nav-area{width:44px;height:44px;padding:0;background:var(--av) center/cover no-repeat;border-radius:50%;box-shadow:0 0 0 2px rgba(255,255,255,.22);overflow:hidden}
+html.ha-foto .navbar-wrapper .nav-area>*:not(img){display:none}
