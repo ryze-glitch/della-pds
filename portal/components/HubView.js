@@ -66,23 +66,14 @@ function Scheda({ a }) {
   );
 }
 
-function Eroe({ aperto, nome }) {
+function Eroe({ nome }) {
   return (
     <header className="relative mt-6 overflow-hidden">
-      <img src="/assets/aree/sisfor.jpg" alt="" className={`absolute inset-0 h-full w-full object-cover opacity-40 ${aperto ? '' : 'grayscale'}`} />
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background" />
-      <div className="relative mx-auto max-w-4xl px-6 pb-24 pt-16 text-center sm:pt-20">
-        <Chip size="sm" color={aperto ? 'primary' : 'default'} variant={aperto ? 'solid' : 'flat'} startContent={<span className="pl-1"><Icon name={aperto ? 'graduation' : 'lock'} size={13} /></span>}>{aperto ? 'Sbloccato' : 'Riservato agli Allievi Agenti'}</Chip>
-        <h1 className="mt-5 text-5xl font-extrabold uppercase tracking-tight sm:text-6xl md:text-8xl">SISFOR<span className="text-primary">+</span></h1>
-        <p className="mx-auto mt-4 max-w-xl text-lg text-default-300">Corsi, quiz, esami e percorso verso l’abilitazione. {saluto()}{nome ? `, ${nome}` : ''}.</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          {aperto ? (
-            <><Button as="a" href="/sisfor" color="primary" radius="full" size="lg" className="font-semibold" endContent={<Icon name="arrow-right" size={18} />}>Entra nel SISFOR</Button>
-              <Button as="a" href="/sisfor" radius="full" size="lg" variant="bordered" className="border-white/25">Riprendi il corso</Button></>
-          ) : (
-            <Button isDisabled radius="full" size="lg" startContent={<Icon name="lock" size={16} />}>Si sblocca con il grado di Allievo Agente</Button>
-          )}
-        </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-background to-background" />
+      <div className="relative mx-auto max-w-4xl px-6 pb-12 pt-16 text-center sm:pt-20">
+        <Chip size="sm" color="primary" variant="flat" startContent={<span className="pl-1"><Icon name="shield" size={13} /></span>}>Area Personale</Chip>
+        <h1 className="mt-5 text-4xl font-extrabold uppercase tracking-tight sm:text-5xl md:text-7xl">{saluto()}{nome ? `, ${nome}` : ''}</h1>
+        <p className="mx-auto mt-4 max-w-xl text-lg text-default-300">Scegli da dove iniziare.</p>
       </div>
     </header>
   );
@@ -95,7 +86,7 @@ function Piede() {
       <div className="mx-auto grid max-w-[1100px] gap-10 px-6 py-14 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
         <div><div className="mb-3 flex items-center gap-3 font-extrabold uppercase"><img src="/assets/crest-md.png" alt="" className="h-9 w-auto" />Polizia di Stato</div><p className="text-sm text-default-400">Sito ufficiale della Polizia di Stato del server IPRP. Solo a scopo roleplay.</p></div>
         <div><div className="mb-3 text-xs font-bold uppercase tracking-widest">Navigazione</div>{NAV.map(([t, h]) => <a key={h} href={h} className={`block ${col}`}>{t}</a>)}</div>
-        <div><div className="mb-3 text-xs font-bold uppercase tracking-widest">Area Personale</div><a href="/dashboard" className={`block ${col}`}>Dashboard</a><a href="/gestione/pratiche" className={`block ${col}`}>Gestione</a><a href="/sisfor" className={`block ${col}`}>SISFOR+</a></div>
+        <div><div className="mb-3 text-xs font-bold uppercase tracking-widest">Area Personale</div><a href="/dashboard" className={`block ${col}`}>Dashboard</a><a href="/gestione/pratiche" className={`block ${col}`}>Gestione</a><a href="https://dash-pds.web.app/?sso=1" className={`block ${col}`}>Dashboard IPRP</a></div>
         <div><div className="mb-3 text-xs font-bold uppercase tracking-widest">Contatti</div><div className="flex items-center gap-3 py-1 text-sm text-default-400"><span className="text-primary"><Icon name="pin" size={16} /></span>Via dei Peccatori N°761</div><div className="flex items-center gap-3 py-1 text-sm text-default-400"><span className="text-primary"><Icon name="phone" size={16} /></span>Tel. 113</div></div>
       </div>
     </footer>
@@ -164,9 +155,9 @@ export function HubView() {
       )}
       {fase === 'pronto' && (
         <>
-          <Eroe aperto={Boolean(io.sisfor)} nome={nome} />
+          <Eroe nome={nome} />
           <main className="relative mx-auto max-w-[1400px] px-6">
-            <Titolo>{io.sisfor ? 'Le altre' : 'Le tue'} <span className="text-primary">aree</span></Titolo>
+            <Titolo>Le tue <span className="text-primary">aree</span></Titolo>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">{AREE.map((a) => <Scheda key={a.k} a={a} />)}</div>
           </main>
         </>

@@ -117,7 +117,8 @@
       };
       const DISCORD_AUTH_WORKER_URL = 'https://pds-discord-oauth.ryzedev63131.workers.dev/discord-auth';
       const DISCORD_CLIENT_ID = '1543034109146959882';
-      const PERCORSI = ['/sisfor', '/dashboard', '/gestione/pratiche'];
+      const DASH = 'https://dash-pds.web.app/?sso=1'; // dashboard IPRP: l'accesso fatto qui vale anche lì
+      const PERCORSI = ['/dashboard', '/gestione/pratiche'];
 
       const auth = getAuth(initializeApp(firebaseConfig));
       const $msg = document.getElementById('msg');
@@ -153,7 +154,7 @@
         boot.show();
         let next = params.get('next');
         try { next = next || sessionStorage.getItem('pds-next'); sessionStorage.removeItem('pds-next'); } catch (e) { /* storage non disponibile */ }
-        location.href = PERCORSI.includes(next) ? next : '/dashboard';
+        location.href = PERCORSI.includes(next) ? next : DASH;
       };
       // Foto e nome dell'account Discord: dalla risposta del Worker, dal token o, in mancanza, l'avatar predefinito di Discord.
       function profiloDiscord(d, user) {

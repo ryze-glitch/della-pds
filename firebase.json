@@ -104,13 +104,18 @@
         "source": "/prenotazioni.html",
         "destination": "/prenota",
         "type": 301
-      }
-    ],
-    "rewrites": [
+      },
       {
         "source": "/sisfor",
-        "destination": "/sisfor.html"
+        "destination": "https://dash-pds.web.app/?sso=1",
+        "type": 302
+      },
+      {
+        "source": "/sisfor.html",
+        "destination": "https://dash-pds.web.app/?sso=1",
+        "type": 302
       }
-    ]
+    ],
+    "rewrites": []
   }
 }

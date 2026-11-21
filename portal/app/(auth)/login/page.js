@@ -42,7 +42,7 @@ export default function LoginPage() {
         } catch (e) {
           /* storage non disponibile */
         }
-        window.location.href = ['/sisfor', '/dashboard', '/gestione/pratiche'].includes(next) ? next : '/sisfor';
+        window.location.href = ['/dashboard', '/gestione/pratiche'].includes(next) ? next : 'https://dash-pds.web.app/?sso=1';
       } else {
         setChecking(false);
       }

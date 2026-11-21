@@ -10,6 +10,7 @@
   function valida() { var s = leggi(); return s && !scaduta(s) ? s : null; }
   function svuota() { try { localStorage.removeItem(CHIAVE); } catch (e) { /* storage non disponibile */ } }
   function salva(d) { try { localStorage.setItem(CHIAVE, JSON.stringify({ uid: d.uid, nome: d.nome || '', avatar: d.avatar || '', inizio: Date.now() })); } catch (e) { /* storage non disponibile */ } }
+  var DASH = 'https://dash-pds.web.app/?sso=1';
   window.IPRPSessione = { leggi: leggi, valida: valida, scaduta: scaduta, svuota: svuota, salva: salva, DURATA: DURATA };
 
   // Barra del sito: se c'è una sessione valida il pulsante diventa subito la foto dell'agente.
@@ -18,6 +19,8 @@
     if (!a) return;
     var s = valida();
     if (!s) { if (leggi()) svuota(); return; }
+    // Accesso già fatto: Area Personale (e campanella, menu) portano direttamente alla dashboard.
+    document.querySelectorAll('a[href="login?next=dash"]').forEach(function (l) { l.href = DASH; });
     if (!s.avatar) return;
     var vecchio = a.innerHTML;
     var img = new Image();
