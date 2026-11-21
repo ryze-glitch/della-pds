@@ -12,6 +12,7 @@ const NAV = [['Home', '/home'], ['Notizie', '/notizie'], ['Chi Siamo', '/chi-sia
 // Aree della dashboard. `href` assente = non ancora disponibile («In arrivo»).
 const AREE = [
   { k: 'gestione', tag: 'GESTIONE', t: 'Gestione', d: 'Pratiche dei cittadini, candidature al concorso e comunicati ufficiali.', img: '/assets/aree/denuncia.jpg', btn: 'Apri la gestione', href: '/gestione/pratiche' },
+  { k: 'dash', tag: 'DASHBOARD IPRP', t: 'Dashboard IPRP', d: 'Posta interna, turni, rapporti, formazione e regolamento: entri con l\'accesso Discord già fatto.', img: '/assets/aree/dash.jpg', btn: 'Apri la dashboard', href: 'https://dash-pds.web.app/?sso=1' },
   { k: 'funzionari', tag: 'FUNZIONARI', t: 'Funzionari', d: 'Area riservata ai funzionari: uffici, ordini di servizio e documenti.', img: '/assets/aree/ufficidesk.jpg' },
   { k: 'addetti', tag: 'ADDETTI', t: 'Addetti', d: 'Sportello e servizi al pubblico: richieste, appuntamenti e licenze.', img: '/assets/aree/porto-darmi.jpg' },
   { k: 'organigramma', tag: 'ORGANIGRAMMA', t: 'Organigramma', d: 'La struttura della Questura, i reparti e chi ne fa parte.', img: '/assets/aree/bando.jpg', btn: 'Consulta', href: '/organigramma' },
@@ -164,9 +165,9 @@ export function HubView() {
       {fase === 'pronto' && (
         <>
           <Eroe aperto={Boolean(io.sisfor)} nome={nome} />
-          <main className="relative mx-auto max-w-[1200px] px-6">
+          <main className="relative mx-auto max-w-[1400px] px-6">
             <Titolo>{io.sisfor ? 'Le altre' : 'Le tue'} <span className="text-primary">aree</span></Titolo>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{AREE.map((a) => <Scheda key={a.k} a={a} />)}</div>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">{AREE.map((a) => <Scheda key={a.k} a={a} />)}</div>
           </main>
         </>
       )}
