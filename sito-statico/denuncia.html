@@ -482,6 +482,7 @@ border: 1px solid var(--nav-border);
             .pre-ok .preloader{display:none!important}
     </style>
     <link rel="stylesheet" href="sisfor/nav.css">
+    <link rel="stylesheet" href="sisfor/pagehead.css">
     <link rel="stylesheet" href="sisfor/footer.css">
     <link rel="stylesheet" href="sisfor/anim.css">
 </head>
@@ -518,22 +519,19 @@ border: 1px solid var(--nav-border);
         </nav>
     </div>
 
-    <header class="hero-small">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1>Denunce e Querele</h1>
-            <p>Segnalazioni dei cittadini</p>
+    <header class="np-head np-solo">
+        <div class="np-photo" aria-hidden="true"><img src="foto/index/denuncia.jpg" alt=""></div>
+        <div class="np-inner">
+            <div class="np-kicker"><span></span>Segnalazioni dei cittadini · Questura di Roma</div>
+            <h1>Denunce</h1>
+            <div class="np-bar">
+                <p>Denuncia, querela ed esposto: cosa sono, quando si presentano e dove.</p>
+                <div class="np-side"><span class="np-crest" aria-hidden="true"><img src="logo-polizia.png" alt=""></span></div>
+            </div>
         </div>
     </header>
 
     <main class="page-content">
-
-        <div class="breadcrumb gs-reveal page-anim">
-            Ti trovi qui:
-            <a href="home.html">Home</a>
-            <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
-            <span>Denuncia, Querela, Esposto</span>
-        </div>
 
         <div class="denuncia-panel gs-reveal page-anim">
             <h2>Differenza tra DENUNCIA, QUERELA, ESPOSTO</h2>
@@ -647,6 +645,10 @@ gsap.registerPlugin(ScrollTrigger);
                 gsap.fromTo(cards, { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.2)", scrollTrigger: { trigger: ".gs-grid", start: "top 85%" } });
             }
         }
+    
+        // la pagina parte sempre dall'apice
+        try { history.scrollRestoration = "manual"; } catch (e) { /* non disponibile */ }
+        if (!location.hash) window.scrollTo(0, 0);
     </script>
 <script src="sisfor/lenis.min.js"></script>
 <script src="sisfor/sessione.js"></script><script src="sisfor/nav.js"></script>

@@ -31,3 +31,5 @@
 .np-photo img { filter: brightness(.72); }
 .np-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(9,10,15,.9) 0, rgba(9,10,15,.45) 40%, transparent 72%); }
 .np-tabs button { text-shadow: 0 1px 8px rgba(0,0,0,.8); }
+.np-head.np-solo { padding-bottom: 50px; }
+@media (max-width: 900px) { .np-head.np-solo { padding-bottom: 30px; } }

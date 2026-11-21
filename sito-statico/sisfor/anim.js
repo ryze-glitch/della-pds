@@ -53,7 +53,7 @@
   }
 
   // footer, fascia FAQ e voci delle pagine interne senza animazione propria
-  prepara([].slice.call(document.querySelectorAll('.site-footer .sf-grid > *, .site-footer .sf-bar')), 0.1);
+  prepara([].slice.call(document.querySelectorAll('.site-footer .sf-grid > *')), 0.1);
   prepara([].slice.call(document.querySelectorAll('.faq-bar li')), 0.1);
   prepara([].slice.call(document.querySelectorAll('.timeline-item, .gerarchia-item, .reparto-fb-card, .mezzo-card')), 0.07);
 

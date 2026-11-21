@@ -90,6 +90,23 @@
         <div class="sf-bar"><div><span>© Polizia di Stato · Server IPRP</span><span>Creato da Ryze e DragonFire · IPRP</span></div></div>
     </footer>
 
+    <script>
+    // Se Firebase non si carica (rete bloccata, estensioni), il pulsante non resta bloccato su «Verifica dell'accesso…».
+    (function () {
+      setTimeout(function () {
+        var b = document.getElementById('discord');
+        if (!b || !b.disabled || window.__loginPronto) return;
+        b.disabled = false;
+        var t = document.getElementById('discord-t'); if (t) t.textContent = 'Continua con Discord';
+        var sp = document.getElementById('spin'); if (sp) sp.style.display = 'none';
+        b.addEventListener('click', function () {
+          if (window.__loginPronto) return;
+          var q = new URLSearchParams({ client_id: '1543034109146959882', redirect_uri: location.origin + location.pathname.replace(/\.html$/, ''), response_type: 'code', scope: 'identify email' });
+          location.href = 'https://discord.com/api/oauth2/authorize?' + q.toString();
+        });
+      }, 4000);
+    })();
+    </script>
     <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
       import { getAuth, onAuthStateChanged, signInWithCustomToken, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
@@ -123,6 +140,7 @@
         document.getElementById('discord-t').textContent = 'Continua con Discord';
       }
       // Non si resta bloccati su «Verifica…»: dopo 1,5 s il pulsante compare comunque.
+      window.__loginPronto = true;
       const sblocca = setTimeout(pronto, 1500);
 
       if (params.get('denied') === '1') avviso('Il tuo account Discord non risulta registrato tra gli agenti. Contatta un amministratore per essere abilitato.', 'err', 'fa-lock');

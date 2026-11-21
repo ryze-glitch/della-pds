@@ -91,6 +91,7 @@
             .pre-ok .preloader{display:none!important}
     </style>
     <link rel="stylesheet" href="sisfor/nav.css">
+    <link rel="stylesheet" href="sisfor/pagehead.css">
     <link rel="stylesheet" href="sisfor/footer.css">
     <link rel="stylesheet" href="sisfor/anim.css">
 </head>
@@ -118,24 +119,19 @@
         </nav>
     </div>
 
-    <header class="hero-small">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1>STORIA DELLA POLIZIA</h1>
-            <p>Sub Lege Libertas</p>
+    <header class="np-head np-solo">
+        <div class="np-photo" aria-hidden="true"><img src="foto/notizie/questura-header.jpg" alt=""></div>
+        <div class="np-inner">
+            <div class="np-kicker"><span></span>Sub lege libertas · Polizia di Stato</div>
+            <h1>Storia</h1>
+            <div class="np-bar">
+                <p>Dalle origini del Corpo nel 1848 alla Polizia di Stato di oggi.</p>
+                <div class="np-side"><span class="np-crest" aria-hidden="true"><img src="logo-polizia.png" alt=""></span></div>
+            </div>
         </div>
     </header>
 
     <main class="page-content">
-        <div class="breadcrumb gs-reveal page-anim">
-            Ti trovi qui:
-            <a href="home.html">Home</a>
-            <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
-            <a href="chi-siamo.html">Chi Siamo</a>
-            <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
-            <span>Storia della Polizia</span>
-        </div>
-
         <div class="storia-panel gs-reveal page-anim">
             <h2>Storia della Polizia di Stato</h2>
             <p>La storia della Polizia di Stato italiana è un lungo percorso di trasformazione che riflette i cambiamenti profondi del Paese, passando da una struttura rigidamente militare a un'istituzione civile al servizio della comunità. Tutto ebbe inizio nel 1848 con la fondazione del Corpo delle Guardie di Pubblica Sicurezza nel Regno di Sardegna; un organismo nato con l'ambizioso compito di garantire l'ordine pubblico in un'epoca di grandi fermenti risorgimentali. Con l'Unità d'Italia, il corpo si estese su tutto il territorio nazionale, affrontando sfide epocali come il brigantaggio e le prime grandi tensioni sociali dell'era industriale.</p>
@@ -225,6 +221,10 @@ gsap.registerPlugin(ScrollTrigger);
                 gsap.fromTo(el, { y:30, autoAlpha:0 }, { y:0, autoAlpha:1, duration:0.9, ease:"power3.out", scrollTrigger:{ trigger:el, start:"top 85%" } });
             });
         }
+    
+        // la pagina parte sempre dall'apice
+        try { history.scrollRestoration = "manual"; } catch (e) { /* non disponibile */ }
+        if (!location.hash) window.scrollTo(0, 0);
     </script>
 <script src="sisfor/lenis.min.js"></script>
 <script src="sisfor/sessione.js"></script><script src="sisfor/nav.js"></script>

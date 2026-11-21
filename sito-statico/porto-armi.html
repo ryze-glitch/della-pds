@@ -499,6 +499,7 @@ border: 1px solid var(--nav-border);
             .pre-ok .preloader{display:none!important}
     </style>
     <link rel="stylesheet" href="sisfor/nav.css">
+    <link rel="stylesheet" href="sisfor/pagehead.css">
     <link rel="stylesheet" href="sisfor/footer.css">
     <link rel="stylesheet" href="sisfor/anim.css">
 </head>
@@ -535,22 +536,19 @@ border: 1px solid var(--nav-border);
         </nav>
     </div>
 
-    <header class="hero-small">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1>Porto D'Armi</h1>
-            <p>Licenze e Modulistica</p>
+    <header class="np-head np-solo">
+        <div class="np-photo" aria-hidden="true"><img src="foto/index/porto-darmi.jpg" alt=""></div>
+        <div class="np-inner">
+            <div class="np-kicker"><span></span>Licenze e modulistica · Questura di Roma</div>
+            <h1>Porto d'armi</h1>
+            <div class="np-bar">
+                <p>Requisiti e procedura per il rilascio e il rinnovo della licenza.</p>
+                <div class="np-side"><span class="np-crest" aria-hidden="true"><img src="logo-polizia.png" alt=""></span></div>
+            </div>
         </div>
     </header>
 
     <main class="page-content">
-
-        <div class="breadcrumb gs-reveal page-anim">
-            Ti trovi qui:
-            <a href="home.html">Home</a>
-            <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
-            <span>Porto D'Armi</span>
-        </div>
 
         <div class="porto-panel gs-reveal page-anim">
             <div style="flex: 1; min-width: 300px;">
@@ -651,6 +649,10 @@ gsap.registerPlugin(ScrollTrigger);
                 gsap.fromTo(el, { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 85%" } });
             });
         }
+    
+        // la pagina parte sempre dall'apice
+        try { history.scrollRestoration = "manual"; } catch (e) { /* non disponibile */ }
+        if (!location.hash) window.scrollTo(0, 0);
     </script>
 <script src="sisfor/lenis.min.js"></script>
 <script src="sisfor/sessione.js"></script><script src="sisfor/nav.js"></script>
